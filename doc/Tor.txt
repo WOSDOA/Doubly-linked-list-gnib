@@ -1,0 +1,37 @@
+TOR SUPPORT IN MAXCOIN
+======================
+
+It is possible to run MaxCoin as a Tor hidden service, and connect to such services.
+
+The following directions assume you have a Tor proxy running on port 9050. Many distributions
+default to having a SOCKS proxy listening on port 9050, but others may not.
+In particular, the Tor Browser Bundle defaults to listening on a random port. See
+https://www.torproject.org/docs/faq.html.en#TBBSocksPort for how to properly
+configure Tor.
+
+
+1. Run bitcoin behind a Tor proxy
+---------------------------------
+
+The first step is running MaxCoin behind a Tor proxy. This will already make all
+outgoing connections be anonimized, but more is possible.
+
+-socks=5        SOCKS5 supports connecting-to-hostname, which can be used instead
+                of doing a (leaking) local DNS lookup. SOCKS5 is the default,
+                but SOCKS4 does not support this. (SOCKS4a does, but isn't
+                implemented).
+
+-proxy=ip:port  Set the proxy server. If SOCKS5 is selected (default), this proxy
+                server will be used to try to reach .onion addresses as well.
+
+-tor=ip:port    Set the proxy server to use for tor hidden services. You do not
+                need to set this if it's the same as -proxy. You can use -notor
+                to explicitly disable access to hidden service.
+
+-listen         When using -proxy, listening is disabled by default. If you want
+                to run a hidden service (see next section), you'll need to enable
+                it explicitly.
+
+-connect=X      When behind a Tor proxy, you can specify .onion addresses instead
+-addnode=X      of IP addresses or hostnames in these parameters. It requires
+-seednode=X     SOCKS5. In Tor mode, such addresses
