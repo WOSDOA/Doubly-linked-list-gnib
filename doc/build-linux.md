@@ -35,4 +35,27 @@ Building miniupnpc
 
 If your OS doesn't support libminiupnpc, you can build this manually by performing the following steps:
 
-$ wget 'http://m
+$ wget 'http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.6.tar.gz' -O miniupnpc-1.6.tar.gz
+
+$ tar -xzvf miniupnpc-1.6.tar.gz
+
+$ cd miniupnpc-1.6
+	
+$ make
+
+$	make install
+
+Cleaning the build:
+----------------=
+
+If you have to clean your build environment you may have to rebuild LevelDB manually. This can be done using:
+
+$ cd src/leveldb
+
+$ chmod +x build_detect_platform
+
+$ ./build_detect_platform
+
+Ignore the usage errors (it still builds the relevent file) and now run:
+
+$ make libleveldb.a libmemenv.a
