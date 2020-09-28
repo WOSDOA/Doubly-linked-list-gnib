@@ -69,4 +69,96 @@ Release Process
 
   Build output expected:
 
-  1. li
+  1. linux 32-bit and 64-bit binaries + source (bitcoin-${VERSION}-linux-gitian.zip)
+  2. windows 32-bit binary, installer + source (bitcoin-${VERSION}-win32-gitian.zip)
+  3. Gitian signatures (in gitian.sigs/${VERSION}[-win32]/(your gitian key)/
+
+repackage gitian builds for release as stand-alone zip/tar/installer exe
+
+**Linux .tar.gz:**
+
+	unzip bitcoin-${VERSION}-linux-gitian.zip -d bitcoin-${VERSION}-linux
+	tar czvf bitcoin-${VERSION}-linux.tar.gz bitcoin-${VERSION}-linux
+	rm -rf bitcoin-${VERSION}-linux
+
+**Windows .zip and setup.exe:**
+
+	unzip bitcoin-${VERSION}-win32-gitian.zip -d bitcoin-${VERSION}-win32
+	mv bitcoin-${VERSION}-win32/bitcoin-*-setup.exe .
+	zip -r bitcoin-${VERSION}-win32.zip bitcoin-${VERSION}-win32
+	rm -rf bitcoin-${VERSION}-win32
+
+**Perform Mac build:**
+
+  OSX binaries are created by Gavin Andresen on a 32-bit, OSX 10.6 machine.
+
+	qmake RELEASE=1 USE_UPNP=1 USE_QRCODE=1 bitcoin-qt.pro
+	make
+	export QTDIR=/opt/local/share/qt4  # needed to find translations/qt_*.qm files
+	T=$(contrib/qt_translations.py $QTDIR/translations src/qt/locale)
+	python2.7 share/qt/clean_mac_info_plist.py
+	python2.7 contrib/macdeploy/macdeployqtplus Bitcoin-Qt.app -add-qt-tr $T -dmg -fancy contrib/macdeploy/fancy.plist
+
+ Build output expected: Bitcoin-Qt.dmg
+
+###Next steps:
+
+* Code-sign Windows -setup.exe (in a Windows virtual machine) and
+  OSX Bitcoin-Qt.app (Note: only Gavin has the code-signing keys currently)
+
+* upload builds to SourceForge
+
+* create SHA256SUMS for builds, and PGP-sign it
+
+* update bitcoin.org version
+  make sure all OS download links go to the right versions
+
+* update forum version
+
+* update wiki download links
+
+* update wiki changelog: [https://en.bitcoin.it/wiki/Changelog](https://en.bitcoin.it/wiki/Changelog)
+
+Commit your signature to gitian.sigs:
+
+	pushd gitian.sigs
+	git add ${VERSION}/${SIGNER}
+	git add ${VERSION}-win32/${SIGNER}
+	git commit -a
+	git push  # Assuming you can push to the gitian.sigs tree
+	popd
+
+-------------------------------------------------------------------------
+
+### After 3 or more people have gitian-built, repackage gitian-signed zips:
+
+From a directory containing bitcoin source, gitian.sigs and gitian zips
+
+	export VERSION=0.5.1
+	mkdir bitcoin-${VERSION}-linux-gitian
+	pushd bitcoin-${VERSION}-linux-gitian
+	unzip ../bitcoin-${VERSION}-linux-gitian.zip
+	mkdir gitian
+	cp ../bitcoin/contrib/gitian-downloader/*.pgp ./gitian/
+	for signer in $(ls ../gitian.sigs/${VERSION}/); do
+	 cp ../gitian.sigs/${VERSION}/${signer}/bitcoin-build.assert ./gitian/${signer}-build.assert
+	 cp ../gitian.sigs/${VERSION}/${signer}/bitcoin-build.assert.sig ./gitian/${signer}-build.assert.sig
+	done
+	zip -r bitcoin-${VERSION}-linux-gitian.zip *
+	cp bitcoin-${VERSION}-linux-gitian.zip ../
+	popd
+	mkdir bitcoin-${VERSION}-win32-gitian
+	pushd bitcoin-${VERSION}-win32-gitian
+	unzip ../bitcoin-${VERSION}-win32-gitian.zip
+	mkdir gitian
+	cp ../bitcoin/contrib/gitian-downloader/*.pgp ./gitian/
+	for signer in $(ls ../gitian.sigs/${VERSION}-win32/); do
+	 cp ../gitian.sigs/${VERSION}-win32/${signer}/bitcoin-build.assert ./gitian/${signer}-build.assert
+	 cp ../gitian.sigs/${VERSION}-win32/${signer}/bitcoin-build.assert.sig ./gitian/${signer}-build.assert.sig
+	done
+	zip -r bitcoin-${VERSION}-win32-gitian.zip *
+	cp bitcoin-${VERSION}-win32-gitian.zip ../
+	popd
+
+- Upload gitian zips to SourceForge
+- Celebrate 
