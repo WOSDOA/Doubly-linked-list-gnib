@@ -72,4 +72,34 @@ We are using https://transifex.com as a frontend for translating the client.
 https://www.transifex.com/projects/p/bitcoin/resource/tx/
 
 The "Transifex client" (see: http://help.transifex.com/features/client/)
-will help with fetching ne
+will help with fetching new translations from Transifex. Use the following
+config to be able to connect with the client:
+
+### .tx/config
+
+    [main]
+    host = https://www.transifex.com
+
+    [bitcoin.tx]
+    file_filter = src/qt/locale/bitcoin_<lang>.ts
+    source_file = src/qt/locale/bitcoin_en.ts
+    source_lang = en
+    
+### .tx/config (for Windows)
+
+    [main]
+    host = https://www.transifex.com
+
+    [bitcoin.tx]
+    file_filter = src\qt\locale\bitcoin_<lang>.ts
+    source_file = src\qt\locale\bitcoin_en.ts
+    source_lang = en
+
+It is also possible to directly download new translations one by one from the Transifex website.
+
+### Fetching new translations
+
+1. `tx pull -a`
+2. update `src/qt/bitcoin.qrc` manually or via
+   `ls src/qt/locale/*ts|xargs -n1 basename|sed 's/\(bitcoin_\(.*\)\).ts/<file alias="\2">locale/\1.qm<\/file>/'`
+3. `git add` new translations from `src/qt/locale/`
