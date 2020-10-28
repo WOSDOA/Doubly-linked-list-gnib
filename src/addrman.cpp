@@ -81,4 +81,212 @@ double CAddrInfo::GetChance(int64 nNow) const
 CAddrInfo* CAddrMan::Find(const CNetAddr& addr, int *pnId)
 {
     std::map<CNetAddr, int>::iterator it = mapAddr.find(addr);
- 
+    if (it == mapAddr.end())
+        return NULL;
+    if (pnId)
+        *pnId = (*it).second;
+    std::map<int, CAddrInfo>::iterator it2 = mapInfo.find((*it).second);
+    if (it2 != mapInfo.end())
+        return &(*it2).second;
+    return NULL;
+}
+
+CAddrInfo* CAddrMan::Create(const CAddress &addr, const CNetAddr &addrSource, int *pnId)
+{
+    int nId = nIdCount++;
+    mapInfo[nId] = CAddrInfo(addr, addrSource);
+    mapAddr[addr] = nId;
+    mapInfo[nId].nRandomPos = vRandom.size();
+    vRandom.push_back(nId);
+    if (pnId)
+        *pnId = nId;
+    return &mapInfo[nId];
+}
+
+void CAddrMan::SwapRandom(unsigned int nRndPos1, unsigned int nRndPos2)
+{
+    if (nRndPos1 == nRndPos2)
+        return;
+
+    assert(nRndPos1 < vRandom.size() && nRndPos2 < vRandom.size());
+
+    int nId1 = vRandom[nRndPos1];
+    int nId2 = vRandom[nRndPos2];
+
+    assert(mapInfo.count(nId1) == 1);
+    assert(mapInfo.count(nId2) == 1);
+
+    mapInfo[nId1].nRandomPos = nRndPos2;
+    mapInfo[nId2].nRandomPos = nRndPos1;
+
+    vRandom[nRndPos1] = nId2;
+    vRandom[nRndPos2] = nId1;
+}
+
+int CAddrMan::SelectTried(int nKBucket)
+{
+    std::vector<int> &vTried = vvTried[nKBucket];
+
+    // random shuffle the first few elements (using the entire list)
+    // find the least recently tried among them
+    int64 nOldest = -1;
+    int nOldestPos = -1;
+    for (unsigned int i = 0; i < ADDRMAN_TRIED_ENTRIES_INSPECT_ON_EVICT && i < vTried.size(); i++)
+    {
+        int nPos = GetRandInt(vTried.size() - i) + i;
+        int nTemp = vTried[nPos];
+        vTried[nPos] = vTried[i];
+        vTried[i] = nTemp;
+        assert(nOldest == -1 || mapInfo.count(nTemp) == 1);
+        if (nOldest == -1 || mapInfo[nTemp].nLastSuccess < mapInfo[nOldest].nLastSuccess) {
+           nOldest = nTemp;
+           nOldestPos = nPos;
+        }
+    }
+
+    return nOldestPos;
+}
+
+int CAddrMan::ShrinkNew(int nUBucket)
+{
+    assert(nUBucket >= 0 && (unsigned int)nUBucket < vvNew.size());
+    std::set<int> &vNew = vvNew[nUBucket];
+
+    // first look for deletable items
+    for (std::set<int>::iterator it = vNew.begin(); it != vNew.end(); it++)
+    {
+        assert(mapInfo.count(*it));
+        CAddrInfo &info = mapInfo[*it];
+        if (info.IsTerrible())
+        {
+            if (--info.nRefCount == 0)
+            {
+                SwapRandom(info.nRandomPos, vRandom.size()-1);
+                vRandom.pop_back();
+                mapAddr.erase(info);
+                mapInfo.erase(*it);
+                nNew--;
+            }
+            vNew.erase(it);
+            return 0;
+        }
+    }
+
+    // otherwise, select four randomly, and pick the oldest of those to replace
+    int n[4] = {GetRandInt(vNew.size()), GetRandInt(vNew.size()), GetRandInt(vNew.size()), GetRandInt(vNew.size())};
+    int nI = 0;
+    int nOldest = -1;
+    for (std::set<int>::iterator it = vNew.begin(); it != vNew.end(); it++)
+    {
+        if (nI == n[0] || nI == n[1] || nI == n[2] || nI == n[3])
+        {
+            assert(nOldest == -1 || mapInfo.count(*it) == 1);
+            if (nOldest == -1 || mapInfo[*it].nTime < mapInfo[nOldest].nTime)
+                nOldest = *it;
+        }
+        nI++;
+    }
+    assert(mapInfo.count(nOldest) == 1);
+    CAddrInfo &info = mapInfo[nOldest];
+    if (--info.nRefCount == 0)
+    {
+        SwapRandom(info.nRandomPos, vRandom.size()-1);
+        vRandom.pop_back();
+        mapAddr.erase(info);
+        mapInfo.erase(nOldest);
+        nNew--;
+    }
+    vNew.erase(nOldest);
+
+    return 1;
+}
+
+void CAddrMan::MakeTried(CAddrInfo& info, int nId, int nOrigin)
+{
+    assert(vvNew[nOrigin].count(nId) == 1);
+
+    // remove the entry from all new buckets
+    for (std::vector<std::set<int> >::iterator it = vvNew.begin(); it != vvNew.end(); it++)
+    {
+        if ((*it).erase(nId))
+            info.nRefCount--;
+    }
+    nNew--;
+
+    assert(info.nRefCount == 0);
+
+    // what tried bucket to move the entry to
+    int nKBucket = info.GetTriedBucket(nKey);
+    std::vector<int> &vTried = vvTried[nKBucket];
+
+    // first check whether there is place to just add it
+    if (vTried.size() < ADDRMAN_TRIED_BUCKET_SIZE)
+    {
+        vTried.push_back(nId);
+        nTried++;
+        info.fInTried = true;
+        return;
+    }
+
+    // otherwise, find an item to evict
+    int nPos = SelectTried(nKBucket);
+
+    // find which new bucket it belongs to
+    assert(mapInfo.count(vTried[nPos]) == 1);
+    int nUBucket = mapInfo[vTried[nPos]].GetNewBucket(nKey);
+    std::set<int> &vNew = vvNew[nUBucket];
+
+    // remove the to-be-replaced tried entry from the tried set
+    CAddrInfo& infoOld = mapInfo[vTried[nPos]];
+    infoOld.fInTried = false;
+    infoOld.nRefCount = 1;
+    // do not update nTried, as we are going to move something else there immediately
+
+    // check whether there is place in that one,
+    if (vNew.size() < ADDRMAN_NEW_BUCKET_SIZE)
+    {
+        // if so, move it back there
+        vNew.insert(vTried[nPos]);
+    } else {
+        // otherwise, move it to the new bucket nId came from (there is certainly place there)
+        vvNew[nOrigin].insert(vTried[nPos]);
+    }
+    nNew++;
+
+    vTried[nPos] = nId;
+    // we just overwrote an entry in vTried; no need to update nTried
+    info.fInTried = true;
+    return;
+}
+
+void CAddrMan::Good_(const CService &addr, int64 nTime)
+{
+//    printf("Good: addr=%s\n", addr.ToString().c_str());
+
+    int nId;
+    CAddrInfo *pinfo = Find(addr, &nId);
+
+    // if not found, bail out
+    if (!pinfo)
+        return;
+
+    CAddrInfo &info = *pinfo;
+
+    // check whether we are talking about the exact same CService (including same port)
+    if (info != addr)
+        return;
+
+    // update info
+    info.nLastSuccess = nTime;
+    info.nLastTry = nTime;
+    info.nTime = nTime;
+    info.nAttempts = 0;
+
+    // if it is already in the tried set, don't do anything else
+    if (info.fInTried)
+        return;
+
+    // find a bucket it is in now
+    int nRnd = GetRandInt(vvNew.size());
+    int nUBucket = -1;
+    for (unsigned int n = 0; n < vv
