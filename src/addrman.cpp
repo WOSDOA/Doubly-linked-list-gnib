@@ -485,4 +485,44 @@ int CAddrMan::Check_()
     }
 
     if (setTried.size()) return -13;
-    if (mapNew.size()) return -1
+    if (mapNew.size()) return -15;
+
+    return 0;
+}
+#endif
+
+void CAddrMan::GetAddr_(std::vector<CAddress> &vAddr)
+{
+    int nNodes = ADDRMAN_GETADDR_MAX_PCT*vRandom.size()/100;
+    if (nNodes > ADDRMAN_GETADDR_MAX)
+        nNodes = ADDRMAN_GETADDR_MAX;
+
+    // perform a random shuffle over the first nNodes elements of vRandom (selecting from all)
+    for (int n = 0; n<nNodes; n++)
+    {
+        int nRndPos = GetRandInt(vRandom.size() - n) + n;
+        SwapRandom(n, nRndPos);
+        assert(mapInfo.count(vRandom[n]) == 1);
+        vAddr.push_back(mapInfo[vRandom[n]]);
+    }
+}
+
+void CAddrMan::Connected_(const CService &addr, int64 nTime)
+{
+    CAddrInfo *pinfo = Find(addr);
+
+    // if not found, bail out
+    if (!pinfo)
+        return;
+
+    CAddrInfo &info = *pinfo;
+
+    // check whether we are talking about the exact same CService (including same port)
+    if (info != addr)
+        return;
+
+    // update info
+    int64 nUpdateInterval = 20 * 60;
+    if (nTime - info.nTime > nUpdateInterval)
+        info.nTime = nTime;
+}
