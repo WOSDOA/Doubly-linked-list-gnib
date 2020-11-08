@@ -35,4 +35,30 @@ typedef int socklen_t;
 #include "errno.h"
 #define WSAGetLastError()   errno
 #define WSAEINVAL           EINVAL
-#define WSAEALREADY         EA
+#define WSAEALREADY         EALREADY
+#define WSAEWOULDBLOCK      EWOULDBLOCK
+#define WSAEMSGSIZE         EMSGSIZE
+#define WSAEINTR            EINTR
+#define WSAEINPROGRESS      EINPROGRESS
+#define WSAEADDRINUSE       EADDRINUSE
+#define WSAENOTSOCK         EBADF
+#define INVALID_SOCKET      (SOCKET)(~0)
+#define SOCKET_ERROR        -1
+#endif
+
+inline int myclosesocket(SOCKET& hSocket)
+{
+    if (hSocket == INVALID_SOCKET)
+        return WSAENOTSOCK;
+#ifdef WIN32
+    int ret = closesocket(hSocket);
+#else
+    int ret = close(hSocket);
+#endif
+    hSocket = INVALID_SOCKET;
+    return ret;
+}
+#define closesocket(s)      myclosesocket(s)
+
+
+#endif
