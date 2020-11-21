@@ -1,0 +1,17 @@
+
+AlgorithmType: FileList
+Name: all.txt collection
+Test: TestVectors/tea.txt
+Test: TestVectors/wake.txt
+Test: TestVectors/camellia.txt
+Test: TestVectors/shacal2.txt
+Test: TestVectors/ttmac.txt
+Test: TestVectors/whrlpool.txt
+Test: TestVectors/dlies.txt
+Test: TestVectors/dsa.txt
+Test: TestVectors/dsa_1363.txt
+Test: TestVectors/esign.txt
+Test: TestVectors/hmac.txt
+Test: TestVectors/nr.txt
+Test: TestVectors/rsa_oaep.txt
+Test: TestVectors/rsa_pkcs1_1_5.txt
