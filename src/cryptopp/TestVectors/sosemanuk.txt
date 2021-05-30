@@ -1,0 +1,2 @@
+AlgorithmType: SymmetricCipher
+Source: Sosemanuk reference implementation, compi
