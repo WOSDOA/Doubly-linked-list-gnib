@@ -232,4 +232,138 @@ public:
 
 //! _
 template <class BASE>
-class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE ASN1CryptoMaterial : public 
+class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE ASN1CryptoMaterial : public ASN1Object, public BASE
+{
+public:
+	void Save(BufferedTransformation &bt) const
+		{BEREncode(bt);}
+	void Load(BufferedTransformation &bt)
+		{BERDecode(bt);}
+};
+
+//! encodes/decodes subjectPublicKeyInfo
+class CRYPTOPP_DLL X509PublicKey : public ASN1CryptoMaterial<PublicKey>
+{
+public:
+	void BERDecode(BufferedTransformation &bt);
+	void DEREncode(BufferedTransformation &bt) const;
+
+	virtual OID GetAlgorithmID() const =0;
+	virtual bool BERDecodeAlgorithmParameters(BufferedTransformation &bt)
+		{BERDecodeNull(bt); return false;}
+	virtual bool DEREncodeAlgorithmParameters(BufferedTransformation &bt) const
+		{DEREncodeNull(bt); return false;}	// see RFC 2459, section 7.3.1
+
+	//! decode subjectPublicKey part of subjectPublicKeyInfo, without the BIT STRING header
+	virtual void BERDecodePublicKey(BufferedTransformation &bt, bool parametersPresent, size_t size) =0;
+	//! encode subjectPublicKey part of subjectPublicKeyInfo, without the BIT STRING header
+	virtual void DEREncodePublicKey(BufferedTransformation &bt) const =0;
+};
+
+//! encodes/decodes privateKeyInfo
+class CRYPTOPP_DLL PKCS8PrivateKey : public ASN1CryptoMaterial<PrivateKey>
+{
+public:
+	void BERDecode(BufferedTransformation &bt);
+	void DEREncode(BufferedTransformation &bt) const;
+
+	virtual OID GetAlgorithmID() const =0;
+	virtual bool BERDecodeAlgorithmParameters(BufferedTransformation &bt)
+		{BERDecodeNull(bt); return false;}
+	virtual bool DEREncodeAlgorithmParameters(BufferedTransformation &bt) const
+		{DEREncodeNull(bt); return false;}	// see RFC 2459, section 7.3.1
+
+	//! decode privateKey part of privateKeyInfo, without the OCTET STRING header
+	virtual void BERDecodePrivateKey(BufferedTransformation &bt, bool parametersPresent, size_t size) =0;
+	//! encode privateKey part of privateKeyInfo, without the OCTET STRING header
+	virtual void DEREncodePrivateKey(BufferedTransformation &bt) const =0;
+
+	//! decode optional attributes including context-specific tag
+	/*! /note default implementation stores attributes to be output in DEREncodeOptionalAttributes */
+	virtual void BERDecodeOptionalAttributes(BufferedTransformation &bt);
+	//! encode optional attributes including context-specific tag
+	virtual void DEREncodeOptionalAttributes(BufferedTransformation &bt) const;
+
+protected:
+	ByteQueue m_optionalAttributes;
+};
+
+// ********************************************************
+
+//! DER Encode Unsigned
+/*! for INTEGER, BOOLEAN, and ENUM */
+template <class T>
+size_t DEREncodeUnsigned(BufferedTransformation &out, T w, byte asnTag = INTEGER)
+{
+	byte buf[sizeof(w)+1];
+	unsigned int bc;
+	if (asnTag == BOOLEAN)
+	{
+		buf[sizeof(w)] = w ? 0xff : 0;
+		bc = 1;
+	}
+	else
+	{
+		buf[0] = 0;
+		for (unsigned int i=0; i<sizeof(w); i++)
+			buf[i+1] = byte(w >> (sizeof(w)-1-i)*8);
+		bc = sizeof(w);
+		while (bc > 1 && buf[sizeof(w)+1-bc] == 0)
+			--bc;
+		if (buf[sizeof(w)+1-bc] & 0x80)
+			++bc;
+	}
+	out.Put(asnTag);
+	size_t lengthBytes = DERLengthEncode(out, bc);
+	out.Put(buf+sizeof(w)+1-bc, bc);
+	return 1+lengthBytes+bc;
+}
+
+//! BER Decode Unsigned
+// VC60 workaround: std::numeric_limits<T>::max conflicts with MFC max macro
+// CW41 workaround: std::numeric_limits<T>::max causes a template error
+template <class T>
+void BERDecodeUnsigned(BufferedTransformation &in, T &w, byte asnTag = INTEGER,
+					   T minValue = 0, T maxValue = 0xffffffff)
+{
+	byte b;
+	if (!in.Get(b) || b != asnTag)
+		BERDecodeError();
+
+	size_t bc;
+	BERLengthDecode(in, bc);
+
+	SecByteBlock buf(bc);
+
+	if (bc != in.Get(buf, bc))
+		BERDecodeError();
+
+	const byte *ptr = buf;
+	while (bc > sizeof(w) && *ptr == 0)
+	{
+		bc--;
+		ptr++;
+	}
+	if (bc > sizeof(w))
+		BERDecodeError();
+
+	w = 0;
+	for (unsigned int i=0; i<bc; i++)
+		w = (w << 8) | ptr[i];
+
+	if (w < minValue || w > maxValue)
+		BERDecodeError();
+}
+
+inline bool operator==(const ::CryptoPP::OID &lhs, const ::CryptoPP::OID &rhs)
+	{return lhs.m_values == rhs.m_values;}
+inline bool operator!=(const ::CryptoPP::OID &lhs, const ::CryptoPP::OID &rhs)
+	{return lhs.m_values != rhs.m_values;}
+inline bool operator<(const ::CryptoPP::OID &lhs, const ::CryptoPP::OID &rhs)
+	{return std::lexicographical_compare(lhs.m_values.begin(), lhs.m_values.end(), rhs.m_values.begin(), rhs.m_values.end());}
+inline ::CryptoPP::OID operator+(const ::CryptoPP::OID &lhs, unsigned long rhs)
+	{return ::CryptoPP::OID(lhs)+=rhs;}
+
+NAMESPACE_END
+
+#endif
