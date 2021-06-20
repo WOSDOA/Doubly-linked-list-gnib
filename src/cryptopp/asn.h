@@ -61,4 +61,175 @@ CRYPTOPP_DLL size_t CRYPTOPP_API DERLengthEncode(BufferedTransformation &out, lw
 CRYPTOPP_DLL bool CRYPTOPP_API BERLengthDecode(BufferedTransformation &in, size_t &length);
 
 CRYPTOPP_DLL void CRYPTOPP_API DEREncodeNull(BufferedTransformation &out);
-CRYPTOPP_DLL void CRYPTOPP_API 
+CRYPTOPP_DLL void CRYPTOPP_API BERDecodeNull(BufferedTransformation &in);
+
+CRYPTOPP_DLL size_t CRYPTOPP_API DEREncodeOctetString(BufferedTransformation &out, const byte *str, size_t strLen);
+CRYPTOPP_DLL size_t CRYPTOPP_API DEREncodeOctetString(BufferedTransformation &out, const SecByteBlock &str);
+CRYPTOPP_DLL size_t CRYPTOPP_API BERDecodeOctetString(BufferedTransformation &in, SecByteBlock &str);
+CRYPTOPP_DLL size_t CRYPTOPP_API BERDecodeOctetString(BufferedTransformation &in, BufferedTransformation &str);
+
+// for UTF8_STRING, PRINTABLE_STRING, and IA5_STRING
+CRYPTOPP_DLL size_t CRYPTOPP_API DEREncodeTextString(BufferedTransformation &out, const std::string &str, byte asnTag);
+CRYPTOPP_DLL size_t CRYPTOPP_API BERDecodeTextString(BufferedTransformation &in, std::string &str, byte asnTag);
+
+CRYPTOPP_DLL size_t CRYPTOPP_API DEREncodeBitString(BufferedTransformation &out, const byte *str, size_t strLen, unsigned int unusedBits=0);
+CRYPTOPP_DLL size_t CRYPTOPP_API BERDecodeBitString(BufferedTransformation &in, SecByteBlock &str, unsigned int &unusedBits);
+
+// BER decode from source and DER reencode into dest
+CRYPTOPP_DLL void CRYPTOPP_API DERReencode(BufferedTransformation &source, BufferedTransformation &dest);
+
+//! Object Identifier
+class CRYPTOPP_DLL OID
+{
+public:
+	OID() {}
+	OID(word32 v) : m_values(1, v) {}
+	OID(BufferedTransformation &bt) {BERDecode(bt);}
+
+	inline OID & operator+=(word32 rhs) {m_values.push_back(rhs); return *this;}
+
+	void DEREncode(BufferedTransformation &bt) const;
+	void BERDecode(BufferedTransformation &bt);
+
+	// throw BERDecodeErr() if decoded value doesn't equal this OID
+	void BERDecodeAndCheck(BufferedTransformation &bt) const;
+
+	std::vector<word32> m_values;
+
+private:
+	static void EncodeValue(BufferedTransformation &bt, word32 v);
+	static size_t DecodeValue(BufferedTransformation &bt, word32 &v);
+};
+
+class EncodedObjectFilter : public Filter
+{
+public:
+	enum Flag {PUT_OBJECTS=1, PUT_MESSANGE_END_AFTER_EACH_OBJECT=2, PUT_MESSANGE_END_AFTER_ALL_OBJECTS=4, PUT_MESSANGE_SERIES_END_AFTER_ALL_OBJECTS=8};
+	EncodedObjectFilter(BufferedTransformation *attachment = NULL, unsigned int nObjects = 1, word32 flags = 0);
+
+	void Put(const byte *inString, size_t length);
+
+	unsigned int GetNumberOfCompletedObjects() const {return m_nCurrentObject;}
+	unsigned long GetPositionOfObject(unsigned int i) const {return m_positions[i];}
+
+private:
+	BufferedTransformation & CurrentTarget();
+
+	word32 m_flags;
+	unsigned int m_nObjects, m_nCurrentObject, m_level;
+	std::vector<unsigned int> m_positions;
+	ByteQueue m_queue;
+	enum State {IDENTIFIER, LENGTH, BODY, TAIL, ALL_DONE} m_state;
+	byte m_id;
+	lword m_lengthRemaining;
+};
+
+//! BER General Decoder
+class CRYPTOPP_DLL BERGeneralDecoder : public Store
+{
+public:
+	explicit BERGeneralDecoder(BufferedTransformation &inQueue, byte asnTag);
+	explicit BERGeneralDecoder(BERGeneralDecoder &inQueue, byte asnTag);
+	~BERGeneralDecoder();
+
+	bool IsDefiniteLength() const {return m_definiteLength;}
+	lword RemainingLength() const {assert(m_definiteLength); return m_length;}
+	bool EndReached() const;
+	byte PeekByte() const;
+	void CheckByte(byte b);
+
+	size_t TransferTo2(BufferedTransformation &target, lword &transferBytes, const std::string &channel=DEFAULT_CHANNEL, bool blocking=true);
+	size_t CopyRangeTo2(BufferedTransformation &target, lword &begin, lword end=LWORD_MAX, const std::string &channel=DEFAULT_CHANNEL, bool blocking=true) const;
+
+	// call this to denote end of sequence
+	void MessageEnd();
+
+protected:
+	BufferedTransformation &m_inQueue;
+	bool m_finished, m_definiteLength;
+	lword m_length;
+
+private:
+	void Init(byte asnTag);
+	void StoreInitialize(const NameValuePairs &parameters) {assert(false);}
+	lword ReduceLength(lword delta);
+};
+
+//! DER General Encoder
+class CRYPTOPP_DLL DERGeneralEncoder : public ByteQueue
+{
+public:
+	explicit DERGeneralEncoder(BufferedTransformation &outQueue, byte asnTag = SEQUENCE | CONSTRUCTED);
+	explicit DERGeneralEncoder(DERGeneralEncoder &outQueue, byte asnTag = SEQUENCE | CONSTRUCTED);
+	~DERGeneralEncoder();
+
+	// call this to denote end of sequence
+	void MessageEnd();
+
+private:
+	BufferedTransformation &m_outQueue;
+	bool m_finished;
+
+	byte m_asnTag;
+};
+
+//! BER Sequence Decoder
+class CRYPTOPP_DLL BERSequenceDecoder : public BERGeneralDecoder
+{
+public:
+	explicit BERSequenceDecoder(BufferedTransformation &inQueue, byte asnTag = SEQUENCE | CONSTRUCTED)
+		: BERGeneralDecoder(inQueue, asnTag) {}
+	explicit BERSequenceDecoder(BERSequenceDecoder &inQueue, byte asnTag = SEQUENCE | CONSTRUCTED)
+		: BERGeneralDecoder(inQueue, asnTag) {}
+};
+
+//! DER Sequence Encoder
+class CRYPTOPP_DLL DERSequenceEncoder : public DERGeneralEncoder
+{
+public:
+	explicit DERSequenceEncoder(BufferedTransformation &outQueue, byte asnTag = SEQUENCE | CONSTRUCTED)
+		: DERGeneralEncoder(outQueue, asnTag) {}
+	explicit DERSequenceEncoder(DERSequenceEncoder &outQueue, byte asnTag = SEQUENCE | CONSTRUCTED)
+		: DERGeneralEncoder(outQueue, asnTag) {}
+};
+
+//! BER Set Decoder
+class CRYPTOPP_DLL BERSetDecoder : public BERGeneralDecoder
+{
+public:
+	explicit BERSetDecoder(BufferedTransformation &inQueue, byte asnTag = SET | CONSTRUCTED)
+		: BERGeneralDecoder(inQueue, asnTag) {}
+	explicit BERSetDecoder(BERSetDecoder &inQueue, byte asnTag = SET | CONSTRUCTED)
+		: BERGeneralDecoder(inQueue, asnTag) {}
+};
+
+//! DER Set Encoder
+class CRYPTOPP_DLL DERSetEncoder : public DERGeneralEncoder
+{
+public:
+	explicit DERSetEncoder(BufferedTransformation &outQueue, byte asnTag = SET | CONSTRUCTED)
+		: DERGeneralEncoder(outQueue, asnTag) {}
+	explicit DERSetEncoder(DERSetEncoder &outQueue, byte asnTag = SET | CONSTRUCTED)
+		: DERGeneralEncoder(outQueue, asnTag) {}
+};
+
+template <class T>
+class ASNOptional : public member_ptr<T>
+{
+public:
+	void BERDecode(BERSequenceDecoder &seqDecoder, byte tag, byte mask = ~CONSTRUCTED)
+	{
+		byte b;
+		if (seqDecoder.Peek(b) && (b & mask) == tag)
+			reset(new T(seqDecoder));
+	}
+	void DEREncode(BufferedTransformation &out)
+	{
+		if (this->get() != NULL)
+			this->get()->DEREncode(out);
+	}
+};
+
+//! _
+template <class BASE>
+class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE ASN1CryptoMaterial : public 
