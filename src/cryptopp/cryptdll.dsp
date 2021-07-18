@@ -72,4 +72,336 @@ SOURCE="$(InputPath)"
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
 # PROP BASE Output_Dir "cryptdll___Win32_Debug"
-# PROP BASE In
+# PROP BASE Intermediate_Dir "cryptdll___Win32_Debug"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "DLL_Debug"
+# PROP Intermediate_Dir "DLL_Debug"
+# PROP Ignore_Export_Lib 0
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "CRYPTDLL_EXPORTS" /YX /FD /GZ /c
+# ADD CPP /nologo /G5 /MTd /W3 /Gm /GR /GX /Zi /Oi /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "CRYPTOPP_EXPORTS" /D CRYPTOPP_ENABLE_COMPLIANCE_WITH_FIPS_140_2=1 /D "USE_PRECOMPILED_HEADERS" /Yu"pch.h" /FD /GZ /Zm200 /c
+# ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
+# ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "_DEBUG"
+# ADD RSC /l 0x409 /d "_DEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 advapi32.lib /nologo /base:"0x42900000" /dll /incremental:no /debug /machine:I386 /out:"DLL_Debug/cryptopp.dll" /opt:ref
+# SUBTRACT LINK32 /pdb:none
+# Begin Custom Build
+OutDir=.\DLL_Debug
+TargetPath=.\DLL_Debug\cryptopp.dll
+InputPath=.\DLL_Debug\cryptopp.dll
+SOURCE="$(InputPath)"
+
+"$(OutDir)\cryptopp.mac.done" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	CTDebug\cryptest mac_dll $(TargetPath) 
+	echo mac done > $(OutDir)\cryptopp.mac.done 
+	
+# End Custom Build
+
+!ENDIF 
+
+# Begin Target
+
+# Name "cryptdll - Win32 Release"
+# Name "cryptdll - Win32 Debug"
+# Begin Group "Source Files"
+
+# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# Begin Source File
+
+SOURCE=.\algebra.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\algparam.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\asn.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\authenc.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\basecode.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\cbcmac.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ccm.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\channels.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\cmac.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\cpu.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\cryptlib.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\des.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\dessp.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\dh.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\dll.cpp
+# SUBTRACT CPP /YX /Yc /Yu
+# End Source File
+# Begin Source File
+
+SOURCE=.\dsa.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ec2n.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\eccrypto.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ecp.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\emsa2.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\eprecomp.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\files.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\filters.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\fips140.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\fipstest.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\gcm.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\gf2n.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\gfpcrypt.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\hex.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\hmac.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\hrtimer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\integer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\iterhash.cpp
+# SUBTRACT CPP /YX /Yc /Yu
+# End Source File
+# Begin Source File
+
+SOURCE=.\misc.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\modes.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\mqueue.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\nbtheory.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\oaep.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\osrng.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\pch.cpp
+# ADD CPP /Yc"pch.h"
+# End Source File
+# Begin Source File
+
+SOURCE=.\pkcspad.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\pssr.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\pubkey.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\queue.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\randpool.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\rdtables.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\rijndael.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\rng.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\rsa.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\rw.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sha.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sha3.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\simple.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skipjack.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\strciphr.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\trdlocal.cpp
+# End Source File
+# End Group
+# Begin Group "Header Files"
+
+# PROP Default_Filter ".h"
+# Begin Source File
+
+SOURCE=.\aes.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\algebra.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\algparam.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\argnames.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\asn.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\authenc.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\basecode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\cbcmac.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ccm.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\channels.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\cmac.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\config.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\cryptlib.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\des.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\dh.h
+# End
