@@ -404,4 +404,199 @@ SOURCE=.\des.h
 # Begin Source File
 
 SOURCE=.\dh.h
-# End
+# End Source File
+# Begin Source File
+
+SOURCE=.\dll.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\dsa.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ec2n.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\eccrypto.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ecp.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\eprecomp.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\files.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\filters.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\fips140.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\fltrimpl.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\gcm.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\gf2n.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\gfpcrypt.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\hex.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\hmac.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\integer.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\iterhash.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\mdc.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\misc.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\modarith.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\modes.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\modexppc.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\mqueue.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\mqv.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\nbtheory.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\oaep.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\oids.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\osrng.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\pch.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\pkcspad.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\pubkey.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\queue.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\randpool.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\rijndael.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\rng.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\rsa.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\secblock.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\seckey.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sha.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sha3.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\simple.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skipjack.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\smartptr.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\stdcpp.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\strciphr.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\trdlocal.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\words.h
+# End Source File
+# End Group
+# Begin Source File
+
+SOURCE=.\cryptopp.rc
+# End Source File
+# End Target
+# End Project
