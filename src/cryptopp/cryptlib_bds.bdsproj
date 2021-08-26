@@ -166,4 +166,63 @@
           <property category="win32.*.win32b.dcc32" name="option.U.enabled" value="1"/>
           <property category="win32.*.win32b.dcc32" name="param.filenames.merge" value="1"/>
           <property category="win32.*.win32b.idl2cpp" name="option.I.arg.1" value="."/>
-          <property category="win32.*.win32b.idl2cpp" 
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.merge" value="1"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.enabled" value="1"/>
+          <property category="win32.*.win32b.ilink32" name="option.Gi.enabled" value="0"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.1" value="$(BDS)\lib"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.2" value="$(BDS)\lib\obj"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.3" value="$(BDS)\lib\psdk"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.merge" value="1"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.enabled" value="1"/>
+          <property category="win32.*.win32b.ilink32" name="option.Tpd.enabled" value="0"/>
+          <property category="win32.*.win32b.ilink32" name="option.Tpe.enabled" value="0"/>
+          <property category="win32.*.win32b.ilink32" name="option.Tpp.enabled" value="0"/>
+          <property category="win32.*.win32b.ilink32" name="option.aa.enabled" value="0"/>
+          <property category="win32.*.win32b.ilink32" name="option.ap.enabled" value="0"/>
+          <property category="win32.*.win32b.ilink32" name="option.dynamicrtl.enabled" value="1"/>
+          <property category="win32.*.win32b.tlib" name="option.P.arg" value="512"/>
+          <property category="win32.*.win32b.tlib" name="option.P.arg.merge" value="1"/>
+          <property category="win32.*.win32b.tlib" name="option.P.enabled" value="1"/>
+          <property category="win32.*.win32b.tlib" name="option.dynamicrtl.enabled" value="0"/>
+        </optionset>
+        <file path="xtr.cpp">
+          <property category="win32.Release_Build.win32b.bcc32" name="container.SelectedOptimizations.containerenabled" value="0"/>
+          <property category="win32.Release_Build.win32b.bcc32" name="option.Od.enabled" value="1"/>
+          <optionset name="all_configurations">
+            <property category="node" name="displayname" value="All Configurations"/>
+          </optionset>
+        </file>
+      </project>
+      <FILELIST>
+        <FILE FILENAME="cryptlib_bds.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="cryptlib_bds" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="3way.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="3way" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="adhoc.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="adhoc" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="adler32.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="adler32" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="algebra.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="algebra" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="algparam.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="algparam" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="arc4.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="arc4" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="asn.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="asn" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="authenc.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="authenc" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="base32.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="base32" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="base64.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="base64" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="basecode.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="basecode" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="bfinit.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="bfinit" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="blowfish.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="blowfish" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="blumshub.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="blumshub" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="camellia.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="camellia" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="cast.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="cast" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="casts.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="casts" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="cbcmac.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="cbcmac" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="ccm.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ccm" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="channels.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="channels" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="cmac.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="cmac" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="crc.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="crc" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="cryptlib.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="cryptlib" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="default.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="default" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="des.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="des" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="dessp.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="dessp" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="dh2.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="dh2" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="dh.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="dh" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="dll.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="dll" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="dsa.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="dsa" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="eax.cp
