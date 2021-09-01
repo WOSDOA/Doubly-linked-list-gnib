@@ -19,4 +19,45 @@ size_t DSAConvertSignatureFormat(byte *buffer, size_t bufferSize, DSASignatureFo
 	{
 	case DSA_P1363:
 		r.Decode(store, signatureLen/2);
-		
+		s.Decode(store, signatureLen/2);
+		break;
+	case DSA_DER:
+	{
+		BERSequenceDecoder seq(store);
+		r.BERDecode(seq);
+		s.BERDecode(seq);
+		seq.MessageEnd();
+		break;
+	}
+	case DSA_OPENPGP:
+		r.OpenPGPDecode(store);
+		s.OpenPGPDecode(store);
+		break;
+	}
+
+	switch (toFormat)
+	{
+	case DSA_P1363:
+		r.Encode(sink, bufferSize/2);
+		s.Encode(sink, bufferSize/2);
+		break;
+	case DSA_DER:
+	{
+		DERSequenceEncoder seq(sink);
+		r.DEREncode(seq);
+		s.DEREncode(seq);
+		seq.MessageEnd();
+		break;
+	}
+	case DSA_OPENPGP:
+		r.OpenPGPEncode(sink);
+		s.OpenPGPEncode(sink);
+		break;
+	}
+
+	return (size_t)sink.TotalPutLength();
+}
+
+NAMESPACE_END
+
+#endif
