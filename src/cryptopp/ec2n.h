@@ -63,4 +63,51 @@ public:
 		{return 1 + (compressed?1:2)*m_field->MaxElementByteLength();}
 	// returns false if point is compressed and not valid (doesn't check if uncompressed)
 	bool DecodePoint(Point &P, BufferedTransformation &bt, size_t len) const;
-	bool DecodePoint(Point &P, const byte *encodedPoi
+	bool DecodePoint(Point &P, const byte *encodedPoint, size_t len) const;
+	void EncodePoint(byte *encodedPoint, const Point &P, bool compressed) const;
+	void EncodePoint(BufferedTransformation &bt, const Point &P, bool compressed) const;
+
+	Point BERDecodePoint(BufferedTransformation &bt) const;
+	void DEREncodePoint(BufferedTransformation &bt, const Point &P, bool compressed) const;
+
+	Integer FieldSize() const {return Integer::Power2(m_field->MaxElementBitLength());}
+	const Field & GetField() const {return *m_field;}
+	const FieldElement & GetA() const {return m_a;}
+	const FieldElement & GetB() const {return m_b;}
+
+	bool operator==(const EC2N &rhs) const
+		{return GetField() == rhs.GetField() && m_a == rhs.m_a && m_b == rhs.m_b;}
+
+private:
+	clonable_ptr<Field> m_field;
+	FieldElement m_a, m_b;
+	mutable Point m_R;
+};
+
+CRYPTOPP_DLL_TEMPLATE_CLASS DL_FixedBasePrecomputationImpl<EC2N::Point>;
+CRYPTOPP_DLL_TEMPLATE_CLASS DL_GroupPrecomputation<EC2N::Point>;
+
+template <class T> class EcPrecomputation;
+
+//! EC2N precomputation
+template<> class EcPrecomputation<EC2N> : public DL_GroupPrecomputation<EC2N::Point>
+{
+public:
+	typedef EC2N EllipticCurve;
+
+	// DL_GroupPrecomputation
+	const AbstractGroup<Element> & GetGroup() const {return m_ec;}
+	Element BERDecodeElement(BufferedTransformation &bt) const {return m_ec.BERDecodePoint(bt);}
+	void DEREncodeElement(BufferedTransformation &bt, const Element &v) const {m_ec.DEREncodePoint(bt, v, false);}
+
+	// non-inherited
+	void SetCurve(const EC2N &ec) {m_ec = ec;}
+	const EC2N & GetCurve() const {return m_ec;}
+
+private:
+	EC2N m_ec;
+};
+
+NAMESPACE_END
+
+#endif
