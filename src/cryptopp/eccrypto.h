@@ -93,4 +93,163 @@ public:
 	Integer GetMaxExponent() const {return GetSubgroupOrder()-1;}
 	bool IsIdentity(const Element &element) const {return element.identity;}
 	void SimultaneousExponentiate(Element *results, const Element &base, const Integer *exponents, unsigned int exponentsCount) const;
-	static std::string CRYPTOPP_API Static
+	static std::string CRYPTOPP_API StaticAlgorithmNamePrefix() {return "EC";}
+
+	// ASN1Key
+	OID GetAlgorithmID() const;
+
+	// used by MQV
+	Element MultiplyElements(const Element &a, const Element &b) const;
+	Element CascadeExponentiate(const Element &element1, const Integer &exponent1, const Element &element2, const Integer &exponent2) const;
+
+	// non-inherited
+
+	// enumerate OIDs for recommended parameters, use OID() to get first one
+	static OID CRYPTOPP_API GetNextRecommendedParametersOID(const OID &oid);
+
+	void BERDecode(BufferedTransformation &bt);
+	void DEREncode(BufferedTransformation &bt) const;
+
+	void SetPointCompression(bool compress) {m_compress = compress;}
+	bool GetPointCompression() const {return m_compress;}
+
+	void SetEncodeAsOID(bool encodeAsOID) {m_encodeAsOID = encodeAsOID;}
+	bool GetEncodeAsOID() const {return m_encodeAsOID;}
+
+	const EllipticCurve& GetCurve() const {return this->m_groupPrecomputation.GetCurve();}
+
+	bool operator==(const ThisClass &rhs) const
+		{return this->m_groupPrecomputation.GetCurve() == rhs.m_groupPrecomputation.GetCurve() && this->m_gpc.GetBase(this->m_groupPrecomputation) == rhs.m_gpc.GetBase(rhs.m_groupPrecomputation);}
+
+#ifdef CRYPTOPP_MAINTAIN_BACKWARDS_COMPATIBILITY
+	const Point& GetBasePoint() const {return GetSubgroupGenerator();}
+	const Integer& GetBasePointOrder() const {return GetSubgroupOrder();}
+	void LoadRecommendedParameters(const OID &oid) {Initialize(oid);}
+#endif
+
+protected:
+	unsigned int FieldElementLength() const {return GetCurve().GetField().MaxElementByteLength();}
+	unsigned int ExponentLength() const {return m_n.ByteCount();}
+
+	OID m_oid;			// set if parameters loaded from a recommended curve
+	Integer m_n;		// order of base point
+	bool m_compress, m_encodeAsOID;
+	mutable Integer m_k;		// cofactor
+};
+
+//! EC public key
+template <class EC>
+class DL_PublicKey_EC : public DL_PublicKeyImpl<DL_GroupParameters_EC<EC> >
+{
+public:
+	typedef typename EC::Point Element;
+
+	void Initialize(const DL_GroupParameters_EC<EC> &params, const Element &Q)
+		{this->AccessGroupParameters() = params; this->SetPublicElement(Q);}
+	void Initialize(const EC &ec, const Element &G, const Integer &n, const Element &Q)
+		{this->AccessGroupParameters().Initialize(ec, G, n); this->SetPublicElement(Q);}
+
+	// X509PublicKey
+	void BERDecodePublicKey(BufferedTransformation &bt, bool parametersPresent, size_t size);
+	void DEREncodePublicKey(BufferedTransformation &bt) const;
+};
+
+//! EC private key
+template <class EC>
+class DL_PrivateKey_EC : public DL_PrivateKeyImpl<DL_GroupParameters_EC<EC> >
+{
+public:
+	typedef typename EC::Point Element;
+
+	void Initialize(const DL_GroupParameters_EC<EC> &params, const Integer &x)
+		{this->AccessGroupParameters() = params; this->SetPrivateExponent(x);}
+	void Initialize(const EC &ec, const Element &G, const Integer &n, const Integer &x)
+		{this->AccessGroupParameters().Initialize(ec, G, n); this->SetPrivateExponent(x);}
+	void Initialize(RandomNumberGenerator &rng, const DL_GroupParameters_EC<EC> &params)
+		{this->GenerateRandom(rng, params);}
+	void Initialize(RandomNumberGenerator &rng, const EC &ec, const Element &G, const Integer &n)
+		{this->GenerateRandom(rng, DL_GroupParameters_EC<EC>(ec, G, n));}
+
+	// PKCS8PrivateKey
+	void BERDecodePrivateKey(BufferedTransformation &bt, bool parametersPresent, size_t size);
+	void DEREncodePrivateKey(BufferedTransformation &bt) const;
+};
+
+//! Elliptic Curve Diffie-Hellman, AKA <a href="http://www.weidai.com/scan-mirror/ka.html#ECDH">ECDH</a>
+template <class EC, class COFACTOR_OPTION = CPP_TYPENAME DL_GroupParameters_EC<EC>::DefaultCofactorOption>
+struct ECDH
+{
+	typedef DH_Domain<DL_GroupParameters_EC<EC>, COFACTOR_OPTION> Domain;
+};
+
+/// Elliptic Curve Menezes-Qu-Vanstone, AKA <a href="http://www.weidai.com/scan-mirror/ka.html#ECMQV">ECMQV</a>
+template <class EC, class COFACTOR_OPTION = CPP_TYPENAME DL_GroupParameters_EC<EC>::DefaultCofactorOption>
+struct ECMQV
+{
+	typedef MQV_Domain<DL_GroupParameters_EC<EC>, COFACTOR_OPTION> Domain;
+};
+
+//! EC keys
+template <class EC>
+struct DL_Keys_EC
+{
+	typedef DL_PublicKey_EC<EC> PublicKey;
+	typedef DL_PrivateKey_EC<EC> PrivateKey;
+};
+
+template <class EC, class H>
+struct ECDSA;
+
+//! ECDSA keys
+template <class EC>
+struct DL_Keys_ECDSA
+{
+	typedef DL_PublicKey_EC<EC> PublicKey;
+	typedef DL_PrivateKey_WithSignaturePairwiseConsistencyTest<DL_PrivateKey_EC<EC>, ECDSA<EC, SHA256> > PrivateKey;
+};
+
+//! ECDSA algorithm
+template <class EC>
+class DL_Algorithm_ECDSA : public DL_Algorithm_GDSA<typename EC::Point>
+{
+public:
+	static const char * CRYPTOPP_API StaticAlgorithmName() {return "ECDSA";}
+};
+
+//! ECNR algorithm
+template <class EC>
+class DL_Algorithm_ECNR : public DL_Algorithm_NR<typename EC::Point>
+{
+public:
+	static const char * CRYPTOPP_API StaticAlgorithmName() {return "ECNR";}
+};
+
+//! <a href="http://www.weidai.com/scan-mirror/sig.html#ECDSA">ECDSA</a>
+template <class EC, class H>
+struct ECDSA : public DL_SS<DL_Keys_ECDSA<EC>, DL_Algorithm_ECDSA<EC>, DL_SignatureMessageEncodingMethod_DSA, H>
+{
+};
+
+//! ECNR
+template <class EC, class H = SHA>
+struct ECNR : public DL_SS<DL_Keys_EC<EC>, DL_Algorithm_ECNR<EC>, DL_SignatureMessageEncodingMethod_NR, H>
+{
+};
+
+//! Elliptic Curve Integrated Encryption Scheme, AKA <a href="http://www.weidai.com/scan-mirror/ca.html#ECIES">ECIES</a>
+/*! Default to (NoCofactorMultiplication and DHAES_MODE = false) for compatibilty with SEC1 and Crypto++ 4.2.
+	The combination of (IncompatibleCofactorMultiplication and DHAES_MODE = true) is recommended for best
+	efficiency and security. */
+template <class EC, class COFACTOR_OPTION = NoCofactorMultiplication, bool DHAES_MODE = false>
+struct ECIES
+	: public DL_ES<
+		DL_Keys_EC<EC>,
+		DL_KeyAgreementAlgorithm_DH<typename EC::Point, COFACTOR_OPTION>,
+		DL_KeyDerivationAlgorithm_P1363<typename EC::Point, DHAES_MODE, P1363_KDF2<SHA1> >,
+		DL_EncryptionAlgorithm_Xor<HMAC<SHA1>, DHAES_MODE>,
+		ECIES<EC> >
+{
+	static std::string CRYPTOPP_API StaticAlgorithmName() {return "ECIES";}	// TODO: fix this after name is standardized
+};
+
+NAMESPA
