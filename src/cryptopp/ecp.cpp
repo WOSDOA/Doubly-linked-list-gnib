@@ -446,4 +446,28 @@ void ECP::SimultaneousMultiply(ECP::Point *results, const ECP::Point &P, const I
 				finalCascade[j].base.identity = false;
 				finalCascade[j].base.x = base.x;
 				if (negateBase[i][j])
-					finalCascade[j].base
+					finalCascade[j].base.y = GetField().Inverse(base.y);
+				else
+					finalCascade[j].base.y = base.y;
+			}
+			finalCascade[j].exponent = Integer(Integer::POSITIVE, 0, exponentWindows[i][j]);
+		}
+		results[i] = GeneralCascadeMultiplication(*this, finalCascade.begin(), finalCascade.end());
+	}
+}
+
+ECP::Point ECP::CascadeScalarMultiply(const Point &P, const Integer &k1, const Point &Q, const Integer &k2) const
+{
+	if (!GetField().IsMontgomeryRepresentation())
+	{
+		ECP ecpmr(*this, true);
+		const ModularArithmetic &mr = ecpmr.GetField();
+		return FromMontgomery(mr, ecpmr.CascadeScalarMultiply(ToMontgomery(mr, P), k1, ToMontgomery(mr, Q), k2));
+	}
+	else
+		return AbstractGroup<Point>::CascadeScalarMultiply(P, k1, Q, k2);
+}
+
+NAMESPACE_END
+
+#endif
