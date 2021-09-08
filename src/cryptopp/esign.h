@@ -96,4 +96,33 @@ public:
 	{
 		SecByteBlock digest(hash.DigestSize());
 		hash.Final(digest);
-		size_t representativeByteLength =
+		size_t representativeByteLength = BitsToBytes(representativeBitLength);
+		T mgf;
+		mgf.GenerateAndMask(hash, representative, representativeByteLength, digest, digest.size(), false);
+		if (representativeBitLength % 8 != 0)
+			representative[0] = (byte)Crop(representative[0], representativeBitLength % 8);
+	}
+};
+
+//! EMSA5, for use with ESIGN
+struct P1363_EMSA5 : public SignatureStandard
+{
+	typedef EMSA5Pad<P1363_MGF1> SignatureMessageEncodingMethod;
+};
+
+struct ESIGN_Keys
+{
+	static std::string StaticAlgorithmName() {return "ESIGN";}
+	typedef ESIGNFunction PublicKey;
+	typedef InvertibleESIGNFunction PrivateKey;
+};
+
+//! ESIGN, as defined in IEEE P1363a
+template <class H, class STANDARD = P1363_EMSA5>
+struct ESIGN : public TF_SS<STANDARD, H, ESIGN_Keys>
+{
+};
+
+NAMESPACE_END
+
+#endif
