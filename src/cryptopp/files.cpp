@@ -218,4 +218,42 @@ void FileSink::IsolatedInitialize(const NameValuePairs &parameters)
 	m_stream = m_file.get();
 }
 
-bool FileSink::IsolatedFlush(bool hardFlush, bool bl
+bool FileSink::IsolatedFlush(bool hardFlush, bool blocking)
+{
+	if (!m_stream)
+		throw Err("FileSink: output stream not opened");
+
+	m_stream->flush();
+	if (!m_stream->good())
+		throw WriteErr();
+
+	return false;
+}
+
+size_t FileSink::Put2(const byte *inString, size_t length, int messageEnd, bool blocking)
+{
+	if (!m_stream)
+		throw Err("FileSink: output stream not opened");
+
+	while (length > 0)
+	{
+		std::streamsize size;
+		if (!SafeConvert(length, size))
+			size = numeric_limits<std::streamsize>::max();
+		m_stream->write((const char *)inString, size);
+		inString += size;
+		length -= (size_t)size;
+	}
+
+	if (messageEnd)
+		m_stream->flush();
+
+	if (!m_stream->good())
+		throw WriteErr();
+
+	return 0;
+}
+
+NAMESPACE_END
+
+#endif
