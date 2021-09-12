@@ -415,4 +415,190 @@ size_t FilterWithBufferedInput::PutMaybeModifiable(byte *inString, size_t length
 	return 0;
 }
 
-void Filter
+void FilterWithBufferedInput::ForceNextPut()
+{
+	if (!m_firstInputDone)
+		return;
+	
+	if (m_blockSize > 1)
+	{
+		while (m_queue.CurrentSize() >= m_blockSize)
+			NextPutModifiable(m_queue.GetBlock(), m_blockSize);
+	}
+	else
+	{
+		size_t len;
+		while ((len = m_queue.CurrentSize()) > 0)
+			NextPutModifiable(m_queue.GetContigousBlocks(len), len);
+	}
+}
+
+void FilterWithBufferedInput::NextPutMultiple(const byte *inString, size_t length)
+{
+	assert(m_blockSize > 1);	// m_blockSize = 1 should always override this function
+	while (length > 0)
+	{
+		assert(length >= m_blockSize);
+		NextPutSingle(inString);
+		inString += m_blockSize;
+		length -= m_blockSize;
+	}
+}
+
+// *************************************************************
+
+void Redirector::Initialize(const NameValuePairs &parameters, int propagation)
+{
+	m_target = parameters.GetValueWithDefault("RedirectionTargetPointer", (BufferedTransformation*)NULL);
+	m_behavior = parameters.GetIntValueWithDefault("RedirectionBehavior", PASS_EVERYTHING);
+
+	if (m_target && GetPassSignals())
+		m_target->Initialize(parameters, propagation);
+}
+
+// *************************************************************
+
+ProxyFilter::ProxyFilter(BufferedTransformation *filter, size_t firstSize, size_t lastSize, BufferedTransformation *attachment)
+	: FilterWithBufferedInput(firstSize, 1, lastSize, attachment), m_filter(filter)
+{
+	if (m_filter.get())
+		m_filter->Attach(new OutputProxy(*this, false));
+}
+
+bool ProxyFilter::IsolatedFlush(bool hardFlush, bool blocking)
+{
+	return m_filter.get() ? m_filter->Flush(hardFlush, -1, blocking) : false;
+}
+
+void ProxyFilter::SetFilter(Filter *filter)
+{
+	m_filter.reset(filter);
+	if (filter)
+	{
+		OutputProxy *proxy;
+		std::auto_ptr<OutputProxy> temp(proxy = new OutputProxy(*this, false));
+		m_filter->TransferAllTo(*proxy);
+		m_filter->Attach(temp.release());
+	}
+}
+
+void ProxyFilter::NextPutMultiple(const byte *s, size_t len)
+{
+	if (m_filter.get())
+		m_filter->Put(s, len);
+}
+
+void ProxyFilter::NextPutModifiable(byte *s, size_t len)
+{
+	if (m_filter.get())
+		m_filter->PutModifiable(s, len);
+}
+
+// *************************************************************
+
+void RandomNumberSink::IsolatedInitialize(const NameValuePairs &parameters)
+{
+	parameters.GetRequiredParameter("RandomNumberSink", "RandomNumberGeneratorPointer", m_rng);
+}
+
+size_t RandomNumberSink::Put2(const byte *begin, size_t length, int messageEnd, bool blocking)
+{
+	m_rng->IncorporateEntropy(begin, length);
+	return 0;
+}
+
+size_t ArraySink::Put2(const byte *begin, size_t length, int messageEnd, bool blocking)
+{
+	if (m_buf+m_total != begin)
+		memcpy(m_buf+m_total, begin, STDMIN(length, SaturatingSubtract(m_size, m_total)));
+	m_total += length;
+	return 0;
+}
+
+byte * ArraySink::CreatePutSpace(size_t &size)
+{
+	size = SaturatingSubtract(m_size, m_total);
+	return m_buf + m_total;
+}
+
+void ArraySink::IsolatedInitialize(const NameValuePairs &parameters)
+{
+	ByteArrayParameter array;
+	if (!parameters.GetValue(Name::OutputBuffer(), array))
+		throw InvalidArgument("ArraySink: missing OutputBuffer argument");
+	m_buf = array.begin();
+	m_size = array.size();
+	m_total = 0;
+}
+
+size_t ArrayXorSink::Put2(const byte *begin, size_t length, int messageEnd, bool blocking)
+{
+	xorbuf(m_buf+m_total, begin, STDMIN(length, SaturatingSubtract(m_size, m_total)));
+	m_total += length;
+	return 0;
+}
+
+// *************************************************************
+
+StreamTransformationFilter::StreamTransformationFilter(StreamTransformation &c, BufferedTransformation *attachment, BlockPaddingScheme padding, bool allowAuthenticatedSymmetricCipher)
+   : FilterWithBufferedInput(attachment)
+	, m_cipher(c)
+{
+	assert(c.MinLastBlockSize() == 0 || c.MinLastBlockSize() > c.MandatoryBlockSize());
+
+	if (!allowAuthenticatedSymmetricCipher && dynamic_cast<AuthenticatedSymmetricCipher *>(&c) != 0)
+		throw InvalidArgument("StreamTransformationFilter: please use AuthenticatedEncryptionFilter and AuthenticatedDecryptionFilter for AuthenticatedSymmetricCipher");
+
+	IsolatedInitialize(MakeParameters(Name::BlockPaddingScheme(), padding));
+}
+
+size_t StreamTransformationFilter::LastBlockSize(StreamTransformation &c, BlockPaddingScheme padding)
+{
+	if (c.MinLastBlockSize() > 0)
+		return c.MinLastBlockSize();
+	else if (c.MandatoryBlockSize() > 1 && !c.IsForwardTransformation() && padding != NO_PADDING && padding != ZEROS_PADDING)
+		return c.MandatoryBlockSize();
+	else
+		return 0;
+}
+
+void StreamTransformationFilter::InitializeDerivedAndReturnNewSizes(const NameValuePairs &parameters, size_t &firstSize, size_t &blockSize, size_t &lastSize)
+{
+	BlockPaddingScheme padding = parameters.GetValueWithDefault(Name::BlockPaddingScheme(), DEFAULT_PADDING);
+	bool isBlockCipher = (m_cipher.MandatoryBlockSize() > 1 && m_cipher.MinLastBlockSize() == 0);
+
+	if (padding == DEFAULT_PADDING)
+		m_padding = isBlockCipher ? PKCS_PADDING : NO_PADDING;
+	else
+		m_padding = padding;
+
+	if (!isBlockCipher && (m_padding == PKCS_PADDING || m_padding == ONE_AND_ZEROS_PADDING))
+		throw InvalidArgument("StreamTransformationFilter: PKCS_PADDING and ONE_AND_ZEROS_PADDING cannot be used with " + m_cipher.AlgorithmName());
+
+	firstSize = 0;
+	blockSize = m_cipher.MandatoryBlockSize();
+	lastSize = LastBlockSize(m_cipher, m_padding);
+}
+
+void StreamTransformationFilter::FirstPut(const byte *inString)
+{
+	m_optimalBufferSize = m_cipher.OptimalBlockSize();
+	m_optimalBufferSize = (unsigned int)STDMAX(m_optimalBufferSize, RoundDownToMultipleOf(4096U, m_optimalBufferSize));
+}
+
+void StreamTransformationFilter::NextPutMultiple(const byte *inString, size_t length)
+{
+	if (!length)
+		return;
+
+	size_t s = m_cipher.MandatoryBlockSize();
+
+	do
+	{
+		size_t len = m_optimalBufferSize;
+		byte *space = HelpCreatePutSpace(*AttachedTransformation(), DEFAULT_CHANNEL, s, length, len);
+		if (len < length)
+		{
+			if (len == m_optimalBufferSize)
+				len -= m_cipher.GetOptimalBlockSizeUsed();
+			len = RoundDownToMultipl
