@@ -601,4 +601,179 @@ void StreamTransformationFilter::NextPutMultiple(const byte *inString, size_t le
 		{
 			if (len == m_optimalBufferSize)
 				len -= m_cipher.GetOptimalBlockSizeUsed();
-			len = RoundDownToMultipl
+			len = RoundDownToMultipleOf(len, s);
+		}
+		else
+			len = length;
+		m_cipher.ProcessString(space, inString, len);
+		AttachedTransformation()->PutModifiable(space, len);
+		inString += len;
+		length -= len;
+	}
+	while (length > 0);
+}
+
+void StreamTransformationFilter::NextPutModifiable(byte *inString, size_t length)
+{
+	m_cipher.ProcessString(inString, length);
+	AttachedTransformation()->PutModifiable(inString, length);
+}
+
+void StreamTransformationFilter::LastPut(const byte *inString, size_t length)
+{
+	byte *space = NULL;
+	
+	switch (m_padding)
+	{
+	case NO_PADDING:
+	case ZEROS_PADDING:
+		if (length > 0)
+		{
+			size_t minLastBlockSize = m_cipher.MinLastBlockSize();
+			bool isForwardTransformation = m_cipher.IsForwardTransformation();
+
+			if (isForwardTransformation && m_padding == ZEROS_PADDING && (minLastBlockSize == 0 || length < minLastBlockSize))
+			{
+				// do padding
+				size_t blockSize = STDMAX(minLastBlockSize, (size_t)m_cipher.MandatoryBlockSize());
+				space = HelpCreatePutSpace(*AttachedTransformation(), DEFAULT_CHANNEL, blockSize);
+				memcpy(space, inString, length);
+				memset(space + length, 0, blockSize - length);
+				m_cipher.ProcessLastBlock(space, space, blockSize);
+				AttachedTransformation()->Put(space, blockSize);
+			}
+			else
+			{
+				if (minLastBlockSize == 0)
+				{
+					if (isForwardTransformation)
+						throw InvalidDataFormat("StreamTransformationFilter: plaintext length is not a multiple of block size and NO_PADDING is specified");
+					else
+						throw InvalidCiphertext("StreamTransformationFilter: ciphertext length is not a multiple of block size");
+				}
+
+				space = HelpCreatePutSpace(*AttachedTransformation(), DEFAULT_CHANNEL, length, m_optimalBufferSize);
+				m_cipher.ProcessLastBlock(space, inString, length);
+				AttachedTransformation()->Put(space, length);
+			}
+		}
+		break;
+
+	case PKCS_PADDING:
+	case ONE_AND_ZEROS_PADDING:
+		unsigned int s;
+		s = m_cipher.MandatoryBlockSize();
+		assert(s > 1);
+		space = HelpCreatePutSpace(*AttachedTransformation(), DEFAULT_CHANNEL, s, m_optimalBufferSize);
+		if (m_cipher.IsForwardTransformation())
+		{
+			assert(length < s);
+			memcpy(space, inString, length);
+			if (m_padding == PKCS_PADDING)
+			{
+				assert(s < 256);
+				byte pad = byte(s-length);
+				memset(space+length, pad, s-length);
+			}
+			else
+			{
+				space[length] = 0x80;
+				memset(space+length+1, 0, s-length-1);
+			}
+			m_cipher.ProcessData(space, space, s);
+			AttachedTransformation()->Put(space, s);
+		}
+		else
+		{
+			if (length != s)
+				throw InvalidCiphertext("StreamTransformationFilter: ciphertext length is not a multiple of block size");
+			m_cipher.ProcessData(space, inString, s);
+			if (m_padding == PKCS_PADDING)
+			{
+				byte pad = space[s-1];
+				if (pad < 1 || pad > s || std::find_if(space+s-pad, space+s, std::bind2nd(std::not_equal_to<byte>(), pad)) != space+s)
+					throw InvalidCiphertext("StreamTransformationFilter: invalid PKCS #7 block padding found");
+				length = s-pad;
+			}
+			else
+			{
+				while (length > 1 && space[length-1] == 0)
+					--length;
+				if (space[--length] != 0x80)
+					throw InvalidCiphertext("StreamTransformationFilter: invalid ones-and-zeros padding found");
+			}
+			AttachedTransformation()->Put(space, length);
+		}
+		break;
+
+	default:
+		assert(false);
+	}
+}
+
+// *************************************************************
+
+HashFilter::HashFilter(HashTransformation &hm, BufferedTransformation *attachment, bool putMessage, int truncatedDigestSize, const std::string &messagePutChannel, const std::string &hashPutChannel)
+	: m_hashModule(hm), m_putMessage(putMessage), m_messagePutChannel(messagePutChannel), m_hashPutChannel(hashPutChannel)
+{
+	m_digestSize = truncatedDigestSize < 0 ? m_hashModule.DigestSize() : truncatedDigestSize;
+	Detach(attachment);
+}
+
+void HashFilter::IsolatedInitialize(const NameValuePairs &parameters)
+{
+	m_putMessage = parameters.GetValueWithDefault(Name::PutMessage(), false);
+	int s = parameters.GetIntValueWithDefault(Name::TruncatedDigestSize(), -1);
+	m_digestSize = s < 0 ? m_hashModule.DigestSize() : s;
+}
+
+size_t HashFilter::Put2(const byte *inString, size_t length, int messageEnd, bool blocking)
+{
+	FILTER_BEGIN;
+	if (m_putMessage)
+		FILTER_OUTPUT3(1, 0, inString, length, 0, m_messagePutChannel);
+	m_hashModule.Update(inString, length);
+	if (messageEnd)
+	{
+		{
+			size_t size;
+			m_space = HelpCreatePutSpace(*AttachedTransformation(), m_hashPutChannel, m_digestSize, m_digestSize, size = m_digestSize);
+			m_hashModule.TruncatedFinal(m_space, m_digestSize);
+		}
+		FILTER_OUTPUT3(2, 0, m_space, m_digestSize, messageEnd, m_hashPutChannel);
+	}
+	FILTER_END_NO_MESSAGE_END;
+}
+
+// *************************************************************
+
+HashVerificationFilter::HashVerificationFilter(HashTransformation &hm, BufferedTransformation *attachment, word32 flags, int truncatedDigestSize)
+	: FilterWithBufferedInput(attachment)
+	, m_hashModule(hm)
+{
+	IsolatedInitialize(MakeParameters(Name::HashVerificationFilterFlags(), flags)(Name::TruncatedDigestSize(), truncatedDigestSize));
+}
+
+void HashVerificationFilter::InitializeDerivedAndReturnNewSizes(const NameValuePairs &parameters, size_t &firstSize, size_t &blockSize, size_t &lastSize)
+{
+	m_flags = parameters.GetValueWithDefault(Name::HashVerificationFilterFlags(), (word32)DEFAULT_FLAGS);
+	int s = parameters.GetIntValueWithDefault(Name::TruncatedDigestSize(), -1);
+	m_digestSize = s < 0 ? m_hashModule.DigestSize() : s;
+	m_verified = false;
+	firstSize = m_flags & HASH_AT_BEGIN ? m_digestSize : 0;
+	blockSize = 1;
+	lastSize = m_flags & HASH_AT_BEGIN ? 0 : m_digestSize;
+}
+
+void HashVerificationFilter::FirstPut(const byte *inString)
+{
+	if (m_flags & HASH_AT_BEGIN)
+	{
+		m_expectedHash.New(m_digestSize);
+		memcpy(m_expectedHash, inString, m_expectedHash.size());
+		if (m_flags & PUT_HASH)
+			AttachedTransformation()->Put(inString, m_expectedHash.size());
+	}
+}
+
+void HashVerificationFilter::NextPutMultiple(const byte *inString,
