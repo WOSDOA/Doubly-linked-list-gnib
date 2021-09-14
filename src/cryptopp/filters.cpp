@@ -776,4 +776,174 @@ void HashVerificationFilter::FirstPut(const byte *inString)
 	}
 }
 
-void HashVerificationFilter::NextPutMultiple(const byte *inString,
+void HashVerificationFilter::NextPutMultiple(const byte *inString, size_t length)
+{
+	m_hashModule.Update(inString, length);
+	if (m_flags & PUT_MESSAGE)
+		AttachedTransformation()->Put(inString, length);
+}
+
+void HashVerificationFilter::LastPut(const byte *inString, size_t length)
+{
+	if (m_flags & HASH_AT_BEGIN)
+	{
+		assert(length == 0);
+		m_verified = m_hashModule.TruncatedVerify(m_expectedHash, m_digestSize);
+	}
+	else
+	{
+		m_verified = (length==m_digestSize && m_hashModule.TruncatedVerify(inString, length));
+		if (m_flags & PUT_HASH)
+			AttachedTransformation()->Put(inString, length);
+	}
+
+	if (m_flags & PUT_RESULT)
+		AttachedTransformation()->Put(m_verified);
+
+	if ((m_flags & THROW_EXCEPTION) && !m_verified)
+		throw HashVerificationFailed();
+}
+
+// *************************************************************
+
+AuthenticatedEncryptionFilter::AuthenticatedEncryptionFilter(AuthenticatedSymmetricCipher &c, BufferedTransformation *attachment, 
+								bool putAAD, int truncatedDigestSize, const std::string &macChannel, BlockPaddingScheme padding)
+	: StreamTransformationFilter(c, attachment, padding, true)
+	, m_hf(c, new OutputProxy(*this, false), putAAD, truncatedDigestSize, AAD_CHANNEL, macChannel)
+{
+	assert(c.IsForwardTransformation());
+}
+
+void AuthenticatedEncryptionFilter::IsolatedInitialize(const NameValuePairs &parameters)
+{
+	m_hf.IsolatedInitialize(parameters);
+	StreamTransformationFilter::IsolatedInitialize(parameters);
+}
+
+byte * AuthenticatedEncryptionFilter::ChannelCreatePutSpace(const std::string &channel, size_t &size)
+{
+	if (channel.empty())
+		return StreamTransformationFilter::CreatePutSpace(size);
+
+	if (channel == AAD_CHANNEL)
+		return m_hf.CreatePutSpace(size);
+
+	throw InvalidChannelName("AuthenticatedEncryptionFilter", channel);
+}
+
+size_t AuthenticatedEncryptionFilter::ChannelPut2(const std::string &channel, const byte *begin, size_t length, int messageEnd, bool blocking)
+{
+	if (channel.empty())
+		return StreamTransformationFilter::Put2(begin, length, messageEnd, blocking);
+
+	if (channel == AAD_CHANNEL)
+		return m_hf.Put2(begin, length, 0, blocking);
+
+	throw InvalidChannelName("AuthenticatedEncryptionFilter", channel);
+}
+
+void AuthenticatedEncryptionFilter::LastPut(const byte *inString, size_t length)
+{
+	StreamTransformationFilter::LastPut(inString, length);
+	m_hf.MessageEnd();
+}
+
+// *************************************************************
+
+AuthenticatedDecryptionFilter::AuthenticatedDecryptionFilter(AuthenticatedSymmetricCipher &c, BufferedTransformation *attachment, word32 flags, int truncatedDigestSize, BlockPaddingScheme padding)
+	: FilterWithBufferedInput(attachment)
+	, m_hashVerifier(c, new OutputProxy(*this, false))
+	, m_streamFilter(c, new OutputProxy(*this, false), padding, true)
+{
+	assert(!c.IsForwardTransformation() || c.IsSelfInverting());
+	IsolatedInitialize(MakeParameters(Name::BlockPaddingScheme(), padding)(Name::AuthenticatedDecryptionFilterFlags(), flags)(Name::TruncatedDigestSize(), truncatedDigestSize));
+}
+
+void AuthenticatedDecryptionFilter::InitializeDerivedAndReturnNewSizes(const NameValuePairs &parameters, size_t &firstSize, size_t &blockSize, size_t &lastSize)
+{
+	word32 flags = parameters.GetValueWithDefault(Name::AuthenticatedDecryptionFilterFlags(), (word32)DEFAULT_FLAGS);
+
+	m_hashVerifier.Initialize(CombinedNameValuePairs(parameters, MakeParameters(Name::HashVerificationFilterFlags(), flags)));
+	m_streamFilter.Initialize(parameters);
+
+	firstSize = m_hashVerifier.m_firstSize;
+	blockSize = 1;
+	lastSize = m_hashVerifier.m_lastSize;
+}
+
+byte * AuthenticatedDecryptionFilter::ChannelCreatePutSpace(const std::string &channel, size_t &size)
+{
+	if (channel.empty())
+		return m_streamFilter.CreatePutSpace(size);
+
+	if (channel == AAD_CHANNEL)
+		return m_hashVerifier.CreatePutSpace(size);
+
+	throw InvalidChannelName("AuthenticatedDecryptionFilter", channel);
+}
+
+size_t AuthenticatedDecryptionFilter::ChannelPut2(const std::string &channel, const byte *begin, size_t length, int messageEnd, bool blocking)
+{
+	if (channel.empty())
+	{
+		if (m_lastSize > 0)
+			m_hashVerifier.ForceNextPut();
+		return FilterWithBufferedInput::Put2(begin, length, messageEnd, blocking);
+	}
+
+	if (channel == AAD_CHANNEL)
+		return m_hashVerifier.Put2(begin, length, 0, blocking);
+
+	throw InvalidChannelName("AuthenticatedDecryptionFilter", channel);
+}
+
+void AuthenticatedDecryptionFilter::FirstPut(const byte *inString)
+{
+	m_hashVerifier.Put(inString, m_firstSize);
+}
+
+void AuthenticatedDecryptionFilter::NextPutMultiple(const byte *inString, size_t length)
+{
+	m_streamFilter.Put(inString, length);
+}
+
+void AuthenticatedDecryptionFilter::LastPut(const byte *inString, size_t length)
+{
+	m_streamFilter.MessageEnd();
+	m_hashVerifier.PutMessageEnd(inString, length);
+}
+
+// *************************************************************
+
+void SignerFilter::IsolatedInitialize(const NameValuePairs &parameters)
+{
+	m_putMessage = parameters.GetValueWithDefault(Name::PutMessage(), false);
+	m_messageAccumulator.reset(m_signer.NewSignatureAccumulator(m_rng));
+}
+
+size_t SignerFilter::Put2(const byte *inString, size_t length, int messageEnd, bool blocking)
+{
+	FILTER_BEGIN;
+	m_messageAccumulator->Update(inString, length);
+	if (m_putMessage)
+		FILTER_OUTPUT(1, inString, length, 0);
+	if (messageEnd)
+	{
+		m_buf.New(m_signer.SignatureLength());
+		m_signer.Sign(m_rng, m_messageAccumulator.release(), m_buf);
+		FILTER_OUTPUT(2, m_buf, m_buf.size(), messageEnd);
+		m_messageAccumulator.reset(m_signer.NewSignatureAccumulator(m_rng));
+	}
+	FILTER_END_NO_MESSAGE_END;
+}
+
+SignatureVerificationFilter::SignatureVerificationFilter(const PK_Verifier &verifier, BufferedTransformation *attachment, word32 flags)
+	: FilterWithBufferedInput(attachment)
+	, m_verifier(verifier)
+{
+	IsolatedInitialize(MakeParameters(Name::SignatureVerificationFilterFlags(), flags));
+}
+
+void SignatureVerificationFilter::InitializeDerivedAndReturnNewSizes(const NameValuePairs &parameters, size_t &firstSize, size_t &blockSize, size_t &lastSize)
+{
+	m_flags = parameters.GetValueWithDefault(Name::SignatureVerificationFilterFlags(), (word32)
