@@ -946,4 +946,175 @@ SignatureVerificationFilter::SignatureVerificationFilter(const PK_Verifier &veri
 
 void SignatureVerificationFilter::InitializeDerivedAndReturnNewSizes(const NameValuePairs &parameters, size_t &firstSize, size_t &blockSize, size_t &lastSize)
 {
-	m_flags = parameters.GetValueWithDefault(Name::SignatureVerificationFilterFlags(), (word32)
+	m_flags = parameters.GetValueWithDefault(Name::SignatureVerificationFilterFlags(), (word32)DEFAULT_FLAGS);
+	m_messageAccumulator.reset(m_verifier.NewVerificationAccumulator());
+	size_t size = m_verifier.SignatureLength();
+	assert(size != 0);	// TODO: handle recoverable signature scheme
+	m_verified = false;
+	firstSize = m_flags & SIGNATURE_AT_BEGIN ? size : 0;
+	blockSize = 1;
+	lastSize = m_flags & SIGNATURE_AT_BEGIN ? 0 : size;
+}
+
+void SignatureVerificationFilter::FirstPut(const byte *inString)
+{
+	if (m_flags & SIGNATURE_AT_BEGIN)
+	{
+		if (m_verifier.SignatureUpfront())
+			m_verifier.InputSignature(*m_messageAccumulator, inString, m_verifier.SignatureLength());
+		else
+		{
+			m_signature.New(m_verifier.SignatureLength());
+			memcpy(m_signature, inString, m_signature.size());
+		}
+
+		if (m_flags & PUT_SIGNATURE)
+			AttachedTransformation()->Put(inString, m_signature.size());
+	}
+	else
+	{
+		assert(!m_verifier.SignatureUpfront());
+	}
+}
+
+void SignatureVerificationFilter::NextPutMultiple(const byte *inString, size_t length)
+{
+	m_messageAccumulator->Update(inString, length);
+	if (m_flags & PUT_MESSAGE)
+		AttachedTransformation()->Put(inString, length);
+}
+
+void SignatureVerificationFilter::LastPut(const byte *inString, size_t length)
+{
+	if (m_flags & SIGNATURE_AT_BEGIN)
+	{
+		assert(length == 0);
+		m_verifier.InputSignature(*m_messageAccumulator, m_signature, m_signature.size());
+		m_verified = m_verifier.VerifyAndRestart(*m_messageAccumulator);
+	}
+	else
+	{
+		m_verifier.InputSignature(*m_messageAccumulator, inString, length);
+		m_verified = m_verifier.VerifyAndRestart(*m_messageAccumulator);
+		if (m_flags & PUT_SIGNATURE)
+			AttachedTransformation()->Put(inString, length);
+	}
+
+	if (m_flags & PUT_RESULT)
+		AttachedTransformation()->Put(m_verified);
+
+	if ((m_flags & THROW_EXCEPTION) && !m_verified)
+		throw SignatureVerificationFailed();
+}
+
+// *************************************************************
+
+size_t Source::PumpAll2(bool blocking)
+{
+	unsigned int messageCount = UINT_MAX;
+	do {
+		RETURN_IF_NONZERO(PumpMessages2(messageCount, blocking));
+	} while(messageCount == UINT_MAX);
+
+	return 0;
+}
+
+bool Store::GetNextMessage()
+{
+	if (!m_messageEnd && !AnyRetrievable())
+	{
+		m_messageEnd=true;
+		return true;
+	}
+	else
+		return false;
+}
+
+unsigned int Store::CopyMessagesTo(BufferedTransformation &target, unsigned int count, const std::string &channel) const
+{
+	if (m_messageEnd || count == 0)
+		return 0;
+	else
+	{
+		CopyTo(target, ULONG_MAX, channel);
+		if (GetAutoSignalPropagation())
+			target.ChannelMessageEnd(channel, GetAutoSignalPropagation()-1);
+		return 1;
+	}
+}
+
+void StringStore::StoreInitialize(const NameValuePairs &parameters)
+{
+	ConstByteArrayParameter array;
+	if (!parameters.GetValue(Name::InputBuffer(), array))
+		throw InvalidArgument("StringStore: missing InputBuffer argument");
+	m_store = array.begin();
+	m_length = array.size();
+	m_count = 0;
+}
+
+size_t StringStore::TransferTo2(BufferedTransformation &target, lword &transferBytes, const std::string &channel, bool blocking)
+{
+	lword position = 0;
+	size_t blockedBytes = CopyRangeTo2(target, position, transferBytes, channel, blocking);
+	m_count += (size_t)position;
+	transferBytes = position;
+	return blockedBytes;
+}
+
+size_t StringStore::CopyRangeTo2(BufferedTransformation &target, lword &begin, lword end, const std::string &channel, bool blocking) const
+{
+	size_t i = UnsignedMin(m_length, m_count+begin);
+	size_t len = UnsignedMin(m_length-i, end-begin);
+	size_t blockedBytes = target.ChannelPut2(channel, m_store+i, len, 0, blocking);
+	if (!blockedBytes)
+		begin += len;
+	return blockedBytes;
+}
+
+void RandomNumberStore::StoreInitialize(const NameValuePairs &parameters)
+{
+	parameters.GetRequiredParameter("RandomNumberStore", "RandomNumberGeneratorPointer", m_rng);
+	int length;
+	parameters.GetRequiredIntParameter("RandomNumberStore", "RandomNumberStoreSize", length);
+	m_length = length;
+}
+
+size_t RandomNumberStore::TransferTo2(BufferedTransformation &target, lword &transferBytes, const std::string &channel, bool blocking)
+{
+	if (!blocking)
+		throw NotImplemented("RandomNumberStore: nonblocking transfer is not implemented by this object");
+
+	transferBytes = UnsignedMin(transferBytes, m_length - m_count);
+	m_rng->GenerateIntoBufferedTransformation(target, channel, transferBytes);
+	m_count += transferBytes;
+
+	return 0;
+}
+
+size_t NullStore::CopyRangeTo2(BufferedTransformation &target, lword &begin, lword end, const std::string &channel, bool blocking) const
+{
+	static const byte nullBytes[128] = {0};
+	while (begin < end)
+	{
+		size_t len = (size_t)STDMIN(end-begin, lword(128));
+		size_t blockedBytes = target.ChannelPut2(channel, nullBytes, len, 0, blocking);
+		if (blockedBytes)
+			return blockedBytes;
+		begin += len;
+	}
+	return 0;
+}
+
+size_t NullStore::TransferTo2(BufferedTransformation &target, lword &transferBytes, const std::string &channel, bool blocking)
+{
+	lword begin = 0;
+	size_t blockedBytes = NullStore::CopyRangeTo2(target, begin, transferBytes, channel, blocking);
+	transferBytes = begin;
+	m_size -= begin;
+	return blockedBytes;
+}
+
+NAMESPACE_END
+
+#endif
