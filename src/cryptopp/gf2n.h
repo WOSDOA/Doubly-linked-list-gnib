@@ -111,4 +111,177 @@ public:
 		byte GetByte(size_t n) const;
 
 		//! the zero polynomial will return a degree of -1
-		signed int Degree() const {return 
+		signed int Degree() const {return BitCount()-1;}
+		//! degree + 1
+		unsigned int CoefficientCount() const {return BitCount();}
+		//! return coefficient for x^i
+		int GetCoefficient(size_t i) const
+			{return (i/WORD_BITS < reg.size()) ? int(reg[i/WORD_BITS] >> (i % WORD_BITS)) & 1 : 0;}
+		//! return coefficient for x^i
+		int operator[](unsigned int i) const {return GetCoefficient(i);}
+
+		//!
+		bool IsZero() const {return !*this;}
+		//!
+		bool Equals(const PolynomialMod2 &rhs) const;
+	//@}
+
+	//! \name MANIPULATORS
+	//@{
+		//!
+		PolynomialMod2&  operator=(const PolynomialMod2& t);
+		//!
+		PolynomialMod2&  operator&=(const PolynomialMod2& t);
+		//!
+		PolynomialMod2&  operator^=(const PolynomialMod2& t);
+		//!
+		PolynomialMod2&  operator+=(const PolynomialMod2& t) {return *this ^= t;}
+		//!
+		PolynomialMod2&  operator-=(const PolynomialMod2& t) {return *this ^= t;}
+		//!
+		PolynomialMod2&  operator*=(const PolynomialMod2& t);
+		//!
+		PolynomialMod2&  operator/=(const PolynomialMod2& t);
+		//!
+		PolynomialMod2&  operator%=(const PolynomialMod2& t);
+		//!
+		PolynomialMod2&  operator<<=(unsigned int);
+		//!
+		PolynomialMod2&  operator>>=(unsigned int);
+
+		//!
+		void Randomize(RandomNumberGenerator &rng, size_t bitcount);
+
+		//!
+		void SetBit(size_t i, int value = 1);
+		//! set the n-th byte to value
+		void SetByte(size_t n, byte value);
+
+		//!
+		void SetCoefficient(size_t i, int value) {SetBit(i, value);}
+
+		//!
+		void swap(PolynomialMod2 &a) {reg.swap(a.reg);}
+	//@}
+
+	//! \name UNARY OPERATORS
+	//@{
+		//!
+		bool			operator!() const;
+		//!
+		PolynomialMod2	operator+() const {return *this;}
+		//!
+		PolynomialMod2	operator-() const {return *this;}
+	//@}
+
+	//! \name BINARY OPERATORS
+	//@{
+		//!
+		PolynomialMod2 And(const PolynomialMod2 &b) const;
+		//!
+		PolynomialMod2 Xor(const PolynomialMod2 &b) const;
+		//!
+		PolynomialMod2 Plus(const PolynomialMod2 &b) const {return Xor(b);}
+		//!
+		PolynomialMod2 Minus(const PolynomialMod2 &b) const {return Xor(b);}
+		//!
+		PolynomialMod2 Times(const PolynomialMod2 &b) const;
+		//!
+		PolynomialMod2 DividedBy(const PolynomialMod2 &b) const;
+		//!
+		PolynomialMod2 Modulo(const PolynomialMod2 &b) const;
+
+		//!
+		PolynomialMod2 operator>>(unsigned int n) const;
+		//!
+		PolynomialMod2 operator<<(unsigned int n) const;
+	//@}
+
+	//! \name OTHER ARITHMETIC FUNCTIONS
+	//@{
+		//! sum modulo 2 of all coefficients
+		unsigned int Parity() const;
+
+		//! check for irreducibility
+		bool IsIrreducible() const;
+
+		//! is always zero since we're working modulo 2
+		PolynomialMod2 Doubled() const {return Zero();}
+		//!
+		PolynomialMod2 Squared() const;
+
+		//! only 1 is a unit
+		bool IsUnit() const {return Equals(One());}
+		//! return inverse if *this is a unit, otherwise return 0
+		PolynomialMod2 MultiplicativeInverse() const {return IsUnit() ? One() : Zero();}
+
+		//! greatest common divisor
+		static PolynomialMod2 CRYPTOPP_API Gcd(const PolynomialMod2 &a, const PolynomialMod2 &n);
+		//! calculate multiplicative inverse of *this mod n
+		PolynomialMod2 InverseMod(const PolynomialMod2 &) const;
+
+		//! calculate r and q such that (a == d*q + r) && (deg(r) < deg(d))
+		static void CRYPTOPP_API Divide(PolynomialMod2 &r, PolynomialMod2 &q, const PolynomialMod2 &a, const PolynomialMod2 &d);
+	//@}
+
+	//! \name INPUT/OUTPUT
+	//@{
+		//!
+		friend std::ostream& operator<<(std::ostream& out, const PolynomialMod2 &a);
+	//@}
+
+private:
+	friend class GF2NT;
+
+	SecWordBlock reg;
+};
+
+//!
+inline bool operator==(const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b)
+{return a.Equals(b);}
+//!
+inline bool operator!=(const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b)
+{return !(a==b);}
+//! compares degree
+inline bool operator> (const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b)
+{return a.Degree() > b.Degree();}
+//! compares degree
+inline bool operator>=(const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b)
+{return a.Degree() >= b.Degree();}
+//! compares degree
+inline bool operator< (const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b)
+{return a.Degree() < b.Degree();}
+//! compares degree
+inline bool operator<=(const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b)
+{return a.Degree() <= b.Degree();}
+//!
+inline CryptoPP::PolynomialMod2 operator&(const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b) {return a.And(b);}
+//!
+inline CryptoPP::PolynomialMod2 operator^(const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b) {return a.Xor(b);}
+//!
+inline CryptoPP::PolynomialMod2 operator+(const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b) {return a.Plus(b);}
+//!
+inline CryptoPP::PolynomialMod2 operator-(const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b) {return a.Minus(b);}
+//!
+inline CryptoPP::PolynomialMod2 operator*(const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b) {return a.Times(b);}
+//!
+inline CryptoPP::PolynomialMod2 operator/(const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b) {return a.DividedBy(b);}
+//!
+inline CryptoPP::PolynomialMod2 operator%(const CryptoPP::PolynomialMod2 &a, const CryptoPP::PolynomialMod2 &b) {return a.Modulo(b);}
+
+// CodeWarrior 8 workaround: put these template instantiations after overloaded operator declarations,
+// but before the use of QuotientRing<EuclideanDomainOf<PolynomialMod2> > for VC .NET 2003
+CRYPTOPP_DLL_TEMPLATE_CLASS AbstractGroup<PolynomialMod2>;
+CRYPTOPP_DLL_TEMPLATE_CLASS AbstractRing<PolynomialMod2>;
+CRYPTOPP_DLL_TEMPLATE_CLASS AbstractEuclideanDomain<PolynomialMod2>;
+CRYPTOPP_DLL_TEMPLATE_CLASS EuclideanDomainOf<PolynomialMod2>;
+CRYPTOPP_DLL_TEMPLATE_CLASS QuotientRing<EuclideanDomainOf<PolynomialMod2> >;
+
+//! GF(2^n) with Polynomial Basis
+class CRYPTOPP_DLL GF2NP : public QuotientRing<EuclideanDomainOf<PolynomialMod2> >
+{
+public:
+	GF2NP(const PolynomialMod2 &modulus);
+
+	virtual GF2NP * Clone() const {return new GF2NP(*this);}
+	virtual v
