@@ -284,4 +284,86 @@ public:
 	GF2NP(const PolynomialMod2 &modulus);
 
 	virtual GF2NP * Clone() const {return new GF2NP(*this);}
-	virtual v
+	virtual void DEREncode(BufferedTransformation &bt) const
+		{assert(false);}	// no ASN.1 syntax yet for general polynomial basis
+
+	void DEREncodeElement(BufferedTransformation &out, const Element &a) const;
+	void BERDecodeElement(BufferedTransformation &in, Element &a) const;
+
+	bool Equal(const Element &a, const Element &b) const
+		{assert(a.Degree() < m_modulus.Degree() && b.Degree() < m_modulus.Degree()); return a.Equals(b);}
+
+	bool IsUnit(const Element &a) const
+		{assert(a.Degree() < m_modulus.Degree()); return !!a;}
+
+	unsigned int MaxElementBitLength() const
+		{return m;}
+
+	unsigned int MaxElementByteLength() const
+		{return (unsigned int)BitsToBytes(MaxElementBitLength());}
+
+	Element SquareRoot(const Element &a) const;
+
+	Element HalfTrace(const Element &a) const;
+
+	// returns z such that z^2 + z == a
+	Element SolveQuadraticEquation(const Element &a) const;
+
+protected:
+	unsigned int m;
+};
+
+//! GF(2^n) with Trinomial Basis
+class CRYPTOPP_DLL GF2NT : public GF2NP
+{
+public:
+	// polynomial modulus = x^t0 + x^t1 + x^t2, t0 > t1 > t2
+	GF2NT(unsigned int t0, unsigned int t1, unsigned int t2);
+
+	GF2NP * Clone() const {return new GF2NT(*this);}
+	void DEREncode(BufferedTransformation &bt) const;
+
+	const Element& Multiply(const Element &a, const Element &b) const;
+
+	const Element& Square(const Element &a) const
+		{return Reduced(a.Squared());}
+
+	const Element& MultiplicativeInverse(const Element &a) const;
+
+private:
+	const Element& Reduced(const Element &a) const;
+
+	unsigned int t0, t1;
+	mutable PolynomialMod2 result;
+};
+
+//! GF(2^n) with Pentanomial Basis
+class CRYPTOPP_DLL GF2NPP : public GF2NP
+{
+public:
+	// polynomial modulus = x^t0 + x^t1 + x^t2 + x^t3 + x^t4, t0 > t1 > t2 > t3 > t4
+	GF2NPP(unsigned int t0, unsigned int t1, unsigned int t2, unsigned int t3, unsigned int t4)
+		: GF2NP(PolynomialMod2::Pentanomial(t0, t1, t2, t3, t4)), t0(t0), t1(t1), t2(t2), t3(t3) {}
+
+	GF2NP * Clone() const {return new GF2NPP(*this);}
+	void DEREncode(BufferedTransformation &bt) const;
+
+private:
+	unsigned int t0, t1, t2, t3;
+};
+
+// construct new GF2NP from the ASN.1 sequence Characteristic-two
+CRYPTOPP_DLL GF2NP * CRYPTOPP_API BERDecodeGF2NP(BufferedTransformation &bt);
+
+NAMESPACE_END
+
+#ifndef __BORLANDC__
+NAMESPACE_BEGIN(std)
+template<> inline void swap(CryptoPP::PolynomialMod2 &a, CryptoPP::PolynomialMod2 &b)
+{
+	a.swap(b);
+}
+NAMESPACE_END
+#endif
+
+#endif
