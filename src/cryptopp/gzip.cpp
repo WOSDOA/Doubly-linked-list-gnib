@@ -49,4 +49,51 @@ void Gunzip::ProcessPrestreamHeader()
 	byte buf[6];
 	byte b, flags;
 
-	if (m_inQueue.Get(buf, 2)!=2) throw HeaderErr
+	if (m_inQueue.Get(buf, 2)!=2) throw HeaderErr();
+	if (buf[0] != MAGIC1 || buf[1] != MAGIC2) throw HeaderErr();
+	if (!m_inQueue.Skip(1)) throw HeaderErr();	 // skip extra flags
+	if (!m_inQueue.Get(flags)) throw HeaderErr();
+	if (flags & (ENCRYPTED | CONTINUED)) throw HeaderErr();
+	if (m_inQueue.Skip(6)!=6) throw HeaderErr();    // Skip file time, extra flags and OS type
+
+	if (flags & EXTRA_FIELDS)	// skip extra fields
+	{
+		word16 length;
+		if (m_inQueue.GetWord16(length, LITTLE_ENDIAN_ORDER) != 2) throw HeaderErr();
+		if (m_inQueue.Skip(length)!=length) throw HeaderErr();
+	}
+
+	if (flags & FILENAME)	// skip filename
+		do
+			if(!m_inQueue.Get(b)) throw HeaderErr();
+		while (b);
+
+	if (flags & COMMENTS)	// skip comments
+		do
+			if(!m_inQueue.Get(b)) throw HeaderErr();
+		while (b);
+}
+
+void Gunzip::ProcessDecompressedData(const byte *inString, size_t length)
+{
+	AttachedTransformation()->Put(inString, length);
+	m_crc.Update(inString, length);
+	m_length += (word32)length;
+}
+
+void Gunzip::ProcessPoststreamTail()
+{
+	SecByteBlock crc(4);
+	if (m_inQueue.Get(crc, 4) != 4)
+		throw TailErr();
+	if (!m_crc.Verify(crc))
+		throw CrcErr();
+
+	word32 lengthCheck;
+	if (m_inQueue.GetWord32(lengthCheck, LITTLE_ENDIAN_ORDER) != 4)
+		throw TailErr();
+	if (lengthCheck != m_length)
+		throw LengthErr();
+}
+
+NAMESPACE_END
