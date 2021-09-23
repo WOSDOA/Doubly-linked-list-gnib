@@ -95,4 +95,221 @@ void RawIDA::ChannelData(word32 channelId, const byte *inString, size_t length, 
 		if (size < 4 && size + length >= 4)
 		{
 			m_channelsReady++;
-			if (m_channelsRea
+			if (m_channelsReady == m_threshold)
+				ProcessInputQueues();
+		}
+
+		if (messageEnd)
+		{
+			m_inputQueues[i].MessageEnd();
+			if (m_inputQueues[i].NumberOfMessages() == 1)
+			{
+				m_channelsFinished++;
+				if (m_channelsFinished == m_threshold)
+				{
+					m_channelsReady = 0;
+					for (i=0; i<m_threshold; i++)
+						m_channelsReady += m_inputQueues[i].AnyRetrievable();
+					ProcessInputQueues();
+				}
+			}
+		}
+	}
+}
+
+lword RawIDA::InputBuffered(word32 channelId) const
+{
+	int i = LookupInputChannel(channelId);
+	return i < m_threshold ? m_inputQueues[i].MaxRetrievable() : 0;
+}
+
+void RawIDA::ComputeV(unsigned int i)
+{
+	if (i >= m_v.size())
+	{
+		m_v.resize(i+1);
+		m_outputToInput.resize(i+1);
+	}
+
+	m_outputToInput[i] = LookupInputChannel(m_outputChannelIds[i]);
+	if (m_outputToInput[i] == m_threshold && i * m_threshold <= 1000*1000)
+	{
+		m_v[i].resize(m_threshold);
+		PrepareBulkPolynomialInterpolationAt(field, m_v[i].begin(), m_outputChannelIds[i], &(m_inputChannelIds[0]), m_w.begin(), m_threshold);
+	}
+}
+
+void RawIDA::AddOutputChannel(word32 channelId)
+{
+	m_outputChannelIds.push_back(channelId);
+	m_outputChannelIdStrings.push_back(WordToString(channelId));
+	m_outputQueues.push_back(ByteQueue());
+	if (m_inputChannelIds.size() == m_threshold)
+		ComputeV((unsigned int)m_outputChannelIds.size() - 1);
+}
+
+void RawIDA::PrepareInterpolation()
+{
+	assert(m_inputChannelIds.size() == m_threshold);
+	PrepareBulkPolynomialInterpolation(field, m_w.begin(), &(m_inputChannelIds[0]), m_threshold);
+	for (unsigned int i=0; i<m_outputChannelIds.size(); i++)
+		ComputeV(i);
+}
+
+void RawIDA::ProcessInputQueues()
+{
+	bool finished = (m_channelsFinished == m_threshold);
+	int i;
+
+	while (finished ? m_channelsReady > 0 : m_channelsReady == m_threshold)
+	{
+		m_channelsReady = 0;
+		for (i=0; i<m_threshold; i++)
+		{
+			MessageQueue &queue = m_inputQueues[i];
+			queue.GetWord32(m_y[i]);
+
+			if (finished)
+				m_channelsReady += queue.AnyRetrievable();
+			else
+				m_channelsReady += queue.NumberOfMessages() > 0 || queue.MaxRetrievable() >= 4;
+		}
+
+		for (i=0; (unsigned int)i<m_outputChannelIds.size(); i++)
+		{
+			if (m_outputToInput[i] != m_threshold)
+				m_outputQueues[i].PutWord32(m_y[m_outputToInput[i]]);
+			else if (m_v[i].size() == m_threshold)
+				m_outputQueues[i].PutWord32(BulkPolynomialInterpolateAt(field, m_y.begin(), m_v[i].begin(), m_threshold));
+			else
+			{
+				m_u.resize(m_threshold);
+				PrepareBulkPolynomialInterpolationAt(field, m_u.begin(), m_outputChannelIds[i], &(m_inputChannelIds[0]), m_w.begin(), m_threshold);
+				m_outputQueues[i].PutWord32(BulkPolynomialInterpolateAt(field, m_y.begin(), m_u.begin(), m_threshold));
+			}
+		}
+	}
+
+	if (m_outputChannelIds.size() > 0 && m_outputQueues[0].AnyRetrievable())
+		FlushOutputQueues();
+
+	if (finished)
+	{
+		OutputMessageEnds();
+
+		m_channelsReady = 0;
+		m_channelsFinished = 0;
+		m_v.clear();
+
+		vector<MessageQueue> inputQueues;
+		vector<word32> inputChannelIds;
+
+		inputQueues.swap(m_inputQueues);
+		inputChannelIds.swap(m_inputChannelIds);
+		m_inputChannelMap.clear();
+		m_lastMapPosition = m_inputChannelMap.end();
+
+		for (i=0; i<m_threshold; i++)
+		{
+			inputQueues[i].GetNextMessage();
+			inputQueues[i].TransferAllTo(*AttachedTransformation(), WordToString(inputChannelIds[i]));
+		}
+	}
+}
+
+void RawIDA::FlushOutputQueues()
+{
+	for (unsigned int i=0; i<m_outputChannelIds.size(); i++)
+		m_outputQueues[i].TransferAllTo(*AttachedTransformation(), m_outputChannelIdStrings[i]);
+}
+
+void RawIDA::OutputMessageEnds()
+{
+	if (GetAutoSignalPropagation() != 0)
+	{
+		for (unsigned int i=0; i<m_outputChannelIds.size(); i++)
+			AttachedTransformation()->ChannelMessageEnd(m_outputChannelIdStrings[i], GetAutoSignalPropagation()-1);
+	}
+}
+
+// ****************************************************************
+
+void SecretSharing::IsolatedInitialize(const NameValuePairs &parameters)
+{
+	m_pad = parameters.GetValueWithDefault("AddPadding", true);
+	m_ida.IsolatedInitialize(parameters);
+}
+
+size_t SecretSharing::Put2(const byte *begin, size_t length, int messageEnd, bool blocking)
+{
+	if (!blocking)
+		throw BlockingInputOnly("SecretSharing");
+
+	SecByteBlock buf(UnsignedMin(256, length));
+	unsigned int threshold = m_ida.GetThreshold();
+	while (length > 0)
+	{
+		size_t len = STDMIN(length, buf.size());
+		m_ida.ChannelData(0xffffffff, begin, len, false);
+		for (unsigned int i=0; i<threshold-1; i++)
+		{
+			m_rng.GenerateBlock(buf, len);
+			m_ida.ChannelData(i, buf, len, false);
+		}
+		length -= len;
+		begin += len;
+	}
+
+	if (messageEnd)
+	{
+		m_ida.SetAutoSignalPropagation(messageEnd-1);
+		if (m_pad)
+		{
+			SecretSharing::Put(1);
+			while (m_ida.InputBuffered(0xffffffff) > 0)
+				SecretSharing::Put(0);
+		}
+		m_ida.ChannelData(0xffffffff, NULL, 0, true);
+		for (unsigned int i=0; i<m_ida.GetThreshold()-1; i++)
+			m_ida.ChannelData(i, NULL, 0, true);
+	}
+
+	return 0;
+}
+
+void SecretRecovery::IsolatedInitialize(const NameValuePairs &parameters)
+{
+	m_pad = parameters.GetValueWithDefault("RemovePadding", true);
+	RawIDA::IsolatedInitialize(CombinedNameValuePairs(parameters, MakeParameters("OutputChannelID", (word32)0xffffffff)));
+}
+
+void SecretRecovery::FlushOutputQueues()
+{
+	if (m_pad)
+		m_outputQueues[0].TransferTo(*AttachedTransformation(), m_outputQueues[0].MaxRetrievable()-4);
+	else
+		m_outputQueues[0].TransferTo(*AttachedTransformation());
+}
+
+void SecretRecovery::OutputMessageEnds()
+{
+	if (m_pad)
+	{
+		PaddingRemover paddingRemover(new Redirector(*AttachedTransformation()));
+		m_outputQueues[0].TransferAllTo(paddingRemover);
+	}
+
+	if (GetAutoSignalPropagation() != 0)
+		AttachedTransformation()->MessageEnd(GetAutoSignalPropagation()-1);
+}
+
+// ****************************************************************
+
+void InformationDispersal::IsolatedInitialize(const NameValuePairs &parameters)
+{
+	m_nextChannel = 0;
+	m_pad = parameters.GetValueWithDefault("AddPadding", true);
+	m_ida.IsolatedInitialize(parameters);
+}
+
+size_t InformationDispersal::Put2(const byte *begin, size_t length, int messageEnd, bo
