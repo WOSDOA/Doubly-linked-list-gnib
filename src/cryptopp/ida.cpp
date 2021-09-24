@@ -312,4 +312,110 @@ void InformationDispersal::IsolatedInitialize(const NameValuePairs &parameters)
 	m_ida.IsolatedInitialize(parameters);
 }
 
-size_t InformationDispersal::Put2(const byte *begin, size_t length, int messageEnd, bo
+size_t InformationDispersal::Put2(const byte *begin, size_t length, int messageEnd, bool blocking)
+{
+	if (!blocking)
+		throw BlockingInputOnly("InformationDispersal");
+	
+	while (length--)
+	{
+		m_ida.ChannelData(m_nextChannel, begin, 1, false);
+		begin++;
+		m_nextChannel++;
+		if (m_nextChannel == m_ida.GetThreshold())
+			m_nextChannel = 0;
+	}
+
+	if (messageEnd)
+	{
+		m_ida.SetAutoSignalPropagation(messageEnd-1);
+		if (m_pad)
+			InformationDispersal::Put(1);
+		for (word32 i=0; i<m_ida.GetThreshold(); i++)
+			m_ida.ChannelData(i, NULL, 0, true);
+	}
+
+	return 0;
+}
+
+void InformationRecovery::IsolatedInitialize(const NameValuePairs &parameters)
+{
+	m_pad = parameters.GetValueWithDefault("RemovePadding", true);
+	RawIDA::IsolatedInitialize(parameters);
+}
+
+void InformationRecovery::FlushOutputQueues()
+{
+	while (m_outputQueues[0].AnyRetrievable())
+	{
+		for (unsigned int i=0; i<m_outputChannelIds.size(); i++)
+			m_outputQueues[i].TransferTo(m_queue, 1);
+	}
+
+	if (m_pad)
+		m_queue.TransferTo(*AttachedTransformation(), m_queue.MaxRetrievable()-4*m_threshold);
+	else
+		m_queue.TransferTo(*AttachedTransformation());
+}
+
+void InformationRecovery::OutputMessageEnds()
+{
+	if (m_pad)
+	{
+		PaddingRemover paddingRemover(new Redirector(*AttachedTransformation()));
+		m_queue.TransferAllTo(paddingRemover);
+	}
+
+	if (GetAutoSignalPropagation() != 0)
+		AttachedTransformation()->MessageEnd(GetAutoSignalPropagation()-1);
+}
+
+size_t PaddingRemover::Put2(const byte *begin, size_t length, int messageEnd, bool blocking)
+{
+	if (!blocking)
+		throw BlockingInputOnly("PaddingRemover");
+
+	const byte *const end = begin + length;
+
+	if (m_possiblePadding)
+	{
+		size_t len = find_if(begin, end, bind2nd(not_equal_to<byte>(), 0)) - begin;
+		m_zeroCount += len;
+		begin += len;
+		if (begin == end)
+			return 0;
+
+		AttachedTransformation()->Put(1);
+		while (m_zeroCount--)
+			AttachedTransformation()->Put(0);
+		AttachedTransformation()->Put(*begin++);
+		m_possiblePadding = false;
+	}
+
+#if defined(_MSC_VER) && !defined(__MWERKS__) && (_MSC_VER <= 1300)
+	// VC60 and VC7 workaround: built-in reverse_iterator has two template parameters, Dinkumware only has one
+	typedef reverse_bidirectional_iterator<const byte *, const byte> RevIt;
+#elif defined(_RWSTD_NO_CLASS_PARTIAL_SPEC)
+	typedef reverse_iterator<const byte *, random_access_iterator_tag, const byte> RevIt;
+#else
+	typedef reverse_iterator<const byte *> RevIt;
+#endif
+	const byte *x = find_if(RevIt(end), RevIt(begin), bind2nd(not_equal_to<byte>(), 0)).base();
+	if (x != begin && *(x-1) == 1)
+	{
+		AttachedTransformation()->Put(begin, x-begin-1);
+		m_possiblePadding = true;
+		m_zeroCount = end - x;
+	}
+	else
+		AttachedTransformation()->Put(begin, end-begin);
+
+	if (messageEnd)
+	{
+		m_possiblePadding = false;
+		Output(0, begin, length, messageEnd, blocking);
+	}
+	return 0;
+}
+
+NAMESPACE_END
