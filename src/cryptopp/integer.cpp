@@ -4035,3 +4035,202 @@ void ModularArithmetic::DEREncodeElement(BufferedTransformation &out, const Elem
 void ModularArithmetic::BERDecodeElement(BufferedTransformation &in, Element &a) const
 {
 	a.BERDecodeAsOctetString(in, MaxElementByteLength());
+}
+
+const Integer& ModularArithmetic::Half(const Integer &a) const
+{
+	if (a.reg.size()==m_modulus.reg.size())
+	{
+		CryptoPP::DivideByPower2Mod(m_result.reg.begin(), a.reg, 1, m_modulus.reg, a.reg.size());
+		return m_result;
+	}
+	else
+		return m_result1 = (a.IsEven() ? (a >> 1) : ((a+m_modulus) >> 1));
+}
+
+const Integer& ModularArithmetic::Add(const Integer &a, const Integer &b) const
+{
+	if (a.reg.size()==m_modulus.reg.size() && b.reg.size()==m_modulus.reg.size())
+	{
+		if (CryptoPP::Add(m_result.reg.begin(), a.reg, b.reg, a.reg.size())
+			|| Compare(m_result.reg, m_modulus.reg, a.reg.size()) >= 0)
+		{
+			CryptoPP::Subtract(m_result.reg.begin(), m_result.reg, m_modulus.reg, a.reg.size());
+		}
+		return m_result;
+	}
+	else
+	{
+		m_result1 = a+b;
+		if (m_result1 >= m_modulus)
+			m_result1 -= m_modulus;
+		return m_result1;
+	}
+}
+
+Integer& ModularArithmetic::Accumulate(Integer &a, const Integer &b) const
+{
+	if (a.reg.size()==m_modulus.reg.size() && b.reg.size()==m_modulus.reg.size())
+	{
+		if (CryptoPP::Add(a.reg, a.reg, b.reg, a.reg.size())
+			|| Compare(a.reg, m_modulus.reg, a.reg.size()) >= 0)
+		{
+			CryptoPP::Subtract(a.reg, a.reg, m_modulus.reg, a.reg.size());
+		}
+	}
+	else
+	{
+		a+=b;
+		if (a>=m_modulus)
+			a-=m_modulus;
+	}
+
+	return a;
+}
+
+const Integer& ModularArithmetic::Subtract(const Integer &a, const Integer &b) const
+{
+	if (a.reg.size()==m_modulus.reg.size() && b.reg.size()==m_modulus.reg.size())
+	{
+		if (CryptoPP::Subtract(m_result.reg.begin(), a.reg, b.reg, a.reg.size()))
+			CryptoPP::Add(m_result.reg.begin(), m_result.reg, m_modulus.reg, a.reg.size());
+		return m_result;
+	}
+	else
+	{
+		m_result1 = a-b;
+		if (m_result1.IsNegative())
+			m_result1 += m_modulus;
+		return m_result1;
+	}
+}
+
+Integer& ModularArithmetic::Reduce(Integer &a, const Integer &b) const
+{
+	if (a.reg.size()==m_modulus.reg.size() && b.reg.size()==m_modulus.reg.size())
+	{
+		if (CryptoPP::Subtract(a.reg, a.reg, b.reg, a.reg.size()))
+			CryptoPP::Add(a.reg, a.reg, m_modulus.reg, a.reg.size());
+	}
+	else
+	{
+		a-=b;
+		if (a.IsNegative())
+			a+=m_modulus;
+	}
+
+	return a;
+}
+
+const Integer& ModularArithmetic::Inverse(const Integer &a) const
+{
+	if (!a)
+		return a;
+
+	CopyWords(m_result.reg.begin(), m_modulus.reg, m_modulus.reg.size());
+	if (CryptoPP::Subtract(m_result.reg.begin(), m_result.reg, a.reg, a.reg.size()))
+		Decrement(m_result.reg.begin()+a.reg.size(), m_modulus.reg.size()-a.reg.size());
+
+	return m_result;
+}
+
+Integer ModularArithmetic::CascadeExponentiate(const Integer &x, const Integer &e1, const Integer &y, const Integer &e2) const
+{
+	if (m_modulus.IsOdd())
+	{
+		MontgomeryRepresentation dr(m_modulus);
+		return dr.ConvertOut(dr.CascadeExponentiate(dr.ConvertIn(x), e1, dr.ConvertIn(y), e2));
+	}
+	else
+		return AbstractRing<Integer>::CascadeExponentiate(x, e1, y, e2);
+}
+
+void ModularArithmetic::SimultaneousExponentiate(Integer *results, const Integer &base, const Integer *exponents, unsigned int exponentsCount) const
+{
+	if (m_modulus.IsOdd())
+	{
+		MontgomeryRepresentation dr(m_modulus);
+		dr.SimultaneousExponentiate(results, dr.ConvertIn(base), exponents, exponentsCount);
+		for (unsigned int i=0; i<exponentsCount; i++)
+			results[i] = dr.ConvertOut(results[i]);
+	}
+	else
+		AbstractRing<Integer>::SimultaneousExponentiate(results, base, exponents, exponentsCount);
+}
+
+MontgomeryRepresentation::MontgomeryRepresentation(const Integer &m)	// modulus must be odd
+	: ModularArithmetic(m),
+	  m_u((word)0, m_modulus.reg.size()),
+	  m_workspace(5*m_modulus.reg.size())
+{
+	if (!m_modulus.IsOdd())
+		throw InvalidArgument("MontgomeryRepresentation: Montgomery representation requires an odd modulus");
+
+	RecursiveInverseModPower2(m_u.reg, m_workspace, m_modulus.reg, m_modulus.reg.size());
+}
+
+const Integer& MontgomeryRepresentation::Multiply(const Integer &a, const Integer &b) const
+{
+	word *const T = m_workspace.begin();
+	word *const R = m_result.reg.begin();
+	const size_t N = m_modulus.reg.size();
+	assert(a.reg.size()<=N && b.reg.size()<=N);
+
+	AsymmetricMultiply(T, T+2*N, a.reg, a.reg.size(), b.reg, b.reg.size());
+	SetWords(T+a.reg.size()+b.reg.size(), 0, 2*N-a.reg.size()-b.reg.size());
+	MontgomeryReduce(R, T+2*N, T, m_modulus.reg, m_u.reg, N);
+	return m_result;
+}
+
+const Integer& MontgomeryRepresentation::Square(const Integer &a) const
+{
+	word *const T = m_workspace.begin();
+	word *const R = m_result.reg.begin();
+	const size_t N = m_modulus.reg.size();
+	assert(a.reg.size()<=N);
+
+	CryptoPP::Square(T, T+2*N, a.reg, a.reg.size());
+	SetWords(T+2*a.reg.size(), 0, 2*N-2*a.reg.size());
+	MontgomeryReduce(R, T+2*N, T, m_modulus.reg, m_u.reg, N);
+	return m_result;
+}
+
+Integer MontgomeryRepresentation::ConvertOut(const Integer &a) const
+{
+	word *const T = m_workspace.begin();
+	word *const R = m_result.reg.begin();
+	const size_t N = m_modulus.reg.size();
+	assert(a.reg.size()<=N);
+
+	CopyWords(T, a.reg, a.reg.size());
+	SetWords(T+a.reg.size(), 0, 2*N-a.reg.size());
+	MontgomeryReduce(R, T+2*N, T, m_modulus.reg, m_u.reg, N);
+	return m_result;
+}
+
+const Integer& MontgomeryRepresentation::MultiplicativeInverse(const Integer &a) const
+{
+//	  return (EuclideanMultiplicativeInverse(a, modulus)<<(2*WORD_BITS*modulus.reg.size()))%modulus;
+	word *const T = m_workspace.begin();
+	word *const R = m_result.reg.begin();
+	const size_t N = m_modulus.reg.size();
+	assert(a.reg.size()<=N);
+
+	CopyWords(T, a.reg, a.reg.size());
+	SetWords(T+a.reg.size(), 0, 2*N-a.reg.size());
+	MontgomeryReduce(R, T+2*N, T, m_modulus.reg, m_u.reg, N);
+	unsigned k = AlmostInverse(R, T, R, N, m_modulus.reg, N);
+
+//	cout << "k=" << k << " N*32=" << 32*N << endl;
+
+	if (k>N*WORD_BITS)
+		DivideByPower2Mod(R, R, k-N*WORD_BITS, m_modulus.reg, N);
+	else
+		MultiplyByPower2Mod(R, R, N*WORD_BITS-k, m_modulus.reg, N);
+
+	return m_result;
+}
+
+NAMESPACE_END
+
+#endif
