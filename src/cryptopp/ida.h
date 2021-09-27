@@ -95,4 +95,58 @@ protected:
 class InformationDispersal : public CustomFlushPropagation<Filter>
 {
 public:
-	InformationDispersal(int threshold, int nShares, BufferedTransformation *attachment=NULL, bool addP
+	InformationDispersal(int threshold, int nShares, BufferedTransformation *attachment=NULL, bool addPadding=true)
+		: m_ida(new OutputProxy(*this, true))
+	{
+		Detach(attachment);
+		IsolatedInitialize(MakeParameters("RecoveryThreshold", threshold)("NumberOfShares", nShares)("AddPadding", addPadding));
+	}
+
+	void IsolatedInitialize(const NameValuePairs &parameters=g_nullNameValuePairs);
+	size_t Put2(const byte *begin, size_t length, int messageEnd, bool blocking);
+	bool Flush(bool hardFlush, int propagation=-1, bool blocking=true) {return m_ida.Flush(hardFlush, propagation, blocking);}
+
+protected:
+	RawIDA m_ida;
+	bool m_pad;
+	unsigned int m_nextChannel;
+};
+
+/// a variant of Rabin's Information Dispersal Algorithm
+class InformationRecovery : public RawIDA
+{
+public:
+	InformationRecovery(int threshold, BufferedTransformation *attachment=NULL, bool removePadding=true)
+		: RawIDA(attachment)
+		{IsolatedInitialize(MakeParameters("RecoveryThreshold", threshold)("RemovePadding", removePadding));}
+
+	void IsolatedInitialize(const NameValuePairs &parameters=g_nullNameValuePairs);
+
+protected:
+	void FlushOutputQueues();
+	void OutputMessageEnds();
+
+	bool m_pad;
+	ByteQueue m_queue;
+};
+
+class PaddingRemover : public Unflushable<Filter>
+{
+public:
+	PaddingRemover(BufferedTransformation *attachment=NULL)
+		: m_possiblePadding(false) {Detach(attachment);}
+
+	void IsolatedInitialize(const NameValuePairs &parameters) {m_possiblePadding = false;}
+	size_t Put2(const byte *begin, size_t length, int messageEnd, bool blocking);
+
+	// GetPossiblePadding() == false at the end of a message indicates incorrect padding
+	bool GetPossiblePadding() const {return m_possiblePadding;}
+
+private:
+	bool m_possiblePadding;
+	lword m_zeroCount;
+};
+
+NAMESPACE_END
+
+#endif
