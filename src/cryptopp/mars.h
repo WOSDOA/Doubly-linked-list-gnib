@@ -46,4 +46,9 @@ public:
 	typedef BlockCipherFinal<DECRYPTION, Dec> Decryption;
 };
 
-type
+typedef MARS::Encryption MARSEncryption;
+typedef MARS::Decryption MARSDecryption;
+
+NAMESPACE_END
+
+#endif
