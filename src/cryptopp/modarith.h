@@ -44,4 +44,115 @@ public:
 	virtual bool IsMontgomeryRepresentation() const {return false;}
 
 	virtual Integer ConvertIn(const Integer &a) const
-		{retu
+		{return a%m_modulus;}
+
+	virtual Integer ConvertOut(const Integer &a) const
+		{return a;}
+
+	const Integer& Half(const Integer &a) const;
+
+	bool Equal(const Integer &a, const Integer &b) const
+		{return a==b;}
+
+	const Integer& Identity() const
+		{return Integer::Zero();}
+
+	const Integer& Add(const Integer &a, const Integer &b) const;
+
+	Integer& Accumulate(Integer &a, const Integer &b) const;
+
+	const Integer& Inverse(const Integer &a) const;
+
+	const Integer& Subtract(const Integer &a, const Integer &b) const;
+
+	Integer& Reduce(Integer &a, const Integer &b) const;
+
+	const Integer& Double(const Integer &a) const
+		{return Add(a, a);}
+
+	const Integer& MultiplicativeIdentity() const
+		{return Integer::One();}
+
+	const Integer& Multiply(const Integer &a, const Integer &b) const
+		{return m_result1 = a*b%m_modulus;}
+
+	const Integer& Square(const Integer &a) const
+		{return m_result1 = a.Squared()%m_modulus;}
+
+	bool IsUnit(const Integer &a) const
+		{return Integer::Gcd(a, m_modulus).IsUnit();}
+
+	const Integer& MultiplicativeInverse(const Integer &a) const
+		{return m_result1 = a.InverseMod(m_modulus);}
+
+	const Integer& Divide(const Integer &a, const Integer &b) const
+		{return Multiply(a, MultiplicativeInverse(b));}
+
+	Integer CascadeExponentiate(const Integer &x, const Integer &e1, const Integer &y, const Integer &e2) const;
+
+	void SimultaneousExponentiate(Element *results, const Element &base, const Integer *exponents, unsigned int exponentsCount) const;
+
+	unsigned int MaxElementBitLength() const
+		{return (m_modulus-1).BitCount();}
+
+	unsigned int MaxElementByteLength() const
+		{return (m_modulus-1).ByteCount();}
+
+	Element RandomElement( RandomNumberGenerator &rng , const RandomizationParameter &ignore_for_now = 0 ) const
+		// left RandomizationParameter arg as ref in case RandomizationParameter becomes a more complicated struct
+	{ 
+		return Element( rng , Integer( (long) 0) , m_modulus - Integer( (long) 1 )   ) ; 
+	}   
+
+	bool operator==(const ModularArithmetic &rhs) const
+		{return m_modulus == rhs.m_modulus;}
+
+	static const RandomizationParameter DefaultRandomizationParameter ;
+
+protected:
+	Integer m_modulus;
+	mutable Integer m_result, m_result1;
+
+};
+
+// const ModularArithmetic::RandomizationParameter ModularArithmetic::DefaultRandomizationParameter = 0 ;
+
+//! do modular arithmetics in Montgomery representation for increased speed
+/*! \note the Montgomery representation represents each congruence class [a] as a*r%n, where r is a convenient power of 2 */
+class CRYPTOPP_DLL MontgomeryRepresentation : public ModularArithmetic
+{
+public:
+	MontgomeryRepresentation(const Integer &modulus);	// modulus must be odd
+
+	virtual ModularArithmetic * Clone() const {return new MontgomeryRepresentation(*this);}
+
+	bool IsMontgomeryRepresentation() const {return true;}
+
+	Integer ConvertIn(const Integer &a) const
+		{return (a<<(WORD_BITS*m_modulus.reg.size()))%m_modulus;}
+
+	Integer ConvertOut(const Integer &a) const;
+
+	const Integer& MultiplicativeIdentity() const
+		{return m_result1 = Integer::Power2(WORD_BITS*m_modulus.reg.size())%m_modulus;}
+
+	const Integer& Multiply(const Integer &a, const Integer &b) const;
+
+	const Integer& Square(const Integer &a) const;
+
+	const Integer& MultiplicativeInverse(const Integer &a) const;
+
+	Integer CascadeExponentiate(const Integer &x, const Integer &e1, const Integer &y, const Integer &e2) const
+		{return AbstractRing<Integer>::CascadeExponentiate(x, e1, y, e2);}
+
+	void SimultaneousExponentiate(Element *results, const Element &base, const Integer *exponents, unsigned int exponentsCount) const
+		{AbstractRing<Integer>::SimultaneousExponentiate(results, base, exponents, exponentsCount);}
+
+private:
+	Integer m_u;
+	mutable IntegerSecBlock m_workspace;
+};
+
+NAMESPACE_END
+
+#endif
