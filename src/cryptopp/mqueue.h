@@ -66,4 +66,35 @@ private:
 class CRYPTOPP_DLL EqualityComparisonFilter : public Unflushable<Multichannel<Filter> >
 {
 public:
-	struct MismatchDetected : public Exception {MismatchDetected() : Exception(DATA_INTEGRITY_CHECK_FAILED, "Equa
+	struct MismatchDetected : public Exception {MismatchDetected() : Exception(DATA_INTEGRITY_CHECK_FAILED, "EqualityComparisonFilter: did not receive the same data on two channels") {}};
+
+	/*! if throwIfNotEqual is false, this filter will output a '\\0' byte when it detects a mismatch, '\\1' otherwise */
+	EqualityComparisonFilter(BufferedTransformation *attachment=NULL, bool throwIfNotEqual=true, const std::string &firstChannel="0", const std::string &secondChannel="1")
+		: m_throwIfNotEqual(throwIfNotEqual), m_mismatchDetected(false)
+		, m_firstChannel(firstChannel), m_secondChannel(secondChannel)
+		{Detach(attachment);}
+
+	size_t ChannelPut2(const std::string &channel, const byte *begin, size_t length, int messageEnd, bool blocking);
+	bool ChannelMessageSeriesEnd(const std::string &channel, int propagation=-1, bool blocking=true);
+
+private:
+	unsigned int MapChannel(const std::string &channel) const;
+	bool HandleMismatchDetected(bool blocking);
+
+	bool m_throwIfNotEqual, m_mismatchDetected;
+	std::string m_firstChannel, m_secondChannel;
+	MessageQueue m_q[2];
+};
+
+NAMESPACE_END
+
+#ifndef __BORLANDC__
+NAMESPACE_BEGIN(std)
+template<> inline void swap(CryptoPP::MessageQueue &a, CryptoPP::MessageQueue &b)
+{
+	a.swap(b);
+}
+NAMESPACE_END
+#endif
+
+#endif
