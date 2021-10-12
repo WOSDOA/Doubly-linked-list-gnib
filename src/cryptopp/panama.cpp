@@ -400,4 +400,108 @@ void Panama<B>::Iterate(size_t count, const word32 *p, byte *output, const byte 
 		}
 		else
 		{
-			TS1L(0);
+			TS1L(0); TS1L(1); TS1L(2); TS1L(3); TS1L(4); TS1L(5); TS1L(6); TS1L(7);
+		}
+
+		TS2(0); TS2(1); TS2(2); TS2(3); TS2(4); TS2(5); TS2(6); TS2(7);
+	}
+	m_state[17] = bstart;
+}
+
+namespace Weak {
+template <class B>
+size_t PanamaHash<B>::HashMultipleBlocks(const word32 *input, size_t length)
+{
+	this->Iterate(length / this->BLOCKSIZE, input);
+	return length % this->BLOCKSIZE;
+}
+
+template <class B>
+void PanamaHash<B>::TruncatedFinal(byte *hash, size_t size)
+{
+	this->ThrowIfInvalidTruncatedSize(size);
+
+	this->PadLastBlock(this->BLOCKSIZE, 0x01);
+	
+	HashEndianCorrectedBlock(this->m_data);
+
+	this->Iterate(32);	// pull
+
+	FixedSizeSecBlock<word32, 8> buf;
+	this->Iterate(1, NULL, buf.BytePtr(), NULL);
+
+	memcpy(hash, buf, size);
+
+	this->Restart();		// reinit for next use
+}
+}
+
+template <class B>
+void PanamaCipherPolicy<B>::CipherSetKey(const NameValuePairs &params, const byte *key, size_t length)
+{
+	assert(length==32);
+	memcpy(m_key, key, 32);
+}
+
+template <class B>
+void PanamaCipherPolicy<B>::CipherResynchronize(byte *keystreamBuffer, const byte *iv, size_t length)
+{
+	assert(length==32);
+	this->Reset();
+	this->Iterate(1, m_key);
+	if (iv && IsAligned<word32>(iv))
+		this->Iterate(1, (const word32 *)iv);
+	else
+	{
+		FixedSizeSecBlock<word32, 8> buf;
+		if (iv)
+			memcpy(buf, iv, 32);
+		else
+			memset(buf, 0, 32);
+		this->Iterate(1, buf);
+	}
+
+#if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE || defined(CRYPTOPP_X64_MASM_AVAILABLE)
+	if (B::ToEnum() == LITTLE_ENDIAN_ORDER && HasSSE2() && !IsP4())		// SSE2 code is slower on P4 Prescott
+		Panama_SSE2_Pull(32, this->m_state, NULL, NULL);
+	else
+#endif
+		this->Iterate(32);
+}
+
+#if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X64
+template <class B>
+unsigned int PanamaCipherPolicy<B>::GetAlignment() const
+{
+#if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE || defined(CRYPTOPP_X64_MASM_AVAILABLE)
+	if (B::ToEnum() == LITTLE_ENDIAN_ORDER && HasSSE2())
+		return 16;
+	else
+#endif
+		return 1;
+}
+#endif
+
+template <class B>
+void PanamaCipherPolicy<B>::OperateKeystream(KeystreamOperation operation, byte *output, const byte *input, size_t iterationCount)
+{
+#if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE || defined(CRYPTOPP_X64_MASM_AVAILABLE)
+	if (B::ToEnum() == LITTLE_ENDIAN_ORDER && HasSSE2())
+		Panama_SSE2_Pull(iterationCount, this->m_state, (word32 *)output, (const word32 *)input);
+	else
+#endif
+		this->Iterate(iterationCount, NULL, output, input, operation);
+}
+
+template class Panama<BigEndian>;
+template class Panama<LittleEndian>;
+
+template class Weak::PanamaHash<BigEndian>;
+template class Weak::PanamaHash<LittleEndian>;
+
+template class PanamaCipherPolicy<BigEndian>;
+template class PanamaCipherPolicy<LittleEndian>;
+
+NAMESPACE_END
+
+#endif	// #ifndef CRYPTOPP_GENERATE_X64_MASM
