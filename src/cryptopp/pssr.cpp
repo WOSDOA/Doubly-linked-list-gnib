@@ -59,4 +59,87 @@ void PSSR_MEM_Base::ComputeMessageRepresentative(RandomNumberGenerator &rng,
 	hash.Final(digest);
 	rng.GenerateBlock(salt, saltSize);
 
-	/
+	// compute H = hash of M'
+	byte c[8];
+	PutWord(false, BIG_ENDIAN_ORDER, c, (word32)SafeRightShift<29>(recoverableMessageLength));
+	PutWord(false, BIG_ENDIAN_ORDER, c+4, word32(recoverableMessageLength << 3));
+	hash.Update(c, 8);
+	hash.Update(recoverableMessage, recoverableMessageLength);
+	hash.Update(digest, digestSize);
+	hash.Update(salt, saltSize);
+	hash.Final(h);
+
+	// compute representative
+	GetMGF().GenerateAndMask(hash, representative, representativeByteLength - u - digestSize, h, digestSize, false);
+	byte *xorStart = representative + representativeByteLength - u - digestSize - salt.size() - recoverableMessageLength - 1;
+	xorStart[0] ^= 1;
+	xorbuf(xorStart + 1, recoverableMessage, recoverableMessageLength);
+	xorbuf(xorStart + 1 + recoverableMessageLength, salt, salt.size());
+	memcpy(representative + representativeByteLength - u, hashIdentifier.first, hashIdentifier.second);
+	representative[representativeByteLength - 1] = hashIdentifier.second ? 0xcc : 0xbc;
+	if (representativeBitLength % 8 != 0)
+		representative[0] = (byte)Crop(representative[0], representativeBitLength % 8);
+}
+
+DecodingResult PSSR_MEM_Base::RecoverMessageFromRepresentative(
+	HashTransformation &hash, HashIdentifier hashIdentifier, bool messageEmpty,
+	byte *representative, size_t representativeBitLength,
+	byte *recoverableMessage) const
+{
+	assert(representativeBitLength >= MinRepresentativeBitLength(hashIdentifier.second, hash.DigestSize()));
+
+	const size_t u = hashIdentifier.second + 1;
+	const size_t representativeByteLength = BitsToBytes(representativeBitLength);
+	const size_t digestSize = hash.DigestSize();
+	const size_t saltSize = SaltLen(digestSize);
+	const byte *const h = representative + representativeByteLength - u - digestSize;
+
+	SecByteBlock digest(digestSize);
+	hash.Final(digest);
+
+	DecodingResult result(0);
+	bool &valid = result.isValidCoding;
+	size_t &recoverableMessageLength = result.messageLength;
+
+	valid = (representative[representativeByteLength - 1] == (hashIdentifier.second ? 0xcc : 0xbc)) && valid;
+	valid = VerifyBufsEqual(representative + representativeByteLength - u, hashIdentifier.first, hashIdentifier.second) && valid;
+
+	GetMGF().GenerateAndMask(hash, representative, representativeByteLength - u - digestSize, h, digestSize);
+	if (representativeBitLength % 8 != 0)
+		representative[0] = (byte)Crop(representative[0], representativeBitLength % 8);
+
+	// extract salt and recoverableMessage from DB = 00 ... || 01 || M || salt
+	byte *salt = representative + representativeByteLength - u - digestSize - saltSize;
+	byte *M = std::find_if(representative, salt-1, std::bind2nd(std::not_equal_to<byte>(), 0));
+	recoverableMessageLength = salt-M-1;
+	if (*M == 0x01 
+		&& (size_t)(M - representative - (representativeBitLength % 8 != 0)) >= MinPadLen(digestSize)
+		&& recoverableMessageLength <= MaxRecoverableLength(representativeBitLength, hashIdentifier.second, digestSize))
+	{
+		memcpy(recoverableMessage, M+1, recoverableMessageLength);
+	}
+	else
+	{
+		recoverableMessageLength = 0;
+		valid = false;
+	}
+
+	// verify H = hash of M'
+	byte c[8];
+	PutWord(false, BIG_ENDIAN_ORDER, c, (word32)SafeRightShift<29>(recoverableMessageLength));
+	PutWord(false, BIG_ENDIAN_ORDER, c+4, word32(recoverableMessageLength << 3));
+	hash.Update(c, 8);
+	hash.Update(recoverableMessage, recoverableMessageLength);
+	hash.Update(digest, digestSize);
+	hash.Update(salt, saltSize);
+	valid = hash.Verify(h) && valid;
+
+	if (!AllowRecovery() && valid && recoverableMessageLength != 0)
+		{throw NotImplemented("PSSR_MEM: message recovery disabled");}
+	
+	return result;
+}
+
+#endif
+
+NAMESPACE_END
