@@ -65,4 +65,151 @@ public:
 };
 
 //! _
-class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE TrapdoorFunction : public RandomizedT
+class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE TrapdoorFunction : public RandomizedTrapdoorFunction
+{
+public:
+	Integer ApplyRandomizedFunction(RandomNumberGenerator &rng, const Integer &x) const
+		{return ApplyFunction(x);}
+	bool IsRandomized() const {return false;}
+
+	virtual Integer ApplyFunction(const Integer &x) const =0;
+};
+
+//! _
+class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE RandomizedTrapdoorFunctionInverse
+{
+public:
+	virtual ~RandomizedTrapdoorFunctionInverse() {}
+
+	virtual Integer CalculateRandomizedInverse(RandomNumberGenerator &rng, const Integer &x) const =0;
+	virtual bool IsRandomized() const {return true;}
+};
+
+//! _
+class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE TrapdoorFunctionInverse : public RandomizedTrapdoorFunctionInverse
+{
+public:
+	virtual ~TrapdoorFunctionInverse() {}
+
+	Integer CalculateRandomizedInverse(RandomNumberGenerator &rng, const Integer &x) const
+		{return CalculateInverse(rng, x);}
+	bool IsRandomized() const {return false;}
+
+	virtual Integer CalculateInverse(RandomNumberGenerator &rng, const Integer &x) const =0;
+};
+
+// ********************************************************
+
+//! message encoding method for public key encryption
+class CRYPTOPP_NO_VTABLE PK_EncryptionMessageEncodingMethod
+{
+public:
+	virtual ~PK_EncryptionMessageEncodingMethod() {}
+
+	virtual bool ParameterSupported(const char *name) const {return false;}
+
+	//! max size of unpadded message in bytes, given max size of padded message in bits (1 less than size of modulus)
+	virtual size_t MaxUnpaddedLength(size_t paddedLength) const =0;
+
+	virtual void Pad(RandomNumberGenerator &rng, const byte *raw, size_t inputLength, byte *padded, size_t paddedBitLength, const NameValuePairs &parameters) const =0;
+
+	virtual DecodingResult Unpad(const byte *padded, size_t paddedBitLength, byte *raw, const NameValuePairs &parameters) const =0;
+};
+
+// ********************************************************
+
+//! _
+template <class TFI, class MEI>
+class CRYPTOPP_NO_VTABLE TF_Base
+{
+protected:
+	virtual const TrapdoorFunctionBounds & GetTrapdoorFunctionBounds() const =0;
+
+	typedef TFI TrapdoorFunctionInterface;
+	virtual const TrapdoorFunctionInterface & GetTrapdoorFunctionInterface() const =0;
+
+	typedef MEI MessageEncodingInterface;
+	virtual const MessageEncodingInterface & GetMessageEncodingInterface() const =0;
+};
+
+// ********************************************************
+
+//! _
+template <class BASE>
+class CRYPTOPP_NO_VTABLE PK_FixedLengthCryptoSystemImpl : public BASE
+{
+public:
+	size_t MaxPlaintextLength(size_t ciphertextLength) const
+		{return ciphertextLength == FixedCiphertextLength() ? FixedMaxPlaintextLength() : 0;}
+	size_t CiphertextLength(size_t plaintextLength) const
+		{return plaintextLength <= FixedMaxPlaintextLength() ? FixedCiphertextLength() : 0;}
+
+	virtual size_t FixedMaxPlaintextLength() const =0;
+	virtual size_t FixedCiphertextLength() const =0;
+};
+
+//! _
+template <class INTERFACE, class BASE>
+class CRYPTOPP_NO_VTABLE TF_CryptoSystemBase : public PK_FixedLengthCryptoSystemImpl<INTERFACE>, protected BASE
+{
+public:
+	bool ParameterSupported(const char *name) const {return this->GetMessageEncodingInterface().ParameterSupported(name);}
+	size_t FixedMaxPlaintextLength() const {return this->GetMessageEncodingInterface().MaxUnpaddedLength(PaddedBlockBitLength());}
+	size_t FixedCiphertextLength() const {return this->GetTrapdoorFunctionBounds().MaxImage().ByteCount();}
+
+protected:
+	size_t PaddedBlockByteLength() const {return BitsToBytes(PaddedBlockBitLength());}
+	size_t PaddedBlockBitLength() const {return this->GetTrapdoorFunctionBounds().PreimageBound().BitCount()-1;}
+};
+
+//! _
+class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE TF_DecryptorBase : public TF_CryptoSystemBase<PK_Decryptor, TF_Base<TrapdoorFunctionInverse, PK_EncryptionMessageEncodingMethod> >
+{
+public:
+	DecodingResult Decrypt(RandomNumberGenerator &rng, const byte *ciphertext, size_t ciphertextLength, byte *plaintext, const NameValuePairs &parameters = g_nullNameValuePairs) const;
+};
+
+//! _
+class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE TF_EncryptorBase : public TF_CryptoSystemBase<PK_Encryptor, TF_Base<RandomizedTrapdoorFunction, PK_EncryptionMessageEncodingMethod> >
+{
+public:
+	void Encrypt(RandomNumberGenerator &rng, const byte *plaintext, size_t plaintextLength, byte *ciphertext, const NameValuePairs &parameters = g_nullNameValuePairs) const;
+};
+
+// ********************************************************
+
+typedef std::pair<const byte *, size_t> HashIdentifier;
+
+//! interface for message encoding method for public key signature schemes
+class CRYPTOPP_NO_VTABLE PK_SignatureMessageEncodingMethod
+{
+public:
+	virtual ~PK_SignatureMessageEncodingMethod() {}
+
+	virtual size_t MinRepresentativeBitLength(size_t hashIdentifierLength, size_t digestLength) const
+		{return 0;}
+	virtual size_t MaxRecoverableLength(size_t representativeBitLength, size_t hashIdentifierLength, size_t digestLength) const
+		{return 0;}
+
+	bool IsProbabilistic() const 
+		{return true;}
+	bool AllowNonrecoverablePart() const
+		{throw NotImplemented("PK_MessageEncodingMethod: this signature scheme does not support message recovery");}
+	virtual bool RecoverablePartFirst() const
+		{throw NotImplemented("PK_MessageEncodingMethod: this signature scheme does not support message recovery");}
+
+	// for verification, DL
+	virtual void ProcessSemisignature(HashTransformation &hash, const byte *semisignature, size_t semisignatureLength) const {}
+
+	// for signature
+	virtual void ProcessRecoverableMessage(HashTransformation &hash, 
+		const byte *recoverableMessage, size_t recoverableMessageLength, 
+		const byte *presignature, size_t presignatureLength,
+		SecByteBlock &semisignature) const
+	{
+		if (RecoverablePartFirst())
+			assert(!"ProcessRecoverableMessage() not implemented");
+	}
+
+	virtual void ComputeMessageRepresentative(RandomNumberGenerator &rng, 
+		const byte *recoverableMessage, size_t recoverableMessage
