@@ -212,4 +212,155 @@ public:
 	}
 
 	virtual void ComputeMessageRepresentative(RandomNumberGenerator &rng, 
-		const byte *recoverableMessage, size_t recoverableMessage
+		const byte *recoverableMessage, size_t recoverableMessageLength,
+		HashTransformation &hash, HashIdentifier hashIdentifier, bool messageEmpty,
+		byte *representative, size_t representativeBitLength) const =0;
+
+	virtual bool VerifyMessageRepresentative(
+		HashTransformation &hash, HashIdentifier hashIdentifier, bool messageEmpty,
+		byte *representative, size_t representativeBitLength) const =0;
+
+	virtual DecodingResult RecoverMessageFromRepresentative(	// for TF
+		HashTransformation &hash, HashIdentifier hashIdentifier, bool messageEmpty,
+		byte *representative, size_t representativeBitLength,
+		byte *recoveredMessage) const
+		{throw NotImplemented("PK_MessageEncodingMethod: this signature scheme does not support message recovery");}
+
+	virtual DecodingResult RecoverMessageFromSemisignature(		// for DL
+		HashTransformation &hash, HashIdentifier hashIdentifier,
+		const byte *presignature, size_t presignatureLength,
+		const byte *semisignature, size_t semisignatureLength,
+		byte *recoveredMessage) const
+		{throw NotImplemented("PK_MessageEncodingMethod: this signature scheme does not support message recovery");}
+
+	// VC60 workaround
+	struct HashIdentifierLookup
+	{
+		template <class H> struct HashIdentifierLookup2
+		{
+			static HashIdentifier CRYPTOPP_API Lookup()
+			{
+				return HashIdentifier((const byte *)NULL, 0);
+			}
+		};
+	};
+};
+
+class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE PK_DeterministicSignatureMessageEncodingMethod : public PK_SignatureMessageEncodingMethod
+{
+public:
+	bool VerifyMessageRepresentative(
+		HashTransformation &hash, HashIdentifier hashIdentifier, bool messageEmpty,
+		byte *representative, size_t representativeBitLength) const;
+};
+
+class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE PK_RecoverableSignatureMessageEncodingMethod : public PK_SignatureMessageEncodingMethod
+{
+public:
+	bool VerifyMessageRepresentative(
+		HashTransformation &hash, HashIdentifier hashIdentifier, bool messageEmpty,
+		byte *representative, size_t representativeBitLength) const;
+};
+
+class CRYPTOPP_DLL DL_SignatureMessageEncodingMethod_DSA : public PK_DeterministicSignatureMessageEncodingMethod
+{
+public:
+	void ComputeMessageRepresentative(RandomNumberGenerator &rng, 
+		const byte *recoverableMessage, size_t recoverableMessageLength,
+		HashTransformation &hash, HashIdentifier hashIdentifier, bool messageEmpty,
+		byte *representative, size_t representativeBitLength) const;
+};
+
+class CRYPTOPP_DLL DL_SignatureMessageEncodingMethod_NR : public PK_DeterministicSignatureMessageEncodingMethod
+{
+public:
+	void ComputeMessageRepresentative(RandomNumberGenerator &rng, 
+		const byte *recoverableMessage, size_t recoverableMessageLength,
+		HashTransformation &hash, HashIdentifier hashIdentifier, bool messageEmpty,
+		byte *representative, size_t representativeBitLength) const;
+};
+
+class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE PK_MessageAccumulatorBase : public PK_MessageAccumulator
+{
+public:
+	PK_MessageAccumulatorBase() : m_empty(true) {}
+
+	virtual HashTransformation & AccessHash() =0;
+
+	void Update(const byte *input, size_t length)
+	{
+		AccessHash().Update(input, length);
+		m_empty = m_empty && length == 0;
+	}
+
+	SecByteBlock m_recoverableMessage, m_representative, m_presignature, m_semisignature;
+	Integer m_k, m_s;
+	bool m_empty;
+};
+
+template <class HASH_ALGORITHM>
+class PK_MessageAccumulatorImpl : public PK_MessageAccumulatorBase, protected ObjectHolder<HASH_ALGORITHM>
+{
+public:
+	HashTransformation & AccessHash() {return this->m_object;}
+};
+
+//! _
+template <class INTERFACE, class BASE>
+class CRYPTOPP_NO_VTABLE TF_SignatureSchemeBase : public INTERFACE, protected BASE
+{
+public:
+	size_t SignatureLength() const 
+		{return this->GetTrapdoorFunctionBounds().MaxPreimage().ByteCount();}
+	size_t MaxRecoverableLength() const 
+		{return this->GetMessageEncodingInterface().MaxRecoverableLength(MessageRepresentativeBitLength(), GetHashIdentifier().second, GetDigestSize());}
+	size_t MaxRecoverableLengthFromSignatureLength(size_t signatureLength) const
+		{return this->MaxRecoverableLength();}
+
+	bool IsProbabilistic() const 
+		{return this->GetTrapdoorFunctionInterface().IsRandomized() || this->GetMessageEncodingInterface().IsProbabilistic();}
+	bool AllowNonrecoverablePart() const 
+		{return this->GetMessageEncodingInterface().AllowNonrecoverablePart();}
+	bool RecoverablePartFirst() const 
+		{return this->GetMessageEncodingInterface().RecoverablePartFirst();}
+
+protected:
+	size_t MessageRepresentativeLength() const {return BitsToBytes(MessageRepresentativeBitLength());}
+	size_t MessageRepresentativeBitLength() const {return this->GetTrapdoorFunctionBounds().ImageBound().BitCount()-1;}
+	virtual HashIdentifier GetHashIdentifier() const =0;
+	virtual size_t GetDigestSize() const =0;
+};
+
+//! _
+class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE TF_SignerBase : public TF_SignatureSchemeBase<PK_Signer, TF_Base<RandomizedTrapdoorFunctionInverse, PK_SignatureMessageEncodingMethod> >
+{
+public:
+	void InputRecoverableMessage(PK_MessageAccumulator &messageAccumulator, const byte *recoverableMessage, size_t recoverableMessageLength) const;
+	size_t SignAndRestart(RandomNumberGenerator &rng, PK_MessageAccumulator &messageAccumulator, byte *signature, bool restart=true) const;
+};
+
+//! _
+class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE TF_VerifierBase : public TF_SignatureSchemeBase<PK_Verifier, TF_Base<TrapdoorFunction, PK_SignatureMessageEncodingMethod> >
+{
+public:
+	void InputSignature(PK_MessageAccumulator &messageAccumulator, const byte *signature, size_t signatureLength) const;
+	bool VerifyAndRestart(PK_MessageAccumulator &messageAccumulator) const;
+	DecodingResult RecoverAndRestart(byte *recoveredMessage, PK_MessageAccumulator &recoveryAccumulator) const;
+};
+
+// ********************************************************
+
+//! _
+template <class T1, class T2, class T3>
+struct TF_CryptoSchemeOptions
+{
+	typedef T1 AlgorithmInfo;
+	typedef T2 Keys;
+	typedef typename Keys::PrivateKey PrivateKey;
+	typedef typename Keys::PublicKey PublicKey;
+	typedef T3 MessageEncodingMethod;
+};
+
+//! _
+template <class T1, class T2, class T3, class T4>
+struct TF_SignatureSchemeOptions : publ
