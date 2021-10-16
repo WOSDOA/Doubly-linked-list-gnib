@@ -363,4 +363,200 @@ struct TF_CryptoSchemeOptions
 
 //! _
 template <class T1, class T2, class T3, class T4>
-struct TF_SignatureSchemeOptions : publ
+struct TF_SignatureSchemeOptions : public TF_CryptoSchemeOptions<T1, T2, T3>
+{
+	typedef T4 HashFunction;
+};
+
+//! _
+template <class BASE, class SCHEME_OPTIONS, class KEY_CLASS>
+class CRYPTOPP_NO_VTABLE TF_ObjectImplBase : public AlgorithmImpl<BASE, typename SCHEME_OPTIONS::AlgorithmInfo>
+{
+public:
+	typedef SCHEME_OPTIONS SchemeOptions;
+	typedef KEY_CLASS KeyClass;
+
+	PublicKey & AccessPublicKey() {return AccessKey();}
+	const PublicKey & GetPublicKey() const {return GetKey();}
+
+	PrivateKey & AccessPrivateKey() {return AccessKey();}
+	const PrivateKey & GetPrivateKey() const {return GetKey();}
+
+	virtual const KeyClass & GetKey() const =0;
+	virtual KeyClass & AccessKey() =0;
+
+	const KeyClass & GetTrapdoorFunction() const {return GetKey();}
+
+	PK_MessageAccumulator * NewSignatureAccumulator(RandomNumberGenerator &rng) const
+	{
+		return new PK_MessageAccumulatorImpl<CPP_TYPENAME SCHEME_OPTIONS::HashFunction>;
+	}
+	PK_MessageAccumulator * NewVerificationAccumulator() const
+	{
+		return new PK_MessageAccumulatorImpl<CPP_TYPENAME SCHEME_OPTIONS::HashFunction>;
+	}
+
+protected:
+	const typename BASE::MessageEncodingInterface & GetMessageEncodingInterface() const 
+		{return Singleton<CPP_TYPENAME SCHEME_OPTIONS::MessageEncodingMethod>().Ref();}
+	const TrapdoorFunctionBounds & GetTrapdoorFunctionBounds() const 
+		{return GetKey();}
+	const typename BASE::TrapdoorFunctionInterface & GetTrapdoorFunctionInterface() const 
+		{return GetKey();}
+
+	// for signature scheme
+	HashIdentifier GetHashIdentifier() const
+	{
+        typedef CPP_TYPENAME SchemeOptions::MessageEncodingMethod::HashIdentifierLookup::template HashIdentifierLookup2<CPP_TYPENAME SchemeOptions::HashFunction> L;
+        return L::Lookup();
+	}
+	size_t GetDigestSize() const
+	{
+		typedef CPP_TYPENAME SchemeOptions::HashFunction H;
+		return H::DIGESTSIZE;
+	}
+};
+
+//! _
+template <class BASE, class SCHEME_OPTIONS, class KEY>
+class TF_ObjectImplExtRef : public TF_ObjectImplBase<BASE, SCHEME_OPTIONS, KEY>
+{
+public:
+	TF_ObjectImplExtRef(const KEY *pKey = NULL) : m_pKey(pKey) {}
+	void SetKeyPtr(const KEY *pKey) {m_pKey = pKey;}
+
+	const KEY & GetKey() const {return *m_pKey;}
+	KEY & AccessKey() {throw NotImplemented("TF_ObjectImplExtRef: cannot modify refererenced key");}
+
+private:
+	const KEY * m_pKey;
+};
+
+//! _
+template <class BASE, class SCHEME_OPTIONS, class KEY_CLASS>
+class CRYPTOPP_NO_VTABLE TF_ObjectImpl : public TF_ObjectImplBase<BASE, SCHEME_OPTIONS, KEY_CLASS>
+{
+public:
+	typedef KEY_CLASS KeyClass;
+
+	const KeyClass & GetKey() const {return m_trapdoorFunction;}
+	KeyClass & AccessKey() {return m_trapdoorFunction;}
+
+private:
+	KeyClass m_trapdoorFunction;
+};
+
+//! _
+template <class SCHEME_OPTIONS>
+class TF_DecryptorImpl : public TF_ObjectImpl<TF_DecryptorBase, SCHEME_OPTIONS, typename SCHEME_OPTIONS::PrivateKey>
+{
+};
+
+//! _
+template <class SCHEME_OPTIONS>
+class TF_EncryptorImpl : public TF_ObjectImpl<TF_EncryptorBase, SCHEME_OPTIONS, typename SCHEME_OPTIONS::PublicKey>
+{
+};
+
+//! _
+template <class SCHEME_OPTIONS>
+class TF_SignerImpl : public TF_ObjectImpl<TF_SignerBase, SCHEME_OPTIONS, typename SCHEME_OPTIONS::PrivateKey>
+{
+};
+
+//! _
+template <class SCHEME_OPTIONS>
+class TF_VerifierImpl : public TF_ObjectImpl<TF_VerifierBase, SCHEME_OPTIONS, typename SCHEME_OPTIONS::PublicKey>
+{
+};
+
+// ********************************************************
+
+//! _
+class CRYPTOPP_NO_VTABLE MaskGeneratingFunction
+{
+public:
+	virtual ~MaskGeneratingFunction() {}
+	virtual void GenerateAndMask(HashTransformation &hash, byte *output, size_t outputLength, const byte *input, size_t inputLength, bool mask = true) const =0;
+};
+
+CRYPTOPP_DLL void CRYPTOPP_API P1363_MGF1KDF2_Common(HashTransformation &hash, byte *output, size_t outputLength, const byte *input, size_t inputLength, const byte *derivationParams, size_t derivationParamsLength, bool mask, unsigned int counterStart);
+
+//! _
+class P1363_MGF1 : public MaskGeneratingFunction
+{
+public:
+	static const char * CRYPTOPP_API StaticAlgorithmName() {return "MGF1";}
+	void GenerateAndMask(HashTransformation &hash, byte *output, size_t outputLength, const byte *input, size_t inputLength, bool mask = true) const
+	{
+		P1363_MGF1KDF2_Common(hash, output, outputLength, input, inputLength, NULL, 0, mask, 0);
+	}
+};
+
+// ********************************************************
+
+//! _
+template <class H>
+class P1363_KDF2
+{
+public:
+	static void CRYPTOPP_API DeriveKey(byte *output, size_t outputLength, const byte *input, size_t inputLength, const byte *derivationParams, size_t derivationParamsLength)
+	{
+		H h;
+		P1363_MGF1KDF2_Common(h, output, outputLength, input, inputLength, derivationParams, derivationParamsLength, false, 1);
+	}
+};
+
+// ********************************************************
+
+//! to be thrown by DecodeElement and AgreeWithStaticPrivateKey
+class DL_BadElement : public InvalidDataFormat
+{
+public:
+	DL_BadElement() : InvalidDataFormat("CryptoPP: invalid group element") {}
+};
+
+//! interface for DL group parameters
+template <class T>
+class CRYPTOPP_NO_VTABLE DL_GroupParameters : public CryptoParameters
+{
+	typedef DL_GroupParameters<T> ThisClass;
+	
+public:
+	typedef T Element;
+
+	DL_GroupParameters() : m_validationLevel(0) {}
+
+	// CryptoMaterial
+	bool Validate(RandomNumberGenerator &rng, unsigned int level) const
+	{
+		if (!GetBasePrecomputation().IsInitialized())
+			return false;
+
+		if (m_validationLevel > level)
+			return true;
+
+		bool pass = ValidateGroup(rng, level);
+		pass = pass && ValidateElement(level, GetSubgroupGenerator(), &GetBasePrecomputation());
+
+		m_validationLevel = pass ? level+1 : 0;
+
+		return pass;
+	}
+
+	bool GetVoidValue(const char *name, const std::type_info &valueType, void *pValue) const
+	{
+		return GetValueHelper(this, name, valueType, pValue)
+			CRYPTOPP_GET_FUNCTION_ENTRY(SubgroupOrder)
+			CRYPTOPP_GET_FUNCTION_ENTRY(SubgroupGenerator)
+			;
+	}
+
+	bool SupportsPrecomputation() const {return true;}
+
+	void Precompute(unsigned int precomputationStorage=16)
+	{
+		AccessBasePrecomputation().Precompute(GetGroupPrecomputation(), GetSubgroupOrder().BitCount(), precomputationStorage);
+	}
+
+	vo
