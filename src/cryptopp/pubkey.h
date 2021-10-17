@@ -706,4 +706,186 @@ template <class T>
 void DL_PublicKey<T>::AssignFrom(const NameValuePairs &source)
 {
 	DL_PrivateKey<T> *pPrivateKey = NULL;
-	if (source.GetThisPointer(pPrivat
+	if (source.GetThisPointer(pPrivateKey))
+		pPrivateKey->MakePublicKey(*this);
+	else
+	{
+		this->AccessAbstractGroupParameters().AssignFrom(source);
+		AssignFromHelper(this, source)
+			CRYPTOPP_SET_FUNCTION_ENTRY(PublicElement);
+	}
+}
+
+class OID;
+
+//! _
+template <class PK, class GP, class O = OID>
+class DL_KeyImpl : public PK
+{
+public:
+	typedef GP GroupParameters;
+
+	O GetAlgorithmID() const {return GetGroupParameters().GetAlgorithmID();}
+//	void BERDecode(BufferedTransformation &bt)
+//		{PK::BERDecode(bt);}
+//	void DEREncode(BufferedTransformation &bt) const
+//		{PK::DEREncode(bt);}
+	bool BERDecodeAlgorithmParameters(BufferedTransformation &bt)
+		{AccessGroupParameters().BERDecode(bt); return true;}
+	bool DEREncodeAlgorithmParameters(BufferedTransformation &bt) const
+		{GetGroupParameters().DEREncode(bt); return true;}
+
+	const GP & GetGroupParameters() const {return m_groupParameters;}
+	GP & AccessGroupParameters() {return m_groupParameters;}
+
+private:
+	GP m_groupParameters;
+};
+
+class X509PublicKey;
+class PKCS8PrivateKey;
+
+//! _
+template <class GP>
+class DL_PrivateKeyImpl : public DL_PrivateKey<CPP_TYPENAME GP::Element>, public DL_KeyImpl<PKCS8PrivateKey, GP>
+{
+public:
+	typedef typename GP::Element Element;
+
+	// GeneratableCryptoMaterial
+	bool Validate(RandomNumberGenerator &rng, unsigned int level) const
+	{
+		bool pass = GetAbstractGroupParameters().Validate(rng, level);
+
+		const Integer &q = GetAbstractGroupParameters().GetSubgroupOrder();
+		const Integer &x = GetPrivateExponent();
+
+		pass = pass && x.IsPositive() && x < q;
+		if (level >= 1)
+			pass = pass && Integer::Gcd(x, q) == Integer::One();
+		return pass;
+	}
+
+	bool GetVoidValue(const char *name, const std::type_info &valueType, void *pValue) const
+	{
+		return GetValueHelper<DL_PrivateKey<Element> >(this, name, valueType, pValue).Assignable();
+	}
+
+	void AssignFrom(const NameValuePairs &source)
+	{
+		AssignFromHelper<DL_PrivateKey<Element> >(this, source);
+	}
+
+	void GenerateRandom(RandomNumberGenerator &rng, const NameValuePairs &params)
+	{
+		if (!params.GetThisObject(this->AccessGroupParameters()))
+			this->AccessGroupParameters().GenerateRandom(rng, params);
+//		std::pair<const byte *, int> seed;
+		Integer x(rng, Integer::One(), GetAbstractGroupParameters().GetMaxExponent());
+//			Integer::ANY, Integer::Zero(), Integer::One(),
+//			params.GetValue("DeterministicKeyGenerationSeed", seed) ? &seed : NULL);
+		SetPrivateExponent(x);
+	}
+
+	bool SupportsPrecomputation() const {return true;}
+
+	void Precompute(unsigned int precomputationStorage=16)
+		{AccessAbstractGroupParameters().Precompute(precomputationStorage);}
+
+	void LoadPrecomputation(BufferedTransformation &storedPrecomputation)
+		{AccessAbstractGroupParameters().LoadPrecomputation(storedPrecomputation);}
+
+	void SavePrecomputation(BufferedTransformation &storedPrecomputation) const
+		{GetAbstractGroupParameters().SavePrecomputation(storedPrecomputation);}
+
+	// DL_Key
+	const DL_GroupParameters<Element> & GetAbstractGroupParameters() const {return this->GetGroupParameters();}
+	DL_GroupParameters<Element> & AccessAbstractGroupParameters() {return this->AccessGroupParameters();}
+
+	// DL_PrivateKey
+	const Integer & GetPrivateExponent() const {return m_x;}
+	void SetPrivateExponent(const Integer &x) {m_x = x;}
+
+	// PKCS8PrivateKey
+	void BERDecodePrivateKey(BufferedTransformation &bt, bool, size_t)
+		{m_x.BERDecode(bt);}
+	void DEREncodePrivateKey(BufferedTransformation &bt) const
+		{m_x.DEREncode(bt);}
+
+private:
+	Integer m_x;
+};
+
+//! _
+template <class BASE, class SIGNATURE_SCHEME>
+class DL_PrivateKey_WithSignaturePairwiseConsistencyTest : public BASE
+{
+public:
+	void GenerateRandom(RandomNumberGenerator &rng, const NameValuePairs &params)
+	{
+		BASE::GenerateRandom(rng, params);
+
+		if (FIPS_140_2_ComplianceEnabled())
+		{
+			typename SIGNATURE_SCHEME::Signer signer(*this);
+			typename SIGNATURE_SCHEME::Verifier verifier(signer);
+			SignaturePairwiseConsistencyTest_FIPS_140_Only(signer, verifier);
+		}
+	}
+};
+
+//! _
+template <class GP>
+class DL_PublicKeyImpl : public DL_PublicKey<typename GP::Element>, public DL_KeyImpl<X509PublicKey, GP>
+{
+public:
+	typedef typename GP::Element Element;
+
+	// CryptoMaterial
+	bool Validate(RandomNumberGenerator &rng, unsigned int level) const
+	{
+		bool pass = GetAbstractGroupParameters().Validate(rng, level);
+		pass = pass && GetAbstractGroupParameters().ValidateElement(level, this->GetPublicElement(), &GetPublicPrecomputation());
+		return pass;
+	}
+
+	bool GetVoidValue(const char *name, const std::type_info &valueType, void *pValue) const
+	{
+		return GetValueHelper<DL_PublicKey<Element> >(this, name, valueType, pValue).Assignable();
+	}
+
+	void AssignFrom(const NameValuePairs &source)
+	{
+		AssignFromHelper<DL_PublicKey<Element> >(this, source);
+	}
+
+	bool SupportsPrecomputation() const {return true;}
+
+	void Precompute(unsigned int precomputationStorage=16)
+	{
+		AccessAbstractGroupParameters().Precompute(precomputationStorage);
+		AccessPublicPrecomputation().Precompute(GetAbstractGroupParameters().GetGroupPrecomputation(), GetAbstractGroupParameters().GetSubgroupOrder().BitCount(), precomputationStorage);
+	}
+
+	void LoadPrecomputation(BufferedTransformation &storedPrecomputation)
+	{
+		AccessAbstractGroupParameters().LoadPrecomputation(storedPrecomputation);
+		AccessPublicPrecomputation().Load(GetAbstractGroupParameters().GetGroupPrecomputation(), storedPrecomputation);
+	}
+
+	void SavePrecomputation(BufferedTransformation &storedPrecomputation) const
+	{
+		GetAbstractGroupParameters().SavePrecomputation(storedPrecomputation);
+		GetPublicPrecomputation().Save(GetAbstractGroupParameters().GetGroupPrecomputation(), storedPrecomputation);
+	}
+
+	// DL_Key
+	const DL_GroupParameters<Element> & GetAbstractGroupParameters() const {return this->GetGroupParameters();}
+	DL_GroupParameters<Element> & AccessAbstractGroupParameters() {return this->AccessGroupParameters();}
+
+	// DL_PublicKey
+	const DL_FixedBasePrecomputation<Element> & GetPublicPrecomputation() const {return m_ypc;}
+	DL_FixedBasePrecomputation<Element> & AccessPublicPrecomputation() {return m_ypc;}
+
+	// non-inherited
+	bool operator==(const DL_Public
