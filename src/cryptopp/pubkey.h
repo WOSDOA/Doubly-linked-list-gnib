@@ -888,4 +888,131 @@ public:
 	DL_FixedBasePrecomputation<Element> & AccessPublicPrecomputation() {return m_ypc;}
 
 	// non-inherited
-	bool operator==(const DL_Public
+	bool operator==(const DL_PublicKeyImpl<GP> &rhs) const
+		{return this->GetGroupParameters() == rhs.GetGroupParameters() && this->GetPublicElement() == rhs.GetPublicElement();}
+
+private:
+	typename GP::BasePrecomputation m_ypc;
+};
+
+//! interface for Elgamal-like signature algorithms
+template <class T>
+class CRYPTOPP_NO_VTABLE DL_ElgamalLikeSignatureAlgorithm
+{
+public:
+	virtual void Sign(const DL_GroupParameters<T> &params, const Integer &privateKey, const Integer &k, const Integer &e, Integer &r, Integer &s) const =0;
+	virtual bool Verify(const DL_GroupParameters<T> &params, const DL_PublicKey<T> &publicKey, const Integer &e, const Integer &r, const Integer &s) const =0;
+	virtual Integer RecoverPresignature(const DL_GroupParameters<T> &params, const DL_PublicKey<T> &publicKey, const Integer &r, const Integer &s) const
+		{throw NotImplemented("DL_ElgamalLikeSignatureAlgorithm: this signature scheme does not support message recovery");}
+	virtual size_t RLen(const DL_GroupParameters<T> &params) const
+		{return params.GetSubgroupOrder().ByteCount();}
+	virtual size_t SLen(const DL_GroupParameters<T> &params) const
+		{return params.GetSubgroupOrder().ByteCount();}
+};
+
+//! interface for DL key agreement algorithms
+template <class T>
+class CRYPTOPP_NO_VTABLE DL_KeyAgreementAlgorithm
+{
+public:
+	typedef T Element;
+
+	virtual Element AgreeWithEphemeralPrivateKey(const DL_GroupParameters<Element> &params, const DL_FixedBasePrecomputation<Element> &publicPrecomputation, const Integer &privateExponent) const =0;
+	virtual Element AgreeWithStaticPrivateKey(const DL_GroupParameters<Element> &params, const Element &publicElement, bool validateOtherPublicKey, const Integer &privateExponent) const =0;
+};
+
+//! interface for key derivation algorithms used in DL cryptosystems
+template <class T>
+class CRYPTOPP_NO_VTABLE DL_KeyDerivationAlgorithm
+{
+public:
+	virtual bool ParameterSupported(const char *name) const {return false;}
+	virtual void Derive(const DL_GroupParameters<T> &groupParams, byte *derivedKey, size_t derivedLength, const T &agreedElement, const T &ephemeralPublicKey, const NameValuePairs &derivationParams) const =0;
+};
+
+//! interface for symmetric encryption algorithms used in DL cryptosystems
+class CRYPTOPP_NO_VTABLE DL_SymmetricEncryptionAlgorithm
+{
+public:
+	virtual bool ParameterSupported(const char *name) const {return false;}
+	virtual size_t GetSymmetricKeyLength(size_t plaintextLength) const =0;
+	virtual size_t GetSymmetricCiphertextLength(size_t plaintextLength) const =0;
+	virtual size_t GetMaxSymmetricPlaintextLength(size_t ciphertextLength) const =0;
+	virtual void SymmetricEncrypt(RandomNumberGenerator &rng, const byte *key, const byte *plaintext, size_t plaintextLength, byte *ciphertext, const NameValuePairs &parameters) const =0;
+	virtual DecodingResult SymmetricDecrypt(const byte *key, const byte *ciphertext, size_t ciphertextLength, byte *plaintext, const NameValuePairs &parameters) const =0;
+};
+
+//! _
+template <class KI>
+class CRYPTOPP_NO_VTABLE DL_Base
+{
+protected:
+	typedef KI KeyInterface;
+	typedef typename KI::Element Element;
+
+	const DL_GroupParameters<Element> & GetAbstractGroupParameters() const {return GetKeyInterface().GetAbstractGroupParameters();}
+	DL_GroupParameters<Element> & AccessAbstractGroupParameters() {return AccessKeyInterface().AccessAbstractGroupParameters();}
+
+	virtual KeyInterface & AccessKeyInterface() =0;
+	virtual const KeyInterface & GetKeyInterface() const =0;
+};
+
+//! _
+template <class INTERFACE, class KEY_INTERFACE>
+class CRYPTOPP_NO_VTABLE DL_SignatureSchemeBase : public INTERFACE, public DL_Base<KEY_INTERFACE>
+{
+public:
+	size_t SignatureLength() const
+	{
+		return GetSignatureAlgorithm().RLen(this->GetAbstractGroupParameters())
+			+ GetSignatureAlgorithm().SLen(this->GetAbstractGroupParameters());
+	}
+	size_t MaxRecoverableLength() const 
+		{return GetMessageEncodingInterface().MaxRecoverableLength(0, GetHashIdentifier().second, GetDigestSize());}
+	size_t MaxRecoverableLengthFromSignatureLength(size_t signatureLength) const
+		{assert(false); return 0;}	// TODO
+
+	bool IsProbabilistic() const 
+		{return true;}
+	bool AllowNonrecoverablePart() const 
+		{return GetMessageEncodingInterface().AllowNonrecoverablePart();}
+	bool RecoverablePartFirst() const 
+		{return GetMessageEncodingInterface().RecoverablePartFirst();}
+
+protected:
+	size_t MessageRepresentativeLength() const {return BitsToBytes(MessageRepresentativeBitLength());}
+	size_t MessageRepresentativeBitLength() const {return this->GetAbstractGroupParameters().GetSubgroupOrder().BitCount();}
+
+	virtual const DL_ElgamalLikeSignatureAlgorithm<CPP_TYPENAME KEY_INTERFACE::Element> & GetSignatureAlgorithm() const =0;
+	virtual const PK_SignatureMessageEncodingMethod & GetMessageEncodingInterface() const =0;
+	virtual HashIdentifier GetHashIdentifier() const =0;
+	virtual size_t GetDigestSize() const =0;
+};
+
+//! _
+template <class T>
+class CRYPTOPP_NO_VTABLE DL_SignerBase : public DL_SignatureSchemeBase<PK_Signer, DL_PrivateKey<T> >
+{
+public:
+	// for validation testing
+	void RawSign(const Integer &k, const Integer &e, Integer &r, Integer &s) const
+	{
+		const DL_ElgamalLikeSignatureAlgorithm<T> &alg = this->GetSignatureAlgorithm();
+		const DL_GroupParameters<T> &params = this->GetAbstractGroupParameters();
+		const DL_PrivateKey<T> &key = this->GetKeyInterface();
+
+		r = params.ConvertElementToInteger(params.ExponentiateBase(k));
+		alg.Sign(params, key.GetPrivateExponent(), k, e, r, s);
+	}
+
+	void InputRecoverableMessage(PK_MessageAccumulator &messageAccumulator, const byte *recoverableMessage, size_t recoverableMessageLength) const
+	{
+		PK_MessageAccumulatorBase &ma = static_cast<PK_MessageAccumulatorBase &>(messageAccumulator);
+		ma.m_recoverableMessage.Assign(recoverableMessage, recoverableMessageLength);
+		this->GetMessageEncodingInterface().ProcessRecoverableMessage(ma.AccessHash(), 
+			recoverableMessage, recoverableMessageLength, 
+			ma.m_presignature, ma.m_presignature.size(),
+			ma.m_semisignature);
+	}
+
+	size_t SignAndR
