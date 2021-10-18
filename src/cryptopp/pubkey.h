@@ -1015,4 +1015,145 @@ public:
 			ma.m_semisignature);
 	}
 
-	size_t SignAndR
+	size_t SignAndRestart(RandomNumberGenerator &rng, PK_MessageAccumulator &messageAccumulator, byte *signature, bool restart) const
+	{
+		this->GetMaterial().DoQuickSanityCheck();
+
+		PK_MessageAccumulatorBase &ma = static_cast<PK_MessageAccumulatorBase &>(messageAccumulator);
+		const DL_ElgamalLikeSignatureAlgorithm<T> &alg = this->GetSignatureAlgorithm();
+		const DL_GroupParameters<T> &params = this->GetAbstractGroupParameters();
+		const DL_PrivateKey<T> &key = this->GetKeyInterface();
+
+		SecByteBlock representative(this->MessageRepresentativeLength());
+		this->GetMessageEncodingInterface().ComputeMessageRepresentative(
+			rng, 
+			ma.m_recoverableMessage, ma.m_recoverableMessage.size(), 
+			ma.AccessHash(), this->GetHashIdentifier(), ma.m_empty, 
+			representative, this->MessageRepresentativeBitLength());
+		ma.m_empty = true;
+		Integer e(representative, representative.size());
+
+		// hash message digest into random number k to prevent reusing the same k on a different messages
+		// after virtual machine rollback
+		if (rng.CanIncorporateEntropy())
+			rng.IncorporateEntropy(representative, representative.size());
+		Integer k(rng, 1, params.GetSubgroupOrder()-1);
+		Integer r, s;
+		r = params.ConvertElementToInteger(params.ExponentiateBase(k));
+		alg.Sign(params, key.GetPrivateExponent(), k, e, r, s);
+
+		/*
+		Integer r, s;
+		if (this->MaxRecoverableLength() > 0)
+			r.Decode(ma.m_semisignature, ma.m_semisignature.size());
+		else
+			r.Decode(ma.m_presignature, ma.m_presignature.size());
+		alg.Sign(params, key.GetPrivateExponent(), ma.m_k, e, r, s);
+		*/
+
+		size_t rLen = alg.RLen(params);
+		r.Encode(signature, rLen);
+		s.Encode(signature+rLen, alg.SLen(params));
+
+		if (restart)
+			RestartMessageAccumulator(rng, ma);
+
+		return this->SignatureLength();
+	}
+
+protected:
+	void RestartMessageAccumulator(RandomNumberGenerator &rng, PK_MessageAccumulatorBase &ma) const
+	{
+		// k needs to be generated before hashing for signature schemes with recovery
+		// but to defend against VM rollbacks we need to generate k after hashing.
+		// so this code is commented out, since no DL-based signature scheme with recovery
+		// has been implemented in Crypto++ anyway
+		/*
+		const DL_ElgamalLikeSignatureAlgorithm<T> &alg = this->GetSignatureAlgorithm();
+		const DL_GroupParameters<T> &params = this->GetAbstractGroupParameters();
+		ma.m_k.Randomize(rng, 1, params.GetSubgroupOrder()-1);
+		ma.m_presignature.New(params.GetEncodedElementSize(false));
+		params.ConvertElementToInteger(params.ExponentiateBase(ma.m_k)).Encode(ma.m_presignature, ma.m_presignature.size());
+		*/
+	}
+};
+
+//! _
+template <class T>
+class CRYPTOPP_NO_VTABLE DL_VerifierBase : public DL_SignatureSchemeBase<PK_Verifier, DL_PublicKey<T> >
+{
+public:
+	void InputSignature(PK_MessageAccumulator &messageAccumulator, const byte *signature, size_t signatureLength) const
+	{
+		PK_MessageAccumulatorBase &ma = static_cast<PK_MessageAccumulatorBase &>(messageAccumulator);
+		const DL_ElgamalLikeSignatureAlgorithm<T> &alg = this->GetSignatureAlgorithm();
+		const DL_GroupParameters<T> &params = this->GetAbstractGroupParameters();
+
+		size_t rLen = alg.RLen(params);
+		ma.m_semisignature.Assign(signature, rLen);
+		ma.m_s.Decode(signature+rLen, alg.SLen(params));
+
+		this->GetMessageEncodingInterface().ProcessSemisignature(ma.AccessHash(), ma.m_semisignature, ma.m_semisignature.size());
+	}
+	
+	bool VerifyAndRestart(PK_MessageAccumulator &messageAccumulator) const
+	{
+		this->GetMaterial().DoQuickSanityCheck();
+
+		PK_MessageAccumulatorBase &ma = static_cast<PK_MessageAccumulatorBase &>(messageAccumulator);
+		const DL_ElgamalLikeSignatureAlgorithm<T> &alg = this->GetSignatureAlgorithm();
+		const DL_GroupParameters<T> &params = this->GetAbstractGroupParameters();
+		const DL_PublicKey<T> &key = this->GetKeyInterface();
+
+		SecByteBlock representative(this->MessageRepresentativeLength());
+		this->GetMessageEncodingInterface().ComputeMessageRepresentative(NullRNG(), ma.m_recoverableMessage, ma.m_recoverableMessage.size(), 
+			ma.AccessHash(), this->GetHashIdentifier(), ma.m_empty,
+			representative, this->MessageRepresentativeBitLength());
+		ma.m_empty = true;
+		Integer e(representative, representative.size());
+
+		Integer r(ma.m_semisignature, ma.m_semisignature.size());
+		return alg.Verify(params, key, e, r, ma.m_s);
+	}
+
+	DecodingResult RecoverAndRestart(byte *recoveredMessage, PK_MessageAccumulator &messageAccumulator) const
+	{
+		this->GetMaterial().DoQuickSanityCheck();
+
+		PK_MessageAccumulatorBase &ma = static_cast<PK_MessageAccumulatorBase &>(messageAccumulator);
+		const DL_ElgamalLikeSignatureAlgorithm<T> &alg = this->GetSignatureAlgorithm();
+		const DL_GroupParameters<T> &params = this->GetAbstractGroupParameters();
+		const DL_PublicKey<T> &key = this->GetKeyInterface();
+
+		SecByteBlock representative(this->MessageRepresentativeLength());
+		this->GetMessageEncodingInterface().ComputeMessageRepresentative(
+			NullRNG(), 
+			ma.m_recoverableMessage, ma.m_recoverableMessage.size(), 
+			ma.AccessHash(), this->GetHashIdentifier(), ma.m_empty,
+			representative, this->MessageRepresentativeBitLength());
+		ma.m_empty = true;
+		Integer e(representative, representative.size());
+
+		ma.m_presignature.New(params.GetEncodedElementSize(false));
+		Integer r(ma.m_semisignature, ma.m_semisignature.size());
+		alg.RecoverPresignature(params, key, r, ma.m_s).Encode(ma.m_presignature, ma.m_presignature.size());
+
+		return this->GetMessageEncodingInterface().RecoverMessageFromSemisignature(
+			ma.AccessHash(), this->GetHashIdentifier(),
+			ma.m_presignature, ma.m_presignature.size(),
+			ma.m_semisignature, ma.m_semisignature.size(),
+			recoveredMessage);
+	}
+};
+
+//! _
+template <class PK, class KI>
+class CRYPTOPP_NO_VTABLE DL_CryptoSystemBase : public PK, public DL_Base<KI>
+{
+public:
+	typedef typename DL_Base<KI>::Element Element;
+
+	size_t MaxPlaintextLength(size_t ciphertextLength) const
+	{
+		unsigned int minLen = this->GetAbstractGroupParameters().GetEncodedElementSize(true);
+		return ciphertextLength < minLen
