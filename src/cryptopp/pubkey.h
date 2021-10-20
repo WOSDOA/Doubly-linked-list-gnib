@@ -1156,4 +1156,169 @@ public:
 	size_t MaxPlaintextLength(size_t ciphertextLength) const
 	{
 		unsigned int minLen = this->GetAbstractGroupParameters().GetEncodedElementSize(true);
-		return ciphertextLength < minLen
+		return ciphertextLength < minLen ? 0 : GetSymmetricEncryptionAlgorithm().GetMaxSymmetricPlaintextLength(ciphertextLength - minLen);
+	}
+
+	size_t CiphertextLength(size_t plaintextLength) const
+	{
+		size_t len = GetSymmetricEncryptionAlgorithm().GetSymmetricCiphertextLength(plaintextLength);
+		return len == 0 ? 0 : this->GetAbstractGroupParameters().GetEncodedElementSize(true) + len;
+	}
+
+	bool ParameterSupported(const char *name) const
+		{return GetKeyDerivationAlgorithm().ParameterSupported(name) || GetSymmetricEncryptionAlgorithm().ParameterSupported(name);}
+
+protected:
+	virtual const DL_KeyAgreementAlgorithm<Element> & GetKeyAgreementAlgorithm() const =0;
+	virtual const DL_KeyDerivationAlgorithm<Element> & GetKeyDerivationAlgorithm() const =0;
+	virtual const DL_SymmetricEncryptionAlgorithm & GetSymmetricEncryptionAlgorithm() const =0;
+};
+
+//! _
+template <class T>
+class CRYPTOPP_NO_VTABLE DL_DecryptorBase : public DL_CryptoSystemBase<PK_Decryptor, DL_PrivateKey<T> >
+{
+public:
+	typedef T Element;
+
+	DecodingResult Decrypt(RandomNumberGenerator &rng, const byte *ciphertext, size_t ciphertextLength, byte *plaintext, const NameValuePairs &parameters = g_nullNameValuePairs) const
+	{
+		try
+		{
+			const DL_KeyAgreementAlgorithm<T> &agreeAlg = this->GetKeyAgreementAlgorithm();
+			const DL_KeyDerivationAlgorithm<T> &derivAlg = this->GetKeyDerivationAlgorithm();
+			const DL_SymmetricEncryptionAlgorithm &encAlg = this->GetSymmetricEncryptionAlgorithm();
+			const DL_GroupParameters<T> &params = this->GetAbstractGroupParameters();
+			const DL_PrivateKey<T> &key = this->GetKeyInterface();
+
+			Element q = params.DecodeElement(ciphertext, true);
+			size_t elementSize = params.GetEncodedElementSize(true);
+			ciphertext += elementSize;
+			ciphertextLength -= elementSize;
+
+			Element z = agreeAlg.AgreeWithStaticPrivateKey(params, q, true, key.GetPrivateExponent());
+
+			SecByteBlock derivedKey(encAlg.GetSymmetricKeyLength(encAlg.GetMaxSymmetricPlaintextLength(ciphertextLength)));
+			derivAlg.Derive(params, derivedKey, derivedKey.size(), z, q, parameters);
+
+			return encAlg.SymmetricDecrypt(derivedKey, ciphertext, ciphertextLength, plaintext, parameters);
+		}
+		catch (DL_BadElement &)
+		{
+			return DecodingResult();
+		}
+	}
+};
+
+//! _
+template <class T>
+class CRYPTOPP_NO_VTABLE DL_EncryptorBase : public DL_CryptoSystemBase<PK_Encryptor, DL_PublicKey<T> >
+{
+public:
+	typedef T Element;
+
+	void Encrypt(RandomNumberGenerator &rng, const byte *plaintext, size_t plaintextLength, byte *ciphertext, const NameValuePairs &parameters = g_nullNameValuePairs) const
+	{
+		const DL_KeyAgreementAlgorithm<T> &agreeAlg = this->GetKeyAgreementAlgorithm();
+		const DL_KeyDerivationAlgorithm<T> &derivAlg = this->GetKeyDerivationAlgorithm();
+		const DL_SymmetricEncryptionAlgorithm &encAlg = this->GetSymmetricEncryptionAlgorithm();
+		const DL_GroupParameters<T> &params = this->GetAbstractGroupParameters();
+		const DL_PublicKey<T> &key = this->GetKeyInterface();
+
+		Integer x(rng, Integer::One(), params.GetMaxExponent());
+		Element q = params.ExponentiateBase(x);
+		params.EncodeElement(true, q, ciphertext);
+		unsigned int elementSize = params.GetEncodedElementSize(true);
+		ciphertext += elementSize;
+
+		Element z = agreeAlg.AgreeWithEphemeralPrivateKey(params, key.GetPublicPrecomputation(), x);
+
+		SecByteBlock derivedKey(encAlg.GetSymmetricKeyLength(plaintextLength));
+		derivAlg.Derive(params, derivedKey, derivedKey.size(), z, q, parameters);
+
+		encAlg.SymmetricEncrypt(rng, derivedKey, plaintext, plaintextLength, ciphertext, parameters);
+	}
+};
+
+//! _
+template <class T1, class T2>
+struct DL_SchemeOptionsBase
+{
+	typedef T1 AlgorithmInfo;
+	typedef T2 GroupParameters;
+	typedef typename GroupParameters::Element Element;
+};
+
+//! _
+template <class T1, class T2>
+struct DL_KeyedSchemeOptions : public DL_SchemeOptionsBase<T1, typename T2::PublicKey::GroupParameters>
+{
+	typedef T2 Keys;
+	typedef typename Keys::PrivateKey PrivateKey;
+	typedef typename Keys::PublicKey PublicKey;
+};
+
+//! _
+template <class T1, class T2, class T3, class T4, class T5>
+struct DL_SignatureSchemeOptions : public DL_KeyedSchemeOptions<T1, T2>
+{
+	typedef T3 SignatureAlgorithm;
+	typedef T4 MessageEncodingMethod;
+	typedef T5 HashFunction;
+};
+
+//! _
+template <class T1, class T2, class T3, class T4, class T5>
+struct DL_CryptoSchemeOptions : public DL_KeyedSchemeOptions<T1, T2>
+{
+	typedef T3 KeyAgreementAlgorithm;
+	typedef T4 KeyDerivationAlgorithm;
+	typedef T5 SymmetricEncryptionAlgorithm;
+};
+
+//! _
+template <class BASE, class SCHEME_OPTIONS, class KEY>
+class CRYPTOPP_NO_VTABLE DL_ObjectImplBase : public AlgorithmImpl<BASE, typename SCHEME_OPTIONS::AlgorithmInfo>
+{
+public:
+	typedef SCHEME_OPTIONS SchemeOptions;
+	typedef typename KEY::Element Element;
+
+	PrivateKey & AccessPrivateKey() {return m_key;}
+	PublicKey & AccessPublicKey() {return m_key;}
+
+	// KeyAccessor
+	const KEY & GetKey() const {return m_key;}
+	KEY & AccessKey() {return m_key;}
+
+protected:
+	typename BASE::KeyInterface & AccessKeyInterface() {return m_key;}
+	const typename BASE::KeyInterface & GetKeyInterface() const {return m_key;}
+
+	// for signature scheme
+	HashIdentifier GetHashIdentifier() const
+	{
+		typedef typename SchemeOptions::MessageEncodingMethod::HashIdentifierLookup HashLookup;
+		return HashLookup::template HashIdentifierLookup2<CPP_TYPENAME SchemeOptions::HashFunction>::Lookup();
+	}
+	size_t GetDigestSize() const
+	{
+		typedef CPP_TYPENAME SchemeOptions::HashFunction H;
+		return H::DIGESTSIZE;
+	}
+
+private:
+	KEY m_key;
+};
+
+//! _
+template <class BASE, class SCHEME_OPTIONS, class KEY>
+class CRYPTOPP_NO_VTABLE DL_ObjectImpl : public DL_ObjectImplBase<BASE, SCHEME_OPTIONS, KEY>
+{
+public:
+	typedef typename KEY::Element Element;
+
+protected:
+	const DL_ElgamalLikeSignatureAlgorithm<Element> & GetSignatureAlgorithm() const
+		{return Singleton<CPP_TYPENAME SCHEME_OPTIONS::SignatureAlgorithm>().Ref();}
+	const DL_KeyAgreementAlgorithm<Element> & GetKeyAgreementAlgorithm() const
