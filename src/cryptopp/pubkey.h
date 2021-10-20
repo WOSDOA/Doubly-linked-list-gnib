@@ -1322,3 +1322,141 @@ protected:
 	const DL_ElgamalLikeSignatureAlgorithm<Element> & GetSignatureAlgorithm() const
 		{return Singleton<CPP_TYPENAME SCHEME_OPTIONS::SignatureAlgorithm>().Ref();}
 	const DL_KeyAgreementAlgorithm<Element> & GetKeyAgreementAlgorithm() const
+		{return Singleton<CPP_TYPENAME SCHEME_OPTIONS::KeyAgreementAlgorithm>().Ref();}
+	const DL_KeyDerivationAlgorithm<Element> & GetKeyDerivationAlgorithm() const
+		{return Singleton<CPP_TYPENAME SCHEME_OPTIONS::KeyDerivationAlgorithm>().Ref();}
+	const DL_SymmetricEncryptionAlgorithm & GetSymmetricEncryptionAlgorithm() const
+		{return Singleton<CPP_TYPENAME SCHEME_OPTIONS::SymmetricEncryptionAlgorithm>().Ref();}
+	HashIdentifier GetHashIdentifier() const
+		{return HashIdentifier();}
+	const PK_SignatureMessageEncodingMethod & GetMessageEncodingInterface() const 
+		{return Singleton<CPP_TYPENAME SCHEME_OPTIONS::MessageEncodingMethod>().Ref();}
+};
+
+//! _
+template <class SCHEME_OPTIONS>
+class DL_SignerImpl : public DL_ObjectImpl<DL_SignerBase<typename SCHEME_OPTIONS::Element>, SCHEME_OPTIONS, typename SCHEME_OPTIONS::PrivateKey>
+{
+public:
+	PK_MessageAccumulator * NewSignatureAccumulator(RandomNumberGenerator &rng) const
+	{
+		std::auto_ptr<PK_MessageAccumulatorBase> p(new PK_MessageAccumulatorImpl<CPP_TYPENAME SCHEME_OPTIONS::HashFunction>);
+		this->RestartMessageAccumulator(rng, *p);
+		return p.release();
+	}
+};
+
+//! _
+template <class SCHEME_OPTIONS>
+class DL_VerifierImpl : public DL_ObjectImpl<DL_VerifierBase<typename SCHEME_OPTIONS::Element>, SCHEME_OPTIONS, typename SCHEME_OPTIONS::PublicKey>
+{
+public:
+	PK_MessageAccumulator * NewVerificationAccumulator() const
+	{
+		return new PK_MessageAccumulatorImpl<CPP_TYPENAME SCHEME_OPTIONS::HashFunction>;
+	}
+};
+
+//! _
+template <class SCHEME_OPTIONS>
+class DL_EncryptorImpl : public DL_ObjectImpl<DL_EncryptorBase<typename SCHEME_OPTIONS::Element>, SCHEME_OPTIONS, typename SCHEME_OPTIONS::PublicKey>
+{
+};
+
+//! _
+template <class SCHEME_OPTIONS>
+class DL_DecryptorImpl : public DL_ObjectImpl<DL_DecryptorBase<typename SCHEME_OPTIONS::Element>, SCHEME_OPTIONS, typename SCHEME_OPTIONS::PrivateKey>
+{
+};
+
+// ********************************************************
+
+//! _
+template <class T>
+class CRYPTOPP_NO_VTABLE DL_SimpleKeyAgreementDomainBase : public SimpleKeyAgreementDomain
+{
+public:
+	typedef T Element;
+
+	CryptoParameters & AccessCryptoParameters() {return AccessAbstractGroupParameters();}
+	unsigned int AgreedValueLength() const {return GetAbstractGroupParameters().GetEncodedElementSize(false);}
+	unsigned int PrivateKeyLength() const {return GetAbstractGroupParameters().GetSubgroupOrder().ByteCount();}
+	unsigned int PublicKeyLength() const {return GetAbstractGroupParameters().GetEncodedElementSize(true);}
+
+	void GeneratePrivateKey(RandomNumberGenerator &rng, byte *privateKey) const
+	{
+		Integer x(rng, Integer::One(), GetAbstractGroupParameters().GetMaxExponent());
+		x.Encode(privateKey, PrivateKeyLength());
+	}
+
+	void GeneratePublicKey(RandomNumberGenerator &rng, const byte *privateKey, byte *publicKey) const
+	{
+		const DL_GroupParameters<T> &params = GetAbstractGroupParameters();
+		Integer x(privateKey, PrivateKeyLength());
+		Element y = params.ExponentiateBase(x);
+		params.EncodeElement(true, y, publicKey);
+	}
+	
+	bool Agree(byte *agreedValue, const byte *privateKey, const byte *otherPublicKey, bool validateOtherPublicKey=true) const
+	{
+		try
+		{
+			const DL_GroupParameters<T> &params = GetAbstractGroupParameters();
+			Integer x(privateKey, PrivateKeyLength());
+			Element w = params.DecodeElement(otherPublicKey, validateOtherPublicKey);
+
+			Element z = GetKeyAgreementAlgorithm().AgreeWithStaticPrivateKey(
+				GetAbstractGroupParameters(), w, validateOtherPublicKey, x);
+			params.EncodeElement(false, z, agreedValue);
+		}
+		catch (DL_BadElement &)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	const Element &GetGenerator() const {return GetAbstractGroupParameters().GetSubgroupGenerator();}
+
+protected:
+	virtual const DL_KeyAgreementAlgorithm<Element> & GetKeyAgreementAlgorithm() const =0;
+	virtual DL_GroupParameters<Element> & AccessAbstractGroupParameters() =0;
+	const DL_GroupParameters<Element> & GetAbstractGroupParameters() const {return const_cast<DL_SimpleKeyAgreementDomainBase<Element> *>(this)->AccessAbstractGroupParameters();}
+};
+
+enum CofactorMultiplicationOption {NO_COFACTOR_MULTIPLICTION, COMPATIBLE_COFACTOR_MULTIPLICTION, INCOMPATIBLE_COFACTOR_MULTIPLICTION};
+typedef EnumToType<CofactorMultiplicationOption, NO_COFACTOR_MULTIPLICTION> NoCofactorMultiplication;
+typedef EnumToType<CofactorMultiplicationOption, COMPATIBLE_COFACTOR_MULTIPLICTION> CompatibleCofactorMultiplication;
+typedef EnumToType<CofactorMultiplicationOption, INCOMPATIBLE_COFACTOR_MULTIPLICTION> IncompatibleCofactorMultiplication;
+
+//! DH key agreement algorithm
+template <class ELEMENT, class COFACTOR_OPTION>
+class DL_KeyAgreementAlgorithm_DH : public DL_KeyAgreementAlgorithm<ELEMENT>
+{
+public:
+	typedef ELEMENT Element;
+
+	static const char * CRYPTOPP_API StaticAlgorithmName()
+		{return COFACTOR_OPTION::ToEnum() == INCOMPATIBLE_COFACTOR_MULTIPLICTION ? "DHC" : "DH";}
+
+	Element AgreeWithEphemeralPrivateKey(const DL_GroupParameters<Element> &params, const DL_FixedBasePrecomputation<Element> &publicPrecomputation, const Integer &privateExponent) const
+	{
+		return publicPrecomputation.Exponentiate(params.GetGroupPrecomputation(), 
+			COFACTOR_OPTION::ToEnum() == INCOMPATIBLE_COFACTOR_MULTIPLICTION ? privateExponent*params.GetCofactor() : privateExponent);
+	}
+
+	Element AgreeWithStaticPrivateKey(const DL_GroupParameters<Element> &params, const Element &publicElement, bool validateOtherPublicKey, const Integer &privateExponent) const
+	{
+		if (COFACTOR_OPTION::ToEnum() == COMPATIBLE_COFACTOR_MULTIPLICTION)
+		{
+			const Integer &k = params.GetCofactor();
+			return params.ExponentiateElement(publicElement, 
+				ModularArithmetic(params.GetSubgroupOrder()).Divide(privateExponent, k)*k);
+		}
+		else if (COFACTOR_OPTION::ToEnum() == INCOMPATIBLE_COFACTOR_MULTIPLICTION)
+			return params.ExponentiateElement(publicElement, privateExponent*params.GetCofactor());
+		else
+		{
+			assert(COFACTOR_OPTION::ToEnum() == NO_COFACTOR_MULTIPLICTION);
+
+			if (!validateOtherPublicK
