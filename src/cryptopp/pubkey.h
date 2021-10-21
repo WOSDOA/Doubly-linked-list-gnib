@@ -1459,4 +1459,155 @@ public:
 		{
 			assert(COFACTOR_OPTION::ToEnum() == NO_COFACTOR_MULTIPLICTION);
 
-			if (!validateOtherPublicK
+			if (!validateOtherPublicKey)
+				return params.ExponentiateElement(publicElement, privateExponent);
+
+			if (params.FastSubgroupCheckAvailable())
+			{
+				if (!params.ValidateElement(2, publicElement, NULL))
+					throw DL_BadElement();
+				return params.ExponentiateElement(publicElement, privateExponent);
+			}
+			else
+			{
+				const Integer e[2] = {params.GetSubgroupOrder(), privateExponent};
+				Element r[2];
+				params.SimultaneousExponentiate(r, publicElement, e, 2);
+				if (!params.IsIdentity(r[0]))
+					throw DL_BadElement();
+				return r[1];
+			}
+		}
+	}
+};
+
+// ********************************************************
+
+//! A template implementing constructors for public key algorithm classes
+template <class BASE>
+class CRYPTOPP_NO_VTABLE PK_FinalTemplate : public BASE
+{
+public:
+	PK_FinalTemplate() {}
+
+	PK_FinalTemplate(const CryptoMaterial &key)
+		{this->AccessKey().AssignFrom(key);}
+
+	PK_FinalTemplate(BufferedTransformation &bt)
+		{this->AccessKey().BERDecode(bt);}
+
+	PK_FinalTemplate(const AsymmetricAlgorithm &algorithm)
+		{this->AccessKey().AssignFrom(algorithm.GetMaterial());}
+
+	PK_FinalTemplate(const Integer &v1)
+		{this->AccessKey().Initialize(v1);}
+
+#if (defined(_MSC_VER) && _MSC_VER < 1300)
+
+	template <class T1, class T2>
+	PK_FinalTemplate(T1 &v1, T2 &v2)
+		{this->AccessKey().Initialize(v1, v2);}
+
+	template <class T1, class T2, class T3>
+	PK_FinalTemplate(T1 &v1, T2 &v2, T3 &v3)
+		{this->AccessKey().Initialize(v1, v2, v3);}
+	
+	template <class T1, class T2, class T3, class T4>
+	PK_FinalTemplate(T1 &v1, T2 &v2, T3 &v3, T4 &v4)
+		{this->AccessKey().Initialize(v1, v2, v3, v4);}
+
+	template <class T1, class T2, class T3, class T4, class T5>
+	PK_FinalTemplate(T1 &v1, T2 &v2, T3 &v3, T4 &v4, T5 &v5)
+		{this->AccessKey().Initialize(v1, v2, v3, v4, v5);}
+
+	template <class T1, class T2, class T3, class T4, class T5, class T6>
+	PK_FinalTemplate(T1 &v1, T2 &v2, T3 &v3, T4 &v4, T5 &v5, T6 &v6)
+		{this->AccessKey().Initialize(v1, v2, v3, v4, v5, v6);}
+
+	template <class T1, class T2, class T3, class T4, class T5, class T6, class T7>
+	PK_FinalTemplate(T1 &v1, T2 &v2, T3 &v3, T4 &v4, T5 &v5, T6 &v6, T7 &v7)
+		{this->AccessKey().Initialize(v1, v2, v3, v4, v5, v6, v7);}
+
+	template <class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
+	PK_FinalTemplate(T1 &v1, T2 &v2, T3 &v3, T4 &v4, T5 &v5, T6 &v6, T7 &v7, T8 &v8)
+		{this->AccessKey().Initialize(v1, v2, v3, v4, v5, v6, v7, v8);}
+
+#else
+
+	template <class T1, class T2>
+	PK_FinalTemplate(const T1 &v1, const T2 &v2)
+		{this->AccessKey().Initialize(v1, v2);}
+
+	template <class T1, class T2, class T3>
+	PK_FinalTemplate(const T1 &v1, const T2 &v2, const T3 &v3)
+		{this->AccessKey().Initialize(v1, v2, v3);}
+	
+	template <class T1, class T2, class T3, class T4>
+	PK_FinalTemplate(const T1 &v1, const T2 &v2, const T3 &v3, const T4 &v4)
+		{this->AccessKey().Initialize(v1, v2, v3, v4);}
+
+	template <class T1, class T2, class T3, class T4, class T5>
+	PK_FinalTemplate(const T1 &v1, const T2 &v2, const T3 &v3, const T4 &v4, const T5 &v5)
+		{this->AccessKey().Initialize(v1, v2, v3, v4, v5);}
+
+	template <class T1, class T2, class T3, class T4, class T5, class T6>
+	PK_FinalTemplate(const T1 &v1, const T2 &v2, const T3 &v3, const T4 &v4, const T5 &v5, const T6 &v6)
+		{this->AccessKey().Initialize(v1, v2, v3, v4, v5, v6);}
+
+	template <class T1, class T2, class T3, class T4, class T5, class T6, class T7>
+	PK_FinalTemplate(const T1 &v1, const T2 &v2, const T3 &v3, const T4 &v4, const T5 &v5, const T6 &v6, const T7 &v7)
+		{this->AccessKey().Initialize(v1, v2, v3, v4, v5, v6, v7);}
+
+	template <class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
+	PK_FinalTemplate(const T1 &v1, const T2 &v2, const T3 &v3, const T4 &v4, const T5 &v5, const T6 &v6, const T7 &v7, const T8 &v8)
+		{this->AccessKey().Initialize(v1, v2, v3, v4, v5, v6, v7, v8);}
+
+	template <class T1, class T2>
+	PK_FinalTemplate(T1 &v1, const T2 &v2)
+		{this->AccessKey().Initialize(v1, v2);}
+
+	template <class T1, class T2, class T3>
+	PK_FinalTemplate(T1 &v1, const T2 &v2, const T3 &v3)
+		{this->AccessKey().Initialize(v1, v2, v3);}
+	
+	template <class T1, class T2, class T3, class T4>
+	PK_FinalTemplate(T1 &v1, const T2 &v2, const T3 &v3, const T4 &v4)
+		{this->AccessKey().Initialize(v1, v2, v3, v4);}
+
+	template <class T1, class T2, class T3, class T4, class T5>
+	PK_FinalTemplate(T1 &v1, const T2 &v2, const T3 &v3, const T4 &v4, const T5 &v5)
+		{this->AccessKey().Initialize(v1, v2, v3, v4, v5);}
+
+	template <class T1, class T2, class T3, class T4, class T5, class T6>
+	PK_FinalTemplate(T1 &v1, const T2 &v2, const T3 &v3, const T4 &v4, const T5 &v5, const T6 &v6)
+		{this->AccessKey().Initialize(v1, v2, v3, v4, v5, v6);}
+
+	template <class T1, class T2, class T3, class T4, class T5, class T6, class T7>
+	PK_FinalTemplate(T1 &v1, const T2 &v2, const T3 &v3, const T4 &v4, const T5 &v5, const T6 &v6, const T7 &v7)
+		{this->AccessKey().Initialize(v1, v2, v3, v4, v5, v6, v7);}
+
+	template <class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
+	PK_FinalTemplate(T1 &v1, const T2 &v2, const T3 &v3, const T4 &v4, const T5 &v5, const T6 &v6, const T7 &v7, const T8 &v8)
+		{this->AccessKey().Initialize(v1, v2, v3, v4, v5, v6, v7, v8);}
+
+#endif
+};
+
+//! Base class for public key encryption standard classes. These classes are used to select from variants of algorithms. Note that not all standards apply to all algorithms.
+struct EncryptionStandard {};
+
+//! Base class for public key signature standard classes. These classes are used to select from variants of algorithms. Note that not all standards apply to all algorithms.
+struct SignatureStandard {};
+
+template <class STANDARD, class KEYS, class ALG_INFO>
+class TF_ES;
+
+//! Trapdoor Function Based Encryption Scheme
+template <class STANDARD, class KEYS, class ALG_INFO = TF_ES<STANDARD, KEYS, int> >
+class TF_ES : public KEYS
+{
+	typedef typename STANDARD::EncryptionMessageEncodingMethod MessageEncodingMethod;
+
+public:
+	//! see EncryptionStandard for a list of standards
+	typed
