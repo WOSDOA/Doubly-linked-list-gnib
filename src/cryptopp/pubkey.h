@@ -1610,4 +1610,69 @@ class TF_ES : public KEYS
 
 public:
 	//! see EncryptionStandard for a list of standards
-	typed
+	typedef STANDARD Standard;
+	typedef TF_CryptoSchemeOptions<ALG_INFO, KEYS, MessageEncodingMethod> SchemeOptions;
+
+	static std::string CRYPTOPP_API StaticAlgorithmName() {return std::string(KEYS::StaticAlgorithmName()) + "/" + MessageEncodingMethod::StaticAlgorithmName();}
+
+	//! implements PK_Decryptor interface
+	typedef PK_FinalTemplate<TF_DecryptorImpl<SchemeOptions> > Decryptor;
+	//! implements PK_Encryptor interface
+	typedef PK_FinalTemplate<TF_EncryptorImpl<SchemeOptions> > Encryptor;
+};
+
+template <class STANDARD, class H, class KEYS, class ALG_INFO>	// VC60 workaround: doesn't work if KEYS is first parameter
+class TF_SS;
+
+//! Trapdoor Function Based Signature Scheme
+template <class STANDARD, class H, class KEYS, class ALG_INFO = TF_SS<STANDARD, H, KEYS, int> >	// VC60 workaround: doesn't work if KEYS is first parameter
+class TF_SS : public KEYS
+{
+public:
+	//! see SignatureStandard for a list of standards
+	typedef STANDARD Standard;
+	typedef typename Standard::SignatureMessageEncodingMethod MessageEncodingMethod;
+	typedef TF_SignatureSchemeOptions<ALG_INFO, KEYS, MessageEncodingMethod, H> SchemeOptions;
+
+	static std::string CRYPTOPP_API StaticAlgorithmName() {return std::string(KEYS::StaticAlgorithmName()) + "/" + MessageEncodingMethod::StaticAlgorithmName() + "(" + H::StaticAlgorithmName() + ")";}
+
+	//! implements PK_Signer interface
+	typedef PK_FinalTemplate<TF_SignerImpl<SchemeOptions> > Signer;
+	//! implements PK_Verifier interface
+	typedef PK_FinalTemplate<TF_VerifierImpl<SchemeOptions> > Verifier;
+};
+
+template <class KEYS, class SA, class MEM, class H, class ALG_INFO>
+class DL_SS;
+
+//! Discrete Log Based Signature Scheme
+template <class KEYS, class SA, class MEM, class H, class ALG_INFO = DL_SS<KEYS, SA, MEM, H, int> >
+class DL_SS : public KEYS
+{
+	typedef DL_SignatureSchemeOptions<ALG_INFO, KEYS, SA, MEM, H> SchemeOptions;
+
+public:
+	static std::string StaticAlgorithmName() {return SA::StaticAlgorithmName() + std::string("/EMSA1(") + H::StaticAlgorithmName() + ")";}
+
+	//! implements PK_Signer interface
+	typedef PK_FinalTemplate<DL_SignerImpl<SchemeOptions> > Signer;
+	//! implements PK_Verifier interface
+	typedef PK_FinalTemplate<DL_VerifierImpl<SchemeOptions> > Verifier;
+};
+
+//! Discrete Log Based Encryption Scheme
+template <class KEYS, class AA, class DA, class EA, class ALG_INFO>
+class DL_ES : public KEYS
+{
+	typedef DL_CryptoSchemeOptions<ALG_INFO, KEYS, AA, DA, EA> SchemeOptions;
+
+public:
+	//! implements PK_Decryptor interface
+	typedef PK_FinalTemplate<DL_DecryptorImpl<SchemeOptions> > Decryptor;
+	//! implements PK_Encryptor interface
+	typedef PK_FinalTemplate<DL_EncryptorImpl<SchemeOptions> > Encryptor;
+};
+
+NAMESPACE_END
+
+#endif
