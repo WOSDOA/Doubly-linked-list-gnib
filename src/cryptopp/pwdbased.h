@@ -86,4 +86,129 @@ template <class T>
 unsigned int PKCS5_PBKDF2_HMAC<T>::DeriveKey(byte *derived, size_t derivedLen, byte purpose, const byte *password, size_t passwordLen, const byte *salt, size_t saltLen, unsigned int iterations, double timeInSeconds) const
 {
 	assert(derivedLen <= MaxDerivedKeyLength());
-	assert(iterati
+	assert(iterations > 0 || timeInSeconds > 0);
+
+	if (!iterations)
+		iterations = 1;
+
+	HMAC<T> hmac(password, passwordLen);
+	SecByteBlock buffer(hmac.DigestSize());
+	ThreadUserTimer timer;
+
+	unsigned int i=1;
+	while (derivedLen > 0)
+	{
+		hmac.Update(salt, saltLen);
+		unsigned int j;
+		for (j=0; j<4; j++)
+		{
+			byte b = byte(i >> ((3-j)*8));
+			hmac.Update(&b, 1);
+		}
+		hmac.Final(buffer);
+
+		size_t segmentLen = STDMIN(derivedLen, buffer.size());
+		memcpy(derived, buffer, segmentLen);
+
+		if (timeInSeconds)
+		{
+			timeInSeconds = timeInSeconds / ((derivedLen + buffer.size() - 1) / buffer.size());
+			timer.StartTimer();
+		}
+
+		for (j=1; j<iterations || (timeInSeconds && (j%128!=0 || timer.ElapsedTimeAsDouble() < timeInSeconds)); j++)
+		{
+			hmac.CalculateDigest(buffer, buffer, buffer.size());
+			xorbuf(derived, buffer, segmentLen);
+		}
+
+		if (timeInSeconds)
+		{
+			iterations = j;
+			timeInSeconds = 0;
+		}
+
+		derived += segmentLen;
+		derivedLen -= segmentLen;
+		i++;
+	}
+
+	return iterations;
+}
+
+//! PBKDF from PKCS #12, appendix B, T should be a HashTransformation class
+template <class T>
+class PKCS12_PBKDF : public PasswordBasedKeyDerivationFunction
+{
+public:
+	size_t MaxDerivedKeyLength() const {return size_t(0)-1;}
+	bool UsesPurposeByte() const {return true;}
+	unsigned int DeriveKey(byte *derived, size_t derivedLen, byte purpose, const byte *password, size_t passwordLen, const byte *salt, size_t saltLen, unsigned int iterations, double timeInSeconds) const;
+};
+
+template <class T>
+unsigned int PKCS12_PBKDF<T>::DeriveKey(byte *derived, size_t derivedLen, byte purpose, const byte *password, size_t passwordLen, const byte *salt, size_t saltLen, unsigned int iterations, double timeInSeconds) const
+{
+	assert(derivedLen <= MaxDerivedKeyLength());
+	assert(iterations > 0 || timeInSeconds > 0);
+
+	if (!iterations)
+		iterations = 1;
+
+	const size_t v = T::BLOCKSIZE;	// v is in bytes rather than bits as in PKCS #12
+	const size_t DLen = v, SLen = RoundUpToMultipleOf(saltLen, v);
+	const size_t PLen = RoundUpToMultipleOf(passwordLen, v), ILen = SLen + PLen;
+	SecByteBlock buffer(DLen + SLen + PLen);
+	byte *D = buffer, *S = buffer+DLen, *P = buffer+DLen+SLen, *I = S;
+
+	memset(D, purpose, DLen);
+	size_t i;
+	for (i=0; i<SLen; i++)
+		S[i] = salt[i % saltLen];
+	for (i=0; i<PLen; i++)
+		P[i] = password[i % passwordLen];
+
+
+	T hash;
+	SecByteBlock Ai(T::DIGESTSIZE), B(v);
+	ThreadUserTimer timer;
+
+	while (derivedLen > 0)
+	{
+		hash.CalculateDigest(Ai, buffer, buffer.size());
+
+		if (timeInSeconds)
+		{
+			timeInSeconds = timeInSeconds / ((derivedLen + Ai.size() - 1) / Ai.size());
+			timer.StartTimer();
+		}
+
+		for (i=1; i<iterations || (timeInSeconds && (i%128!=0 || timer.ElapsedTimeAsDouble() < timeInSeconds)); i++)
+			hash.CalculateDigest(Ai, Ai, Ai.size());
+
+		if (timeInSeconds)
+		{
+			iterations = (unsigned int)i;
+			timeInSeconds = 0;
+		}
+
+		for (i=0; i<B.size(); i++)
+			B[i] = Ai[i % Ai.size()];
+
+		Integer B1(B, B.size());
+		++B1;
+		for (i=0; i<ILen; i+=v)
+			(Integer(I+i, v) + B1).Encode(I+i, v);
+
+		size_t segmentLen = STDMIN(derivedLen, Ai.size());
+		memcpy(derived, Ai, segmentLen);
+		derived += segmentLen;
+		derivedLen -= segmentLen;
+	}
+
+	return iterations;
+}
+
+NAMESPACE_END
+
+#endif
