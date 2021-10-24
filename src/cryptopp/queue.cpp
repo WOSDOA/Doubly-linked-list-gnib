@@ -433,3 +433,133 @@ ByteQueue & ByteQueue::operator=(const ByteQueue &rhs)
 bool ByteQueue::operator==(const ByteQueue &rhs) const
 {
 	const lword currentSize = CurrentSize();
+
+	if (currentSize != rhs.CurrentSize())
+		return false;
+
+	Walker walker1(*this), walker2(rhs);
+	byte b1, b2;
+
+	while (walker1.Get(b1) && walker2.Get(b2))
+		if (b1 != b2)
+			return false;
+
+	return true;
+}
+
+byte ByteQueue::operator[](lword i) const
+{
+	for (ByteQueueNode *current=m_head; current; current=current->next)
+	{
+		if (i < current->CurrentSize())
+			return (*current)[(size_t)i];
+		
+		i -= current->CurrentSize();
+	}
+
+	assert(i < m_lazyLength);
+	return m_lazyString[i];
+}
+
+void ByteQueue::swap(ByteQueue &rhs)
+{
+	std::swap(m_autoNodeSize, rhs.m_autoNodeSize);
+	std::swap(m_nodeSize, rhs.m_nodeSize);
+	std::swap(m_head, rhs.m_head);
+	std::swap(m_tail, rhs.m_tail);
+	std::swap(m_lazyString, rhs.m_lazyString);
+	std::swap(m_lazyLength, rhs.m_lazyLength);
+	std::swap(m_lazyStringModifiable, rhs.m_lazyStringModifiable);
+}
+
+// ********************************************************
+
+void ByteQueue::Walker::IsolatedInitialize(const NameValuePairs &parameters)
+{
+	m_node = m_queue.m_head;
+	m_position = 0;
+	m_offset = 0;
+	m_lazyString = m_queue.m_lazyString;
+	m_lazyLength = m_queue.m_lazyLength;
+}
+
+size_t ByteQueue::Walker::Get(byte &outByte)
+{
+	ArraySink sink(&outByte, 1);
+	return (size_t)TransferTo(sink, 1);
+}
+
+size_t ByteQueue::Walker::Get(byte *outString, size_t getMax)
+{
+	ArraySink sink(outString, getMax);
+	return (size_t)TransferTo(sink, getMax);
+}
+
+size_t ByteQueue::Walker::Peek(byte &outByte) const
+{
+	ArraySink sink(&outByte, 1);
+	return (size_t)CopyTo(sink, 1);
+}
+
+size_t ByteQueue::Walker::Peek(byte *outString, size_t peekMax) const
+{
+	ArraySink sink(outString, peekMax);
+	return (size_t)CopyTo(sink, peekMax);
+}
+
+size_t ByteQueue::Walker::TransferTo2(BufferedTransformation &target, lword &transferBytes, const std::string &channel, bool blocking)
+{
+	lword bytesLeft = transferBytes;
+	size_t blockedBytes = 0;
+
+	while (m_node)
+	{
+		size_t len = (size_t)STDMIN(bytesLeft, (lword)m_node->CurrentSize()-m_offset);
+		blockedBytes = target.ChannelPut2(channel, m_node->buf+m_node->m_head+m_offset, len, 0, blocking);
+
+		if (blockedBytes)
+			goto done;
+
+		m_position += len;
+		bytesLeft -= len;
+
+		if (!bytesLeft)
+		{
+			m_offset += len;
+			goto done;
+		}
+
+		m_node = m_node->next;
+		m_offset = 0;
+	}
+
+	if (bytesLeft && m_lazyLength)
+	{
+		size_t len = (size_t)STDMIN(bytesLeft, (lword)m_lazyLength);
+		blockedBytes = target.ChannelPut2(channel, m_lazyString, len, 0, blocking);
+		if (blockedBytes)
+			goto done;
+
+		m_lazyString += len;
+		m_lazyLength -= len;
+		bytesLeft -= len;
+	}
+
+done:
+	transferBytes -= bytesLeft;
+	return blockedBytes;
+}
+
+size_t ByteQueue::Walker::CopyRangeTo2(BufferedTransformation &target, lword &begin, lword end, const std::string &channel, bool blocking) const
+{
+	Walker walker(*this);
+	walker.Skip(begin);
+	lword transferBytes = end-begin;
+	size_t blockedBytes = walker.TransferTo2(target, transferBytes, channel, blocking);
+	begin += transferBytes;
+	return blockedBytes;
+}
+
+NAMESPACE_END
+
+#endif
