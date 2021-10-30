@@ -136,4 +136,86 @@ public:
 	size_t DefaultKeyLength() const {return INFO::DEFAULT_KEYLENGTH;}
 	size_t GetValidKeyLength(size_t n) const {return INFO::StaticGetValidKeyLength(n);}
 	SimpleKeyingInterface::IV_Requirement IVRequirement() const {return (SimpleKeyingInterface::IV_Requirement)INFO::IV_REQUIREMENT;}
-	unsigned int IVSize() c
+	unsigned int IVSize() const {return INFO::IV_LENGTH;}
+};
+
+template <class INFO, class BASE = BlockCipher>
+class CRYPTOPP_NO_VTABLE BlockCipherImpl : public AlgorithmImpl<SimpleKeyingInterfaceImpl<TwoBases<BASE, INFO> > >
+{
+public:
+	unsigned int BlockSize() const {return this->BLOCKSIZE;}
+};
+
+//! _
+template <CipherDir DIR, class BASE>
+class BlockCipherFinal : public ClonableImpl<BlockCipherFinal<DIR, BASE>, BASE>
+{
+public:
+ 	BlockCipherFinal() {}
+	BlockCipherFinal(const byte *key)
+		{this->SetKey(key, this->DEFAULT_KEYLENGTH);}
+	BlockCipherFinal(const byte *key, size_t length)
+		{this->SetKey(key, length);}
+	BlockCipherFinal(const byte *key, size_t length, unsigned int rounds)
+		{this->SetKeyWithRounds(key, length, rounds);}
+
+	bool IsForwardTransformation() const {return DIR == ENCRYPTION;}
+};
+
+//! _
+template <class BASE, class INFO = BASE>
+class MessageAuthenticationCodeImpl : public AlgorithmImpl<SimpleKeyingInterfaceImpl<BASE, INFO>, INFO>
+{
+};
+
+//! _
+template <class BASE>
+class MessageAuthenticationCodeFinal : public ClonableImpl<MessageAuthenticationCodeFinal<BASE>, MessageAuthenticationCodeImpl<BASE> >
+{
+public:
+ 	MessageAuthenticationCodeFinal() {}
+	MessageAuthenticationCodeFinal(const byte *key)
+		{this->SetKey(key, this->DEFAULT_KEYLENGTH);}
+	MessageAuthenticationCodeFinal(const byte *key, size_t length)
+		{this->SetKey(key, length);}
+};
+
+// ************** documentation ***************
+
+//! These objects usually should not be used directly. See CipherModeDocumentation instead.
+/*! Each class derived from this one defines two types, Encryption and Decryption, 
+	both of which implement the BlockCipher interface. */
+struct BlockCipherDocumentation
+{
+	//! implements the BlockCipher interface
+	typedef BlockCipher Encryption;
+	//! implements the BlockCipher interface
+	typedef BlockCipher Decryption;
+};
+
+/*! \brief Each class derived from this one defines two types, Encryption and Decryption, 
+	both of which implement the SymmetricCipher interface. Two types of classes derive
+	from this class: stream ciphers and block cipher modes. Stream ciphers can be used
+	alone, cipher mode classes need to be used with a block cipher. See CipherModeDocumentation
+	for more for information about using cipher modes and block ciphers. */
+struct SymmetricCipherDocumentation
+{
+	//! implements the SymmetricCipher interface
+	typedef SymmetricCipher Encryption;
+	//! implements the SymmetricCipher interface
+	typedef SymmetricCipher Decryption;
+};
+
+/*! \brief Each class derived from this one defines two types, Encryption and Decryption, 
+	both of which implement the AuthenticatedSymmetricCipher interface. */
+struct AuthenticatedSymmetricCipherDocumentation
+{
+	//! implements the AuthenticatedSymmetricCipher interface
+	typedef AuthenticatedSymmetricCipher Encryption;
+	//! implements the AuthenticatedSymmetricCipher interface
+	typedef AuthenticatedSymmetricCipher Decryption;
+};
+
+NAMESPACE_END
+
+#endif
