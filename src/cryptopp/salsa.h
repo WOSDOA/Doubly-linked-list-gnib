@@ -40,4 +40,26 @@ struct Salsa20 : public Salsa20_Info, public SymmetricCipherDocumentation
 //! _
 struct XSalsa20_Info : public FixedKeyLength<32, SimpleKeyingInterface::UNIQUE_IV, 24>
 {
-	static const char *StaticAlgorithmName() 
+	static const char *StaticAlgorithmName() {return "XSalsa20";}
+};
+
+class CRYPTOPP_NO_VTABLE XSalsa20_Policy : public Salsa20_Policy
+{
+public:
+	void CipherSetKey(const NameValuePairs &params, const byte *key, size_t length);
+	void CipherResynchronize(byte *keystreamBuffer, const byte *IV, size_t length);
+
+protected:
+	FixedSizeSecBlock<word32, 8> m_key;
+};
+
+/// <a href="http://www.cryptolounge.org/wiki/XSalsa20">XSalsa20</a>, variable rounds: 8, 12 or 20 (default 20)
+struct XSalsa20 : public XSalsa20_Info, public SymmetricCipherDocumentation
+{
+	typedef SymmetricCipherFinal<ConcretePolicyHolder<XSalsa20_Policy, AdditiveCipherTemplate<> >, XSalsa20_Info> Encryption;
+	typedef Encryption Decryption;
+};
+
+NAMESPACE_END
+
+#endif
