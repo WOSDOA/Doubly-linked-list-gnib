@@ -298,4 +298,137 @@ NAMESPACE_BEGIN(CryptoPP)
             }
 
 #define I5(i, r0, r1, r2, r3, r4) \
-     
+       {           \
+    r1 = ~r1;      \
+    r4 = r3;   \
+    r2 ^= r1;   \
+    r3 |= r0;   \
+    r3 ^= r2;   \
+    r2 |= r1;   \
+    r2 &= r0;   \
+    r4 ^= r3;   \
+    r2 ^= r4;   \
+    r4 |= r0;   \
+    r4 ^= r1;   \
+    r1 &= r2;   \
+    r1 ^= r3;   \
+    r4 ^= r2;   \
+    r3 &= r4;   \
+    r4 ^= r1;   \
+    r3 ^= r0;   \
+    r3 ^= r4;   \
+    r4 = ~r4;      \
+            }
+
+#define S6(i, r0, r1, r2, r3, r4) \
+       {           \
+    r2 = ~r2;      \
+    r4 = r3;   \
+    r3 &= r0;   \
+    r0 ^= r4;   \
+    r3 ^= r2;   \
+    r2 |= r4;   \
+    r1 ^= r3;   \
+    r2 ^= r0;   \
+    r0 |= r1;   \
+    r2 ^= r1;   \
+    r4 ^= r0;   \
+    r0 |= r3;   \
+    r0 ^= r2;   \
+    r4 ^= r3;   \
+    r4 ^= r0;   \
+    r3 = ~r3;      \
+    r2 &= r4;   \
+    r2 ^= r3;   \
+            }
+
+#define I6(i, r0, r1, r2, r3, r4) \
+       {           \
+    r0 ^= r2;   \
+    r4 = r2;   \
+    r2 &= r0;   \
+    r4 ^= r3;   \
+    r2 = ~r2;      \
+    r3 ^= r1;   \
+    r2 ^= r3;   \
+    r4 |= r0;   \
+    r0 ^= r2;   \
+    r3 ^= r4;   \
+    r4 ^= r1;   \
+    r1 &= r3;   \
+    r1 ^= r0;   \
+    r0 ^= r3;   \
+    r0 |= r2;   \
+    r3 ^= r1;   \
+    r4 ^= r0;   \
+            }
+
+#define S7(i, r0, r1, r2, r3, r4) \
+       {           \
+    r4 = r2;   \
+    r2 &= r1;   \
+    r2 ^= r3;   \
+    r3 &= r1;   \
+    r4 ^= r2;   \
+    r2 ^= r1;   \
+    r1 ^= r0;   \
+    r0 |= r4;   \
+    r0 ^= r2;   \
+    r3 ^= r1;   \
+    r2 ^= r3;   \
+    r3 &= r0;   \
+    r3 ^= r4;   \
+    r4 ^= r2;   \
+    r2 &= r0;   \
+    r4 = ~r4;      \
+    r2 ^= r4;   \
+    r4 &= r0;   \
+    r1 ^= r3;   \
+    r4 ^= r1;   \
+            }
+
+#define I7(i, r0, r1, r2, r3, r4) \
+       {           \
+    r4 = r2;   \
+    r2 ^= r0;   \
+    r0 &= r3;   \
+    r2 = ~r2;      \
+    r4 |= r3;   \
+    r3 ^= r1;   \
+    r1 |= r0;   \
+    r0 ^= r2;   \
+    r2 &= r4;   \
+    r1 ^= r2;   \
+    r2 ^= r0;   \
+    r0 |= r2;   \
+    r3 &= r4;   \
+    r0 ^= r3;   \
+    r4 ^= r1;   \
+    r3 ^= r4;   \
+    r4 |= r0;   \
+    r3 ^= r2;   \
+    r4 ^= r2;   \
+            }
+
+// key xor
+#define KX(r, a, b, c, d, e)	{\
+	a ^= k[4 * r + 0]; \
+	b ^= k[4 * r + 1]; \
+	c ^= k[4 * r + 2]; \
+	d ^= k[4 * r + 3];}
+
+#define LK(r, a, b, c, d, e)	{\
+	a = k[(8-r)*4 + 0];		\
+	b = k[(8-r)*4 + 1];		\
+	c = k[(8-r)*4 + 2];		\
+	d = k[(8-r)*4 + 3];}
+
+#define SK(r, a, b, c, d, e)	{\
+	k[(8-r)*4 + 4] = a;		\
+	k[(8-r)*4 + 5] = b;		\
+	k[(8-r)*4 + 6] = c;		\
+	k[(8-r)*4 + 7] = d;}
+
+void Serpent_KeySchedule(word32 *k, unsigned int rounds, const byte *userKey, size_t keylen);
+
+NAMESPACE_END
