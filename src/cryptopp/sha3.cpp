@@ -172,3 +172,114 @@ static void KeccakF1600(word64 *state)
             Emo ^= Do;
             BCo = rotlFixed(Emo, 21);
             Esu ^= Du;
+            BCu = rotlFixed(Esu, 14);
+            Aba =   BCa ^((~BCe)&  BCi );
+            Aba ^= (word64)KeccakF_RoundConstants[round+1];
+            Abe =   BCe ^((~BCi)&  BCo );
+            Abi =   BCi ^((~BCo)&  BCu );
+            Abo =   BCo ^((~BCu)&  BCa );
+            Abu =   BCu ^((~BCa)&  BCe );
+
+            Ebo ^= Do;
+            BCa = rotlFixed(Ebo, 28);
+            Egu ^= Du;
+            BCe = rotlFixed(Egu, 20);
+            Eka ^= Da;
+            BCi = rotlFixed(Eka, 3);
+            Eme ^= De;
+            BCo = rotlFixed(Eme, 45);
+            Esi ^= Di;
+            BCu = rotlFixed(Esi, 61);
+            Aga =   BCa ^((~BCe)&  BCi );
+            Age =   BCe ^((~BCi)&  BCo );
+            Agi =   BCi ^((~BCo)&  BCu );
+            Ago =   BCo ^((~BCu)&  BCa );
+            Agu =   BCu ^((~BCa)&  BCe );
+
+            Ebe ^= De;
+            BCa = rotlFixed(Ebe, 1);
+            Egi ^= Di;
+            BCe = rotlFixed(Egi, 6);
+            Eko ^= Do;
+            BCi = rotlFixed(Eko, 25);
+            Emu ^= Du;
+            BCo = rotlFixed(Emu, 8);
+            Esa ^= Da;
+            BCu = rotlFixed(Esa, 18);
+            Aka =   BCa ^((~BCe)&  BCi );
+            Ake =   BCe ^((~BCi)&  BCo );
+            Aki =   BCi ^((~BCo)&  BCu );
+            Ako =   BCo ^((~BCu)&  BCa );
+            Aku =   BCu ^((~BCa)&  BCe );
+
+            Ebu ^= Du;
+            BCa = rotlFixed(Ebu, 27);
+            Ega ^= Da;
+            BCe = rotlFixed(Ega, 36);
+            Eke ^= De;
+            BCi = rotlFixed(Eke, 10);
+            Emi ^= Di;
+            BCo = rotlFixed(Emi, 15);
+            Eso ^= Do;
+            BCu = rotlFixed(Eso, 56);
+            Ama =   BCa ^((~BCe)&  BCi );
+            Ame =   BCe ^((~BCi)&  BCo );
+            Ami =   BCi ^((~BCo)&  BCu );
+            Amo =   BCo ^((~BCu)&  BCa );
+            Amu =   BCu ^((~BCa)&  BCe );
+
+            Ebi ^= Di;
+            BCa = rotlFixed(Ebi, 62);
+            Ego ^= Do;
+            BCe = rotlFixed(Ego, 55);
+            Eku ^= Du;
+            BCi = rotlFixed(Eku, 39);
+            Ema ^= Da;
+            BCo = rotlFixed(Ema, 41);
+            Ese ^= De;
+            BCu = rotlFixed(Ese, 2);
+            Asa =   BCa ^((~BCe)&  BCi );
+            Ase =   BCe ^((~BCi)&  BCo );
+            Asi =   BCi ^((~BCo)&  BCu );
+            Aso =   BCo ^((~BCu)&  BCa );
+            Asu =   BCu ^((~BCa)&  BCe );
+        }
+
+        //copyToState(state, A)
+		Block::Put(NULL, state)(Aba)(Abe)(Abi)(Abo)(Abu)(Aga)(Age)(Agi)(Ago)(Agu)(Aka)(Ake)(Aki)(Ako)(Aku)(Ama)(Ame)(Ami)(Amo)(Amu)(Asa)(Ase)(Asi)(Aso)(Asu);
+    }
+}
+
+void SHA3::Update(const byte *input, size_t length)
+{
+	size_t spaceLeft;
+	while (length >= (spaceLeft = r() - m_counter))
+	{
+		xorbuf(m_state.BytePtr() + m_counter, input, spaceLeft);
+		KeccakF1600(m_state);
+		input += spaceLeft;
+		length -= spaceLeft;
+		m_counter = 0;
+	}
+
+	xorbuf(m_state.BytePtr() + m_counter, input, length);
+	m_counter += (unsigned int)length;
+}
+
+void SHA3::Restart()
+{
+	memset(m_state, 0, m_state.SizeInBytes());
+	m_counter = 0;
+}
+
+void SHA3::TruncatedFinal(byte *hash, size_t size)
+{
+	ThrowIfInvalidTruncatedSize(size);
+	m_state.BytePtr()[m_counter] ^= 1;
+	m_state.BytePtr()[r()-1] ^= 0x80;
+	KeccakF1600(m_state);
+	memcpy(hash, m_state, size);
+	Restart();
+}
+
+NAMESPACE_END
