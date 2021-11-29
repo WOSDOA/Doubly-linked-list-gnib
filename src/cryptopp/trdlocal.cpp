@@ -60,4 +60,14 @@ void *ThreadLocalStorage::GetValue() const
 #ifdef HAS_WINTHREADS
 	void *result = TlsGetValue(m_index);
 	if (!result && GetLastError() != NO_ERROR)
-		throw Err("TlsGetValue", GetLa
+		throw Err("TlsGetValue", GetLastError());
+#else
+	void *result = pthread_getspecific(m_index);
+#endif
+	return result;
+}
+
+NAMESPACE_END
+
+#endif	// #ifdef THREADS_AVAILABLE
+#endif
