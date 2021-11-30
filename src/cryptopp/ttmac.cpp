@@ -292,4 +292,47 @@ void TTMAC_Base::Transform(word32 *digest, const word32 *X, bool last)
 	Subround(F, b2, c2, d2, e2, a2, X[13],  6, k9);
 	Subround(F, a2, b2, c2, d2, e2, X[14],  5, k9);
 	Subround(F, e2, a2, b2, c2, d2, X[ 0], 15, k9);
-	Subround(F, d2, e2, a2, b2, c2, X[ 3], 13, k
+	Subround(F, d2, e2, a2, b2, c2, X[ 3], 13, k9);
+	Subround(F, c2, d2, e2, a2, b2, X[ 9], 11, k9);
+	Subround(F, b2, c2, d2, e2, a2, X[11], 11, k9);
+
+	a1 -= trackA[0];
+	b1 -= trackA[1];
+	c1 -= trackA[2];
+	d1 -= trackA[3];
+	e1 -= trackA[4];
+	a2 -= trackB[0];
+	b2 -= trackB[1];
+	c2 -= trackB[2];
+	d2 -= trackB[3];
+	e2 -= trackB[4];
+
+	if (!last)
+	{
+		trackA[0] = (b1 + e1) - d2;
+		trackA[1] = c1 - e2;
+		trackA[2] = d1 - a2;
+		trackA[3] = e1 - b2;
+		trackA[4] = a1 - c2;
+		trackB[0] = d1 - e2;
+		trackB[1] = (e1 + c1) - a2;
+		trackB[2] = a1 - b2;
+		trackB[3] = b1 - c2;
+		trackB[4] = c1 - d2;
+	}
+	else
+	{
+		trackB[0] = a2 - a1;
+		trackB[1] = b2 - b1;
+		trackB[2] = c2 - c1;
+		trackB[3] = d2 - d1;
+		trackB[4] = e2 - e1;
+		trackA[0] = 0;
+		trackA[1] = 0;
+		trackA[2] = 0;
+		trackA[3] = 0;
+		trackA[4] = 0;
+	}
+}
+
+NAMESPACE_END
