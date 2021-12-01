@@ -395,4 +395,198 @@ public:
 	unsigned int BlockSize() const {return E::BLOCKSIZE;}
 	unsigned int KeyLength() const {return m_keylen;}
 
-	apbt NewEncryption(
+	apbt NewEncryption(const byte *key) const
+		{return apbt(new E(key, m_keylen));}
+	apbt NewDecryption(const byte *key) const
+		{return apbt(new D(key, m_keylen));}
+
+	unsigned int m_keylen;
+};
+
+template <class E, class D> class VariableRoundsCipherFactory : public CipherFactory
+{
+public:
+	VariableRoundsCipherFactory(unsigned int keylen=0, unsigned int rounds=0)
+		: m_keylen(keylen ? keylen : E::DEFAULT_KEYLENGTH), m_rounds(rounds ? rounds : E::DEFAULT_ROUNDS) {}
+	unsigned int BlockSize() const {return E::BLOCKSIZE;}
+	unsigned int KeyLength() const {return m_keylen;}
+
+	apbt NewEncryption(const byte *key) const
+		{return apbt(new E(key, m_keylen, m_rounds));}
+	apbt NewDecryption(const byte *key) const
+		{return apbt(new D(key, m_keylen, m_rounds));}
+
+	unsigned int m_keylen, m_rounds;
+};
+
+bool BlockTransformationTest(const CipherFactory &cg, BufferedTransformation &valdata, unsigned int tuples = 0xffff)
+{
+	HexEncoder output(new FileSink(cout));
+	SecByteBlock plain(cg.BlockSize()), cipher(cg.BlockSize()), out(cg.BlockSize()), outplain(cg.BlockSize());
+	SecByteBlock key(cg.KeyLength());
+	bool pass=true, fail;
+
+	while (valdata.MaxRetrievable() && tuples--)
+	{
+		valdata.Get(key, cg.KeyLength());
+		valdata.Get(plain, cg.BlockSize());
+		valdata.Get(cipher, cg.BlockSize());
+
+		apbt transE = cg.NewEncryption(key);
+		transE->ProcessBlock(plain, out);
+		fail = memcmp(out, cipher, cg.BlockSize()) != 0;
+
+		apbt transD = cg.NewDecryption(key);
+		transD->ProcessBlock(out, outplain);
+		fail=fail || memcmp(outplain, plain, cg.BlockSize());
+
+		pass = pass && !fail;
+
+		cout << (fail ? "FAILED   " : "passed   ");
+		output.Put(key, cg.KeyLength());
+		cout << "   ";
+		output.Put(outplain, cg.BlockSize());
+		cout << "   ";
+		output.Put(out, cg.BlockSize());
+		cout << endl;
+	}
+	return pass;
+}
+
+class FilterTester : public Unflushable<Sink>
+{
+public:
+	FilterTester(const byte *validOutput, size_t outputLen)
+		: validOutput(validOutput), outputLen(outputLen), counter(0), fail(false) {}
+	void PutByte(byte inByte)
+	{
+		if (counter >= outputLen || validOutput[counter] != inByte)
+		{
+			std::cerr << "incorrect output " << counter << ", " << (word16)validOutput[counter] << ", " << (word16)inByte << "\n";
+			fail = true;
+			assert(false);
+		}
+		counter++;
+	}
+	size_t Put2(const byte *inString, size_t length, int messageEnd, bool blocking)
+	{
+		while (length--)
+			FilterTester::PutByte(*inString++);
+
+		if (messageEnd)
+			if (counter != outputLen)
+			{
+				fail = true;
+				assert(false);
+			}
+
+		return 0;
+	}
+	bool GetResult()
+	{
+		return !fail;
+	}
+
+	const byte *validOutput;
+	size_t outputLen, counter;
+	bool fail;
+};
+
+bool TestFilter(BufferedTransformation &bt, const byte *in, size_t inLen, const byte *out, size_t outLen)
+{
+	FilterTester *ft;
+	bt.Attach(ft = new FilterTester(out, outLen));
+
+	while (inLen)
+	{
+		size_t randomLen = GlobalRNG().GenerateWord32(0, (word32)inLen);
+		bt.Put(in, randomLen);
+		in += randomLen;
+		inLen -= randomLen;
+	}
+	bt.MessageEnd();
+	return ft->GetResult();
+}
+
+bool ValidateDES()
+{
+	cout << "\nDES validation suite running...\n\n";
+
+	FileSource valdata("TestData/descert.dat", true, new HexDecoder);
+	bool pass = BlockTransformationTest(FixedRoundsCipherFactory<DESEncryption, DESDecryption>(), valdata);
+
+	cout << "\nTesting EDE2, EDE3, and XEX3 variants...\n\n";
+
+	FileSource valdata1("TestData/3desval.dat", true, new HexDecoder);
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<DES_EDE2_Encryption, DES_EDE2_Decryption>(), valdata1, 1) && pass;
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<DES_EDE3_Encryption, DES_EDE3_Decryption>(), valdata1, 1) && pass;
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<DES_XEX3_Encryption, DES_XEX3_Decryption>(), valdata1, 1) && pass;
+
+	return pass;
+}
+
+bool TestModeIV(SymmetricCipher &e, SymmetricCipher &d)
+{
+	SecByteBlock lastIV, iv(e.IVSize());
+	StreamTransformationFilter filter(e, new StreamTransformationFilter(d));
+	byte plaintext[20480];
+
+	for (unsigned int i=1; i<sizeof(plaintext); i*=2)
+	{
+		e.GetNextIV(GlobalRNG(), iv);
+		if (iv == lastIV)
+			return false;
+		else
+			lastIV = iv;
+
+		e.Resynchronize(iv);
+		d.Resynchronize(iv);
+
+		unsigned int length = STDMAX(GlobalRNG().GenerateWord32(0, i), (word32)e.MinLastBlockSize());
+		GlobalRNG().GenerateBlock(plaintext, length);
+
+		if (!TestFilter(filter, plaintext, length, plaintext, length))
+			return false;
+	}
+
+	return true;
+}
+
+bool ValidateCipherModes()
+{
+	cout << "\nTesting DES modes...\n\n";
+	const byte key[] = {0x01,0x23,0x45,0x67,0x89,0xab,0xcd,0xef};
+	const byte iv[] = {0x12,0x34,0x56,0x78,0x90,0xab,0xcd,0xef};
+	const byte plain[] = {	// "Now is the time for all " without tailing 0
+		0x4e,0x6f,0x77,0x20,0x69,0x73,0x20,0x74,
+		0x68,0x65,0x20,0x74,0x69,0x6d,0x65,0x20,
+		0x66,0x6f,0x72,0x20,0x61,0x6c,0x6c,0x20};
+	DESEncryption desE(key);
+	DESDecryption desD(key);
+	bool pass=true, fail;
+
+	{
+		// from FIPS 81
+		const byte encrypted[] = {
+			0x3f, 0xa4, 0x0e, 0x8a, 0x98, 0x4d, 0x48, 0x15,
+			0x6a, 0x27, 0x17, 0x87, 0xab, 0x88, 0x83, 0xf9,
+			0x89, 0x3d, 0x51, 0xec, 0x4b, 0x56, 0x3b, 0x53};
+
+		ECB_Mode_ExternalCipher::Encryption modeE(desE);
+		fail = !TestFilter(StreamTransformationFilter(modeE, NULL, StreamTransformationFilter::NO_PADDING).Ref(),
+			plain, sizeof(plain), encrypted, sizeof(encrypted));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "ECB encryption" << endl;
+		
+		ECB_Mode_ExternalCipher::Decryption modeD(desD);
+		fail = !TestFilter(StreamTransformationFilter(modeD, NULL, StreamTransformationFilter::NO_PADDING).Ref(),
+			encrypted, sizeof(encrypted), plain, sizeof(plain));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "ECB decryption" << endl;
+	}
+	{
+		// from FIPS 81
+		const byte encrypted[] = {
+			0xE5, 0xC7, 0xCD, 0xDE, 0x87, 0x2B, 0xF2, 0x7C, 
+			0x43, 0xE9, 0x34, 0x00, 0x8C, 0x38, 0x9C, 0x0F, 
+			0x6
