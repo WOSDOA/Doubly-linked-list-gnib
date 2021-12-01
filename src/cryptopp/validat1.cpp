@@ -589,4 +589,136 @@ bool ValidateCipherModes()
 		const byte encrypted[] = {
 			0xE5, 0xC7, 0xCD, 0xDE, 0x87, 0x2B, 0xF2, 0x7C, 
 			0x43, 0xE9, 0x34, 0x00, 0x8C, 0x38, 0x9C, 0x0F, 
-			0x6
+			0x68, 0x37, 0x88, 0x49, 0x9A, 0x7C, 0x05, 0xF6};
+
+		CBC_Mode_ExternalCipher::Encryption modeE(desE, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeE, NULL, StreamTransformationFilter::NO_PADDING).Ref(),
+			plain, sizeof(plain), encrypted, sizeof(encrypted));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC encryption with no padding" << endl;
+		
+		CBC_Mode_ExternalCipher::Decryption modeD(desD, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeD, NULL, StreamTransformationFilter::NO_PADDING).Ref(),
+			encrypted, sizeof(encrypted), plain, sizeof(plain));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC decryption with no padding" << endl;
+
+		fail = !TestModeIV(modeE, modeD);
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC mode IV generation" << endl;
+	}
+	{
+		// generated with Crypto++, matches FIPS 81
+		// but has extra 8 bytes as result of padding
+		const byte encrypted[] = {
+			0xE5, 0xC7, 0xCD, 0xDE, 0x87, 0x2B, 0xF2, 0x7C, 
+			0x43, 0xE9, 0x34, 0x00, 0x8C, 0x38, 0x9C, 0x0F, 
+			0x68, 0x37, 0x88, 0x49, 0x9A, 0x7C, 0x05, 0xF6, 
+			0x62, 0xC1, 0x6A, 0x27, 0xE4, 0xFC, 0xF2, 0x77};
+
+		CBC_Mode_ExternalCipher::Encryption modeE(desE, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeE).Ref(),
+			plain, sizeof(plain), encrypted, sizeof(encrypted));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC encryption with PKCS #7 padding" << endl;
+		
+		CBC_Mode_ExternalCipher::Decryption modeD(desD, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeD).Ref(),
+			encrypted, sizeof(encrypted), plain, sizeof(plain));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC decryption with PKCS #7 padding" << endl;
+	}
+	{
+		// generated with Crypto++ 5.2, matches FIPS 81
+		// but has extra 8 bytes as result of padding
+		const byte encrypted[] = {
+			0xE5, 0xC7, 0xCD, 0xDE, 0x87, 0x2B, 0xF2, 0x7C, 
+			0x43, 0xE9, 0x34, 0x00, 0x8C, 0x38, 0x9C, 0x0F, 
+			0x68, 0x37, 0x88, 0x49, 0x9A, 0x7C, 0x05, 0xF6, 
+			0xcf, 0xb7, 0xc7, 0x64, 0x0e, 0x7c, 0xd9, 0xa7};
+
+		CBC_Mode_ExternalCipher::Encryption modeE(desE, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeE, NULL, StreamTransformationFilter::ONE_AND_ZEROS_PADDING).Ref(),
+			plain, sizeof(plain), encrypted, sizeof(encrypted));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC encryption with one-and-zeros padding" << endl;
+
+		CBC_Mode_ExternalCipher::Decryption modeD(desD, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeD, NULL, StreamTransformationFilter::ONE_AND_ZEROS_PADDING).Ref(),
+			encrypted, sizeof(encrypted), plain, sizeof(plain));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC decryption with one-and-zeros padding" << endl;
+	}
+	{
+		const byte plain[] = {'a', 0, 0, 0, 0, 0, 0, 0};
+		// generated with Crypto++
+		const byte encrypted[] = {
+			0x9B, 0x47, 0x57, 0x59, 0xD6, 0x9C, 0xF6, 0xD0};
+
+		CBC_Mode_ExternalCipher::Encryption modeE(desE, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeE, NULL, StreamTransformationFilter::ZEROS_PADDING).Ref(),
+			plain, 1, encrypted, sizeof(encrypted));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC encryption with zeros padding" << endl;
+
+		CBC_Mode_ExternalCipher::Decryption modeD(desD, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeD, NULL, StreamTransformationFilter::ZEROS_PADDING).Ref(),
+			encrypted, sizeof(encrypted), plain, sizeof(plain));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC decryption with zeros padding" << endl;
+	}
+	{
+		// generated with Crypto++, matches FIPS 81
+		// but with last two blocks swapped as result of CTS
+		const byte encrypted[] = {
+			0xE5, 0xC7, 0xCD, 0xDE, 0x87, 0x2B, 0xF2, 0x7C, 
+			0x68, 0x37, 0x88, 0x49, 0x9A, 0x7C, 0x05, 0xF6, 
+			0x43, 0xE9, 0x34, 0x00, 0x8C, 0x38, 0x9C, 0x0F};
+
+		CBC_CTS_Mode_ExternalCipher::Encryption modeE(desE, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeE).Ref(),
+			plain, sizeof(plain), encrypted, sizeof(encrypted));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC encryption with ciphertext stealing (CTS)" << endl;
+		
+		CBC_CTS_Mode_ExternalCipher::Decryption modeD(desD, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeD).Ref(),
+			encrypted, sizeof(encrypted), plain, sizeof(plain));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC decryption with ciphertext stealing (CTS)" << endl;
+
+		fail = !TestModeIV(modeE, modeD);
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC CTS IV generation" << endl;
+	}
+	{
+		// generated with Crypto++
+		const byte decryptionIV[] = {0x4D, 0xD0, 0xAC, 0x8F, 0x47, 0xCF, 0x79, 0xCE};
+		const byte encrypted[] = {0x12, 0x34, 0x56};
+
+		byte stolenIV[8];
+
+		CBC_CTS_Mode_ExternalCipher::Encryption modeE(desE, iv);
+		modeE.SetStolenIV(stolenIV);
+		fail = !TestFilter(StreamTransformationFilter(modeE).Ref(),
+			plain, 3, encrypted, sizeof(encrypted));
+		fail = memcmp(stolenIV, decryptionIV, 8) != 0 || fail;
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC encryption with ciphertext and IV stealing" << endl;
+		
+		CBC_CTS_Mode_ExternalCipher::Decryption modeD(desD, stolenIV);
+		fail = !TestFilter(StreamTransformationFilter(modeD).Ref(),
+			encrypted, sizeof(encrypted), plain, 3);
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC decryption with ciphertext and IV stealing" << endl;
+	}
+	{
+		const byte encrypted[] = {	// from FIPS 81
+			0xF3,0x09,0x62,0x49,0xC7,0xF4,0x6E,0x51,
+			0xA6,0x9E,0x83,0x9B,0x1A,0x92,0xF7,0x84,
+			0x03,0x46,0x71,0x33,0x89,0x8E,0xA6,0x22};
+
+		CFB_Mode_ExternalCipher::Encryption modeE(desE, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeE).Ref(),
+			plain, sizeof(plain), encrypted, sizeof(encrypted));
+		pass = pass &&
