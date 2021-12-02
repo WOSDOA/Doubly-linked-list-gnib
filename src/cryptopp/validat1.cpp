@@ -721,4 +721,155 @@ bool ValidateCipherModes()
 		CFB_Mode_ExternalCipher::Encryption modeE(desE, iv);
 		fail = !TestFilter(StreamTransformationFilter(modeE).Ref(),
 			plain, sizeof(plain), encrypted, sizeof(encrypted));
-		pass = pass &&
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CFB encryption" << endl;
+
+		CFB_Mode_ExternalCipher::Decryption modeD(desE, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeD).Ref(),
+			encrypted, sizeof(encrypted), plain, sizeof(plain));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CFB decryption" << endl;
+
+		fail = !TestModeIV(modeE, modeD);
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CFB mode IV generation" << endl;
+	}
+	{
+		const byte plain[] = {	// "Now is the." without tailing 0
+			0x4e,0x6f,0x77,0x20,0x69,0x73,0x20,0x74,0x68,0x65};
+		const byte encrypted[] = {	// from FIPS 81
+			0xf3,0x1f,0xda,0x07,0x01,0x14,0x62,0xee,0x18,0x7f};
+
+		CFB_Mode_ExternalCipher::Encryption modeE(desE, iv, 1);
+		fail = !TestFilter(StreamTransformationFilter(modeE).Ref(),
+			plain, sizeof(plain), encrypted, sizeof(encrypted));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CFB (8-bit feedback) encryption" << endl;
+
+		CFB_Mode_ExternalCipher::Decryption modeD(desE, iv, 1);
+		fail = !TestFilter(StreamTransformationFilter(modeD).Ref(),
+			encrypted, sizeof(encrypted), plain, sizeof(plain));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CFB (8-bit feedback) decryption" << endl;
+
+		fail = !TestModeIV(modeE, modeD);
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CFB (8-bit feedback) IV generation" << endl;
+	}
+	{
+		const byte encrypted[] = {	// from Eric Young's libdes
+			0xf3,0x09,0x62,0x49,0xc7,0xf4,0x6e,0x51,
+			0x35,0xf2,0x4a,0x24,0x2e,0xeb,0x3d,0x3f,
+			0x3d,0x6d,0x5b,0xe3,0x25,0x5a,0xf8,0xc3};
+
+		OFB_Mode_ExternalCipher::Encryption modeE(desE, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeE).Ref(),
+			plain, sizeof(plain), encrypted, sizeof(encrypted));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "OFB encryption" << endl;
+
+		OFB_Mode_ExternalCipher::Decryption modeD(desE, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeD).Ref(),
+			encrypted, sizeof(encrypted), plain, sizeof(plain));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "OFB decryption" << endl;
+
+		fail = !TestModeIV(modeE, modeD);
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "OFB IV generation" << endl;
+	}
+	{
+		const byte encrypted[] = {	// generated with Crypto++
+			0xF3, 0x09, 0x62, 0x49, 0xC7, 0xF4, 0x6E, 0x51, 
+			0x16, 0x3A, 0x8C, 0xA0, 0xFF, 0xC9, 0x4C, 0x27, 
+			0xFA, 0x2F, 0x80, 0xF4, 0x80, 0xB8, 0x6F, 0x75};
+
+		CTR_Mode_ExternalCipher::Encryption modeE(desE, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeE).Ref(),
+			plain, sizeof(plain), encrypted, sizeof(encrypted));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "Counter Mode encryption" << endl;
+
+		CTR_Mode_ExternalCipher::Decryption modeD(desE, iv);
+		fail = !TestFilter(StreamTransformationFilter(modeD).Ref(),
+			encrypted, sizeof(encrypted), plain, sizeof(plain));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "Counter Mode decryption" << endl;
+
+		fail = !TestModeIV(modeE, modeD);
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "Counter Mode IV generation" << endl;
+	}
+	{
+		const byte plain[] = {	// "7654321 Now is the time for "
+			0x37, 0x36, 0x35, 0x34, 0x33, 0x32, 0x31, 0x20, 
+			0x4e, 0x6f, 0x77, 0x20, 0x69, 0x73, 0x20, 0x74, 
+			0x68, 0x65, 0x20, 0x74, 0x69, 0x6d, 0x65, 0x20, 
+			0x66, 0x6f, 0x72, 0x20};
+		const byte mac1[] = {	// from FIPS 113
+			0xf1, 0xd3, 0x0f, 0x68, 0x49, 0x31, 0x2c, 0xa4};
+		const byte mac2[] = {	// generated with Crypto++
+			0x35, 0x80, 0xC5, 0xC4, 0x6B, 0x81, 0x24, 0xE2};
+
+		CBC_MAC<DES> cbcmac(key);
+		HashFilter cbcmacFilter(cbcmac);
+		fail = !TestFilter(cbcmacFilter, plain, sizeof(plain), mac1, sizeof(mac1));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "CBC MAC" << endl;
+
+		DMAC<DES> dmac(key);
+		HashFilter dmacFilter(dmac);
+		fail = !TestFilter(dmacFilter, plain, sizeof(plain), mac2, sizeof(mac2));
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "DMAC" << endl;
+	}
+	{
+		CTR_Mode<AES>::Encryption modeE(plain, 16, plain);
+		CTR_Mode<AES>::Decryption modeD(plain, 16, plain);
+		fail = !TestModeIV(modeE, modeD);
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "AES CTR Mode" << endl;
+	}
+	{
+		OFB_Mode<AES>::Encryption modeE(plain, 16, plain);
+		OFB_Mode<AES>::Decryption modeD(plain, 16, plain);
+		fail = !TestModeIV(modeE, modeD);
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "AES OFB Mode" << endl;
+	}
+	{
+		CFB_Mode<AES>::Encryption modeE(plain, 16, plain);
+		CFB_Mode<AES>::Decryption modeD(plain, 16, plain);
+		fail = !TestModeIV(modeE, modeD);
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "AES CFB Mode" << endl;
+	}
+	{
+		CBC_Mode<AES>::Encryption modeE(plain, 16, plain);
+		CBC_Mode<AES>::Decryption modeD(plain, 16, plain);
+		fail = !TestModeIV(modeE, modeD);
+		pass = pass && !fail;
+		cout << (fail ? "FAILED   " : "passed   ") << "AES CBC Mode" << endl;
+	}
+
+	return pass;
+}
+
+bool ValidateIDEA()
+{
+	cout << "\nIDEA validation suite running...\n\n";
+
+	FileSource valdata("TestData/ideaval.dat", true, new HexDecoder);
+	return BlockTransformationTest(FixedRoundsCipherFactory<IDEAEncryption, IDEADecryption>(), valdata);
+}
+
+bool ValidateSAFER()
+{
+	cout << "\nSAFER validation suite running...\n\n";
+
+	FileSource valdata("TestData/saferval.dat", true, new HexDecoder);
+	bool pass = true;
+	pass = BlockTransformationTest(VariableRoundsCipherFactory<SAFER_K_Encryption, SAFER_K_Decryption>(8,6), valdata, 4) && pass;
+	pass = BlockTransformationTest(VariableRoundsCipherFactory<SAFER_K_Encryption, SAFER_K_Decryption>(16,12), valdata, 4) && pass;
+	pass = BlockTransformationTest(VariableRoundsCipherFactory<SAFER_SK_Encryption, SAFER_SK_Decryption>(8,6), valdata, 4) && pass;
+	pass = BlockTransformationTest(VariableRoundsCipherFactory<SAFER_SK_Encryption,
