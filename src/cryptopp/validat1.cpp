@@ -1304,4 +1304,106 @@ bool ValidateBaseCode()
 "486838674953496A4A43556D4A7967704B6973734C5334764D4445794D7A51310A4E6A63344F546F"
 "375044302B50304242516B4E4552555A4853456C4B5330784E546B395155564A5456465657563168"
 "5A576C746358563566594746695932526C5A6D646F615770720A6247317562334278636E4E306458"
-"5A3365486C36653
+"5A3365486C3665337839666E2B4167594B44684957476834694A696F754D6A5936506B4A47536B35"
+"53566C7065596D5A71626E4A32656E3643680A6F714F6B7061616E714B6D717136797472712B7773"
+"624B7A744C573274376935757275387662362F774D484377385446787366497963724C7A4D334F7A"
+"39445230745055316462580A324E6E6132397A6433742F6734654C6A354F586D352B6A7036757673"
+"3765377638504879382F5431397666342B6672372F50332B0A";
+
+	cout << "\nBase64, base32 and hex coding validation suite running...\n\n";
+
+	fail = !TestFilter(HexEncoder().Ref(), data, 255, (const byte *)hexEncoded, strlen(hexEncoded));
+	cout << (fail ? "FAILED    " : "passed    ");
+	cout << "Hex Encoding\n";
+	pass = pass && !fail;
+
+	fail = !TestFilter(HexDecoder().Ref(), (const byte *)hexEncoded, strlen(hexEncoded), data, 255);
+	cout << (fail ? "FAILED    " : "passed    ");
+	cout << "Hex Decoding\n";
+	pass = pass && !fail;
+
+	fail = !TestFilter(Base32Encoder().Ref(), data, 255, (const byte *)base32Encoded, strlen(base32Encoded));
+	cout << (fail ? "FAILED    " : "passed    ");
+	cout << "Base32 Encoding\n";
+	pass = pass && !fail;
+
+	fail = !TestFilter(Base32Decoder().Ref(), (const byte *)base32Encoded, strlen(base32Encoded), data, 255);
+	cout << (fail ? "FAILED    " : "passed    ");
+	cout << "Base32 Decoding\n";
+	pass = pass && !fail;
+
+	fail = !TestFilter(Base64Encoder(new HexEncoder).Ref(), data, 255, (const byte *)base64AndHexEncoded, strlen(base64AndHexEncoded));
+	cout << (fail ? "FAILED    " : "passed    ");
+	cout << "Base64 Encoding\n";
+	pass = pass && !fail;
+
+	fail = !TestFilter(HexDecoder(new Base64Decoder).Ref(), (const byte *)base64AndHexEncoded, strlen(base64AndHexEncoded), data, 255);
+	cout << (fail ? "FAILED    " : "passed    ");
+	cout << "Base64 Decoding\n";
+	pass = pass && !fail;
+
+	return pass;
+}
+
+bool ValidateSHACAL2()
+{
+	cout << "\nSHACAL-2 validation suite running...\n\n";
+
+	bool pass = true;
+	FileSource valdata("TestData/shacal2v.dat", true, new HexDecoder);
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<SHACAL2Encryption, SHACAL2Decryption>(16), valdata, 4) && pass;
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<SHACAL2Encryption, SHACAL2Decryption>(64), valdata, 10) && pass;
+	return pass;
+}
+
+bool ValidateCamellia()
+{
+	cout << "\nCamellia validation suite running...\n\n";
+
+	bool pass = true;
+	FileSource valdata("TestData/camellia.dat", true, new HexDecoder);
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<CamelliaEncryption, CamelliaDecryption>(16), valdata, 15) && pass;
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<CamelliaEncryption, CamelliaDecryption>(24), valdata, 15) && pass;
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<CamelliaEncryption, CamelliaDecryption>(32), valdata, 15) && pass;
+	return pass;
+}
+
+bool ValidateSalsa()
+{
+	cout << "\nSalsa validation suite running...\n";
+
+	return RunTestDataFile("TestVectors/salsa.txt");
+}
+
+bool ValidateSosemanuk()
+{
+	cout << "\nSosemanuk validation suite running...\n";
+	return RunTestDataFile("TestVectors/sosemanuk.txt");
+}
+
+bool ValidateVMAC()
+{
+	cout << "\nVMAC validation suite running...\n";
+	return RunTestDataFile("TestVectors/vmac.txt");
+}
+
+bool ValidateCCM()
+{
+	cout << "\nAES/CCM validation suite running...\n";
+	return RunTestDataFile("TestVectors/ccm.txt");
+}
+
+bool ValidateGCM()
+{
+	cout << "\nAES/GCM validation suite running...\n";
+	cout << "\n2K tables:";
+	bool pass = RunTestDataFile("TestVectors/gcm.txt", MakeParameters(Name::TableSize(), (int)2048));
+	cout << "\n64K tables:";
+	return RunTestDataFile("TestVectors/gcm.txt", MakeParameters(Name::TableSize(), (int)64*1024)) && pass;
+}
+
+bool ValidateCMAC()
+{
+	cout << "\nCMAC validation suite running...\n";
+	return RunTestDataFile("TestVectors/cmac.txt");
+}
