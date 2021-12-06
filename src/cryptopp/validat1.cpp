@@ -1150,4 +1150,158 @@ bool ValidateSerpent()
 	FileSource valdata("TestData/serpentv.dat", true, new HexDecoder);
 	bool pass = true;
 	pass = BlockTransformationTest(FixedRoundsCipherFactory<SerpentEncryption, SerpentDecryption>(16), valdata, 5) && pass;
-	pass = BlockTransformationTest(FixedRoundsCipherFactory<SerpentEncryption, SerpentDecryption>(24),
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<SerpentEncryption, SerpentDecryption>(24), valdata, 4) && pass;
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<SerpentEncryption, SerpentDecryption>(32), valdata, 3) && pass;
+	return pass;
+}
+
+bool ValidateBlowfish()
+{
+	cout << "\nBlowfish validation suite running...\n\n";
+
+	HexEncoder output(new FileSink(cout));
+	const char *key[]={"abcdefghijklmnopqrstuvwxyz", "Who is John Galt?"};
+	byte *plain[]={(byte *)"BLOWFISH", (byte *)"\xfe\xdc\xba\x98\x76\x54\x32\x10"};
+	byte *cipher[]={(byte *)"\x32\x4e\xd0\xfe\xf4\x13\xa2\x03", (byte *)"\xcc\x91\x73\x2b\x80\x22\xf6\x84"};
+	byte out[8], outplain[8];
+	bool pass=true, fail;
+
+	for (int i=0; i<2; i++)
+	{
+		ECB_Mode<Blowfish>::Encryption enc((byte *)key[i], strlen(key[i]));
+		enc.ProcessData(out, plain[i], 8);
+		fail = memcmp(out, cipher[i], 8) != 0;
+
+		ECB_Mode<Blowfish>::Decryption dec((byte *)key[i], strlen(key[i]));
+		dec.ProcessData(outplain, cipher[i], 8);
+		fail = fail || memcmp(outplain, plain[i], 8);
+		pass = pass && !fail;
+
+		cout << (fail ? "FAILED    " : "passed    ");
+		cout << '\"' << key[i] << '\"';
+		for (int j=0; j<(signed int)(30-strlen(key[i])); j++)
+			cout << ' ';
+		output.Put(outplain, 8);
+		cout << "  ";
+		output.Put(out, 8);
+		cout << endl;
+	}
+	return pass;
+}
+
+bool ValidateThreeWay()
+{
+	cout << "\n3-WAY validation suite running...\n\n";
+
+	FileSource valdata("TestData/3wayval.dat", true, new HexDecoder);
+	return BlockTransformationTest(FixedRoundsCipherFactory<ThreeWayEncryption, ThreeWayDecryption>(), valdata);
+}
+
+bool ValidateGOST()
+{
+	cout << "\nGOST validation suite running...\n\n";
+
+	FileSource valdata("TestData/gostval.dat", true, new HexDecoder);
+	return BlockTransformationTest(FixedRoundsCipherFactory<GOSTEncryption, GOSTDecryption>(), valdata);
+}
+
+bool ValidateSHARK()
+{
+	cout << "\nSHARK validation suite running...\n\n";
+
+	FileSource valdata("TestData/sharkval.dat", true, new HexDecoder);
+	return BlockTransformationTest(FixedRoundsCipherFactory<SHARKEncryption, SHARKDecryption>(), valdata);
+}
+
+bool ValidateCAST()
+{
+	bool pass = true;
+
+	cout << "\nCAST-128 validation suite running...\n\n";
+
+	FileSource val128("TestData/cast128v.dat", true, new HexDecoder);
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<CAST128Encryption, CAST128Decryption>(16), val128, 1) && pass;
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<CAST128Encryption, CAST128Decryption>(10), val128, 1) && pass;
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<CAST128Encryption, CAST128Decryption>(5), val128, 1) && pass;
+
+	cout << "\nCAST-256 validation suite running...\n\n";
+
+	FileSource val256("TestData/cast256v.dat", true, new HexDecoder);
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<CAST256Encryption, CAST256Decryption>(16), val256, 1) && pass;
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<CAST256Encryption, CAST256Decryption>(24), val256, 1) && pass;
+	pass = BlockTransformationTest(FixedRoundsCipherFactory<CAST256Encryption, CAST256Decryption>(32), val256, 1) && pass;
+
+	return pass;
+}
+
+bool ValidateSquare()
+{
+	cout << "\nSquare validation suite running...\n\n";
+
+	FileSource valdata("TestData/squareva.dat", true, new HexDecoder);
+	return BlockTransformationTest(FixedRoundsCipherFactory<SquareEncryption, SquareDecryption>(), valdata);
+}
+
+bool ValidateSKIPJACK()
+{
+	cout << "\nSKIPJACK validation suite running...\n\n";
+
+	FileSource valdata("TestData/skipjack.dat", true, new HexDecoder);
+	return BlockTransformationTest(FixedRoundsCipherFactory<SKIPJACKEncryption, SKIPJACKDecryption>(), valdata);
+}
+
+bool ValidateSEAL()
+{
+	byte input[] = {0x37,0xa0,0x05,0x95,0x9b,0x84,0xc4,0x9c,0xa4,0xbe,0x1e,0x05,0x06,0x73,0x53,0x0f,0x5f,0xb0,0x97,0xfd,0xf6,0xa1,0x3f,0xbd,0x6c,0x2c,0xde,0xcd,0x81,0xfd,0xee,0x7c};
+	byte output[32];
+	byte key[] = {0x67, 0x45, 0x23, 0x01, 0xef, 0xcd, 0xab, 0x89, 0x98, 0xba, 0xdc, 0xfe, 0x10, 0x32, 0x54, 0x76, 0xc3, 0xd2, 0xe1, 0xf0};
+	byte iv[] = {0x01, 0x35, 0x77, 0xaf};
+
+	cout << "\nSEAL validation suite running...\n\n";
+
+	SEAL<>::Encryption seal(key, sizeof(key), iv);
+	unsigned int size = sizeof(input);
+	bool pass = true;
+
+	memset(output, 1, size);
+	seal.ProcessString(output, input, size);
+	for (unsigned int i=0; i<size; i++)
+		if (output[i] != 0)
+			pass = false;
+
+	seal.Seek(1);
+	output[1] = seal.ProcessByte(output[1]);
+	seal.ProcessString(output+2, size-2);
+	pass = pass && memcmp(output+1, input+1, size-1) == 0;
+
+	cout << (pass ? "passed" : "FAILED") << endl;
+	return pass;
+}
+
+bool ValidateBaseCode()
+{
+	bool pass = true, fail;
+	byte data[255];
+	for (unsigned int i=0; i<255; i++)
+		data[i] = i;
+	const char *hexEncoded = 
+"000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F2021222324252627"
+"28292A2B2C2D2E2F303132333435363738393A3B3C3D3E3F404142434445464748494A4B4C4D4E4F"
+"505152535455565758595A5B5C5D5E5F606162636465666768696A6B6C6D6E6F7071727374757677"
+"78797A7B7C7D7E7F808182838485868788898A8B8C8D8E8F909192939495969798999A9B9C9D9E9F"
+"A0A1A2A3A4A5A6A7A8A9AAABACADAEAFB0B1B2B3B4B5B6B7B8B9BABBBCBDBEBFC0C1C2C3C4C5C6C7"
+"C8C9CACBCCCDCECFD0D1D2D3D4D5D6D7D8D9DADBDCDDDEDFE0E1E2E3E4E5E6E7E8E9EAEBECEDEEEF"
+"F0F1F2F3F4F5F6F7F8F9FAFBFCFDFE";
+	const char *base32Encoded = 
+"AAASEA2EAWDAQCAJBIFS2DIQB6IBCESVCSKTNF22DEPBYHA7D2RUAIJCENUCKJTHFAWUWK3NFWZC8NBT"
+"GI3VIPJYG66DUQT5HS8V6R4AIFBEGTCFI3DWSUKKJPGE4VURKBIXEW4WKXMFQYC3MJPX2ZK8M7SGC2VD"
+"NTUYN35IPFXGY5DPP3ZZA6MUQP4HK7VZRB6ZW856RX9H9AEBSKB2JBNGS8EIVCWMTUG27D6SUGJJHFEX"
+"U4M3TGN4VQQJ5HW9WCS4FI7EWYVKRKFJXKX43MPQX82MDNXVYU45PP72ZG7MZRF7Z496BSQC2RCNMTYH"
+"3DE6XU8N3ZHN9WGT4MJ7JXQY49NPVYY55VQ77Z9A6HTQH3HF65V8T4RK7RYQ55ZR8D29F69W8Z5RR8H3"
+"9M7939R8";
+	const char *base64AndHexEncoded = 
+"41414543417751464267634943516F4C4441304F4478415245684D554652595847426B6147787764"
+"486838674953496A4A43556D4A7967704B6973734C5334764D4445794D7A51310A4E6A63344F546F"
+"375044302B50304242516B4E4552555A4853456C4B5330784E546B395155564A5456465657563168"
+"5A576C746358563566594746695932526C5A6D646F615770720A6247317562334278636E4E306458"
+"5A3365486C36653
