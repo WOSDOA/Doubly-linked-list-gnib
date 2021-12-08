@@ -479,4 +479,180 @@ bool ValidateLUC_DL()
 	cout << "\nLUC-HMP validation suite running...\n\n";
 
 	FileSource f("TestData/lucs512.dat", true, new HexDecoder);
-	LUC_HMP<SHA>::Signer privS(f
+	LUC_HMP<SHA>::Signer privS(f);
+	LUC_HMP<SHA>::Verifier pubS(privS);
+	bool pass = SignatureValidate(privS, pubS);
+
+	cout << "\nLUC-IES validation suite running...\n\n";
+
+	FileSource fc("TestData/lucc512.dat", true, new HexDecoder);
+	LUC_IES<>::Decryptor privC(fc);
+	LUC_IES<>::Encryptor pubC(privC);
+	pass = CryptoSystemValidate(privC, pubC) && pass;
+
+	return pass;
+}
+
+bool ValidateRabin()
+{
+	cout << "\nRabin validation suite running...\n\n";
+	bool pass=true;
+
+	{
+		FileSource f("TestData/rabi1024.dat", true, new HexDecoder);
+		RabinSS<PSSR, SHA>::Signer priv(f);
+		RabinSS<PSSR, SHA>::Verifier pub(priv);
+		pass = SignatureValidate(priv, pub) && pass;
+	}
+	{
+		RabinES<OAEP<SHA> >::Decryptor priv(GlobalRNG(), 512);
+		RabinES<OAEP<SHA> >::Encryptor pub(priv);
+		pass = CryptoSystemValidate(priv, pub) && pass;
+	}
+	return pass;
+}
+
+bool ValidateRW()
+{
+	cout << "\nRW validation suite running...\n\n";
+
+	FileSource f("TestData/rw1024.dat", true, new HexDecoder);
+	RWSS<PSSR, SHA>::Signer priv(f);
+	RWSS<PSSR, SHA>::Verifier pub(priv);
+
+	return SignatureValidate(priv, pub);
+}
+
+/*
+bool ValidateBlumGoldwasser()
+{
+	cout << "\nBlumGoldwasser validation suite running...\n\n";
+
+	FileSource f("TestData/blum512.dat", true, new HexDecoder);
+	BlumGoldwasserPrivateKey priv(f);
+	BlumGoldwasserPublicKey pub(priv);
+
+	return CryptoSystemValidate(priv, pub);
+}
+*/
+
+bool ValidateECP()
+{
+	cout << "\nECP validation suite running...\n\n";
+
+	ECIES<ECP>::Decryptor cpriv(GlobalRNG(), ASN1::secp192r1());
+	ECIES<ECP>::Encryptor cpub(cpriv);
+	ByteQueue bq;
+	cpriv.GetKey().DEREncode(bq);
+	cpub.AccessKey().AccessGroupParameters().SetEncodeAsOID(true);
+	cpub.GetKey().DEREncode(bq);
+	ECDSA<ECP, SHA>::Signer spriv(bq);
+	ECDSA<ECP, SHA>::Verifier spub(bq);
+	ECDH<ECP>::Domain ecdhc(ASN1::secp192r1());
+	ECMQV<ECP>::Domain ecmqvc(ASN1::secp192r1());
+
+	spriv.AccessKey().Precompute();
+	ByteQueue queue;
+	spriv.AccessKey().SavePrecomputation(queue);
+	spriv.AccessKey().LoadPrecomputation(queue);
+
+	bool pass = SignatureValidate(spriv, spub);
+	cpub.AccessKey().Precompute();
+	cpriv.AccessKey().Precompute();
+	pass = CryptoSystemValidate(cpriv, cpub) && pass;
+	pass = SimpleKeyAgreementValidate(ecdhc) && pass;
+	pass = AuthenticatedKeyAgreementValidate(ecmqvc) && pass;
+
+	cout << "Turning on point compression..." << endl;
+	cpriv.AccessKey().AccessGroupParameters().SetPointCompression(true);
+	cpub.AccessKey().AccessGroupParameters().SetPointCompression(true);
+	ecdhc.AccessGroupParameters().SetPointCompression(true);
+	ecmqvc.AccessGroupParameters().SetPointCompression(true);
+	pass = CryptoSystemValidate(cpriv, cpub) && pass;
+	pass = SimpleKeyAgreementValidate(ecdhc) && pass;
+	pass = AuthenticatedKeyAgreementValidate(ecmqvc) && pass;
+
+	cout << "Testing SEC 2, NIST, and Brainpool recommended curves..." << endl;
+	OID oid;
+	while (!(oid = DL_GroupParameters_EC<ECP>::GetNextRecommendedParametersOID(oid)).m_values.empty())
+	{
+		DL_GroupParameters_EC<ECP> params(oid);
+		bool fail = !params.Validate(GlobalRNG(), 2);
+		cout << (fail ? "FAILED" : "passed") << "    " << dec << params.GetCurve().GetField().MaxElementBitLength() << " bits" << endl;
+		pass = pass && !fail;
+	}
+
+	return pass;
+}
+
+bool ValidateEC2N()
+{
+	cout << "\nEC2N validation suite running...\n\n";
+
+	ECIES<EC2N>::Decryptor cpriv(GlobalRNG(), ASN1::sect193r1());
+	ECIES<EC2N>::Encryptor cpub(cpriv);
+	ByteQueue bq;
+	cpriv.DEREncode(bq);
+	cpub.AccessKey().AccessGroupParameters().SetEncodeAsOID(true);
+	cpub.DEREncode(bq);
+	ECDSA<EC2N, SHA>::Signer spriv(bq);
+	ECDSA<EC2N, SHA>::Verifier spub(bq);
+	ECDH<EC2N>::Domain ecdhc(ASN1::sect193r1());
+	ECMQV<EC2N>::Domain ecmqvc(ASN1::sect193r1());
+
+	spriv.AccessKey().Precompute();
+	ByteQueue queue;
+	spriv.AccessKey().SavePrecomputation(queue);
+	spriv.AccessKey().LoadPrecomputation(queue);
+
+	bool pass = SignatureValidate(spriv, spub);
+	pass = CryptoSystemValidate(cpriv, cpub) && pass;
+	pass = SimpleKeyAgreementValidate(ecdhc) && pass;
+	pass = AuthenticatedKeyAgreementValidate(ecmqvc) && pass;
+
+	cout << "Turning on point compression..." << endl;
+	cpriv.AccessKey().AccessGroupParameters().SetPointCompression(true);
+	cpub.AccessKey().AccessGroupParameters().SetPointCompression(true);
+	ecdhc.AccessGroupParameters().SetPointCompression(true);
+	ecmqvc.AccessGroupParameters().SetPointCompression(true);
+	pass = CryptoSystemValidate(cpriv, cpub) && pass;
+	pass = SimpleKeyAgreementValidate(ecdhc) && pass;
+	pass = AuthenticatedKeyAgreementValidate(ecmqvc) && pass;
+
+#if 0	// TODO: turn this back on when I make EC2N faster for pentanomial basis
+	cout << "Testing SEC 2 recommended curves..." << endl;
+	OID oid;
+	while (!(oid = DL_GroupParameters_EC<EC2N>::GetNextRecommendedParametersOID(oid)).m_values.empty())
+	{
+		DL_GroupParameters_EC<EC2N> params(oid);
+		bool fail = !params.Validate(GlobalRNG(), 2);
+		cout << (fail ? "FAILED" : "passed") << "    " << params.GetCurve().GetField().MaxElementBitLength() << " bits" << endl;
+		pass = pass && !fail;
+	}
+#endif
+
+	return pass;
+}
+
+bool ValidateECDSA()
+{
+	cout << "\nECDSA validation suite running...\n\n";
+
+	// from Sample Test Vectors for P1363
+	GF2NT gf2n(191, 9, 0);
+	byte a[]="\x28\x66\x53\x7B\x67\x67\x52\x63\x6A\x68\xF5\x65\x54\xE1\x26\x40\x27\x6B\x64\x9E\xF7\x52\x62\x67";
+	byte b[]="\x2E\x45\xEF\x57\x1F\x00\x78\x6F\x67\xB0\x08\x1B\x94\x95\xA3\xD9\x54\x62\xF5\xDE\x0A\xA1\x85\xEC";
+	EC2N ec(gf2n, PolynomialMod2(a,24), PolynomialMod2(b,24));
+
+	EC2N::Point P;
+	ec.DecodePoint(P, (byte *)"\x04\x36\xB3\xDA\xF8\xA2\x32\x06\xF9\xC4\xF2\x99\xD7\xB2\x1A\x9C\x36\x91\x37\xF2\xC8\x4A\xE1\xAA\x0D"
+		"\x76\x5B\xE7\x34\x33\xB3\xF9\x5E\x33\x29\x32\xE7\x0E\xA2\x45\xCA\x24\x18\xEA\x0E\xF9\x80\x18\xFB", ec.EncodedPointSize());
+	Integer n("40000000000000000000000004a20e90c39067c893bbb9a5H");
+	Integer d("340562e1dda332f9d2aec168249b5696ee39d0ed4d03760fH");
+	EC2N::Point Q(ec.Multiply(d, P));
+	ECDSA<EC2N, SHA>::Signer priv(ec, P, n, d);
+	ECDSA<EC2N, SHA>::Verifier pub(priv);
+
+	Integer h("A9993E364706816ABA3E25717850C26C9CD0D89DH");
+	Integer k("3eeace72b4919d991738d521879f787cb590aff8189d2b69H");
+	byte s
