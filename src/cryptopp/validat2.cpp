@@ -655,4 +655,68 @@ bool ValidateECDSA()
 
 	Integer h("A9993E364706816ABA3E25717850C26C9CD0D89DH");
 	Integer k("3eeace72b4919d991738d521879f787cb590aff8189d2b69H");
-	byte s
+	byte sig[]="\x03\x8e\x5a\x11\xfb\x55\xe4\xc6\x54\x71\xdc\xd4\x99\x84\x52\xb1\xe0\x2d\x8a\xf7\x09\x9b\xb9\x30"
+		"\x0c\x9a\x08\xc3\x44\x68\xc2\x44\xb4\xe5\xd6\xb2\x1b\x3c\x68\x36\x28\x07\x41\x60\x20\x32\x8b\x6e";
+	Integer r(sig, 24);
+	Integer s(sig+24, 24);
+
+	Integer rOut, sOut;
+	bool fail, pass=true;
+
+	priv.RawSign(k, h, rOut, sOut);
+	fail = (rOut != r) || (sOut != s);
+	pass = pass && !fail;
+
+	cout << (fail ? "FAILED    " : "passed    ");
+	cout << "signature check against test vector\n";
+
+	fail = !pub.VerifyMessage((byte *)"abc", 3, sig, sizeof(sig));
+	pass = pass && !fail;
+
+	cout << (fail ? "FAILED    " : "passed    ");
+	cout << "verification check against test vector\n";
+
+	fail = pub.VerifyMessage((byte *)"xyz", 3, sig, sizeof(sig));
+	pass = pass && !fail;
+
+	pass = SignatureValidate(priv, pub) && pass;
+
+	return pass;
+}
+
+bool ValidateESIGN()
+{
+	cout << "\nESIGN validation suite running...\n\n";
+
+	bool pass = true, fail;
+
+	const char *plain = "test";
+	const byte *signature = (byte *)
+		"\xA3\xE3\x20\x65\xDE\xDA\xE7\xEC\x05\xC1\xBF\xCD\x25\x79\x7D\x99\xCD\xD5\x73\x9D\x9D\xF3\xA4\xAA\x9A\xA4\x5A\xC8\x23\x3D\x0D\x37\xFE\xBC\x76\x3F\xF1\x84\xF6\x59"
+		"\x14\x91\x4F\x0C\x34\x1B\xAE\x9A\x5C\x2E\x2E\x38\x08\x78\x77\xCB\xDC\x3C\x7E\xA0\x34\x44\x5B\x0F\x67\xD9\x35\x2A\x79\x47\x1A\x52\x37\x71\xDB\x12\x67\xC1\xB6\xC6"
+		"\x66\x73\xB3\x40\x2E\xD6\xF2\x1A\x84\x0A\xB6\x7B\x0F\xEB\x8B\x88\xAB\x33\xDD\xE4\x83\x21\x90\x63\x2D\x51\x2A\xB1\x6F\xAB\xA7\x5C\xFD\x77\x99\xF2\xE1\xEF\x67\x1A"
+		"\x74\x02\x37\x0E\xED\x0A\x06\xAD\xF4\x15\x65\xB8\xE1\xD1\x45\xAE\x39\x19\xB4\xFF\x5D\xF1\x45\x7B\xE0\xFE\x72\xED\x11\x92\x8F\x61\x41\x4F\x02\x00\xF2\x76\x6F\x7C"
+		"\x79\xA2\xE5\x52\x20\x5D\x97\x5E\xFE\x39\xAE\x21\x10\xFB\x35\xF4\x80\x81\x41\x13\xDD\xE8\x5F\xCA\x1E\x4F\xF8\x9B\xB2\x68\xFB\x28";
+
+	FileSource keys("TestData/esig1536.dat", true, new HexDecoder);
+	ESIGN<SHA>::Signer signer(keys);
+	ESIGN<SHA>::Verifier verifier(signer);
+
+	fail = !SignatureValidate(signer, verifier);
+	pass = pass && !fail;
+
+	fail = !verifier.VerifyMessage((byte *)plain, strlen(plain), signature, verifier.SignatureLength());
+	pass = pass && !fail;
+
+	cout << (fail ? "FAILED    " : "passed    ");
+	cout << "verification check against test vector\n";
+
+	cout << "Generating signature key from seed..." << endl;
+	signer.AccessKey().GenerateRandom(GlobalRNG(), MakeParameters("Seed", ConstByteArrayParameter((const byte *)"test", 4))("KeySize", 3*512));
+	verifier = signer;
+
+	fail = !SignatureValidate(signer, verifier);
+	pass = pass && !fail;
+
+	return pass;
+}
