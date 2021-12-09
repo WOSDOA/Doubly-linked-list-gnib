@@ -138,4 +138,191 @@ WaitObjectContainer::~WaitObjectContainer()
 
 void WaitObjectContainer::AddHandle(HANDLE handle, CallStack const& callStack)
 {
-	DetectNoWait(m_handles.size(), CallStack("WaitObjectContainer::AddHan
+	DetectNoWait(m_handles.size(), CallStack("WaitObjectContainer::AddHandle()", &callStack));
+	m_handles.push_back(handle);
+}
+
+DWORD WINAPI WaitingThread(LPVOID lParam)
+{
+	std::auto_ptr<WaitingThreadData> pThread((WaitingThreadData *)lParam);
+	WaitingThreadData &thread = *pThread;
+	std::vector<HANDLE> handles;
+
+	while (true)
+	{
+		thread.waitingToWait = true;
+		::WaitForSingleObject(thread.startWaiting, INFINITE);
+		thread.waitingToWait = false;
+
+		if (thread.terminate)
+			break;
+		if (!thread.count)
+			continue;
+
+		handles.resize(thread.count + 1);
+		handles[0] = thread.stopWaiting;
+		std::copy(thread.waitHandles, thread.waitHandles+thread.count, handles.begin()+1);
+
+		DWORD result = ::WaitForMultipleObjects((DWORD)handles.size(), &handles[0], FALSE, INFINITE);
+
+		if (result == WAIT_OBJECT_0)
+			continue;	// another thread finished waiting first, so do nothing
+		SetEvent(thread.stopWaiting);
+		if (!(result > WAIT_OBJECT_0 && result < WAIT_OBJECT_0 + handles.size()))
+		{
+			assert(!"error in WaitingThread");	// break here so we can see which thread has an error
+			*thread.error = ::GetLastError();
+		}
+	}
+
+	return S_OK;	// return a value here to avoid compiler warning
+}
+
+void WaitObjectContainer::CreateThreads(unsigned int count)
+{
+	size_t currentCount = m_threads.size();
+	if (currentCount == 0)
+	{
+		m_startWaiting = ::CreateEvent(NULL, TRUE, FALSE, NULL);
+		m_stopWaiting = ::CreateEvent(NULL, TRUE, FALSE, NULL);
+	}
+
+	if (currentCount < count)
+	{
+		m_threads.resize(count);
+		for (size_t i=currentCount; i<count; i++)
+		{
+			m_threads[i] = new WaitingThreadData;
+			WaitingThreadData &thread = *m_threads[i];
+			thread.terminate = false;
+			thread.startWaiting = m_startWaiting;
+			thread.stopWaiting = m_stopWaiting;
+			thread.waitingToWait = false;
+			thread.threadHandle = CreateThread(NULL, 0, &WaitingThread, &thread, 0, &thread.threadId);
+		}
+	}
+}
+
+bool WaitObjectContainer::Wait(unsigned long milliseconds)
+{
+	if (m_noWait || (m_handles.empty() && !m_firstEventTime))
+	{
+		SetLastResult(LASTRESULT_NOWAIT);
+		return true;
+	}
+
+	bool timeoutIsScheduledEvent = false;
+
+	if (m_firstEventTime)
+	{
+		double timeToFirstEvent = SaturatingSubtract(m_firstEventTime, m_eventTimer.ElapsedTimeAsDouble());
+
+		if (timeToFirstEvent <= milliseconds)
+		{
+			milliseconds = (unsigned long)timeToFirstEvent;
+			timeoutIsScheduledEvent = true;
+		}
+
+		if (m_handles.empty() || !milliseconds)
+		{
+			if (milliseconds)
+				Sleep(milliseconds);
+			SetLastResult(timeoutIsScheduledEvent ? LASTRESULT_SCHEDULED : LASTRESULT_TIMEOUT);
+			return timeoutIsScheduledEvent;
+		}
+	}
+
+	if (m_handles.size() > MAXIMUM_WAIT_OBJECTS)
+	{
+		// too many wait objects for a single WaitForMultipleObjects call, so use multiple threads
+		static const unsigned int WAIT_OBJECTS_PER_THREAD = MAXIMUM_WAIT_OBJECTS-1;
+		unsigned int nThreads = (unsigned int)((m_handles.size() + WAIT_OBJECTS_PER_THREAD - 1) / WAIT_OBJECTS_PER_THREAD);
+		if (nThreads > MAXIMUM_WAIT_OBJECTS)	// still too many wait objects, maybe implement recursive threading later?
+			throw Err("WaitObjectContainer: number of wait objects exceeds limit");
+		CreateThreads(nThreads);
+		DWORD error = S_OK;
+		
+		for (unsigned int i=0; i<m_threads.size(); i++)
+		{
+			WaitingThreadData &thread = *m_threads[i];
+			while (!thread.waitingToWait)	// spin until thread is in the initial "waiting to wait" state
+				Sleep(0);
+			if (i<nThreads)
+			{
+				thread.waitHandles = &m_handles[i*WAIT_OBJECTS_PER_THREAD];
+				thread.count = UnsignedMin(WAIT_OBJECTS_PER_THREAD, m_handles.size() - i*WAIT_OBJECTS_PER_THREAD);
+				thread.error = &error;
+			}
+			else
+				thread.count = 0;
+		}
+
+		ResetEvent(m_stopWaiting);
+		PulseEvent(m_startWaiting);
+
+		DWORD result = ::WaitForSingleObject(m_stopWaiting, milliseconds);
+		if (result == WAIT_OBJECT_0)
+		{
+			if (error == S_OK)
+				return true;
+			else
+				throw Err("WaitObjectContainer: WaitForMultipleObjects in thread failed with error " + IntToString(error));
+		}
+		SetEvent(m_stopWaiting);
+		if (result == WAIT_TIMEOUT)
+		{
+			SetLastResult(timeoutIsScheduledEvent ? LASTRESULT_SCHEDULED : LASTRESULT_TIMEOUT);
+			return timeoutIsScheduledEvent;
+		}
+		else
+			throw Err("WaitObjectContainer: WaitForSingleObject failed with error " + IntToString(::GetLastError()));
+	}
+	else
+	{
+#if TRACE_WAIT
+		static Timer t(Timer::MICROSECONDS);
+		static unsigned long lastTime = 0;
+		unsigned long timeBeforeWait = t.ElapsedTime();
+#endif
+		DWORD result = ::WaitForMultipleObjects((DWORD)m_handles.size(), &m_handles[0], FALSE, milliseconds);
+#if TRACE_WAIT
+		if (milliseconds > 0)
+		{
+			unsigned long timeAfterWait = t.ElapsedTime();
+			OutputDebugString(("Handles " + IntToString(m_handles.size()) + ", Woke up by " + IntToString(result-WAIT_OBJECT_0) + ", Busied for " + IntToString(timeBeforeWait-lastTime) + " us, Waited for " + IntToString(timeAfterWait-timeBeforeWait) + " us, max " + IntToString(milliseconds) + "ms\n").c_str());
+			lastTime = timeAfterWait;
+		}
+#endif
+		if (result >= WAIT_OBJECT_0 && result < WAIT_OBJECT_0 + m_handles.size())
+		{
+			if (result == m_lastResult)
+				m_sameResultCount++;
+			else
+			{
+				m_lastResult = result;
+				m_sameResultCount = 0;
+			}
+			return true;
+		}
+		else if (result == WAIT_TIMEOUT)
+		{
+			SetLastResult(timeoutIsScheduledEvent ? LASTRESULT_SCHEDULED : LASTRESULT_TIMEOUT);
+			return timeoutIsScheduledEvent;
+		}
+		else
+			throw Err("WaitObjectContainer: WaitForMultipleObjects failed with error " + IntToString(::GetLastError()));
+	}
+}
+
+#else // #ifdef USE_WINDOWS_STYLE_SOCKETS
+
+void WaitObjectContainer::AddReadFd(int fd, CallStack const& callStack)	// TODO: do something with callStack
+{
+	FD_SET(fd, &m_readfds);
+	m_maxFd = STDMAX(m_maxFd, fd);
+}
+
+void WaitObjectContainer::AddWriteFd(int fd, CallStack const& callStack) // TODO: do something with callStack
+{
+	FD_SET(fd, &m_writefds);
+	m_maxFd = STDMAX(m_m
