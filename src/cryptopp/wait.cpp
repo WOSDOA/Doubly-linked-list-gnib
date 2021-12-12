@@ -325,4 +325,73 @@ void WaitObjectContainer::AddReadFd(int fd, CallStack const& callStack)	// TODO:
 void WaitObjectContainer::AddWriteFd(int fd, CallStack const& callStack) // TODO: do something with callStack
 {
 	FD_SET(fd, &m_writefds);
-	m_maxFd = STDMAX(m_m
+	m_maxFd = STDMAX(m_maxFd, fd);
+}
+
+bool WaitObjectContainer::Wait(unsigned long milliseconds)
+{
+	if (m_noWait || (!m_maxFd && !m_firstEventTime))
+		return true;
+
+	bool timeoutIsScheduledEvent = false;
+
+	if (m_firstEventTime)
+	{
+		double timeToFirstEvent = SaturatingSubtract(m_firstEventTime, m_eventTimer.ElapsedTimeAsDouble());
+		if (timeToFirstEvent <= milliseconds)
+		{
+			milliseconds = (unsigned long)timeToFirstEvent;
+			timeoutIsScheduledEvent = true;
+		}
+	}
+
+	timeval tv, *timeout;
+
+	if (milliseconds == INFINITE_TIME)
+		timeout = NULL;
+	else
+	{
+		tv.tv_sec = milliseconds / 1000;
+		tv.tv_usec = (milliseconds % 1000) * 1000;
+		timeout = &tv;
+	}
+
+	int result = select(m_maxFd+1, &m_readfds, &m_writefds, NULL, timeout);
+
+	if (result > 0)
+		return true;
+	else if (result == 0)
+		return timeoutIsScheduledEvent;
+	else
+		throw Err("WaitObjectContainer: select failed with error " + errno);
+}
+
+#endif
+
+// ********************************************************
+
+std::string CallStack::Format() const
+{
+	return m_info;
+}
+
+std::string CallStackWithNr::Format() const
+{
+	return std::string(m_info) + " / nr: " + IntToString(m_nr);
+}
+
+std::string CallStackWithStr::Format() const
+{
+	return std::string(m_info) + " / " + std::string(m_z);
+}
+
+bool Waitable::Wait(unsigned long milliseconds, CallStack const& callStack)
+{
+	WaitObjectContainer container;
+	GetWaitObjects(container, callStack);	// reduce clutter by not adding this func to stack
+	return container.Wait(milliseconds);
+}
+
+NAMESPACE_END
+
+#endif
