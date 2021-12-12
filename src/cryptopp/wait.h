@@ -98,4 +98,111 @@ protected:
 	
 	The advantage of this approach is that it is easy to use and should be very efficient,
 	involving no allocation from the heap, just a linked list of stack objects containing
-	pointers to static ASCIIZ strings (or possibly additional but simple data if deriv
+	pointers to static ASCIIZ strings (or possibly additional but simple data if derived). */
+class CallStack
+{
+public:
+	CallStack(char const* i, CallStack const* p) : m_info(i), m_prev(p) {}
+	CallStack const* Prev() const { return m_prev; }
+	virtual std::string Format() const;
+
+protected:
+	char const* m_info;
+	CallStack const* m_prev;
+};
+
+/*! An extended CallStack entry type with an additional numeric parameter. */
+class CallStackWithNr : public CallStack
+{
+public:
+	CallStackWithNr(char const* i, word32 n, CallStack const* p) : CallStack(i, p), m_nr(n) {}
+	std::string Format() const;
+
+protected:
+	word32 m_nr;
+};
+
+/*! An extended CallStack entry type with an additional string parameter. */
+class CallStackWithStr : public CallStack
+{
+public:
+	CallStackWithStr(char const* i, char const* z, CallStack const* p) : CallStack(i, p), m_z(z) {}
+	std::string Format() const;
+
+protected:
+	char const* m_z;
+};
+
+CRYPTOPP_BEGIN_TRACER_CLASS_1(WaitObjectsTracer, Tracer)
+	CRYPTOPP_BEGIN_TRACER_EVENTS(0x48752841)
+		CRYPTOPP_TRACER_EVENT(NoWaitLoop)
+	CRYPTOPP_END_TRACER_EVENTS
+	CRYPTOPP_TRACER_EVENT_METHODS(NoWaitLoop, 1)
+CRYPTOPP_END_TRACER_CLASS
+
+struct WaitingThreadData;
+
+//! container of wait objects
+class WaitObjectContainer : public NotCopyable
+{
+public:
+	//! exception thrown by WaitObjectContainer
+	class Err : public Exception
+	{
+	public:
+		Err(const std::string& s) : Exception(IO_ERROR, s) {}
+	};
+
+	static unsigned int MaxWaitObjects();
+
+	WaitObjectContainer(WaitObjectsTracer* tracer = 0);
+
+	void Clear();
+	void SetNoWait(CallStack const& callStack);
+	void ScheduleEvent(double milliseconds, CallStack const& callStack);
+	// returns false if timed out
+	bool Wait(unsigned long milliseconds);
+
+#ifdef USE_WINDOWS_STYLE_SOCKETS
+	~WaitObjectContainer();
+	void AddHandle(HANDLE handle, CallStack const& callStack);
+#else
+	void AddReadFd(int fd, CallStack const& callStack);
+	void AddWriteFd(int fd, CallStack const& callStack);
+#endif
+
+private:
+	WaitObjectsTracer* m_tracer;
+
+#ifdef USE_WINDOWS_STYLE_SOCKETS
+	void CreateThreads(unsigned int count);
+	std::vector<HANDLE> m_handles;
+	std::vector<WaitingThreadData *> m_threads;
+	HANDLE m_startWaiting;
+	HANDLE m_stopWaiting;
+#else
+	fd_set m_readfds, m_writefds;
+	int m_maxFd;
+#endif
+	bool m_noWait;
+	double m_firstEventTime;
+	Timer m_eventTimer;
+
+#ifdef USE_WINDOWS_STYLE_SOCKETS
+	typedef size_t LastResultType;
+#else
+	typedef int LastResultType;
+#endif
+	enum { LASTRESULT_NOWAIT = -1, LASTRESULT_SCHEDULED = -2, LASTRESULT_TIMEOUT = -3 };
+	LastResultType m_lastResult;
+	unsigned int m_sameResultCount;
+	Timer m_noWaitTimer;
+	void SetLastResult(LastResultType result);
+	void DetectNoWait(LastResultType result, CallStack const& callStack);
+};
+
+NAMESPACE_END
+
+#endif
+
+#endif
