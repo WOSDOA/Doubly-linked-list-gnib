@@ -354,4 +354,157 @@ static const word64 Whirlpool_C[4*256+R] = {
     W64LIT(0x40794bb2b2f2b2f9), W64LIT(0x59d185e6e6bfe663), W64LIT(0x361c7e0e0e380e70), W64LIT(0x633ee71f1f7c1ff8),
     W64LIT(0xf7c4556262956237), W64LIT(0xa3b53ad4d477d4ee), W64LIT(0x324d81a8a89aa829), W64LIT(0xf4315296966296c4),
     W64LIT(0x3aef62f9f9c3f99b), W64LIT(0xf697a3c5c533c566), W64LIT(0xb14a102525942535), W64LIT(0x20b2ab59597959f2),
-    W64LIT(0xae15d084842a8454), W64LIT(0xa7
+    W64LIT(0xae15d084842a8454), W64LIT(0xa7e4c57272d572b7), W64LIT(0xdd72ec3939e439d5), W64LIT(0x6198164c4c2d4c5a),
+    W64LIT(0x3bbc945e5e655eca), W64LIT(0x85f09f7878fd78e7), W64LIT(0xd870e53838e038dd), W64LIT(0x8605988c8c0a8c14),
+    W64LIT(0xb2bf17d1d163d1c6), W64LIT(0x0b57e4a5a5aea541), W64LIT(0x4dd9a1e2e2afe243), W64LIT(0xf8c24e616199612f),
+    W64LIT(0x457b42b3b3f6b3f1), W64LIT(0xa542342121842115), W64LIT(0xd625089c9c4a9c94), W64LIT(0x663cee1e1e781ef0),
+    W64LIT(0x5286614343114322), W64LIT(0xfc93b1c7c73bc776), W64LIT(0x2be54ffcfcd7fcb3), W64LIT(0x1408240404100420),
+    W64LIT(0x08a2e351515951b2), W64LIT(0xc72f2599995e99bc), W64LIT(0xc4da226d6da96d4f), W64LIT(0x391a650d0d340d68),
+    W64LIT(0x35e979fafacffa83), W64LIT(0x84a369dfdf5bdfb6), W64LIT(0x9bfca97e7ee57ed7), W64LIT(0xb44819242490243d),
+    W64LIT(0xd776fe3b3bec3bc5), W64LIT(0x3d4b9aabab96ab31), W64LIT(0xd181f0cece1fce3e), W64LIT(0x5522991111441188),
+    W64LIT(0x8903838f8f068f0c), W64LIT(0x6b9c044e4e254e4a), W64LIT(0x517366b7b7e6b7d1), W64LIT(0x60cbe0ebeb8beb0b),
+    W64LIT(0xcc78c13c3cf03cfd), W64LIT(0xbf1ffd81813e817c), W64LIT(0xfe354094946a94d4), W64LIT(0x0cf31cf7f7fbf7eb),
+    W64LIT(0x676f18b9b9deb9a1), W64LIT(0x5f268b13134c1398), W64LIT(0x9c58512c2cb02c7d), W64LIT(0xb8bb05d3d36bd3d6),
+    W64LIT(0x5cd38ce7e7bbe76b), W64LIT(0xcbdc396e6ea56e57), W64LIT(0xf395aac4c437c46e), W64LIT(0x0f061b03030c0318),
+    W64LIT(0x13acdc565645568a), W64LIT(0x49885e44440d441a), W64LIT(0x9efea07f7fe17fdf), W64LIT(0x374f88a9a99ea921),
+    W64LIT(0x8254672a2aa82a4d), W64LIT(0x6d6b0abbbbd6bbb1), W64LIT(0xe29f87c1c123c146), W64LIT(0x02a6f153535153a2),
+    W64LIT(0x8ba572dcdc57dcae), W64LIT(0x2716530b0b2c0b58), W64LIT(0xd327019d9d4e9d9c), W64LIT(0xc1d82b6c6cad6c47),
+    W64LIT(0xf562a43131c43195), W64LIT(0xb9e8f37474cd7487), W64LIT(0x09f115f6f6fff6e3), W64LIT(0x438c4c464605460a),
+    W64LIT(0x2645a5acac8aac09), W64LIT(0x970fb589891e893c), W64LIT(0x4428b414145014a0), W64LIT(0x42dfbae1e1a3e15b),
+    W64LIT(0x4e2ca616165816b0), W64LIT(0xd274f73a3ae83acd), W64LIT(0xd0d2066969b9696f), W64LIT(0x2d12410909240948),
+    W64LIT(0xade0d77070dd70a7), W64LIT(0x54716fb6b6e2b6d9), W64LIT(0xb7bd1ed0d067d0ce), W64LIT(0x7ec7d6eded93ed3b),
+    W64LIT(0xdb85e2cccc17cc2e), W64LIT(0x578468424215422a), W64LIT(0xc22d2c98985a98b4), W64LIT(0x0e55eda4a4aaa449),
+    W64LIT(0x8850752828a0285d), W64LIT(0x31b8865c5c6d5cda), W64LIT(0x3fed6bf8f8c7f893), W64LIT(0xa411c28686228644),
+
+	W64LIT(0x1823c6e887b8014f),
+	W64LIT(0x36a6d2f5796f9152),
+	W64LIT(0x60bc9b8ea30c7b35),
+	W64LIT(0x1de0d7c22e4bfe57),
+	W64LIT(0x157737e59ff04ada),
+	W64LIT(0x58c9290ab1a06b85),
+	W64LIT(0xbd5d10f4cb3e0567),
+	W64LIT(0xe427418ba77d95d8),
+	W64LIT(0xfbee7c66dd17479e),
+	W64LIT(0xca2dbf07ad5a8333)
+};
+
+// Whirlpool basic transformation. Transforms state based on block.
+void Whirlpool::Transform(word64 *digest, const word64 *block)
+{
+#if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
+	if (HasISSE())
+	{
+		// MMX version has the same structure as C version below
+#ifdef __GNUC__
+	#if CRYPTOPP_BOOL_X64
+		word64 workspace[16];
+	#endif
+	__asm__ __volatile__
+	(
+		".intel_syntax noprefix;"
+		AS_PUSH_IF86(	bx)
+		AS2(	mov		AS_REG_6, WORD_REG(ax))
+#else
+	#if _MSC_VER < 1300
+		AS_PUSH_IF86(	bx)
+	#endif
+		AS2(	lea		AS_REG_6, [Whirlpool_C])
+		AS2(	mov		WORD_REG(cx), digest)
+		AS2(	mov		WORD_REG(dx), block)
+#endif
+#if CRYPTOPP_BOOL_X86
+		AS2(	mov		eax, esp)
+		AS2(	and		esp, -16)
+		AS2(	sub		esp, 16*8)
+		AS1(	push	eax)
+	#define SSE2_workspace	esp+WORD_SZ
+#else
+	#define SSE2_workspace	%3
+#endif
+		AS2(	xor		esi, esi)
+		ASL(0)
+		AS2(	movq	mm0, [WORD_REG(cx)+8*WORD_REG(si)])
+		AS2(	movq	[SSE2_workspace+8*WORD_REG(si)], mm0)		// k
+		AS2(	pxor	mm0, [WORD_REG(dx)+8*WORD_REG(si)])
+		AS2(	movq	[SSE2_workspace+64+8*WORD_REG(si)], mm0)	// s
+		AS2(	movq	[WORD_REG(cx)+8*WORD_REG(si)], mm0)
+		AS1(	inc		WORD_REG(si))
+		AS2(	cmp		WORD_REG(si), 8)
+		ASJ(	jne,	0, b)
+
+		AS2(	xor		esi, esi)
+		ASL(1)
+
+#define KSL0(a, b)	AS2(movq	mm##a, b)
+#define KSL1(a, b)	AS2(pxor	mm##a, b)
+
+#define KSL(op, i, a, b, c, d)	\
+	AS2(mov		eax, [SSE2_workspace+8*i])\
+	AS2(movzx	edi, al)\
+	KSL##op(a, [AS_REG_6+3*2048+8*WORD_REG(di)])\
+	AS2(movzx	edi, ah)\
+	KSL##op(b, [AS_REG_6+2*2048+8*WORD_REG(di)])\
+	AS2(shr		eax, 16)\
+	AS2(movzx	edi, al)\
+	AS2(shr		eax, 8)\
+	KSL##op(c, [AS_REG_6+1*2048+8*WORD_REG(di)])\
+	KSL##op(d, [AS_REG_6+0*2048+8*WORD_REG(ax)])
+
+#define KSH0(a, b)	\
+	ASS(pshufw	mm##a, mm##a, 1, 0, 3, 2)\
+	AS2(pxor	mm##a, b)
+#define KSH1(a, b)	\
+	AS2(pxor	mm##a, b)
+#define KSH2(a, b)	\
+	AS2(pxor	mm##a, b)\
+	AS2(movq	[SSE2_workspace+8*a], mm##a)
+
+#define KSH(op, i, a, b, c, d)	\
+	AS2(mov		eax, [SSE2_workspace+8*((i+4)-8*((i+4)/8))+4])\
+	AS2(movzx	edi, al)\
+	KSH##op(a, [AS_REG_6+3*2048+8*WORD_REG(di)])\
+	AS2(movzx	edi, ah)\
+	KSH##op(b, [AS_REG_6+2*2048+8*WORD_REG(di)])\
+	AS2(shr		eax, 16)\
+	AS2(movzx	edi, al)\
+	AS2(shr		eax, 8)\
+	KSH##op(c, [AS_REG_6+1*2048+8*WORD_REG(di)])\
+	KSH##op(d, [AS_REG_6+0*2048+8*WORD_REG(ax)])
+
+#define TSL(op, i, a, b, c, d)	\
+	AS2(mov		eax, [SSE2_workspace+64+8*i])\
+	AS2(movzx	edi, al)\
+	KSL##op(a, [AS_REG_6+3*2048+8*WORD_REG(di)])\
+	AS2(movzx	edi, ah)\
+	KSL##op(b, [AS_REG_6+2*2048+8*WORD_REG(di)])\
+	AS2(shr		eax, 16)\
+	AS2(movzx	edi, al)\
+	AS2(shr		eax, 8)\
+	KSL##op(c, [AS_REG_6+1*2048+8*WORD_REG(di)])\
+	KSL##op(d, [AS_REG_6+0*2048+8*WORD_REG(ax)])
+
+#define TSH0(a, b)	\
+	ASS(pshufw	mm##a, mm##a, 1, 0, 3, 2)\
+	AS2(pxor	mm##a, [SSE2_workspace+8*a])\
+	AS2(pxor	mm##a, b)
+#define TSH1(a, b)	\
+	AS2(pxor	mm##a, b)
+#define TSH2(a, b)	\
+	AS2(pxor	mm##a, b)\
+	AS2(movq	[SSE2_workspace+64+8*a], mm##a)
+#define TSH3(a, b)	\
+	AS2(pxor	mm##a, b)\
+	AS2(pxor	mm##a, [WORD_REG(cx)+8*a])\
+	AS2(movq	[WORD_REG(cx)+8*a], mm##a)
+
+#define TSH(op, i, a, b, c, d)	\
+	AS2(mov		eax, [SSE2_workspace+64+8*((i+4)-8*((i+4)/8))+4])\
+	AS2(movzx	edi, al)\
+	TSH##op(a, [AS_REG_6+3*2048+8*WORD_REG(di)])\
+	AS2(movzx	edi, ah)\
+	TSH##op(b, [AS_REG_6+2*2048+8*WORD_REG(di)])\
+	AS2(shr		eax, 16)\
+	AS2(movzx	edi, al)\
+	AS2(shr		eax, 8)\
+	TSH##op(c, [AS_REG_6+1*2048+8*WORD_REG(di)])\
+	TSH##op(d, [AS_REG_6+0*2048+8*WORD_REG(ax)])
