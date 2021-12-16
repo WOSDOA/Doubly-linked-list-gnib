@@ -508,3 +508,194 @@ void Whirlpool::Transform(word64 *digest, const word64 *block)
 	AS2(shr		eax, 8)\
 	TSH##op(c, [AS_REG_6+1*2048+8*WORD_REG(di)])\
 	TSH##op(d, [AS_REG_6+0*2048+8*WORD_REG(ax)])
+
+		KSL(0, 4, 3, 2, 1, 0)
+		KSL(0, 0, 7, 6, 5, 4)
+		KSL(1, 1, 0, 7, 6, 5)
+		KSL(1, 2, 1, 0, 7, 6)
+		KSL(1, 3, 2, 1, 0, 7)
+		KSL(1, 5, 4, 3, 2, 1)
+		KSL(1, 6, 5, 4, 3, 2)
+		KSL(1, 7, 6, 5, 4, 3)
+		KSH(0, 0, 7, 6, 5, 4)
+		KSH(0, 4, 3, 2, 1, 0)
+		KSH(1, 1, 0, 7, 6, 5)
+		KSH(1, 2, 1, 0, 7, 6)
+		KSH(1, 5, 4, 3, 2, 1)
+		KSH(1, 6, 5, 4, 3, 2)
+		KSH(2, 3, 2, 1, 0, 7)
+		KSH(2, 7, 6, 5, 4, 3)
+
+		AS2(	pxor	mm0, [AS_REG_6 + 8*1024 + WORD_REG(si)*8])
+		AS2(	movq	[SSE2_workspace], mm0)
+
+		TSL(0, 4, 3, 2, 1, 0)
+		TSL(0, 0, 7, 6, 5, 4)
+		TSL(1, 1, 0, 7, 6, 5)
+		TSL(1, 2, 1, 0, 7, 6)
+		TSL(1, 3, 2, 1, 0, 7)
+		TSL(1, 5, 4, 3, 2, 1)
+		TSL(1, 6, 5, 4, 3, 2)
+		TSL(1, 7, 6, 5, 4, 3)
+		TSH(0, 0, 7, 6, 5, 4)
+		TSH(0, 4, 3, 2, 1, 0)
+		TSH(1, 1, 0, 7, 6, 5)
+		TSH(1, 2, 1, 0, 7, 6)
+		TSH(1, 5, 4, 3, 2, 1)
+		TSH(1, 6, 5, 4, 3, 2)
+
+		AS1(	inc		WORD_REG(si))
+		AS2(	cmp		WORD_REG(si), 10)
+		ASJ(	je,		2, f)
+
+		TSH(2, 3, 2, 1, 0, 7)
+		TSH(2, 7, 6, 5, 4, 3)
+
+		ASJ(	jmp,	1, b)
+		ASL(2)
+
+		TSH(3, 3, 2, 1, 0, 7)
+		TSH(3, 7, 6, 5, 4, 3)
+
+#undef KSL
+#undef KSH
+#undef TSL
+#undef TSH
+
+		AS_POP_IF86(	sp)
+		AS1(	emms)
+
+#if defined(__GNUC__) || (defined(_MSC_VER) && _MSC_VER < 1300)
+		AS_POP_IF86(	bx)
+#endif
+#ifdef __GNUC__
+		".att_syntax prefix;"
+			:
+			: "a" (Whirlpool_C), "c" (digest), "d" (block)
+	#if CRYPTOPP_BOOL_X64
+			, "r" (workspace)
+	#endif
+			: "%esi", "%edi", "memory", "cc"
+	#if CRYPTOPP_BOOL_X64
+			, "%r9"
+	#endif
+		);
+#endif
+	}
+	else
+#endif		// #ifdef CRYPTOPP_X86_ASM_AVAILABLE
+	{
+	word64 s[8];	// the cipher state
+	word64 k[8];	// the round key
+
+	// Compute and apply K^0 to the cipher state
+	// Also apply part of the Miyaguchi-Preneel compression function
+	for (int i=0; i<8; i++)
+		digest[i] = s[i] = block[i] ^ (k[i] = digest[i]);
+
+#define KSL(op, i, a, b, c, d)	\
+	t = (word32)k[i];\
+	w##a = Whirlpool_C[3*256 + (byte)t] ^ (op ? w##a : 0);\
+	t >>= 8;\
+	w##b = Whirlpool_C[2*256 + (byte)t] ^ (op ? w##b : 0);\
+	t >>= 8;\
+	w##c = Whirlpool_C[1*256 + (byte)t] ^ (op ? w##c : 0);\
+	t >>= 8;\
+	w##d = Whirlpool_C[0*256 + t]       ^ (op ? w##d : 0);
+
+#define KSH(op, i, a, b, c, d)	\
+	t = (word32)(k[(i+4)%8]>>32);\
+	w##a = Whirlpool_C[3*256 + (byte)t] ^ (op ? w##a : rotrFixed(w##a, 32));\
+	if (op==2) k[a] = w##a;\
+	t >>= 8;\
+	w##b = Whirlpool_C[2*256 + (byte)t] ^ (op ? w##b : rotrFixed(w##b, 32));\
+	if (op==2) k[b] = w##b;\
+	t >>= 8;\
+	w##c = Whirlpool_C[1*256 + (byte)t] ^ (op ? w##c : rotrFixed(w##c, 32));\
+	if (op==2) k[c] = w##c;\
+	t >>= 8;\
+	w##d = Whirlpool_C[0*256 + t]       ^ (op ? w##d : rotrFixed(w##d, 32));\
+	if (op==2) k[d] = w##d;\
+
+#define TSL(op, i, a, b, c, d)	\
+	t = (word32)s[i];\
+	w##a = Whirlpool_C[3*256 + (byte)t] ^ (op ? w##a : 0);\
+	t >>= 8;\
+	w##b = Whirlpool_C[2*256 + (byte)t] ^ (op ? w##b : 0);\
+	t >>= 8;\
+	w##c = Whirlpool_C[1*256 + (byte)t] ^ (op ? w##c : 0);\
+	t >>= 8;\
+	w##d = Whirlpool_C[0*256 + t]       ^ (op ? w##d : 0);
+
+#define TSH_OP(op, a, b)	\
+	w##a = Whirlpool_C[b*256 + (byte)t] ^ (op ? w##a : rotrFixed(w##a, 32) ^ k[a]);\
+	if (op==2) s[a] = w##a;\
+	if (op==3) digest[a] ^= w##a;\
+
+#define TSH(op, i, a, b, c, d)	\
+	t = (word32)(s[(i+4)%8]>>32);\
+	TSH_OP(op, a, 3);\
+	t >>= 8;\
+	TSH_OP(op, b, 2);\
+	t >>= 8;\
+	TSH_OP(op, c, 1);\
+	t >>= 8;\
+	TSH_OP(op, d, 0);\
+
+	// Iterate over all rounds:
+	int r=0;
+	while (true)
+	{
+		word64 w0, w1, w2, w3, w4, w5, w6, w7;	// temporary storage
+		word32 t;
+
+		KSL(0, 4, 3, 2, 1, 0)
+		KSL(0, 0, 7, 6, 5, 4)
+		KSL(1, 1, 0, 7, 6, 5)
+		KSL(1, 2, 1, 0, 7, 6)
+		KSL(1, 3, 2, 1, 0, 7)
+		KSL(1, 5, 4, 3, 2, 1)
+		KSL(1, 6, 5, 4, 3, 2)
+		KSL(1, 7, 6, 5, 4, 3)
+		KSH(0, 0, 7, 6, 5, 4)
+		KSH(0, 4, 3, 2, 1, 0)
+		KSH(1, 1, 0, 7, 6, 5)
+		KSH(1, 2, 1, 0, 7, 6)
+		KSH(1, 5, 4, 3, 2, 1)
+		KSH(1, 6, 5, 4, 3, 2)
+		KSH(2, 3, 2, 1, 0, 7)
+		KSH(2, 7, 6, 5, 4, 3)
+
+		k[0] ^= Whirlpool_C[1024+r];
+
+		TSL(0, 4, 3, 2, 1, 0)
+		TSL(0, 0, 7, 6, 5, 4)
+		TSL(1, 1, 0, 7, 6, 5)
+		TSL(1, 2, 1, 0, 7, 6)
+		TSL(1, 3, 2, 1, 0, 7)
+		TSL(1, 5, 4, 3, 2, 1)
+		TSL(1, 6, 5, 4, 3, 2)
+		TSL(1, 7, 6, 5, 4, 3)
+		TSH(0, 0, 7, 6, 5, 4)
+		TSH(0, 4, 3, 2, 1, 0)
+		TSH(1, 1, 0, 7, 6, 5)
+		TSH(1, 2, 1, 0, 7, 6)
+		TSH(1, 5, 4, 3, 2, 1)
+		TSH(1, 6, 5, 4, 3, 2)
+
+		if (++r < R)
+		{
+			TSH(2, 3, 2, 1, 0, 7)
+			TSH(2, 7, 6, 5, 4, 3)
+		}
+		else
+		{
+			TSH(3, 3, 2, 1, 0, 7)
+			TSH(3, 7, 6, 5, 4, 3)
+			break;
+		}
+	}
+	}
+}
+
+NAMESPACE_END
