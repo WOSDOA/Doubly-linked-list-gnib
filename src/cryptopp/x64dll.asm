@@ -300,4 +300,255 @@ xor eax, DWORD PTR [r11+8*rsi+(((1+3) MOD (4))+1)]
 movzx esi, bh
 mov ebx, DWORD PTR [r11+8*rsi+(((0+3) MOD (4))+1)]
 movzx esi, ch
-xor eax, DWORD PTR [r11+8*rsi+(((2+3) MO
+xor eax, DWORD PTR [r11+8*rsi+(((2+3) MOD (4))+1)]
+movzx esi, cl
+xor ebx, DWORD PTR [r11+8*rsi+(((3+3) MOD (4))+1)]
+shr ecx, 16
+movzx esi, dl
+xor eax, DWORD PTR [r11+8*rsi+(((3+3) MOD (4))+1)]
+movzx esi, dh
+xor ebx, DWORD PTR [r11+8*rsi+(((2+3) MOD (4))+1)]
+shr edx, 16
+movzx esi, ch
+xor edi, DWORD PTR [r11+8*rsi+(((0+3) MOD (4))+1)]
+movzx esi, cl
+xor ebx, DWORD PTR [r11+8*rsi+(((1+3) MOD (4))+1)]
+movzx esi, dl
+xor edi, DWORD PTR [r11+8*rsi+(((1+3) MOD (4))+1)]
+movzx esi, dh
+xor r9d, DWORD PTR [r11+8*rsi+(((0+3) MOD (4))+1)]
+mov ecx, edi
+xor eax, [(r8+0)-4*16+0*4]
+xor ebx, [(r8+0)-4*16+1*4]
+mov edx, r9d
+label4:
+mov r9d, [(r8+0)-4*16+7*4]
+mov edi, [(r8+0)-4*16+6*4]
+movzx esi, cl
+xor r9d, DWORD PTR [r11+8*rsi+(((3+3) MOD (4))+1)]
+mov cl, al
+movzx esi, ah
+xor edi, DWORD PTR [r11+8*rsi+(((2+3) MOD (4))+1)]
+shr eax, 16
+movzx esi, bl
+xor edi, DWORD PTR [r11+8*rsi+(((3+3) MOD (4))+1)]
+movzx esi, bh
+xor r9d, DWORD PTR [r11+8*rsi+(((2+3) MOD (4))+1)]
+shr ebx, 16
+movzx esi, al
+xor r9d, DWORD PTR [r11+8*rsi+(((1+3) MOD (4))+1)]
+movzx esi, ah
+mov eax, DWORD PTR [r11+8*rsi+(((0+3) MOD (4))+1)]
+movzx esi, bl
+xor eax, DWORD PTR [r11+8*rsi+(((1+3) MOD (4))+1)]
+movzx esi, bh
+mov ebx, DWORD PTR [r11+8*rsi+(((0+3) MOD (4))+1)]
+movzx esi, ch
+xor eax, DWORD PTR [r11+8*rsi+(((2+3) MOD (4))+1)]
+movzx esi, cl
+xor ebx, DWORD PTR [r11+8*rsi+(((3+3) MOD (4))+1)]
+shr ecx, 16
+movzx esi, dl
+xor eax, DWORD PTR [r11+8*rsi+(((3+3) MOD (4))+1)]
+movzx esi, dh
+xor ebx, DWORD PTR [r11+8*rsi+(((2+3) MOD (4))+1)]
+shr edx, 16
+movzx esi, ch
+xor edi, DWORD PTR [r11+8*rsi+(((0+3) MOD (4))+1)]
+movzx esi, cl
+xor ebx, DWORD PTR [r11+8*rsi+(((1+3) MOD (4))+1)]
+movzx esi, dl
+xor edi, DWORD PTR [r11+8*rsi+(((1+3) MOD (4))+1)]
+movzx esi, dh
+xor r9d, DWORD PTR [r11+8*rsi+(((0+3) MOD (4))+1)]
+mov ecx, edi
+xor eax, [(r8+0)-4*16+4*4]
+xor ebx, [(r8+0)-4*16+5*4]
+mov edx, r9d
+add r8, 32
+test r8, 255
+jnz label2
+sub r8, 16*16
+movzx esi, ch
+movzx edi, BYTE PTR [r11+rsi*8+1]
+movzx esi, dl
+xor edi, DWORD PTR [r11+rsi*8+0]
+mov WORD PTR [(r8+16*13)+2], di
+movzx esi, dh
+movzx edi, BYTE PTR [r11+rsi*8+1]
+movzx esi, al
+xor edi, DWORD PTR [r11+rsi*8+0]
+mov WORD PTR [(r8+16*13)+6], di
+shr edx, 16
+movzx esi, ah
+movzx edi, BYTE PTR [r11+rsi*8+1]
+movzx esi, bl
+xor edi, DWORD PTR [r11+rsi*8+0]
+mov WORD PTR [(r8+16*13)+10], di
+shr eax, 16
+movzx esi, bh
+movzx edi, BYTE PTR [r11+rsi*8+1]
+movzx esi, cl
+xor edi, DWORD PTR [r11+rsi*8+0]
+mov WORD PTR [(r8+16*13)+14], di
+shr ebx, 16
+movzx esi, dh
+movzx edi, BYTE PTR [r11+rsi*8+1]
+movzx esi, al
+xor edi, DWORD PTR [r11+rsi*8+0]
+mov WORD PTR [(r8+16*13)+12], di
+shr ecx, 16
+movzx esi, ah
+movzx edi, BYTE PTR [r11+rsi*8+1]
+movzx esi, bl
+xor edi, DWORD PTR [r11+rsi*8+0]
+mov WORD PTR [(r8+16*13)+0], di
+movzx esi, bh
+movzx edi, BYTE PTR [r11+rsi*8+1]
+movzx esi, cl
+xor edi, DWORD PTR [r11+rsi*8+0]
+mov WORD PTR [(r8+16*13)+4], di
+movzx esi, ch
+movzx edi, BYTE PTR [r11+rsi*8+1]
+movzx esi, dl
+xor edi, DWORD PTR [r11+rsi*8+0]
+mov WORD PTR [(r8+16*13)+8], di
+mov rax, [(r8+16*14)+16]
+mov rbx, [(r8+16*14)+24]
+mov rcx, [(r8+16*18+8)]
+sub rcx, 16
+movdqu xmm2, [rax]
+pxor xmm2, xmm4
+movdqa xmm0, [(r8+16*16)+16]
+paddq xmm0, [(r8+16*14)+16]
+movdqa [(r8+16*14)+16], xmm0
+pxor xmm2, [(r8+16*13)]
+movdqu [rbx], xmm2
+jle label7
+mov [(r8+16*18+8)], rcx
+test rcx, 1
+jnz label1
+movdqa xmm0, [(r8+16*16)]
+paddq xmm0, [(r8+16*14)]
+movdqa [(r8+16*14)], xmm0
+jmp label3
+label7:
+xorps xmm0, xmm0
+lea rax, [(r8+0)+7*16]
+movaps [rax-7*16], xmm0
+movaps [rax-6*16], xmm0
+movaps [rax-5*16], xmm0
+movaps [rax-4*16], xmm0
+movaps [rax-3*16], xmm0
+movaps [rax-2*16], xmm0
+movaps [rax-1*16], xmm0
+movaps [rax+0*16], xmm0
+movaps [rax+1*16], xmm0
+movaps [rax+2*16], xmm0
+movaps [rax+3*16], xmm0
+movaps [rax+4*16], xmm0
+movaps [rax+5*16], xmm0
+movaps [rax+6*16], xmm0
+pop r12
+pop rbx
+pop rdi
+pop rsi
+ret
+Rijndael_Enc_AdvancedProcessBlocks ENDP
+
+ALIGN   8
+GCM_AuthenticateBlocks_2K	PROC FRAME
+rex_push_reg rsi
+push_reg rdi
+push_reg rbx
+.endprolog
+mov rsi, r8
+mov r11, r9
+movdqa xmm0, [rsi]
+label0:
+movdqu xmm4, [rcx]
+pxor xmm0, xmm4
+movd ebx, xmm0
+mov eax, 0f0f0f0f0h
+and eax, ebx
+shl ebx, 4
+and ebx, 0f0f0f0f0h
+movzx edi, ah
+movdqa xmm5, XMMWORD PTR [rsi + 32 + 1024 + rdi]
+movzx edi, al
+movdqa xmm4, XMMWORD PTR [rsi + 32 + 1024 + rdi]
+shr eax, 16
+movzx edi, ah
+movdqa xmm3, XMMWORD PTR [rsi + 32 + 1024 + rdi]
+movzx edi, al
+movdqa xmm2, XMMWORD PTR [rsi + 32 + 1024 + rdi]
+psrldq xmm0, 4
+movd eax, xmm0
+and eax, 0f0f0f0f0h
+movzx edi, bh
+pxor xmm5, XMMWORD PTR [rsi + 32 + (1-1)*256 + rdi]
+movzx edi, bl
+pxor xmm4, XMMWORD PTR [rsi + 32 + (1-1)*256 + rdi]
+shr ebx, 16
+movzx edi, bh
+pxor xmm3, XMMWORD PTR [rsi + 32 + (1-1)*256 + rdi]
+movzx edi, bl
+pxor xmm2, XMMWORD PTR [rsi + 32 + (1-1)*256 + rdi]
+movd ebx, xmm0
+shl ebx, 4
+and ebx, 0f0f0f0f0h
+movzx edi, ah
+pxor xmm5, XMMWORD PTR [rsi + 32 + 1024 + 1*256 + rdi]
+movzx edi, al
+pxor xmm4, XMMWORD PTR [rsi + 32 + 1024 + 1*256 + rdi]
+shr eax, 16
+movzx edi, ah
+pxor xmm3, XMMWORD PTR [rsi + 32 + 1024 + 1*256 + rdi]
+movzx edi, al
+pxor xmm2, XMMWORD PTR [rsi + 32 + 1024 + 1*256 + rdi]
+psrldq xmm0, 4
+movd eax, xmm0
+and eax, 0f0f0f0f0h
+movzx edi, bh
+pxor xmm5, XMMWORD PTR [rsi + 32 + (2-1)*256 + rdi]
+movzx edi, bl
+pxor xmm4, XMMWORD PTR [rsi + 32 + (2-1)*256 + rdi]
+shr ebx, 16
+movzx edi, bh
+pxor xmm3, XMMWORD PTR [rsi + 32 + (2-1)*256 + rdi]
+movzx edi, bl
+pxor xmm2, XMMWORD PTR [rsi + 32 + (2-1)*256 + rdi]
+movd ebx, xmm0
+shl ebx, 4
+and ebx, 0f0f0f0f0h
+movzx edi, ah
+pxor xmm5, XMMWORD PTR [rsi + 32 + 1024 + 2*256 + rdi]
+movzx edi, al
+pxor xmm4, XMMWORD PTR [rsi + 32 + 1024 + 2*256 + rdi]
+shr eax, 16
+movzx edi, ah
+pxor xmm3, XMMWORD PTR [rsi + 32 + 1024 + 2*256 + rdi]
+movzx edi, al
+pxor xmm2, XMMWORD PTR [rsi + 32 + 1024 + 2*256 + rdi]
+psrldq xmm0, 4
+movd eax, xmm0
+and eax, 0f0f0f0f0h
+movzx edi, bh
+pxor xmm5, XMMWORD PTR [rsi + 32 + (3-1)*256 + rdi]
+movzx edi, bl
+pxor xmm4, XMMWORD PTR [rsi + 32 + (3-1)*256 + rdi]
+shr ebx, 16
+movzx edi, bh
+pxor xmm3, XMMWORD PTR [rsi + 32 + (3-1)*256 + rdi]
+movzx edi, bl
+pxor xmm2, XMMWORD PTR [rsi + 32 + (3-1)*256 + rdi]
+movd ebx, xmm0
+shl ebx, 4
+and ebx, 0f0f0f0f0h
+movzx edi, ah
+pxor xmm5, XMMWORD PTR [rsi + 32 + 1024 + 3*256 + rdi]
+movzx edi, al
+pxor xmm4, XMMWORD PTR [rsi + 32 + 1024 + 3*256 + rdi]
+shr eax, 16
+movzx edi, ah
+pxor xmm3, XMMWORD PTR [rsi + 32 + 
