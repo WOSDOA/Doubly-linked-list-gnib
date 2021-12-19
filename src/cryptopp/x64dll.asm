@@ -1617,4 +1617,275 @@ mov edi, [rsp+((1024+7-(9+2)) MOD (8))*4]
 xor edi, [rsp+((1024+7-(9+1)) MOD (8))*4]
 and edi, edx
 xor edi, [rsp+((1024+7-(9+1)) MOD (8))*4]
-mov ebp, ed
+mov ebp, edx
+ror edx, 6
+ror ebp, 25
+xor ebp, edx
+ror edx, 5
+xor ebp, edx
+add edi, ebp
+mov ebp, [rsp+8*4+((1024+15-((9)-2)) MOD (16))*4]
+mov edx, [rsp+8*4+((1024+15-((9)-15)) MOD (16))*4]
+mov ebx, ebp
+shr ebp, 10
+ror ebx, 17
+xor ebp, ebx
+ror ebx, 2
+xor ebx, ebp
+add ebx, [rsp+8*4+((1024+15-((9)-7)) MOD (16))*4]
+mov ebp, edx
+shr ebp, 3
+ror edx, 7
+add ebx, [rsp+8*4+((1024+15-(9)) MOD (16))*4]
+xor ebp, edx
+add edi, [rsi+(9)*4]
+ror edx, 11
+add edi, [rsp+((1024+7-(9)) MOD (8))*4]
+xor ebp, edx
+add ebp, ebx
+mov [rsp+8*4+((1024+15-(9)) MOD (16))*4], ebp
+add edi, ebp
+mov ebx, eax
+xor eax, [rsp+((1024+7-(9+6)) MOD (8))*4]
+and ecx, eax
+xor ecx, [rsp+((1024+7-(9+6)) MOD (8))*4]
+mov ebp, ebx
+ror ebx, 2
+add ecx, edi
+add edi, [rsp+((1024+7-(9+4)) MOD (8))*4]
+mov [rsp+((1024+7-(9+4)) MOD (8))*4], edi
+ror ebp, 22
+xor ebp, ebx
+ror ebx, 11
+xor ebp, ebx
+add ecx, ebp
+mov [rsp+((1024+7-(9)) MOD (8))*4], ecx
+mov edx, [rsp+((1024+7-(10+2)) MOD (8))*4]
+xor edx, [rsp+((1024+7-(10+1)) MOD (8))*4]
+and edx, edi
+xor edx, [rsp+((1024+7-(10+1)) MOD (8))*4]
+mov ebp, edi
+ror edi, 6
+ror ebp, 25
+xor ebp, edi
+ror edi, 5
+xor ebp, edi
+add edx, ebp
+mov ebp, [rsp+8*4+((1024+15-((10)-2)) MOD (16))*4]
+mov edi, [rsp+8*4+((1024+15-((10)-15)) MOD (16))*4]
+mov ebx, ebp
+shr ebp, 10
+ror ebx, 17
+xor ebp, ebx
+ror ebx, 2
+xor ebx, ebp
+add ebx, [rsp+8*4+((1024+15-((10)-7)) MOD (16))*4]
+mov ebp, edi
+shr ebp, 3
+ror edi, 7
+add ebx, [rsp+8*4+((1024+15-(10)) MOD (16))*4]
+xor ebp, edi
+add edx, [rsi+(10)*4]
+ror edi, 11
+add edx, [rsp+((1024+7-(10)) MOD (8))*4]
+xor ebp, edi
+add ebp, ebx
+mov [rsp+8*4+((1024+15-(10)) MOD (16))*4], ebp
+add edx, ebp
+mov ebx, ecx
+xor ecx, [rsp+((1024+7-(10+6)) MOD (8))*4]
+and eax, ecx
+xor eax, [rsp+((1024+7-(10+6)) MOD (8))*4]
+mov ebp, ebx
+ror ebx, 2
+add eax, edx
+add edx, [rsp+((1024+7-(10+4)) MOD (8))*4]
+mov [rsp+((1024+7-(10+4)) MOD (8))*4], edx
+ror ebp, 22
+xor ebp, ebx
+ror ebx, 11
+xor ebp, ebx
+add eax, ebp
+mov [rsp+((1024+7-(10)) MOD (8))*4], eax
+mov edi, [rsp+((1024+7-(11+2)) MOD (8))*4]
+xor edi, [rsp+((1024+7-(11+1)) MOD (8))*4]
+and edi, edx
+xor edi, [rsp+((1024+7-(11+1)) MOD (8))*4]
+mov ebp, edx
+ror edx, 6
+ror ebp, 25
+xor ebp, edx
+ror edx, 5
+xor ebp, edx
+add edi, ebp
+mov ebp, [rsp+8*4+((1024+15-((11)-2)) MOD (16))*4]
+mov edx, [rsp+8*4+((1024+15-((11)-15)) MOD (16))*4]
+mov ebx, ebp
+shr ebp, 10
+ror ebx, 17
+xor ebp, ebx
+ror ebx, 2
+xor ebx, ebp
+add ebx, [rsp+8*4+((1024+15-((11)-7)) MOD (16))*4]
+mov ebp, edx
+shr ebp, 3
+ror edx, 7
+add ebx, [rsp+8*4+((1024+15-(11)) MOD (16))*4]
+xor ebp, edx
+add edi, [rsi+(11)*4]
+ror edx, 11
+add edi, [rsp+((1024+7-(11)) MOD (8))*4]
+xor ebp, edx
+add ebp, ebx
+mov [rsp+8*4+((1024+15-(11)) MOD (16))*4], ebp
+add edi, ebp
+mov ebx, eax
+xor eax, [rsp+((1024+7-(11+6)) MOD (8))*4]
+and ecx, eax
+xor ecx, [rsp+((1024+7-(11+6)) MOD (8))*4]
+mov ebp, ebx
+ror ebx, 2
+add ecx, edi
+add edi, [rsp+((1024+7-(11+4)) MOD (8))*4]
+mov [rsp+((1024+7-(11+4)) MOD (8))*4], edi
+ror ebp, 22
+xor ebp, ebx
+ror ebx, 11
+xor ebp, ebx
+add ecx, ebp
+mov [rsp+((1024+7-(11)) MOD (8))*4], ecx
+mov edx, [rsp+((1024+7-(12+2)) MOD (8))*4]
+xor edx, [rsp+((1024+7-(12+1)) MOD (8))*4]
+and edx, edi
+xor edx, [rsp+((1024+7-(12+1)) MOD (8))*4]
+mov ebp, edi
+ror edi, 6
+ror ebp, 25
+xor ebp, edi
+ror edi, 5
+xor ebp, edi
+add edx, ebp
+mov ebp, [rsp+8*4+((1024+15-((12)-2)) MOD (16))*4]
+mov edi, [rsp+8*4+((1024+15-((12)-15)) MOD (16))*4]
+mov ebx, ebp
+shr ebp, 10
+ror ebx, 17
+xor ebp, ebx
+ror ebx, 2
+xor ebx, ebp
+add ebx, [rsp+8*4+((1024+15-((12)-7)) MOD (16))*4]
+mov ebp, edi
+shr ebp, 3
+ror edi, 7
+add ebx, [rsp+8*4+((1024+15-(12)) MOD (16))*4]
+xor ebp, edi
+add edx, [rsi+(12)*4]
+ror edi, 11
+add edx, [rsp+((1024+7-(12)) MOD (8))*4]
+xor ebp, edi
+add ebp, ebx
+mov [rsp+8*4+((1024+15-(12)) MOD (16))*4], ebp
+add edx, ebp
+mov ebx, ecx
+xor ecx, [rsp+((1024+7-(12+6)) MOD (8))*4]
+and eax, ecx
+xor eax, [rsp+((1024+7-(12+6)) MOD (8))*4]
+mov ebp, ebx
+ror ebx, 2
+add eax, edx
+add edx, [rsp+((1024+7-(12+4)) MOD (8))*4]
+mov [rsp+((1024+7-(12+4)) MOD (8))*4], edx
+ror ebp, 22
+xor ebp, ebx
+ror ebx, 11
+xor ebp, ebx
+add eax, ebp
+mov [rsp+((1024+7-(12)) MOD (8))*4], eax
+mov edi, [rsp+((1024+7-(13+2)) MOD (8))*4]
+xor edi, [rsp+((1024+7-(13+1)) MOD (8))*4]
+and edi, edx
+xor edi, [rsp+((1024+7-(13+1)) MOD (8))*4]
+mov ebp, edx
+ror edx, 6
+ror ebp, 25
+xor ebp, edx
+ror edx, 5
+xor ebp, edx
+add edi, ebp
+mov ebp, [rsp+8*4+((1024+15-((13)-2)) MOD (16))*4]
+mov edx, [rsp+8*4+((1024+15-((13)-15)) MOD (16))*4]
+mov ebx, ebp
+shr ebp, 10
+ror ebx, 17
+xor ebp, ebx
+ror ebx, 2
+xor ebx, ebp
+add ebx, [rsp+8*4+((1024+15-((13)-7)) MOD (16))*4]
+mov ebp, edx
+shr ebp, 3
+ror edx, 7
+add ebx, [rsp+8*4+((1024+15-(13)) MOD (16))*4]
+xor ebp, edx
+add edi, [rsi+(13)*4]
+ror edx, 11
+add edi, [rsp+((1024+7-(13)) MOD (8))*4]
+xor ebp, edx
+add ebp, ebx
+mov [rsp+8*4+((1024+15-(13)) MOD (16))*4], ebp
+add edi, ebp
+mov ebx, eax
+xor eax, [rsp+((1024+7-(13+6)) MOD (8))*4]
+and ecx, eax
+xor ecx, [rsp+((1024+7-(13+6)) MOD (8))*4]
+mov ebp, ebx
+ror ebx, 2
+add ecx, edi
+add edi, [rsp+((1024+7-(13+4)) MOD (8))*4]
+mov [rsp+((1024+7-(13+4)) MOD (8))*4], edi
+ror ebp, 22
+xor ebp, ebx
+ror ebx, 11
+xor ebp, ebx
+add ecx, ebp
+mov [rsp+((1024+7-(13)) MOD (8))*4], ecx
+mov edx, [rsp+((1024+7-(14+2)) MOD (8))*4]
+xor edx, [rsp+((1024+7-(14+1)) MOD (8))*4]
+and edx, edi
+xor edx, [rsp+((1024+7-(14+1)) MOD (8))*4]
+mov ebp, edi
+ror edi, 6
+ror ebp, 25
+xor ebp, edi
+ror edi, 5
+xor ebp, edi
+add edx, ebp
+mov ebp, [rsp+8*4+((1024+15-((14)-2)) MOD (16))*4]
+mov edi, [rsp+8*4+((1024+15-((14)-15)) MOD (16))*4]
+mov ebx, ebp
+shr ebp, 10
+ror ebx, 17
+xor ebp, ebx
+ror ebx, 2
+xor ebx, ebp
+add ebx, [rsp+8*4+((1024+15-((14)-7)) MOD (16))*4]
+mov ebp, edi
+shr ebp, 3
+ror edi, 7
+add ebx, [rsp+8*4+((1024+15-(14)) MOD (16))*4]
+xor ebp, edi
+add edx, [rsi+(14)*4]
+ror edi, 11
+add edx, [rsp+((1024+7-(14)) MOD (8))*4]
+xor ebp, edi
+add ebp, ebx
+mov [rsp+8*4+((1024+15-(14)) MOD (16))*4], ebp
+add edx, ebp
+mov ebx, ecx
+xor ecx, [rsp+((1024+7-(14+6)) MOD (8))*4]
+and eax, ecx
+xor eax, [rsp+((1024+7-(14+6)) MOD (8))*4]
+mov ebp, ebx
+ror ebx, 2
+add eax, edx
+add edx, [rsp+((1024+7-(14+4)) MOD (8))*4]
+m
