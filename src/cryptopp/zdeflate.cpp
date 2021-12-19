@@ -783,3 +783,20 @@ void Deflator::EndBlock(bool eof)
 		else
 		{
 			if (staticLen <= dynamicLen)
+				EncodeBlock(eof, STATIC);
+			else
+				EncodeBlock(eof, DYNAMIC);
+
+			if (m_compressibleDeflateLevel > 0)
+				m_detectSkip = 0;
+		}
+	}
+
+	m_matchBufferEnd = 0;
+	m_blockStart += m_blockLength;
+	m_blockLength = 0;
+	fill(m_literalCounts.begin(), m_literalCounts.end(), 0);
+	fill(m_distanceCounts.begin(), m_distanceCounts.end(), 0);
+}
+
+NAMESPACE_END
