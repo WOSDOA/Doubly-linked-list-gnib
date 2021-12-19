@@ -1888,4 +1888,81 @@ mov ebp, ebx
 ror ebx, 2
 add eax, edx
 add edx, [rsp+((1024+7-(14+4)) MOD (8))*4]
-m
+mov [rsp+((1024+7-(14+4)) MOD (8))*4], edx
+ror ebp, 22
+xor ebp, ebx
+ror ebx, 11
+xor ebp, ebx
+add eax, ebp
+mov [rsp+((1024+7-(14)) MOD (8))*4], eax
+mov edi, [rsp+((1024+7-(15+2)) MOD (8))*4]
+xor edi, [rsp+((1024+7-(15+1)) MOD (8))*4]
+and edi, edx
+xor edi, [rsp+((1024+7-(15+1)) MOD (8))*4]
+mov ebp, edx
+ror edx, 6
+ror ebp, 25
+xor ebp, edx
+ror edx, 5
+xor ebp, edx
+add edi, ebp
+mov ebp, [rsp+8*4+((1024+15-((15)-2)) MOD (16))*4]
+mov edx, [rsp+8*4+((1024+15-((15)-15)) MOD (16))*4]
+mov ebx, ebp
+shr ebp, 10
+ror ebx, 17
+xor ebp, ebx
+ror ebx, 2
+xor ebx, ebp
+add ebx, [rsp+8*4+((1024+15-((15)-7)) MOD (16))*4]
+mov ebp, edx
+shr ebp, 3
+ror edx, 7
+add ebx, [rsp+8*4+((1024+15-(15)) MOD (16))*4]
+xor ebp, edx
+add edi, [rsi+(15)*4]
+ror edx, 11
+add edi, [rsp+((1024+7-(15)) MOD (8))*4]
+xor ebp, edx
+add ebp, ebx
+mov [rsp+8*4+((1024+15-(15)) MOD (16))*4], ebp
+add edi, ebp
+mov ebx, eax
+xor eax, [rsp+((1024+7-(15+6)) MOD (8))*4]
+and ecx, eax
+xor ecx, [rsp+((1024+7-(15+6)) MOD (8))*4]
+mov ebp, ebx
+ror ebx, 2
+add ecx, edi
+add edi, [rsp+((1024+7-(15+4)) MOD (8))*4]
+mov [rsp+((1024+7-(15+4)) MOD (8))*4], edi
+ror ebp, 22
+xor ebp, ebx
+ror ebx, 11
+xor ebp, ebx
+add ecx, ebp
+mov [rsp+((1024+7-(15)) MOD (8))*4], ecx
+cmp rsi, [rsp+8*4+16*4+0*8]
+jne label1
+mov rcx, [rsp+8*4+16*4+1*8]
+movdqa xmm1, XMMWORD PTR [rcx+1*16]
+movdqa xmm0, XMMWORD PTR [rcx+0*16]
+paddd xmm1, [rsp+((1024+7-(0+3)) MOD (8))*4]
+paddd xmm0, [rsp+((1024+7-(0+7)) MOD (8))*4]
+movdqa [rcx+1*16], xmm1
+movdqa [rcx+0*16], xmm0
+mov rdx, [rsp+8*4+16*4+2*8]
+add rdx, 64
+mov [rsp+8*4+16*4+2*8], rdx
+cmp rdx, [rsp+8*4+16*4+3*8]
+jne label0
+add		rsp, 8*4 + 16*4 + 4*8 + 8
+pop		rbp
+pop		rbx
+pop		rdi
+pop		rsi
+ret
+X86_SHA256_HashBlocks ENDP
+
+_TEXT ENDS
+END
