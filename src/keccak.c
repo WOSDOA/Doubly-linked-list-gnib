@@ -582,4 +582,138 @@ static const struct {
                 a13l = (state)->u.narrow[2 * 16 + 0]; \
                 a13h = (state)->u.narrow[2 * 16 + 1]; \
                 a23l = (state)->u.narrow[2 * 17 + 0]; \
-                a23h = (state)->u.narrow
+                a23h = (state)->u.narrow[2 * 17 + 1]; \
+                a33l = (state)->u.narrow[2 * 18 + 0]; \
+                a33h = (state)->u.narrow[2 * 18 + 1]; \
+                a43l = (state)->u.narrow[2 * 19 + 0]; \
+                a43h = (state)->u.narrow[2 * 19 + 1]; \
+                a04l = (state)->u.narrow[2 * 20 + 0]; \
+                a04h = (state)->u.narrow[2 * 20 + 1]; \
+                a14l = (state)->u.narrow[2 * 21 + 0]; \
+                a14h = (state)->u.narrow[2 * 21 + 1]; \
+                a24l = (state)->u.narrow[2 * 22 + 0]; \
+                a24h = (state)->u.narrow[2 * 22 + 1]; \
+                a34l = (state)->u.narrow[2 * 23 + 0]; \
+                a34h = (state)->u.narrow[2 * 23 + 1]; \
+                a44l = (state)->u.narrow[2 * 24 + 0]; \
+                a44h = (state)->u.narrow[2 * 24 + 1]; \
+        } while (0)
+ 
+#define WRITE_STATE(state)   do { \
+                (state)->u.narrow[2 *  0 + 0] = a00l; \
+                (state)->u.narrow[2 *  0 + 1] = a00h; \
+                (state)->u.narrow[2 *  1 + 0] = a10l; \
+                (state)->u.narrow[2 *  1 + 1] = a10h; \
+                (state)->u.narrow[2 *  2 + 0] = a20l; \
+                (state)->u.narrow[2 *  2 + 1] = a20h; \
+                (state)->u.narrow[2 *  3 + 0] = a30l; \
+                (state)->u.narrow[2 *  3 + 1] = a30h; \
+                (state)->u.narrow[2 *  4 + 0] = a40l; \
+                (state)->u.narrow[2 *  4 + 1] = a40h; \
+                (state)->u.narrow[2 *  5 + 0] = a01l; \
+                (state)->u.narrow[2 *  5 + 1] = a01h; \
+                (state)->u.narrow[2 *  6 + 0] = a11l; \
+                (state)->u.narrow[2 *  6 + 1] = a11h; \
+                (state)->u.narrow[2 *  7 + 0] = a21l; \
+                (state)->u.narrow[2 *  7 + 1] = a21h; \
+                (state)->u.narrow[2 *  8 + 0] = a31l; \
+                (state)->u.narrow[2 *  8 + 1] = a31h; \
+                (state)->u.narrow[2 *  9 + 0] = a41l; \
+                (state)->u.narrow[2 *  9 + 1] = a41h; \
+                (state)->u.narrow[2 * 10 + 0] = a02l; \
+                (state)->u.narrow[2 * 10 + 1] = a02h; \
+                (state)->u.narrow[2 * 11 + 0] = a12l; \
+                (state)->u.narrow[2 * 11 + 1] = a12h; \
+                (state)->u.narrow[2 * 12 + 0] = a22l; \
+                (state)->u.narrow[2 * 12 + 1] = a22h; \
+                (state)->u.narrow[2 * 13 + 0] = a32l; \
+                (state)->u.narrow[2 * 13 + 1] = a32h; \
+                (state)->u.narrow[2 * 14 + 0] = a42l; \
+                (state)->u.narrow[2 * 14 + 1] = a42h; \
+                (state)->u.narrow[2 * 15 + 0] = a03l; \
+                (state)->u.narrow[2 * 15 + 1] = a03h; \
+                (state)->u.narrow[2 * 16 + 0] = a13l; \
+                (state)->u.narrow[2 * 16 + 1] = a13h; \
+                (state)->u.narrow[2 * 17 + 0] = a23l; \
+                (state)->u.narrow[2 * 17 + 1] = a23h; \
+                (state)->u.narrow[2 * 18 + 0] = a33l; \
+                (state)->u.narrow[2 * 18 + 1] = a33h; \
+                (state)->u.narrow[2 * 19 + 0] = a43l; \
+                (state)->u.narrow[2 * 19 + 1] = a43h; \
+                (state)->u.narrow[2 * 20 + 0] = a04l; \
+                (state)->u.narrow[2 * 20 + 1] = a04h; \
+                (state)->u.narrow[2 * 21 + 0] = a14l; \
+                (state)->u.narrow[2 * 21 + 1] = a14h; \
+                (state)->u.narrow[2 * 22 + 0] = a24l; \
+                (state)->u.narrow[2 * 22 + 1] = a24h; \
+                (state)->u.narrow[2 * 23 + 0] = a34l; \
+                (state)->u.narrow[2 * 23 + 1] = a34h; \
+                (state)->u.narrow[2 * 24 + 0] = a44l; \
+                (state)->u.narrow[2 * 24 + 1] = a44h; \
+        } while (0)
+ 
+#define READ64(d, off)   do { \
+                sph_u32 tl, th; \
+                tl = sph_dec32le_aligned(buf + (off)); \
+                th = sph_dec32le_aligned(buf + (off) + 4); \
+                INTERLEAVE(tl, th); \
+                d ## l ^= tl; \
+                d ## h ^= th; \
+        } while (0)
+ 
+#define INPUT_BUF144   do { \
+                READ64(a00,   0); \
+                READ64(a10,   8); \
+                READ64(a20,  16); \
+                READ64(a30,  24); \
+                READ64(a40,  32); \
+                READ64(a01,  40); \
+                READ64(a11,  48); \
+                READ64(a21,  56); \
+                READ64(a31,  64); \
+                READ64(a41,  72); \
+                READ64(a02,  80); \
+                READ64(a12,  88); \
+                READ64(a22,  96); \
+                READ64(a32, 104); \
+                READ64(a42, 112); \
+                READ64(a03, 120); \
+                READ64(a13, 128); \
+                READ64(a23, 136); \
+        } while (0)
+ 
+#define INPUT_BUF136   do { \
+                READ64(a00,   0); \
+                READ64(a10,   8); \
+                READ64(a20,  16); \
+                READ64(a30,  24); \
+                READ64(a40,  32); \
+                READ64(a01,  40); \
+                READ64(a11,  48); \
+                READ64(a21,  56); \
+                READ64(a31,  64); \
+                READ64(a41,  72); \
+                READ64(a02,  80); \
+                READ64(a12,  88); \
+                READ64(a22,  96); \
+                READ64(a32, 104); \
+                READ64(a42, 112); \
+                READ64(a03, 120); \
+                READ64(a13, 128); \
+        } while (0)
+ 
+#define INPUT_BUF104   do { \
+                READ64(a00,   0); \
+                READ64(a10,   8); \
+                READ64(a20,  16); \
+                READ64(a30,  24); \
+                READ64(a40,  32); \
+                READ64(a01,  40); \
+                READ64(a11,  48); \
+                READ64(a21,  56); \
+                READ64(a31,  64); \
+                READ64(a41,  72); \
+                READ64(a02,  80); \
+                READ64(a12,  88); \
+                READ64(a22,  96); \
+        } 
