@@ -326,4 +326,154 @@ namespace json_spirit
             }    
         }
 
-        Value_type* add_to_current( const Value_type& valu
+        Value_type* add_to_current( const Value_type& value )
+        {
+            if( current_p_ == 0 )
+            {
+                return add_first( value );
+            }
+            else if( current_p_->type() == array_type )
+            {
+                current_p_->get_array().push_back( value );
+
+                return &current_p_->get_array().back(); 
+            }
+            
+            assert( current_p_->type() == obj_type );
+
+            return &Config_type::add( current_p_->get_obj(), name_, value );
+        }
+
+        Value_type& value_;             // this is the object or array that is being created
+        Value_type* current_p_;         // the child object or array that is currently being constructed
+
+        std::vector< Value_type* > stack_;   // previous child objects and arrays
+
+        String_type name_;              // of current name/value pair
+    };
+
+    template< typename Iter_type >
+    void throw_error( spirit_namespace::position_iterator< Iter_type > i, const std::string& reason )
+    {
+        throw Error_position( i.get_position().line, i.get_position().column, reason );
+    }
+
+    template< typename Iter_type >
+    void throw_error( Iter_type i, const std::string& reason )
+    {
+       throw reason;
+    }
+
+    // the spirit grammer 
+    //
+    template< class Value_type, class Iter_type >
+    class Json_grammer : public spirit_namespace::grammar< Json_grammer< Value_type, Iter_type > >
+    {
+    public:
+
+        typedef Semantic_actions< Value_type, Iter_type > Semantic_actions_t;
+
+        Json_grammer( Semantic_actions_t& semantic_actions )
+        :   actions_( semantic_actions )
+        {
+        }
+
+        static void throw_not_value( Iter_type begin, Iter_type end )
+        {
+    	    throw_error( begin, "not a value" );
+        }
+
+        static void throw_not_array( Iter_type begin, Iter_type end )
+        {
+    	    throw_error( begin, "not an array" );
+        }
+
+        static void throw_not_object( Iter_type begin, Iter_type end )
+        {
+    	    throw_error( begin, "not an object" );
+        }
+
+        static void throw_not_pair( Iter_type begin, Iter_type end )
+        {
+    	    throw_error( begin, "not a pair" );
+        }
+
+        static void throw_not_colon( Iter_type begin, Iter_type end )
+        {
+    	    throw_error( begin, "no colon in pair" );
+        }
+
+        static void throw_not_string( Iter_type begin, Iter_type end )
+        {
+    	    throw_error( begin, "not a string" );
+        }
+
+        template< typename ScannerT >
+        class definition
+        {
+        public:
+
+            definition( const Json_grammer& self )
+            {
+                using namespace spirit_namespace;
+
+                typedef typename Value_type::String_type::value_type Char_type;
+
+                // first we convert the semantic action class methods to functors with the 
+                // parameter signature expected by spirit
+
+                typedef boost::function< void( Char_type )            > Char_action;
+                typedef boost::function< void( Iter_type, Iter_type ) > Str_action;
+                typedef boost::function< void( double )               > Real_action;
+                typedef boost::function< void( boost::int64_t )       > Int_action;
+                typedef boost::function< void( boost::uint64_t )      > Uint64_action;
+
+                Char_action   begin_obj  ( boost::bind( &Semantic_actions_t::begin_obj,   &self.actions_, _1 ) );
+                Char_action   end_obj    ( boost::bind( &Semantic_actions_t::end_obj,     &self.actions_, _1 ) );
+                Char_action   begin_array( boost::bind( &Semantic_actions_t::begin_array, &self.actions_, _1 ) );
+                Char_action   end_array  ( boost::bind( &Semantic_actions_t::end_array,   &self.actions_, _1 ) );
+                Str_action    new_name   ( boost::bind( &Semantic_actions_t::new_name,    &self.actions_, _1, _2 ) );
+                Str_action    new_str    ( boost::bind( &Semantic_actions_t::new_str,     &self.actions_, _1, _2 ) );
+                Str_action    new_true   ( boost::bind( &Semantic_actions_t::new_true,    &self.actions_, _1, _2 ) );
+                Str_action    new_false  ( boost::bind( &Semantic_actions_t::new_false,   &self.actions_, _1, _2 ) );
+                Str_action    new_null   ( boost::bind( &Semantic_actions_t::new_null,    &self.actions_, _1, _2 ) );
+                Real_action   new_real   ( boost::bind( &Semantic_actions_t::new_real,    &self.actions_, _1 ) );
+                Int_action    new_int    ( boost::bind( &Semantic_actions_t::new_int,     &self.actions_, _1 ) );
+                Uint64_action new_uint64 ( boost::bind( &Semantic_actions_t::new_uint64,  &self.actions_, _1 ) );
+
+                // actual grammer
+
+                json_
+                    = value_ | eps_p[ &throw_not_value ]
+                    ;
+
+                value_
+                    = string_[ new_str ] 
+                    | number_ 
+                    | object_ 
+                    | array_ 
+                    | str_p( "true" ) [ new_true  ] 
+                    | str_p( "false" )[ new_false ] 
+                    | str_p( "null" ) [ new_null  ]
+                    ;
+
+                object_ 
+                    = ch_p('{')[ begin_obj ]
+                    >> !members_
+                    >> ( ch_p('}')[ end_obj ] | eps_p[ &throw_not_object ] )
+                    ;
+
+                members_
+                    = pair_ >> *( ',' >> pair_ )
+                    ;
+
+                pair_
+                    = string_[ new_name ]
+                    >> ( ':' | eps_p[ &throw_not_colon ] )
+                    >> ( value_ | eps_p[ &throw_not_value ] )
+                    ;
+
+                array_
+                    = ch_p('[')[ begin_array ]
+                    >> !elements_
+                    >> ( ch_p(']')[ end_array ] | eps_
