@@ -446,4 +446,140 @@ static const struct {
                 t = (l ^ SPH_T32(h << 16)) & SPH_C32(0xFFFF0000); \
                 l ^= t; h ^= t >> 16; \
                 t = (l ^ (l >> 8)) & SPH_C32(0x0000FF00); l ^= t ^ (t << 8); \
-                t = (h ^ (h >> 8)) & SPH_C32(0x0000FF00); h ^
+                t = (h ^ (h >> 8)) & SPH_C32(0x0000FF00); h ^= t ^ (t << 8); \
+                t = (l ^ (l >> 4)) & SPH_C32(0x00F000F0); l ^= t ^ (t << 4); \
+                t = (h ^ (h >> 4)) & SPH_C32(0x00F000F0); h ^= t ^ (t << 4); \
+                t = (l ^ (l >> 2)) & SPH_C32(0x0C0C0C0C); l ^= t ^ (t << 2); \
+                t = (h ^ (h >> 2)) & SPH_C32(0x0C0C0C0C); h ^= t ^ (t << 2); \
+                t = (l ^ (l >> 1)) & SPH_C32(0x22222222); l ^= t ^ (t << 1); \
+                t = (h ^ (h >> 1)) & SPH_C32(0x22222222); h ^= t ^ (t << 1); \
+                (xl) = l; (xh) = h; \
+        } while (0)
+ 
+#else
+ 
+#define INTERLEAVE(l, h)
+#define UNINTERLEAVE(l, h)
+ 
+#endif
+ 
+#if SPH_KECCAK_NOCOPY
+ 
+#define a00l   (kc->u.narrow[2 *  0 + 0])
+#define a00h   (kc->u.narrow[2 *  0 + 1])
+#define a10l   (kc->u.narrow[2 *  1 + 0])
+#define a10h   (kc->u.narrow[2 *  1 + 1])
+#define a20l   (kc->u.narrow[2 *  2 + 0])
+#define a20h   (kc->u.narrow[2 *  2 + 1])
+#define a30l   (kc->u.narrow[2 *  3 + 0])
+#define a30h   (kc->u.narrow[2 *  3 + 1])
+#define a40l   (kc->u.narrow[2 *  4 + 0])
+#define a40h   (kc->u.narrow[2 *  4 + 1])
+#define a01l   (kc->u.narrow[2 *  5 + 0])
+#define a01h   (kc->u.narrow[2 *  5 + 1])
+#define a11l   (kc->u.narrow[2 *  6 + 0])
+#define a11h   (kc->u.narrow[2 *  6 + 1])
+#define a21l   (kc->u.narrow[2 *  7 + 0])
+#define a21h   (kc->u.narrow[2 *  7 + 1])
+#define a31l   (kc->u.narrow[2 *  8 + 0])
+#define a31h   (kc->u.narrow[2 *  8 + 1])
+#define a41l   (kc->u.narrow[2 *  9 + 0])
+#define a41h   (kc->u.narrow[2 *  9 + 1])
+#define a02l   (kc->u.narrow[2 * 10 + 0])
+#define a02h   (kc->u.narrow[2 * 10 + 1])
+#define a12l   (kc->u.narrow[2 * 11 + 0])
+#define a12h   (kc->u.narrow[2 * 11 + 1])
+#define a22l   (kc->u.narrow[2 * 12 + 0])
+#define a22h   (kc->u.narrow[2 * 12 + 1])
+#define a32l   (kc->u.narrow[2 * 13 + 0])
+#define a32h   (kc->u.narrow[2 * 13 + 1])
+#define a42l   (kc->u.narrow[2 * 14 + 0])
+#define a42h   (kc->u.narrow[2 * 14 + 1])
+#define a03l   (kc->u.narrow[2 * 15 + 0])
+#define a03h   (kc->u.narrow[2 * 15 + 1])
+#define a13l   (kc->u.narrow[2 * 16 + 0])
+#define a13h   (kc->u.narrow[2 * 16 + 1])
+#define a23l   (kc->u.narrow[2 * 17 + 0])
+#define a23h   (kc->u.narrow[2 * 17 + 1])
+#define a33l   (kc->u.narrow[2 * 18 + 0])
+#define a33h   (kc->u.narrow[2 * 18 + 1])
+#define a43l   (kc->u.narrow[2 * 19 + 0])
+#define a43h   (kc->u.narrow[2 * 19 + 1])
+#define a04l   (kc->u.narrow[2 * 20 + 0])
+#define a04h   (kc->u.narrow[2 * 20 + 1])
+#define a14l   (kc->u.narrow[2 * 21 + 0])
+#define a14h   (kc->u.narrow[2 * 21 + 1])
+#define a24l   (kc->u.narrow[2 * 22 + 0])
+#define a24h   (kc->u.narrow[2 * 22 + 1])
+#define a34l   (kc->u.narrow[2 * 23 + 0])
+#define a34h   (kc->u.narrow[2 * 23 + 1])
+#define a44l   (kc->u.narrow[2 * 24 + 0])
+#define a44h   (kc->u.narrow[2 * 24 + 1])
+ 
+#define DECL_STATE
+#define READ_STATE(state)
+#define WRITE_STATE(state)
+ 
+#define INPUT_BUF(size)   do { \
+                size_t j; \
+                for (j = 0; j < (size); j += 8) { \
+                        sph_u32 tl, th; \
+                        tl = sph_dec32le_aligned(buf + j + 0); \
+                        th = sph_dec32le_aligned(buf + j + 4); \
+                        INTERLEAVE(tl, th); \
+                        kc->u.narrow[(j >> 2) + 0] ^= tl; \
+                        kc->u.narrow[(j >> 2) + 1] ^= th; \
+                } \
+        } while (0)
+ 
+#define INPUT_BUF144   INPUT_BUF(144)
+#define INPUT_BUF136   INPUT_BUF(136)
+#define INPUT_BUF104   INPUT_BUF(104)
+#define INPUT_BUF72    INPUT_BUF(72)
+ 
+#else
+ 
+#define DECL_STATE \
+        sph_u32 a00l, a00h, a01l, a01h, a02l, a02h, a03l, a03h, a04l, a04h; \
+        sph_u32 a10l, a10h, a11l, a11h, a12l, a12h, a13l, a13h, a14l, a14h; \
+        sph_u32 a20l, a20h, a21l, a21h, a22l, a22h, a23l, a23h, a24l, a24h; \
+        sph_u32 a30l, a30h, a31l, a31h, a32l, a32h, a33l, a33h, a34l, a34h; \
+        sph_u32 a40l, a40h, a41l, a41h, a42l, a42h, a43l, a43h, a44l, a44h;
+ 
+#define READ_STATE(state)   do { \
+                a00l = (state)->u.narrow[2 *  0 + 0]; \
+                a00h = (state)->u.narrow[2 *  0 + 1]; \
+                a10l = (state)->u.narrow[2 *  1 + 0]; \
+                a10h = (state)->u.narrow[2 *  1 + 1]; \
+                a20l = (state)->u.narrow[2 *  2 + 0]; \
+                a20h = (state)->u.narrow[2 *  2 + 1]; \
+                a30l = (state)->u.narrow[2 *  3 + 0]; \
+                a30h = (state)->u.narrow[2 *  3 + 1]; \
+                a40l = (state)->u.narrow[2 *  4 + 0]; \
+                a40h = (state)->u.narrow[2 *  4 + 1]; \
+                a01l = (state)->u.narrow[2 *  5 + 0]; \
+                a01h = (state)->u.narrow[2 *  5 + 1]; \
+                a11l = (state)->u.narrow[2 *  6 + 0]; \
+                a11h = (state)->u.narrow[2 *  6 + 1]; \
+                a21l = (state)->u.narrow[2 *  7 + 0]; \
+                a21h = (state)->u.narrow[2 *  7 + 1]; \
+                a31l = (state)->u.narrow[2 *  8 + 0]; \
+                a31h = (state)->u.narrow[2 *  8 + 1]; \
+                a41l = (state)->u.narrow[2 *  9 + 0]; \
+                a41h = (state)->u.narrow[2 *  9 + 1]; \
+                a02l = (state)->u.narrow[2 * 10 + 0]; \
+                a02h = (state)->u.narrow[2 * 10 + 1]; \
+                a12l = (state)->u.narrow[2 * 11 + 0]; \
+                a12h = (state)->u.narrow[2 * 11 + 1]; \
+                a22l = (state)->u.narrow[2 * 12 + 0]; \
+                a22h = (state)->u.narrow[2 * 12 + 1]; \
+                a32l = (state)->u.narrow[2 * 13 + 0]; \
+                a32h = (state)->u.narrow[2 * 13 + 1]; \
+                a42l = (state)->u.narrow[2 * 14 + 0]; \
+                a42h = (state)->u.narrow[2 * 14 + 1]; \
+                a03l = (state)->u.narrow[2 * 15 + 0]; \
+                a03h = (state)->u.narrow[2 * 15 + 1]; \
+                a13l = (state)->u.narrow[2 * 16 + 0]; \
+                a13h = (state)->u.narrow[2 * 16 + 1]; \
+                a23l = (state)->u.narrow[2 * 17 + 0]; \
+                a23h = (state)->u.narrow
