@@ -319,4 +319,131 @@ static const sph_u64 RC[] = {
                 a10 ^= sph_dec64le_aligned(buf +   8); \
                 a20 ^= sph_dec64le_aligned(buf +  16); \
                 a30 ^= sph_dec64le_aligned(buf +  24); \
+                a40 ^= sph_dec64le_aligned(buf +  32); \
+                a01 ^= sph_dec64le_aligned(buf +  40); \
+                a11 ^= sph_dec64le_aligned(buf +  48); \
+                a21 ^= sph_dec64le_aligned(buf +  56); \
+                a31 ^= sph_dec64le_aligned(buf +  64); \
+        } while (0)
  
+#define INPUT_BUF(lim)   do { \
+                a00 ^= sph_dec64le_aligned(buf +   0); \
+                a10 ^= sph_dec64le_aligned(buf +   8); \
+                a20 ^= sph_dec64le_aligned(buf +  16); \
+                a30 ^= sph_dec64le_aligned(buf +  24); \
+                a40 ^= sph_dec64le_aligned(buf +  32); \
+                a01 ^= sph_dec64le_aligned(buf +  40); \
+                a11 ^= sph_dec64le_aligned(buf +  48); \
+                a21 ^= sph_dec64le_aligned(buf +  56); \
+                a31 ^= sph_dec64le_aligned(buf +  64); \
+                if ((lim) == 72) \
+                        break; \
+                a41 ^= sph_dec64le_aligned(buf +  72); \
+                a02 ^= sph_dec64le_aligned(buf +  80); \
+                a12 ^= sph_dec64le_aligned(buf +  88); \
+                a22 ^= sph_dec64le_aligned(buf +  96); \
+                if ((lim) == 104) \
+                        break; \
+                a32 ^= sph_dec64le_aligned(buf + 104); \
+                a42 ^= sph_dec64le_aligned(buf + 112); \
+                a03 ^= sph_dec64le_aligned(buf + 120); \
+                a13 ^= sph_dec64le_aligned(buf + 128); \
+                if ((lim) == 136) \
+                        break; \
+                a23 ^= sph_dec64le_aligned(buf + 136); \
+        } while (0)
+ 
+#endif
+ 
+#define DECL64(x)        sph_u64 x
+#define MOV64(d, s)      (d = s)
+#define XOR64(d, a, b)   (d = a ^ b)
+#define AND64(d, a, b)   (d = a & b)
+#define OR64(d, a, b)    (d = a | b)
+#define NOT64(d, s)      (d = SPH_T64(~s))
+#define ROL64(d, v, n)   (d = SPH_ROTL64(v, n))
+#define XOR64_IOTA       XOR64
+ 
+#else
+ 
+static const struct {
+        sph_u32 high, low;
+} RC[] = {
+#if SPH_KECCAK_INTERLEAVE
+        { SPH_C32(0x00000000), SPH_C32(0x00000001) },
+        { SPH_C32(0x00000089), SPH_C32(0x00000000) },
+        { SPH_C32(0x8000008B), SPH_C32(0x00000000) },
+        { SPH_C32(0x80008080), SPH_C32(0x00000000) },
+        { SPH_C32(0x0000008B), SPH_C32(0x00000001) },
+        { SPH_C32(0x00008000), SPH_C32(0x00000001) },
+        { SPH_C32(0x80008088), SPH_C32(0x00000001) },
+        { SPH_C32(0x80000082), SPH_C32(0x00000001) },
+        { SPH_C32(0x0000000B), SPH_C32(0x00000000) },
+        { SPH_C32(0x0000000A), SPH_C32(0x00000000) },
+        { SPH_C32(0x00008082), SPH_C32(0x00000001) },
+        { SPH_C32(0x00008003), SPH_C32(0x00000000) },
+        { SPH_C32(0x0000808B), SPH_C32(0x00000001) },
+        { SPH_C32(0x8000000B), SPH_C32(0x00000001) },
+        { SPH_C32(0x8000008A), SPH_C32(0x00000001) },
+        { SPH_C32(0x80000081), SPH_C32(0x00000001) },
+        { SPH_C32(0x80000081), SPH_C32(0x00000000) },
+        { SPH_C32(0x80000008), SPH_C32(0x00000000) },
+        { SPH_C32(0x00000083), SPH_C32(0x00000000) },
+        { SPH_C32(0x80008003), SPH_C32(0x00000000) },
+        { SPH_C32(0x80008088), SPH_C32(0x00000001) },
+        { SPH_C32(0x80000088), SPH_C32(0x00000000) },
+        { SPH_C32(0x00008000), SPH_C32(0x00000001) },
+        { SPH_C32(0x80008082), SPH_C32(0x00000000) }
+#else
+        { SPH_C32(0x00000000), SPH_C32(0x00000001) },
+        { SPH_C32(0x00000000), SPH_C32(0x00008082) },
+        { SPH_C32(0x80000000), SPH_C32(0x0000808A) },
+        { SPH_C32(0x80000000), SPH_C32(0x80008000) },
+        { SPH_C32(0x00000000), SPH_C32(0x0000808B) },
+        { SPH_C32(0x00000000), SPH_C32(0x80000001) },
+        { SPH_C32(0x80000000), SPH_C32(0x80008081) },
+        { SPH_C32(0x80000000), SPH_C32(0x00008009) },
+        { SPH_C32(0x00000000), SPH_C32(0x0000008A) },
+        { SPH_C32(0x00000000), SPH_C32(0x00000088) },
+        { SPH_C32(0x00000000), SPH_C32(0x80008009) },
+        { SPH_C32(0x00000000), SPH_C32(0x8000000A) },
+        { SPH_C32(0x00000000), SPH_C32(0x8000808B) },
+        { SPH_C32(0x80000000), SPH_C32(0x0000008B) },
+        { SPH_C32(0x80000000), SPH_C32(0x00008089) },
+        { SPH_C32(0x80000000), SPH_C32(0x00008003) },
+        { SPH_C32(0x80000000), SPH_C32(0x00008002) },
+        { SPH_C32(0x80000000), SPH_C32(0x00000080) },
+        { SPH_C32(0x00000000), SPH_C32(0x0000800A) },
+        { SPH_C32(0x80000000), SPH_C32(0x8000000A) },
+        { SPH_C32(0x80000000), SPH_C32(0x80008081) },
+        { SPH_C32(0x80000000), SPH_C32(0x00008080) },
+        { SPH_C32(0x00000000), SPH_C32(0x80000001) },
+        { SPH_C32(0x80000000), SPH_C32(0x80008008) }
+#endif
+};
+ 
+#if SPH_KECCAK_INTERLEAVE
+ 
+#define INTERLEAVE(xl, xh)   do { \
+                sph_u32 l, h, t; \
+                l = (xl); h = (xh); \
+                t = (l ^ (l >> 1)) & SPH_C32(0x22222222); l ^= t ^ (t << 1); \
+                t = (h ^ (h >> 1)) & SPH_C32(0x22222222); h ^= t ^ (t << 1); \
+                t = (l ^ (l >> 2)) & SPH_C32(0x0C0C0C0C); l ^= t ^ (t << 2); \
+                t = (h ^ (h >> 2)) & SPH_C32(0x0C0C0C0C); h ^= t ^ (t << 2); \
+                t = (l ^ (l >> 4)) & SPH_C32(0x00F000F0); l ^= t ^ (t << 4); \
+                t = (h ^ (h >> 4)) & SPH_C32(0x00F000F0); h ^= t ^ (t << 4); \
+                t = (l ^ (l >> 8)) & SPH_C32(0x0000FF00); l ^= t ^ (t << 8); \
+                t = (h ^ (h >> 8)) & SPH_C32(0x0000FF00); h ^= t ^ (t << 8); \
+                t = (l ^ SPH_T32(h << 16)) & SPH_C32(0xFFFF0000); \
+                l ^= t; h ^= t >> 16; \
+                (xl) = l; (xh) = h; \
+        } while (0)
+ 
+#define UNINTERLEAVE(xl, xh)   do { \
+                sph_u32 l, h, t; \
+                l = (xl); h = (xh); \
+                t = (l ^ SPH_T32(h << 16)) & SPH_C32(0xFFFF0000); \
+                l ^= t; h ^= t >> 16; \
+                t = (l ^ (l >> 8)) & SPH_C32(0x0000FF00); l ^= t ^ (t << 8); \
+                t = (h ^ (h >> 8)) & SPH_C32(0x0000FF00); h ^
