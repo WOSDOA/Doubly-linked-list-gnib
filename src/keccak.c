@@ -716,4 +716,159 @@ static const struct {
                 READ64(a02,  80); \
                 READ64(a12,  88); \
                 READ64(a22,  96); \
-        } 
+        } while (0)
+ 
+#define INPUT_BUF72   do { \
+                READ64(a00,   0); \
+                READ64(a10,   8); \
+                READ64(a20,  16); \
+                READ64(a30,  24); \
+                READ64(a40,  32); \
+                READ64(a01,  40); \
+                READ64(a11,  48); \
+                READ64(a21,  56); \
+                READ64(a31,  64); \
+        } while (0)
+ 
+#define INPUT_BUF(lim)   do { \
+                READ64(a00,   0); \
+                READ64(a10,   8); \
+                READ64(a20,  16); \
+                READ64(a30,  24); \
+                READ64(a40,  32); \
+                READ64(a01,  40); \
+                READ64(a11,  48); \
+                READ64(a21,  56); \
+                READ64(a31,  64); \
+                if ((lim) == 72) \
+                        break; \
+                READ64(a41,  72); \
+                READ64(a02,  80); \
+                READ64(a12,  88); \
+                READ64(a22,  96); \
+                if ((lim) == 104) \
+                        break; \
+                READ64(a32, 104); \
+                READ64(a42, 112); \
+                READ64(a03, 120); \
+                READ64(a13, 128); \
+                if ((lim) == 136) \
+                        break; \
+                READ64(a23, 136); \
+        } while (0)
+ 
+#endif
+ 
+#define DECL64(x)        sph_u64 x ## l, x ## h
+#define MOV64(d, s)      (d ## l = s ## l, d ## h = s ## h)
+#define XOR64(d, a, b)   (d ## l = a ## l ^ b ## l, d ## h = a ## h ^ b ## h)
+#define AND64(d, a, b)   (d ## l = a ## l & b ## l, d ## h = a ## h & b ## h)
+#define OR64(d, a, b)    (d ## l = a ## l | b ## l, d ## h = a ## h | b ## h)
+#define NOT64(d, s)      (d ## l = SPH_T32(~s ## l), d ## h = SPH_T32(~s ## h))
+#define ROL64(d, v, n)   ROL64_ ## n(d, v)
+ 
+#if SPH_KECCAK_INTERLEAVE
+ 
+#define ROL64_odd1(d, v)   do { \
+                sph_u32 tmp; \
+                tmp = v ## l; \
+                d ## l = SPH_T32(v ## h << 1) | (v ## h >> 31); \
+                d ## h = tmp; \
+        } while (0)
+ 
+#define ROL64_odd63(d, v)   do { \
+                sph_u32 tmp; \
+                tmp = SPH_T32(v ## l << 31) | (v ## l >> 1); \
+                d ## l = v ## h; \
+                d ## h = tmp; \
+        } while (0)
+ 
+#define ROL64_odd(d, v, n)   do { \
+                sph_u32 tmp; \
+                tmp = SPH_T32(v ## l << (n - 1)) | (v ## l >> (33 - n)); \
+                d ## l = SPH_T32(v ## h << n) | (v ## h >> (32 - n)); \
+                d ## h = tmp; \
+        } while (0)
+ 
+#define ROL64_even(d, v, n)   do { \
+                d ## l = SPH_T32(v ## l << n) | (v ## l >> (32 - n)); \
+                d ## h = SPH_T32(v ## h << n) | (v ## h >> (32 - n)); \
+        } while (0)
+ 
+#define ROL64_0(d, v)
+#define ROL64_1(d, v)    ROL64_odd1(d, v)
+#define ROL64_2(d, v)    ROL64_even(d, v,  1)
+#define ROL64_3(d, v)    ROL64_odd( d, v,  2)
+#define ROL64_4(d, v)    ROL64_even(d, v,  2)
+#define ROL64_5(d, v)    ROL64_odd( d, v,  3)
+#define ROL64_6(d, v)    ROL64_even(d, v,  3)
+#define ROL64_7(d, v)    ROL64_odd( d, v,  4)
+#define ROL64_8(d, v)    ROL64_even(d, v,  4)
+#define ROL64_9(d, v)    ROL64_odd( d, v,  5)
+#define ROL64_10(d, v)   ROL64_even(d, v,  5)
+#define ROL64_11(d, v)   ROL64_odd( d, v,  6)
+#define ROL64_12(d, v)   ROL64_even(d, v,  6)
+#define ROL64_13(d, v)   ROL64_odd( d, v,  7)
+#define ROL64_14(d, v)   ROL64_even(d, v,  7)
+#define ROL64_15(d, v)   ROL64_odd( d, v,  8)
+#define ROL64_16(d, v)   ROL64_even(d, v,  8)
+#define ROL64_17(d, v)   ROL64_odd( d, v,  9)
+#define ROL64_18(d, v)   ROL64_even(d, v,  9)
+#define ROL64_19(d, v)   ROL64_odd( d, v, 10)
+#define ROL64_20(d, v)   ROL64_even(d, v, 10)
+#define ROL64_21(d, v)   ROL64_odd( d, v, 11)
+#define ROL64_22(d, v)   ROL64_even(d, v, 11)
+#define ROL64_23(d, v)   ROL64_odd( d, v, 12)
+#define ROL64_24(d, v)   ROL64_even(d, v, 12)
+#define ROL64_25(d, v)   ROL64_odd( d, v, 13)
+#define ROL64_26(d, v)   ROL64_even(d, v, 13)
+#define ROL64_27(d, v)   ROL64_odd( d, v, 14)
+#define ROL64_28(d, v)   ROL64_even(d, v, 14)
+#define ROL64_29(d, v)   ROL64_odd( d, v, 15)
+#define ROL64_30(d, v)   ROL64_even(d, v, 15)
+#define ROL64_31(d, v)   ROL64_odd( d, v, 16)
+#define ROL64_32(d, v)   ROL64_even(d, v, 16)
+#define ROL64_33(d, v)   ROL64_odd( d, v, 17)
+#define ROL64_34(d, v)   ROL64_even(d, v, 17)
+#define ROL64_35(d, v)   ROL64_odd( d, v, 18)
+#define ROL64_36(d, v)   ROL64_even(d, v, 18)
+#define ROL64_37(d, v)   ROL64_odd( d, v, 19)
+#define ROL64_38(d, v)   ROL64_even(d, v, 19)
+#define ROL64_39(d, v)   ROL64_odd( d, v, 20)
+#define ROL64_40(d, v)   ROL64_even(d, v, 20)
+#define ROL64_41(d, v)   ROL64_odd( d, v, 21)
+#define ROL64_42(d, v)   ROL64_even(d, v, 21)
+#define ROL64_43(d, v)   ROL64_odd( d, v, 22)
+#define ROL64_44(d, v)   ROL64_even(d, v, 22)
+#define ROL64_45(d, v)   ROL64_odd( d, v, 23)
+#define ROL64_46(d, v)   ROL64_even(d, v, 23)
+#define ROL64_47(d, v)   ROL64_odd( d, v, 24)
+#define ROL64_48(d, v)   ROL64_even(d, v, 24)
+#define ROL64_49(d, v)   ROL64_odd( d, v, 25)
+#define ROL64_50(d, v)   ROL64_even(d, v, 25)
+#define ROL64_51(d, v)   ROL64_odd( d, v, 26)
+#define ROL64_52(d, v)   ROL64_even(d, v, 26)
+#define ROL64_53(d, v)   ROL64_odd( d, v, 27)
+#define ROL64_54(d, v)   ROL64_even(d, v, 27)
+#define ROL64_55(d, v)   ROL64_odd( d, v, 28)
+#define ROL64_56(d, v)   ROL64_even(d, v, 28)
+#define ROL64_57(d, v)   ROL64_odd( d, v, 29)
+#define ROL64_58(d, v)   ROL64_even(d, v, 29)
+#define ROL64_59(d, v)   ROL64_odd( d, v, 30)
+#define ROL64_60(d, v)   ROL64_even(d, v, 30)
+#define ROL64_61(d, v)   ROL64_odd( d, v, 31)
+#define ROL64_62(d, v)   ROL64_even(d, v, 31)
+#define ROL64_63(d, v)   ROL64_odd63(d, v)
+ 
+#else
+ 
+#define ROL64_small(d, v, n)   do { \
+                sph_u32 tmp; \
+                tmp = SPH_T32(v ## l << n) | (v ## h >> (32 - n)); \
+                d ## h = SPH_T32(v ## h << n) | (v ## l >> (32 - n)); \
+                d ## l = tmp; \
+        } while (0)
+ 
+#define ROL64_0(d, v)    0
+#define ROL64_1(d, v)    ROL64_small(d, v, 1)
+#define ROL64
