@@ -1162,4 +1162,160 @@ static const struct {
               a30, a22, a14, a04, a41, a33, a20, a12, a02, a44, a31, a23, a10
 #define P12   a00, a04, a03, a02, a01, a40, a44, a43, a42, a41, a30, a34, \
               a33, a32, a31, a20, a24, a23, a22, a21, a10, a14, a13, a12, a11
-#d
+#define P13   a00, a20, a40, a10, a30, a44, a14, a34, a04, a24, a33, a03, \
+              a23, a43, a13, a22, a42, a12, a32, a02, a11, a31, a01, a21, a41
+#define P14   a00, a22, a44, a11, a33, a14, a31, a03, a20, a42, a23, a40, \
+              a12, a34, a01, a32, a04, a21, a43, a10, a41, a13, a30, a02, a24
+#define P15   a00, a32, a14, a41, a23, a31, a13, a40, a22, a04, a12, a44, \
+              a21, a03, a30, a43, a20, a02, a34, a11, a24, a01, a33, a10, a42
+#define P16   a00, a43, a31, a24, a12, a13, a01, a44, a32, a20, a21, a14, \
+              a02, a40, a33, a34, a22, a10, a03, a41, a42, a30, a23, a11, a04
+#define P17   a00, a34, a13, a42, a21, a01, a30, a14, a43, a22, a02, a31, \
+              a10, a44, a23, a03, a32, a11, a40, a24, a04, a33, a12, a41, a20
+#define P18   a00, a03, a01, a04, a02, a30, a33, a31, a34, a32, a10, a13, \
+              a11, a14, a12, a40, a43, a41, a44, a42, a20, a23, a21, a24, a22
+#define P19   a00, a40, a30, a20, a10, a33, a23, a13, a03, a43, a11, a01, \
+              a41, a31, a21, a44, a34, a24, a14, a04, a22, a12, a02, a42, a32
+#define P20   a00, a44, a33, a22, a11, a23, a12, a01, a40, a34, a41, a30, \
+              a24, a13, a02, a14, a03, a42, a31, a20, a32, a21, a10, a04, a43
+#define P21   a00, a14, a23, a32, a41, a12, a21, a30, a44, a03, a24, a33, \
+              a42, a01, a10, a31, a40, a04, a13, a22, a43, a02, a11, a20, a34
+#define P22   a00, a31, a12, a43, a24, a21, a02, a33, a14, a40, a42, a23, \
+              a04, a30, a11, a13, a44, a20, a01, a32, a34, a10, a41, a22, a03
+#define P23   a00, a13, a21, a34, a42, a02, a10, a23, a31, a44, a04, a12, \
+              a20, a33, a41, a01, a14, a22, a30, a43, a03, a11, a24, a32, a40
+ 
+#define P1_TO_P0   do { \
+                DECL64(t); \
+                MOV64(t, a01); \
+                MOV64(a01, a30); \
+                MOV64(a30, a33); \
+                MOV64(a33, a23); \
+                MOV64(a23, a12); \
+                MOV64(a12, a21); \
+                MOV64(a21, a02); \
+                MOV64(a02, a10); \
+                MOV64(a10, a11); \
+                MOV64(a11, a41); \
+                MOV64(a41, a24); \
+                MOV64(a24, a42); \
+                MOV64(a42, a04); \
+                MOV64(a04, a20); \
+                MOV64(a20, a22); \
+                MOV64(a22, a32); \
+                MOV64(a32, a43); \
+                MOV64(a43, a34); \
+                MOV64(a34, a03); \
+                MOV64(a03, a40); \
+                MOV64(a40, a44); \
+                MOV64(a44, a14); \
+                MOV64(a14, a31); \
+                MOV64(a31, a13); \
+                MOV64(a13, t); \
+        } while (0)
+ 
+#define P2_TO_P0   do { \
+                DECL64(t); \
+                MOV64(t, a01); \
+                MOV64(a01, a33); \
+                MOV64(a33, a12); \
+                MOV64(a12, a02); \
+                MOV64(a02, a11); \
+                MOV64(a11, a24); \
+                MOV64(a24, a04); \
+                MOV64(a04, a22); \
+                MOV64(a22, a43); \
+                MOV64(a43, a03); \
+                MOV64(a03, a44); \
+                MOV64(a44, a31); \
+                MOV64(a31, t); \
+                MOV64(t, a10); \
+                MOV64(a10, a41); \
+                MOV64(a41, a42); \
+                MOV64(a42, a20); \
+                MOV64(a20, a32); \
+                MOV64(a32, a34); \
+                MOV64(a34, a40); \
+                MOV64(a40, a14); \
+                MOV64(a14, a13); \
+                MOV64(a13, a30); \
+                MOV64(a30, a23); \
+                MOV64(a23, a21); \
+                MOV64(a21, t); \
+        } while (0)
+ 
+#define P4_TO_P0   do { \
+                DECL64(t); \
+                MOV64(t, a01); \
+                MOV64(a01, a12); \
+                MOV64(a12, a11); \
+                MOV64(a11, a04); \
+                MOV64(a04, a43); \
+                MOV64(a43, a44); \
+                MOV64(a44, t); \
+                MOV64(t, a02); \
+                MOV64(a02, a24); \
+                MOV64(a24, a22); \
+                MOV64(a22, a03); \
+                MOV64(a03, a31); \
+                MOV64(a31, a33); \
+                MOV64(a33, t); \
+                MOV64(t, a10); \
+                MOV64(a10, a42); \
+                MOV64(a42, a32); \
+                MOV64(a32, a40); \
+                MOV64(a40, a13); \
+                MOV64(a13, a23); \
+                MOV64(a23, t); \
+                MOV64(t, a14); \
+                MOV64(a14, a30); \
+                MOV64(a30, a21); \
+                MOV64(a21, a41); \
+                MOV64(a41, a20); \
+                MOV64(a20, a34); \
+                MOV64(a34, t); \
+        } while (0)
+ 
+#define P6_TO_P0   do { \
+                DECL64(t); \
+                MOV64(t, a01); \
+                MOV64(a01, a02); \
+                MOV64(a02, a04); \
+                MOV64(a04, a03); \
+                MOV64(a03, t); \
+                MOV64(t, a10); \
+                MOV64(a10, a20); \
+                MOV64(a20, a40); \
+                MOV64(a40, a30); \
+                MOV64(a30, t); \
+                MOV64(t, a11); \
+                MOV64(a11, a22); \
+                MOV64(a22, a44); \
+                MOV64(a44, a33); \
+                MOV64(a33, t); \
+                MOV64(t, a12); \
+                MOV64(a12, a24); \
+                MOV64(a24, a43); \
+                MOV64(a43, a31); \
+                MOV64(a31, t); \
+                MOV64(t, a13); \
+                MOV64(a13, a21); \
+                MOV64(a21, a42); \
+                MOV64(a42, a34); \
+                MOV64(a34, t); \
+                MOV64(t, a14); \
+                MOV64(a14, a23); \
+                MOV64(a23, a41); \
+                MOV64(a41, a32); \
+                MOV64(a32, t); \
+        } while (0)
+ 
+#define P8_TO_P0   do { \
+                DECL64(t); \
+                MOV64(t, a01); \
+                MOV64(a01, a11); \
+                MOV64(a11, a43); \
+                MOV64(a43, t); \
+                MOV64(t, a02); \
+                MOV64(a02, a22); \
+                MOV64(a22, 
