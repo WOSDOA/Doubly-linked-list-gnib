@@ -1022,4 +1022,144 @@ static const struct {
                 ROL64(b02, b02,  3); \
                 ROL64(b03, b03, 41); \
                 ROL64(b04, b04, 18); \
-                ROL64
+                ROL64(b10, b10,  1); \
+                ROL64(b11, b11, 44); \
+                ROL64(b12, b12, 10); \
+                ROL64(b13, b13, 45); \
+                ROL64(b14, b14,  2); \
+                ROL64(b20, b20, 62); \
+                ROL64(b21, b21,  6); \
+                ROL64(b22, b22, 43); \
+                ROL64(b23, b23, 15); \
+                ROL64(b24, b24, 61); \
+                ROL64(b30, b30, 28); \
+                ROL64(b31, b31, 55); \
+                ROL64(b32, b32, 25); \
+                ROL64(b33, b33, 21); \
+                ROL64(b34, b34, 56); \
+                ROL64(b40, b40, 27); \
+                ROL64(b41, b41, 20); \
+                ROL64(b42, b42, 39); \
+                ROL64(b43, b43,  8); \
+                ROL64(b44, b44, 14); \
+        } while (0)
+ 
+/*
+ * The KHI macro integrates the "lane complement" optimization. On input,
+ * some words are complemented:
+ *    a00 a01 a02 a04 a13 a20 a21 a22 a30 a33 a34 a43
+ * On output, the following words are complemented:
+ *    a04 a10 a20 a22 a23 a31
+ *
+ * The (implicit) permutation and the theta expansion will bring back
+ * the input mask for the next round.
+ */
+ 
+#define KHI_XO(d, a, b, c)   do { \
+                DECL64(kt); \
+                OR64(kt, b, c); \
+                XOR64(d, a, kt); \
+        } while (0)
+ 
+#define KHI_XA(d, a, b, c)   do { \
+                DECL64(kt); \
+                AND64(kt, b, c); \
+                XOR64(d, a, kt); \
+        } while (0)
+ 
+#define KHI(b00, b01, b02, b03, b04, b10, b11, b12, b13, b14, \
+        b20, b21, b22, b23, b24, b30, b31, b32, b33, b34, \
+        b40, b41, b42, b43, b44) \
+        do { \
+                DECL64(c0); \
+                DECL64(c1); \
+                DECL64(c2); \
+                DECL64(c3); \
+                DECL64(c4); \
+                DECL64(bnn); \
+                NOT64(bnn, b20); \
+                KHI_XO(c0, b00, b10, b20); \
+                KHI_XO(c1, b10, bnn, b30); \
+                KHI_XA(c2, b20, b30, b40); \
+                KHI_XO(c3, b30, b40, b00); \
+                KHI_XA(c4, b40, b00, b10); \
+                MOV64(b00, c0); \
+                MOV64(b10, c1); \
+                MOV64(b20, c2); \
+                MOV64(b30, c3); \
+                MOV64(b40, c4); \
+                NOT64(bnn, b41); \
+                KHI_XO(c0, b01, b11, b21); \
+                KHI_XA(c1, b11, b21, b31); \
+                KHI_XO(c2, b21, b31, bnn); \
+                KHI_XO(c3, b31, b41, b01); \
+                KHI_XA(c4, b41, b01, b11); \
+                MOV64(b01, c0); \
+                MOV64(b11, c1); \
+                MOV64(b21, c2); \
+                MOV64(b31, c3); \
+                MOV64(b41, c4); \
+                NOT64(bnn, b32); \
+                KHI_XO(c0, b02, b12, b22); \
+                KHI_XA(c1, b12, b22, b32); \
+                KHI_XA(c2, b22, bnn, b42); \
+                KHI_XO(c3, bnn, b42, b02); \
+                KHI_XA(c4, b42, b02, b12); \
+                MOV64(b02, c0); \
+                MOV64(b12, c1); \
+                MOV64(b22, c2); \
+                MOV64(b32, c3); \
+                MOV64(b42, c4); \
+                NOT64(bnn, b33); \
+                KHI_XA(c0, b03, b13, b23); \
+                KHI_XO(c1, b13, b23, b33); \
+                KHI_XO(c2, b23, bnn, b43); \
+                KHI_XA(c3, bnn, b43, b03); \
+                KHI_XO(c4, b43, b03, b13); \
+                MOV64(b03, c0); \
+                MOV64(b13, c1); \
+                MOV64(b23, c2); \
+                MOV64(b33, c3); \
+                MOV64(b43, c4); \
+                NOT64(bnn, b14); \
+                KHI_XA(c0, b04, bnn, b24); \
+                KHI_XO(c1, bnn, b24, b34); \
+                KHI_XA(c2, b24, b34, b44); \
+                KHI_XO(c3, b34, b44, b04); \
+                KHI_XA(c4, b44, b04, b14); \
+                MOV64(b04, c0); \
+                MOV64(b14, c1); \
+                MOV64(b24, c2); \
+                MOV64(b34, c3); \
+                MOV64(b44, c4); \
+        } while (0)
+ 
+#define IOTA(r)   XOR64_IOTA(a00, a00, r)
+ 
+#define P0    a00, a01, a02, a03, a04, a10, a11, a12, a13, a14, a20, a21, \
+              a22, a23, a24, a30, a31, a32, a33, a34, a40, a41, a42, a43, a44
+#define P1    a00, a30, a10, a40, a20, a11, a41, a21, a01, a31, a22, a02, \
+              a32, a12, a42, a33, a13, a43, a23, a03, a44, a24, a04, a34, a14
+#define P2    a00, a33, a11, a44, a22, a41, a24, a02, a30, a13, a32, a10, \
+              a43, a21, a04, a23, a01, a34, a12, a40, a14, a42, a20, a03, a31
+#define P3    a00, a23, a41, a14, a32, a24, a42, a10, a33, a01, a43, a11, \
+              a34, a02, a20, a12, a30, a03, a21, a44, a31, a04, a22, a40, a13
+#define P4    a00, a12, a24, a31, a43, a42, a04, a11, a23, a30, a34, a41, \
+              a03, a10, a22, a21, a33, a40, a02, a14, a13, a20, a32, a44, a01
+#define P5    a00, a21, a42, a13, a34, a04, a20, a41, a12, a33, a03, a24, \
+              a40, a11, a32, a02, a23, a44, a10, a31, a01, a22, a43, a14, a30
+#define P6    a00, a02, a04, a01, a03, a20, a22, a24, a21, a23, a40, a42, \
+              a44, a41, a43, a10, a12, a14, a11, a13, a30, a32, a34, a31, a33
+#define P7    a00, a10, a20, a30, a40, a22, a32, a42, a02, a12, a44, a04, \
+              a14, a24, a34, a11, a21, a31, a41, a01, a33, a43, a03, a13, a23
+#define P8    a00, a11, a22, a33, a44, a32, a43, a04, a10, a21, a14, a20, \
+              a31, a42, a03, a41, a02, a13, a24, a30, a23, a34, a40, a01, a12
+#define P9    a00, a41, a32, a23, a14, a43, a34, a20, a11, a02, a31, a22, \
+              a13, a04, a40, a24, a10, a01, a42, a33, a12, a03, a44, a30, a21
+#define P10   a00, a24, a43, a12, a31, a34, a03, a22, a41, a10, a13, a32, \
+              a01, a20, a44, a42, a11, a30, a04, a23, a21, a40, a14, a33, a02
+#define P11   a00, a42, a34, a21, a13, a03, a40, a32, a24, a11, a01, a43, \
+              a30, a22, a14, a04, a41, a33, a20, a12, a02, a44, a31, a23, a10
+#define P12   a00, a04, a03, a02, a01, a40, a44, a43, a42, a41, a30, a34, \
+              a33, a32, a31, a20, a24, a23, a22, a21, a10, a14, a13, a12, a11
+#d
