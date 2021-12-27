@@ -1318,4 +1318,185 @@ static const struct {
                 MOV64(a43, t); \
                 MOV64(t, a02); \
                 MOV64(a02, a22); \
-                MOV64(a22, 
+                MOV64(a22, a31); \
+                MOV64(a31, t); \
+                MOV64(t, a03); \
+                MOV64(a03, a33); \
+                MOV64(a33, a24); \
+                MOV64(a24, t); \
+                MOV64(t, a04); \
+                MOV64(a04, a44); \
+                MOV64(a44, a12); \
+                MOV64(a12, t); \
+                MOV64(t, a10); \
+                MOV64(a10, a32); \
+                MOV64(a32, a13); \
+                MOV64(a13, t); \
+                MOV64(t, a14); \
+                MOV64(a14, a21); \
+                MOV64(a21, a20); \
+                MOV64(a20, t); \
+                MOV64(t, a23); \
+                MOV64(a23, a42); \
+                MOV64(a42, a40); \
+                MOV64(a40, t); \
+                MOV64(t, a30); \
+                MOV64(a30, a41); \
+                MOV64(a41, a34); \
+                MOV64(a34, t); \
+        } while (0)
+ 
+#define P12_TO_P0   do { \
+                DECL64(t); \
+                MOV64(t, a01); \
+                MOV64(a01, a04); \
+                MOV64(a04, t); \
+                MOV64(t, a02); \
+                MOV64(a02, a03); \
+                MOV64(a03, t); \
+                MOV64(t, a10); \
+                MOV64(a10, a40); \
+                MOV64(a40, t); \
+                MOV64(t, a11); \
+                MOV64(a11, a44); \
+                MOV64(a44, t); \
+                MOV64(t, a12); \
+                MOV64(a12, a43); \
+                MOV64(a43, t); \
+                MOV64(t, a13); \
+                MOV64(a13, a42); \
+                MOV64(a42, t); \
+                MOV64(t, a14); \
+                MOV64(a14, a41); \
+                MOV64(a41, t); \
+                MOV64(t, a20); \
+                MOV64(a20, a30); \
+                MOV64(a30, t); \
+                MOV64(t, a21); \
+                MOV64(a21, a34); \
+                MOV64(a34, t); \
+                MOV64(t, a22); \
+                MOV64(a22, a33); \
+                MOV64(a33, t); \
+                MOV64(t, a23); \
+                MOV64(a23, a32); \
+                MOV64(a32, t); \
+                MOV64(t, a24); \
+                MOV64(a24, a31); \
+                MOV64(a31, t); \
+        } while (0)
+ 
+#define LPAR   (
+#define RPAR   )
+ 
+#define KF_ELT(r, s, k)   do { \
+                THETA LPAR P ## r RPAR; \
+                RHO LPAR P ## r RPAR; \
+                KHI LPAR P ## s RPAR; \
+                IOTA(k); \
+        } while (0)
+ 
+#define DO(x)   x
+ 
+#define KECCAK_F_1600   DO(KECCAK_F_1600_)
+ 
+#if SPH_KECCAK_UNROLL == 1
+ 
+#define KECCAK_F_1600_   do { \
+                int j; \
+                for (j = 0; j < 24; j ++) { \
+                        KF_ELT( 0,  1, RC[j + 0]); \
+                        P1_TO_P0; \
+                } \
+        } while (0)
+ 
+#elif SPH_KECCAK_UNROLL == 2
+ 
+#define KECCAK_F_1600_   do { \
+                int j; \
+                for (j = 0; j < 24; j += 2) { \
+                        KF_ELT( 0,  1, RC[j + 0]); \
+                        KF_ELT( 1,  2, RC[j + 1]); \
+                        P2_TO_P0; \
+                } \
+        } while (0)
+ 
+#elif SPH_KECCAK_UNROLL == 4
+ 
+#define KECCAK_F_1600_   do { \
+                int j; \
+                for (j = 0; j < 24; j += 4) { \
+                        KF_ELT( 0,  1, RC[j + 0]); \
+                        KF_ELT( 1,  2, RC[j + 1]); \
+                        KF_ELT( 2,  3, RC[j + 2]); \
+                        KF_ELT( 3,  4, RC[j + 3]); \
+                        P4_TO_P0; \
+                } \
+        } while (0)
+ 
+#elif SPH_KECCAK_UNROLL == 6
+ 
+#define KECCAK_F_1600_   do { \
+                int j; \
+                for (j = 0; j < 24; j += 6) { \
+                        KF_ELT( 0,  1, RC[j + 0]); \
+                        KF_ELT( 1,  2, RC[j + 1]); \
+                        KF_ELT( 2,  3, RC[j + 2]); \
+                        KF_ELT( 3,  4, RC[j + 3]); \
+                        KF_ELT( 4,  5, RC[j + 4]); \
+                        KF_ELT( 5,  6, RC[j + 5]); \
+                        P6_TO_P0; \
+                } \
+        } while (0)
+ 
+#elif SPH_KECCAK_UNROLL == 8
+ 
+#define KECCAK_F_1600_   do { \
+                int j; \
+                for (j = 0; j < 24; j += 8) { \
+                        KF_ELT( 0,  1, RC[j + 0]); \
+                        KF_ELT( 1,  2, RC[j + 1]); \
+                        KF_ELT( 2,  3, RC[j + 2]); \
+                        KF_ELT( 3,  4, RC[j + 3]); \
+                        KF_ELT( 4,  5, RC[j + 4]); \
+                        KF_ELT( 5,  6, RC[j + 5]); \
+                        KF_ELT( 6,  7, RC[j + 6]); \
+                        KF_ELT( 7,  8, RC[j + 7]); \
+                        P8_TO_P0; \
+                } \
+        } while (0)
+ 
+#elif SPH_KECCAK_UNROLL == 12
+ 
+#define KECCAK_F_1600_   do { \
+                int j; \
+                for (j = 0; j < 24; j += 12) { \
+                        KF_ELT( 0,  1, RC[j +  0]); \
+                        KF_ELT( 1,  2, RC[j +  1]); \
+                        KF_ELT( 2,  3, RC[j +  2]); \
+                        KF_ELT( 3,  4, RC[j +  3]); \
+                        KF_ELT( 4,  5, RC[j +  4]); \
+                        KF_ELT( 5,  6, RC[j +  5]); \
+                        KF_ELT( 6,  7, RC[j +  6]); \
+                        KF_ELT( 7,  8, RC[j +  7]); \
+                        KF_ELT( 8,  9, RC[j +  8]); \
+                        KF_ELT( 9, 10, RC[j +  9]); \
+                        KF_ELT(10, 11, RC[j + 10]); \
+                        KF_ELT(11, 12, RC[j + 11]); \
+                        P12_TO_P0; \
+                } \
+        } while (0)
+ 
+#elif SPH_KECCAK_UNROLL == 0
+ 
+#define KECCAK_F_1600_   do { \
+                KF_ELT( 0,  1, RC[ 0]); \
+                KF_ELT( 1,  2, RC[ 1]); \
+                KF_ELT( 2,  3, RC[ 2]); \
+                KF_ELT( 3,  4, RC[ 3]); \
+                KF_ELT( 4,  5, RC[ 4]); \
+                KF_ELT( 5,  6, RC[ 5]); \
+                KF_ELT( 6,  7, RC[ 6]); \
+                KF_ELT( 7,  8, RC[ 7]); \
+                KF_ELT( 8,  9, RC[ 8]); \
+                KF_EL
