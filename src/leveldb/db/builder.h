@@ -24,4 +24,11 @@ class VersionEdit;
 // zero, and no Table file will be produced.
 extern Status BuildTable(const std::string& dbname,
                          Env* env,
-     
+                         const Options& options,
+                         TableCache* table_cache,
+                         Iterator* iter,
+                         FileMetaData* meta);
+
+}  // namespace leveldb
+
+#endif  // STORAGE_LEVELDB_DB_BUILDER_H_
