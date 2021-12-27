@@ -1499,4 +1499,181 @@ static const struct {
                 KF_ELT( 6,  7, RC[ 6]); \
                 KF_ELT( 7,  8, RC[ 7]); \
                 KF_ELT( 8,  9, RC[ 8]); \
-                KF_EL
+                KF_ELT( 9, 10, RC[ 9]); \
+                KF_ELT(10, 11, RC[10]); \
+                KF_ELT(11, 12, RC[11]); \
+                KF_ELT(12, 13, RC[12]); \
+                KF_ELT(13, 14, RC[13]); \
+                KF_ELT(14, 15, RC[14]); \
+                KF_ELT(15, 16, RC[15]); \
+                KF_ELT(16, 17, RC[16]); \
+                KF_ELT(17, 18, RC[17]); \
+                KF_ELT(18, 19, RC[18]); \
+                KF_ELT(19, 20, RC[19]); \
+                KF_ELT(20, 21, RC[20]); \
+                KF_ELT(21, 22, RC[21]); \
+                KF_ELT(22, 23, RC[22]); \
+                KF_ELT(23,  0, RC[23]); \
+        } while (0)
+ 
+#else
+ 
+#error Unimplemented unroll count for Keccak.
+ 
+#endif
+ 
+static void
+keccak_init(void *kcv, unsigned out_size)
+{
+        sph_keccak_context* kc = (sph_keccak_context*)kcv;
+        int i;
+ 
+#if SPH_KECCAK_64
+        for (i = 0; i < 25; i ++)
+                kc->u.wide[i] = 0;
+        /*
+         * Initialization for the "lane complement".
+         */
+        kc->u.wide[ 1] = SPH_C64(0xFFFFFFFFFFFFFFFF);
+        kc->u.wide[ 2] = SPH_C64(0xFFFFFFFFFFFFFFFF);
+        kc->u.wide[ 8] = SPH_C64(0xFFFFFFFFFFFFFFFF);
+        kc->u.wide[12] = SPH_C64(0xFFFFFFFFFFFFFFFF);
+        kc->u.wide[17] = SPH_C64(0xFFFFFFFFFFFFFFFF);
+        kc->u.wide[20] = SPH_C64(0xFFFFFFFFFFFFFFFF);
+#else
+ 
+        for (i = 0; i < 50; i ++)
+                kc->u.narrow[i] = 0;
+        /*
+         * Initialization for the "lane complement".
+         * Note: since we set to all-one full 64-bit words,
+         * interleaving (if applicable) is a no-op.
+         */
+        kc->u.narrow[ 2] = SPH_C32(0xFFFFFFFF);
+        kc->u.narrow[ 3] = SPH_C32(0xFFFFFFFF);
+        kc->u.narrow[ 4] = SPH_C32(0xFFFFFFFF);
+        kc->u.narrow[ 5] = SPH_C32(0xFFFFFFFF);
+        kc->u.narrow[16] = SPH_C32(0xFFFFFFFF);
+        kc->u.narrow[17] = SPH_C32(0xFFFFFFFF);
+        kc->u.narrow[24] = SPH_C32(0xFFFFFFFF);
+        kc->u.narrow[25] = SPH_C32(0xFFFFFFFF);
+        kc->u.narrow[34] = SPH_C32(0xFFFFFFFF);
+        kc->u.narrow[35] = SPH_C32(0xFFFFFFFF);
+        kc->u.narrow[40] = SPH_C32(0xFFFFFFFF);
+        kc->u.narrow[41] = SPH_C32(0xFFFFFFFF);
+#endif
+        kc->ptr = 0;
+        kc->lim = 200 - (out_size >> 2);
+}
+ 
+static void
+keccak_core(void *kcv, const void *data, size_t len, size_t lim)
+{
+ 
+        sph_keccak_context* kc = (sph_keccak_context*)kcv;
+        unsigned char *buf;
+        size_t ptr;
+        DECL_STATE
+ 
+        buf = kc->buf;
+        ptr = kc->ptr;
+ 
+        if (len < (lim - ptr)) {
+                memcpy(buf + ptr, data, len);
+                kc->ptr = ptr + len;
+                return;
+        }
+ 
+        READ_STATE(kc);
+        while (len > 0) {
+                size_t clen;
+ 
+                clen = (lim - ptr);
+                if (clen > len)
+                        clen = len;
+                memcpy(buf + ptr, data, clen);
+                ptr += clen;
+                data = (const unsigned char *)data + clen;
+                len -= clen;
+                if (ptr == lim) {
+                        INPUT_BUF(lim);
+                        KECCAK_F_1600;
+                        ptr = 0;
+                }
+        }
+        WRITE_STATE(kc);
+        kc->ptr = ptr;
+}
+ 
+#if SPH_KECCAK_64
+ 
+#define DEFCLOSE(d, lim) \
+        static void keccak_close ## d( \
+                void *kcv, unsigned ub, unsigned n, void *dst) \
+        { \
+                sph_keccak_context* kc = (sph_keccak_context*)kcv; \
+                unsigned eb; \
+                union { \
+                        unsigned char tmp[lim + 1]; \
+                        sph_u64 dummy;   /* for alignment */ \
+                } u; \
+                size_t j; \
+ \
+                eb = (0x100 | (ub & 0xFF)) >> (8 - n); \
+                if (kc->ptr == (lim - 1)) { \
+                        if (n == 7) { \
+                                u.tmp[0] = eb; \
+                                memset(u.tmp + 1, 0, lim - 1); \
+                                u.tmp[lim] = 0x80; \
+                                j = 1 + lim; \
+                        } else { \
+                                u.tmp[0] = eb | 0x80; \
+                                j = 1; \
+                        } \
+                } else { \
+                        j = lim - kc->ptr; \
+                        u.tmp[0] = eb; \
+                        memset(u.tmp + 1, 0, j - 2); \
+                        u.tmp[j - 1] = 0x80; \
+                } \
+                keccak_core(kc, u.tmp, j, lim); \
+                /* Finalize the "lane complement" */ \
+                kc->u.wide[ 1] = ~kc->u.wide[ 1]; \
+                kc->u.wide[ 2] = ~kc->u.wide[ 2]; \
+                kc->u.wide[ 8] = ~kc->u.wide[ 8]; \
+                kc->u.wide[12] = ~kc->u.wide[12]; \
+                kc->u.wide[17] = ~kc->u.wide[17]; \
+                kc->u.wide[20] = ~kc->u.wide[20]; \
+                for (j = 0; j < d; j += 8) \
+                        sph_enc64le_aligned(u.tmp + j, kc->u.wide[j >> 3]); \
+                memcpy(dst, u.tmp, d); \
+                keccak_init(kc, (unsigned)d << 3); \
+        } \
+ 
+#else
+ 
+#define DEFCLOSE(d, lim) \
+        static void keccak_close ## d( \
+                sph_keccak_context *kc, unsigned ub, unsigned n, void *dst) \
+        { \
+                unsigned eb; \
+                union { \
+                        unsigned char tmp[lim + 1]; \
+                        sph_u64 dummy;   /* for alignment */ \
+                } u; \
+                size_t j; \
+ \
+                eb = (0x100 | (ub & 0xFF)) >> (8 - n); \
+                if (kc->ptr == (lim - 1)) { \
+                        if (n == 7) { \
+                                u.tmp[0] = eb; \
+                                memset(u.tmp + 1, 0, lim - 1); \
+                                u.tmp[lim] = 0x80; \
+                                j = 1 + lim; \
+                        } else { \
+                                u.tmp[0] = eb | 0x80; \
+                                j = 1; \
+                        } \
+                } else { \
+                        j = lim - kc->ptr; \
+      
