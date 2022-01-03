@@ -193,4 +193,197 @@ class Repairer {
     log::Reader reader(lfile, &reporter, false/*do not checksum*/,
                        0/*initial_offset*/);
 
-    // Read all the records and ad
+    // Read all the records and add to a memtable
+    std::string scratch;
+    Slice record;
+    WriteBatch batch;
+    MemTable* mem = new MemTable(icmp_);
+    mem->Ref();
+    int counter = 0;
+    while (reader.ReadRecord(&record, &scratch)) {
+      if (record.size() < 12) {
+        reporter.Corruption(
+            record.size(), Status::Corruption("log record too small"));
+        continue;
+      }
+      WriteBatchInternal::SetContents(&batch, record);
+      status = WriteBatchInternal::InsertInto(&batch, mem);
+      if (status.ok()) {
+        counter += WriteBatchInternal::Count(&batch);
+      } else {
+        Log(options_.info_log, "Log #%llu: ignoring %s",
+            (unsigned long long) log,
+            status.ToString().c_str());
+        status = Status::OK();  // Keep going with rest of file
+      }
+    }
+    delete lfile;
+
+    // Do not record a version edit for this conversion to a Table
+    // since ExtractMetaData() will also generate edits.
+    FileMetaData meta;
+    meta.number = next_file_number_++;
+    Iterator* iter = mem->NewIterator();
+    status = BuildTable(dbname_, env_, options_, table_cache_, iter, &meta);
+    delete iter;
+    mem->Unref();
+    mem = NULL;
+    if (status.ok()) {
+      if (meta.file_size > 0) {
+        table_numbers_.push_back(meta.number);
+      }
+    }
+    Log(options_.info_log, "Log #%llu: %d ops saved to Table #%llu %s",
+        (unsigned long long) log,
+        counter,
+        (unsigned long long) meta.number,
+        status.ToString().c_str());
+    return status;
+  }
+
+  void ExtractMetaData() {
+    std::vector<TableInfo> kept;
+    for (size_t i = 0; i < table_numbers_.size(); i++) {
+      TableInfo t;
+      t.meta.number = table_numbers_[i];
+      Status status = ScanTable(&t);
+      if (!status.ok()) {
+        std::string fname = TableFileName(dbname_, table_numbers_[i]);
+        Log(options_.info_log, "Table #%llu: ignoring %s",
+            (unsigned long long) table_numbers_[i],
+            status.ToString().c_str());
+        ArchiveFile(fname);
+      } else {
+        tables_.push_back(t);
+      }
+    }
+  }
+
+  Status ScanTable(TableInfo* t) {
+    std::string fname = TableFileName(dbname_, t->meta.number);
+    int counter = 0;
+    Status status = env_->GetFileSize(fname, &t->meta.file_size);
+    if (status.ok()) {
+      Iterator* iter = table_cache_->NewIterator(
+          ReadOptions(), t->meta.number, t->meta.file_size);
+      bool empty = true;
+      ParsedInternalKey parsed;
+      t->max_sequence = 0;
+      for (iter->SeekToFirst(); iter->Valid(); iter->Next()) {
+        Slice key = iter->key();
+        if (!ParseInternalKey(key, &parsed)) {
+          Log(options_.info_log, "Table #%llu: unparsable key %s",
+              (unsigned long long) t->meta.number,
+              EscapeString(key).c_str());
+          continue;
+        }
+
+        counter++;
+        if (empty) {
+          empty = false;
+          t->meta.smallest.DecodeFrom(key);
+        }
+        t->meta.largest.DecodeFrom(key);
+        if (parsed.sequence > t->max_sequence) {
+          t->max_sequence = parsed.sequence;
+        }
+      }
+      if (!iter->status().ok()) {
+        status = iter->status();
+      }
+      delete iter;
+    }
+    Log(options_.info_log, "Table #%llu: %d entries %s",
+        (unsigned long long) t->meta.number,
+        counter,
+        status.ToString().c_str());
+    return status;
+  }
+
+  Status WriteDescriptor() {
+    std::string tmp = TempFileName(dbname_, 1);
+    WritableFile* file;
+    Status status = env_->NewWritableFile(tmp, &file);
+    if (!status.ok()) {
+      return status;
+    }
+
+    SequenceNumber max_sequence = 0;
+    for (size_t i = 0; i < tables_.size(); i++) {
+      if (max_sequence < tables_[i].max_sequence) {
+        max_sequence = tables_[i].max_sequence;
+      }
+    }
+
+    edit_.SetComparatorName(icmp_.user_comparator()->Name());
+    edit_.SetLogNumber(0);
+    edit_.SetNextFile(next_file_number_);
+    edit_.SetLastSequence(max_sequence);
+
+    for (size_t i = 0; i < tables_.size(); i++) {
+      // TODO(opt): separate out into multiple levels
+      const TableInfo& t = tables_[i];
+      edit_.AddFile(0, t.meta.number, t.meta.file_size,
+                    t.meta.smallest, t.meta.largest);
+    }
+
+    //fprintf(stderr, "NewDescriptor:\n%s\n", edit_.DebugString().c_str());
+    {
+      log::Writer log(file);
+      std::string record;
+      edit_.EncodeTo(&record);
+      status = log.AddRecord(record);
+    }
+    if (status.ok()) {
+      status = file->Close();
+    }
+    delete file;
+    file = NULL;
+
+    if (!status.ok()) {
+      env_->DeleteFile(tmp);
+    } else {
+      // Discard older manifests
+      for (size_t i = 0; i < manifests_.size(); i++) {
+        ArchiveFile(dbname_ + "/" + manifests_[i]);
+      }
+
+      // Install new manifest
+      status = env_->RenameFile(tmp, DescriptorFileName(dbname_, 1));
+      if (status.ok()) {
+        status = SetCurrentFile(env_, dbname_, 1);
+      } else {
+        env_->DeleteFile(tmp);
+      }
+    }
+    return status;
+  }
+
+  void ArchiveFile(const std::string& fname) {
+    // Move into another directory.  E.g., for
+    //    dir/foo
+    // rename to
+    //    dir/lost/foo
+    const char* slash = strrchr(fname.c_str(), '/');
+    std::string new_dir;
+    if (slash != NULL) {
+      new_dir.assign(fname.data(), slash - fname.data());
+    }
+    new_dir.append("/lost");
+    env_->CreateDir(new_dir);  // Ignore error
+    std::string new_file = new_dir;
+    new_file.append("/");
+    new_file.append((slash == NULL) ? fname.c_str() : slash + 1);
+    Status s = env_->RenameFile(fname, new_file);
+    Log(options_.info_log, "Archiving %s: %s\n",
+        fname.c_str(), s.ToString().c_str());
+  }
+};
+}  // namespace
+
+Status RepairDB(const std::string& dbname, const Options& options) {
+  Repairer repairer(dbname, options);
+  return repairer.Run();
+}
+
+}  // namespace leveldb
