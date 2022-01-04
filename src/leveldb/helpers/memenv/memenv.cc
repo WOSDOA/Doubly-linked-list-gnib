@@ -325,4 +325,60 @@ class InMemoryEnv : public EnvWrapper {
     return Status::OK();
   }
 
-  virtual Status GetFileSize(const std::string& fname, u
+  virtual Status GetFileSize(const std::string& fname, uint64_t* file_size) {
+    MutexLock lock(&mutex_);
+    if (file_map_.find(fname) == file_map_.end()) {
+      return Status::IOError(fname, "File not found");
+    }
+
+    *file_size = file_map_[fname]->Size();
+    return Status::OK();
+  }
+
+  virtual Status RenameFile(const std::string& src,
+                            const std::string& target) {
+    MutexLock lock(&mutex_);
+    if (file_map_.find(src) == file_map_.end()) {
+      return Status::IOError(src, "File not found");
+    }
+
+    DeleteFileInternal(target);
+    file_map_[target] = file_map_[src];
+    file_map_.erase(src);
+    return Status::OK();
+  }
+
+  virtual Status LockFile(const std::string& fname, FileLock** lock) {
+    *lock = new FileLock;
+    return Status::OK();
+  }
+
+  virtual Status UnlockFile(FileLock* lock) {
+    delete lock;
+    return Status::OK();
+  }
+
+  virtual Status GetTestDirectory(std::string* path) {
+    *path = "/test";
+    return Status::OK();
+  }
+
+  virtual Status NewLogger(const std::string& fname, Logger** result) {
+    *result = new NoOpLogger;
+    return Status::OK();
+  }
+
+ private:
+  // Map from filenames to FileState objects, representing a simple file system.
+  typedef std::map<std::string, FileState*> FileSystem;
+  port::Mutex mutex_;
+  FileSystem file_map_;  // Protected by mutex_.
+};
+
+}  // namespace
+
+Env* NewMemEnv(Env* base_env) {
+  return new InMemoryEnv(base_env);
+}
+
+}  // namespace leveldb
