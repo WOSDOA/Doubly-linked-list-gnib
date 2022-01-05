@@ -53,4 +53,11 @@ class Comparator {
   virtual void FindShortSuccessor(std::string* key) const = 0;
 };
 
-// Return a builtin comparator that
+// Return a builtin comparator that uses lexicographic byte-wise
+// ordering.  The result remains the property of this module and
+// must not be deleted.
+extern const Comparator* BytewiseComparator();
+
+}  // namespace leveldb
+
+#endif  // STORAGE_LEVELDB_INCLUDE_COMPARATOR_H_
