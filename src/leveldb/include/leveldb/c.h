@@ -279,4 +279,13 @@ extern void leveldb_env_destroy(leveldb_env_t*);
 extern void leveldb_free(void* ptr);
 
 /* Return the major version number for this release. */
-ext
+extern int leveldb_major_version();
+
+/* Return the minor version number for this release. */
+extern int leveldb_minor_version();
+
+#ifdef __cplusplus
+}  /* end extern "C" */
+#endif
+
+#endif  /* STORAGE_LEVELDB_INCLUDE_C_H_ */
