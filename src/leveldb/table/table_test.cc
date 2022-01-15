@@ -329,4 +329,224 @@ class MemTableConstructor: public Constructor {
     memtable_ = new MemTable(internal_comparator_);
     memtable_->Ref();
     int seq = 1;
-    for (KVMap::const_iter
+    for (KVMap::const_iterator it = data.begin();
+         it != data.end();
+         ++it) {
+      memtable_->Add(seq, kTypeValue, it->first, it->second);
+      seq++;
+    }
+    return Status::OK();
+  }
+  virtual Iterator* NewIterator() const {
+    return new KeyConvertingIterator(memtable_->NewIterator());
+  }
+
+ private:
+  InternalKeyComparator internal_comparator_;
+  MemTable* memtable_;
+};
+
+class DBConstructor: public Constructor {
+ public:
+  explicit DBConstructor(const Comparator* cmp)
+      : Constructor(cmp),
+        comparator_(cmp) {
+    db_ = NULL;
+    NewDB();
+  }
+  ~DBConstructor() {
+    delete db_;
+  }
+  virtual Status FinishImpl(const Options& options, const KVMap& data) {
+    delete db_;
+    db_ = NULL;
+    NewDB();
+    for (KVMap::const_iterator it = data.begin();
+         it != data.end();
+         ++it) {
+      WriteBatch batch;
+      batch.Put(it->first, it->second);
+      ASSERT_TRUE(db_->Write(WriteOptions(), &batch).ok());
+    }
+    return Status::OK();
+  }
+  virtual Iterator* NewIterator() const {
+    return db_->NewIterator(ReadOptions());
+  }
+
+  virtual DB* db() const { return db_; }
+
+ private:
+  void NewDB() {
+    std::string name = test::TmpDir() + "/table_testdb";
+
+    Options options;
+    options.comparator = comparator_;
+    Status status = DestroyDB(name, options);
+    ASSERT_TRUE(status.ok()) << status.ToString();
+
+    options.create_if_missing = true;
+    options.error_if_exists = true;
+    options.write_buffer_size = 10000;  // Something small to force merging
+    status = DB::Open(options, name, &db_);
+    ASSERT_TRUE(status.ok()) << status.ToString();
+  }
+
+  const Comparator* comparator_;
+  DB* db_;
+};
+
+enum TestType {
+  TABLE_TEST,
+  BLOCK_TEST,
+  MEMTABLE_TEST,
+  DB_TEST
+};
+
+struct TestArgs {
+  TestType type;
+  bool reverse_compare;
+  int restart_interval;
+};
+
+static const TestArgs kTestArgList[] = {
+  { TABLE_TEST, false, 16 },
+  { TABLE_TEST, false, 1 },
+  { TABLE_TEST, false, 1024 },
+  { TABLE_TEST, true, 16 },
+  { TABLE_TEST, true, 1 },
+  { TABLE_TEST, true, 1024 },
+
+  { BLOCK_TEST, false, 16 },
+  { BLOCK_TEST, false, 1 },
+  { BLOCK_TEST, false, 1024 },
+  { BLOCK_TEST, true, 16 },
+  { BLOCK_TEST, true, 1 },
+  { BLOCK_TEST, true, 1024 },
+
+  // Restart interval does not matter for memtables
+  { MEMTABLE_TEST, false, 16 },
+  { MEMTABLE_TEST, true, 16 },
+
+  // Do not bother with restart interval variations for DB
+  { DB_TEST, false, 16 },
+  { DB_TEST, true, 16 },
+};
+static const int kNumTestArgs = sizeof(kTestArgList) / sizeof(kTestArgList[0]);
+
+class Harness {
+ public:
+  Harness() : constructor_(NULL) { }
+
+  void Init(const TestArgs& args) {
+    delete constructor_;
+    constructor_ = NULL;
+    options_ = Options();
+
+    options_.block_restart_interval = args.restart_interval;
+    // Use shorter block size for tests to exercise block boundary
+    // conditions more.
+    options_.block_size = 256;
+    if (args.reverse_compare) {
+      options_.comparator = &reverse_key_comparator;
+    }
+    switch (args.type) {
+      case TABLE_TEST:
+        constructor_ = new TableConstructor(options_.comparator);
+        break;
+      case BLOCK_TEST:
+        constructor_ = new BlockConstructor(options_.comparator);
+        break;
+      case MEMTABLE_TEST:
+        constructor_ = new MemTableConstructor(options_.comparator);
+        break;
+      case DB_TEST:
+        constructor_ = new DBConstructor(options_.comparator);
+        break;
+    }
+  }
+
+  ~Harness() {
+    delete constructor_;
+  }
+
+  void Add(const std::string& key, const std::string& value) {
+    constructor_->Add(key, value);
+  }
+
+  void Test(Random* rnd) {
+    std::vector<std::string> keys;
+    KVMap data;
+    constructor_->Finish(options_, &keys, &data);
+
+    TestForwardScan(keys, data);
+    TestBackwardScan(keys, data);
+    TestRandomAccess(rnd, keys, data);
+  }
+
+  void TestForwardScan(const std::vector<std::string>& keys,
+                       const KVMap& data) {
+    Iterator* iter = constructor_->NewIterator();
+    ASSERT_TRUE(!iter->Valid());
+    iter->SeekToFirst();
+    for (KVMap::const_iterator model_iter = data.begin();
+         model_iter != data.end();
+         ++model_iter) {
+      ASSERT_EQ(ToString(data, model_iter), ToString(iter));
+      iter->Next();
+    }
+    ASSERT_TRUE(!iter->Valid());
+    delete iter;
+  }
+
+  void TestBackwardScan(const std::vector<std::string>& keys,
+                        const KVMap& data) {
+    Iterator* iter = constructor_->NewIterator();
+    ASSERT_TRUE(!iter->Valid());
+    iter->SeekToLast();
+    for (KVMap::const_reverse_iterator model_iter = data.rbegin();
+         model_iter != data.rend();
+         ++model_iter) {
+      ASSERT_EQ(ToString(data, model_iter), ToString(iter));
+      iter->Prev();
+    }
+    ASSERT_TRUE(!iter->Valid());
+    delete iter;
+  }
+
+  void TestRandomAccess(Random* rnd,
+                        const std::vector<std::string>& keys,
+                        const KVMap& data) {
+    static const bool kVerbose = false;
+    Iterator* iter = constructor_->NewIterator();
+    ASSERT_TRUE(!iter->Valid());
+    KVMap::const_iterator model_iter = data.begin();
+    if (kVerbose) fprintf(stderr, "---\n");
+    for (int i = 0; i < 200; i++) {
+      const int toss = rnd->Uniform(5);
+      switch (toss) {
+        case 0: {
+          if (iter->Valid()) {
+            if (kVerbose) fprintf(stderr, "Next\n");
+            iter->Next();
+            ++model_iter;
+            ASSERT_EQ(ToString(data, model_iter), ToString(iter));
+          }
+          break;
+        }
+
+        case 1: {
+          if (kVerbose) fprintf(stderr, "SeekToFirst\n");
+          iter->SeekToFirst();
+          model_iter = data.begin();
+          ASSERT_EQ(ToString(data, model_iter), ToString(iter));
+          break;
+        }
+
+        case 2: {
+          std::string key = PickRandomKey(rnd, keys);
+          model_iter = data.lower_bound(key);
+          if (kVerbose) fprintf(stderr, "Seek '%s'\n",
+                                EscapeString(key).c_str());
+          iter->Seek(Slice(key));
+          ASSERT_EQ(ToString(data, model_ite
