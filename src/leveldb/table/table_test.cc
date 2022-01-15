@@ -107,4 +107,226 @@ class StringSink: public WritableFile {
 };
 
 
-class StringSource: public RandomAccessF
+class StringSource: public RandomAccessFile {
+ public:
+  StringSource(const Slice& contents)
+      : contents_(contents.data(), contents.size()) {
+  }
+
+  virtual ~StringSource() { }
+
+  uint64_t Size() const { return contents_.size(); }
+
+  virtual Status Read(uint64_t offset, size_t n, Slice* result,
+                       char* scratch) const {
+    if (offset > contents_.size()) {
+      return Status::InvalidArgument("invalid Read offset");
+    }
+    if (offset + n > contents_.size()) {
+      n = contents_.size() - offset;
+    }
+    memcpy(scratch, &contents_[offset], n);
+    *result = Slice(scratch, n);
+    return Status::OK();
+  }
+
+ private:
+  std::string contents_;
+};
+
+typedef std::map<std::string, std::string, STLLessThan> KVMap;
+
+// Helper class for tests to unify the interface between
+// BlockBuilder/TableBuilder and Block/Table.
+class Constructor {
+ public:
+  explicit Constructor(const Comparator* cmp) : data_(STLLessThan(cmp)) { }
+  virtual ~Constructor() { }
+
+  void Add(const std::string& key, const Slice& value) {
+    data_[key] = value.ToString();
+  }
+
+  // Finish constructing the data structure with all the keys that have
+  // been added so far.  Returns the keys in sorted order in "*keys"
+  // and stores the key/value pairs in "*kvmap"
+  void Finish(const Options& options,
+              std::vector<std::string>* keys,
+              KVMap* kvmap) {
+    *kvmap = data_;
+    keys->clear();
+    for (KVMap::const_iterator it = data_.begin();
+         it != data_.end();
+         ++it) {
+      keys->push_back(it->first);
+    }
+    data_.clear();
+    Status s = FinishImpl(options, *kvmap);
+    ASSERT_TRUE(s.ok()) << s.ToString();
+  }
+
+  // Construct the data structure from the data in "data"
+  virtual Status FinishImpl(const Options& options, const KVMap& data) = 0;
+
+  virtual Iterator* NewIterator() const = 0;
+
+  virtual const KVMap& data() { return data_; }
+
+  virtual DB* db() const { return NULL; }  // Overridden in DBConstructor
+
+ private:
+  KVMap data_;
+};
+
+class BlockConstructor: public Constructor {
+ public:
+  explicit BlockConstructor(const Comparator* cmp)
+      : Constructor(cmp),
+        comparator_(cmp),
+        block_(NULL) { }
+  ~BlockConstructor() {
+    delete block_;
+  }
+  virtual Status FinishImpl(const Options& options, const KVMap& data) {
+    delete block_;
+    block_ = NULL;
+    BlockBuilder builder(&options);
+
+    for (KVMap::const_iterator it = data.begin();
+         it != data.end();
+         ++it) {
+      builder.Add(it->first, it->second);
+    }
+    // Open the block
+    data_ = builder.Finish().ToString();
+    BlockContents contents;
+    contents.data = data_;
+    contents.cachable = false;
+    contents.heap_allocated = false;
+    block_ = new Block(contents);
+    return Status::OK();
+  }
+  virtual Iterator* NewIterator() const {
+    return block_->NewIterator(comparator_);
+  }
+
+ private:
+  const Comparator* comparator_;
+  std::string data_;
+  Block* block_;
+
+  BlockConstructor();
+};
+
+class TableConstructor: public Constructor {
+ public:
+  TableConstructor(const Comparator* cmp)
+      : Constructor(cmp),
+        source_(NULL), table_(NULL) {
+  }
+  ~TableConstructor() {
+    Reset();
+  }
+  virtual Status FinishImpl(const Options& options, const KVMap& data) {
+    Reset();
+    StringSink sink;
+    TableBuilder builder(options, &sink);
+
+    for (KVMap::const_iterator it = data.begin();
+         it != data.end();
+         ++it) {
+      builder.Add(it->first, it->second);
+      ASSERT_TRUE(builder.status().ok());
+    }
+    Status s = builder.Finish();
+    ASSERT_TRUE(s.ok()) << s.ToString();
+
+    ASSERT_EQ(sink.contents().size(), builder.FileSize());
+
+    // Open the table
+    source_ = new StringSource(sink.contents());
+    Options table_options;
+    table_options.comparator = options.comparator;
+    return Table::Open(table_options, source_, sink.contents().size(), &table_);
+  }
+
+  virtual Iterator* NewIterator() const {
+    return table_->NewIterator(ReadOptions());
+  }
+
+  uint64_t ApproximateOffsetOf(const Slice& key) const {
+    return table_->ApproximateOffsetOf(key);
+  }
+
+ private:
+  void Reset() {
+    delete table_;
+    delete source_;
+    table_ = NULL;
+    source_ = NULL;
+  }
+
+  StringSource* source_;
+  Table* table_;
+
+  TableConstructor();
+};
+
+// A helper class that converts internal format keys into user keys
+class KeyConvertingIterator: public Iterator {
+ public:
+  explicit KeyConvertingIterator(Iterator* iter) : iter_(iter) { }
+  virtual ~KeyConvertingIterator() { delete iter_; }
+  virtual bool Valid() const { return iter_->Valid(); }
+  virtual void Seek(const Slice& target) {
+    ParsedInternalKey ikey(target, kMaxSequenceNumber, kTypeValue);
+    std::string encoded;
+    AppendInternalKey(&encoded, ikey);
+    iter_->Seek(encoded);
+  }
+  virtual void SeekToFirst() { iter_->SeekToFirst(); }
+  virtual void SeekToLast() { iter_->SeekToLast(); }
+  virtual void Next() { iter_->Next(); }
+  virtual void Prev() { iter_->Prev(); }
+
+  virtual Slice key() const {
+    assert(Valid());
+    ParsedInternalKey key;
+    if (!ParseInternalKey(iter_->key(), &key)) {
+      status_ = Status::Corruption("malformed internal key");
+      return Slice("corrupted key");
+    }
+    return key.user_key;
+  }
+
+  virtual Slice value() const { return iter_->value(); }
+  virtual Status status() const {
+    return status_.ok() ? iter_->status() : status_;
+  }
+
+ private:
+  mutable Status status_;
+  Iterator* iter_;
+
+  // No copying allowed
+  KeyConvertingIterator(const KeyConvertingIterator&);
+  void operator=(const KeyConvertingIterator&);
+};
+
+class MemTableConstructor: public Constructor {
+ public:
+  explicit MemTableConstructor(const Comparator* cmp)
+      : Constructor(cmp),
+        internal_comparator_(cmp) {
+    memtable_ = new MemTable(internal_comparator_);
+    memtable_->Ref();
+  }
+  ~MemTableConstructor() {
+    memtable_->Unref();
+  }
+  virtual Status FinishImpl(const Options& options, const KVMap& data) {
+    memtable_->Unref();
+    memtable_ = new MemTable(internal_comparator_);
+    memtable_->Ref();
+    int seq = 1;
+    for (KVMap::const_iter
