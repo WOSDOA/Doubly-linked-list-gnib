@@ -549,4 +549,227 @@ class Harness {
           if (kVerbose) fprintf(stderr, "Seek '%s'\n",
                                 EscapeString(key).c_str());
           iter->Seek(Slice(key));
-          ASSERT_EQ(ToString(data, model_ite
+          ASSERT_EQ(ToString(data, model_iter), ToString(iter));
+          break;
+        }
+
+        case 3: {
+          if (iter->Valid()) {
+            if (kVerbose) fprintf(stderr, "Prev\n");
+            iter->Prev();
+            if (model_iter == data.begin()) {
+              model_iter = data.end();   // Wrap around to invalid value
+            } else {
+              --model_iter;
+            }
+            ASSERT_EQ(ToString(data, model_iter), ToString(iter));
+          }
+          break;
+        }
+
+        case 4: {
+          if (kVerbose) fprintf(stderr, "SeekToLast\n");
+          iter->SeekToLast();
+          if (keys.empty()) {
+            model_iter = data.end();
+          } else {
+            std::string last = data.rbegin()->first;
+            model_iter = data.lower_bound(last);
+          }
+          ASSERT_EQ(ToString(data, model_iter), ToString(iter));
+          break;
+        }
+      }
+    }
+    delete iter;
+  }
+
+  std::string ToString(const KVMap& data, const KVMap::const_iterator& it) {
+    if (it == data.end()) {
+      return "END";
+    } else {
+      return "'" + it->first + "->" + it->second + "'";
+    }
+  }
+
+  std::string ToString(const KVMap& data,
+                       const KVMap::const_reverse_iterator& it) {
+    if (it == data.rend()) {
+      return "END";
+    } else {
+      return "'" + it->first + "->" + it->second + "'";
+    }
+  }
+
+  std::string ToString(const Iterator* it) {
+    if (!it->Valid()) {
+      return "END";
+    } else {
+      return "'" + it->key().ToString() + "->" + it->value().ToString() + "'";
+    }
+  }
+
+  std::string PickRandomKey(Random* rnd, const std::vector<std::string>& keys) {
+    if (keys.empty()) {
+      return "foo";
+    } else {
+      const int index = rnd->Uniform(keys.size());
+      std::string result = keys[index];
+      switch (rnd->Uniform(3)) {
+        case 0:
+          // Return an existing key
+          break;
+        case 1: {
+          // Attempt to return something smaller than an existing key
+          if (result.size() > 0 && result[result.size()-1] > '\0') {
+            result[result.size()-1]--;
+          }
+          break;
+        }
+        case 2: {
+          // Return something larger than an existing key
+          Increment(options_.comparator, &result);
+          break;
+        }
+      }
+      return result;
+    }
+  }
+
+  // Returns NULL if not running against a DB
+  DB* db() const { return constructor_->db(); }
+
+ private:
+  Options options_;
+  Constructor* constructor_;
+};
+
+// Test empty table/block.
+TEST(Harness, Empty) {
+  for (int i = 0; i < kNumTestArgs; i++) {
+    Init(kTestArgList[i]);
+    Random rnd(test::RandomSeed() + 1);
+    Test(&rnd);
+  }
+}
+
+// Special test for a block with no restart entries.  The C++ leveldb
+// code never generates such blocks, but the Java version of leveldb
+// seems to.
+TEST(Harness, ZeroRestartPointsInBlock) {
+  char data[sizeof(uint32_t)];
+  memset(data, 0, sizeof(data));
+  BlockContents contents;
+  contents.data = Slice(data, sizeof(data));
+  contents.cachable = false;
+  contents.heap_allocated = false;
+  Block block(contents);
+  Iterator* iter = block.NewIterator(BytewiseComparator());
+  iter->SeekToFirst();
+  ASSERT_TRUE(!iter->Valid());
+  iter->SeekToLast();
+  ASSERT_TRUE(!iter->Valid());
+  iter->Seek("foo");
+  ASSERT_TRUE(!iter->Valid());
+  delete iter;
+}
+
+// Test the empty key
+TEST(Harness, SimpleEmptyKey) {
+  for (int i = 0; i < kNumTestArgs; i++) {
+    Init(kTestArgList[i]);
+    Random rnd(test::RandomSeed() + 1);
+    Add("", "v");
+    Test(&rnd);
+  }
+}
+
+TEST(Harness, SimpleSingle) {
+  for (int i = 0; i < kNumTestArgs; i++) {
+    Init(kTestArgList[i]);
+    Random rnd(test::RandomSeed() + 2);
+    Add("abc", "v");
+    Test(&rnd);
+  }
+}
+
+TEST(Harness, SimpleMulti) {
+  for (int i = 0; i < kNumTestArgs; i++) {
+    Init(kTestArgList[i]);
+    Random rnd(test::RandomSeed() + 3);
+    Add("abc", "v");
+    Add("abcd", "v");
+    Add("ac", "v2");
+    Test(&rnd);
+  }
+}
+
+TEST(Harness, SimpleSpecialKey) {
+  for (int i = 0; i < kNumTestArgs; i++) {
+    Init(kTestArgList[i]);
+    Random rnd(test::RandomSeed() + 4);
+    Add("\xff\xff", "v3");
+    Test(&rnd);
+  }
+}
+
+TEST(Harness, Randomized) {
+  for (int i = 0; i < kNumTestArgs; i++) {
+    Init(kTestArgList[i]);
+    Random rnd(test::RandomSeed() + 5);
+    for (int num_entries = 0; num_entries < 2000;
+         num_entries += (num_entries < 50 ? 1 : 200)) {
+      if ((num_entries % 10) == 0) {
+        fprintf(stderr, "case %d of %d: num_entries = %d\n",
+                (i + 1), int(kNumTestArgs), num_entries);
+      }
+      for (int e = 0; e < num_entries; e++) {
+        std::string v;
+        Add(test::RandomKey(&rnd, rnd.Skewed(4)),
+            test::RandomString(&rnd, rnd.Skewed(5), &v).ToString());
+      }
+      Test(&rnd);
+    }
+  }
+}
+
+TEST(Harness, RandomizedLongDB) {
+  Random rnd(test::RandomSeed());
+  TestArgs args = { DB_TEST, false, 16 };
+  Init(args);
+  int num_entries = 100000;
+  for (int e = 0; e < num_entries; e++) {
+    std::string v;
+    Add(test::RandomKey(&rnd, rnd.Skewed(4)),
+        test::RandomString(&rnd, rnd.Skewed(5), &v).ToString());
+  }
+  Test(&rnd);
+
+  // We must have created enough data to force merging
+  int files = 0;
+  for (int level = 0; level < config::kNumLevels; level++) {
+    std::string value;
+    char name[100];
+    snprintf(name, sizeof(name), "leveldb.num-files-at-level%d", level);
+    ASSERT_TRUE(db()->GetProperty(name, &value));
+    files += atoi(value.c_str());
+  }
+  ASSERT_GT(files, 0);
+}
+
+class MemTableTest { };
+
+TEST(MemTableTest, Simple) {
+  InternalKeyComparator cmp(BytewiseComparator());
+  MemTable* memtable = new MemTable(cmp);
+  memtable->Ref();
+  WriteBatch batch;
+  WriteBatchInternal::SetSequence(&batch, 100);
+  batch.Put(std::string("k1"), std::string("v1"));
+  batch.Put(std::string("k2"), std::string("v2"));
+  batch.Put(std::string("k3"), std::string("v3"));
+  batch.Put(std::string("largekey"), std::string("vlarge"));
+  ASSERT_TRUE(WriteBatchInternal::InsertInto(&batch, memtable).ok());
+
+  Iterator* iter = memtable->NewIterator();
+  i
