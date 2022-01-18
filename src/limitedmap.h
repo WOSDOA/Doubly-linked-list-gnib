@@ -71,4 +71,30 @@ public:
             return;
         std::pair<rmap_iterator, rmap_iterator> itPair = rmap.equal_range(itTarget->second);
         for (rmap_iterator it = itPair.first; it != itPair.second; ++it)
-            if (it->second == i
+            if (it->second == itTarget)
+            {
+                rmap.erase(it);
+                itTarget->second = v;
+                rmap.insert(make_pair(v, itTarget));
+                return;
+            }
+        // Shouldn't ever get here
+        assert(0); //TODO remove me
+        itTarget->second = v;
+        rmap.insert(make_pair(v, itTarget));
+    }
+    size_type max_size() const { return nMaxSize; }
+    size_type max_size(size_type s)
+    {
+        if (s)
+            while (map.size() > s)
+            {
+                map.erase(rmap.begin()->second);
+                rmap.erase(rmap.begin());
+            }
+        nMaxSize = s;
+        return nMaxSize;
+    }
+};
+
+#endif
