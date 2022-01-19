@@ -243,4 +243,222 @@ public:
         fClient = false; // set by version message
         fInbound = fInboundIn;
         fNetworkNode = false;
-        
+        fSuccessfullyConnected = false;
+        fDisconnect = false;
+        nRefCount = 0;
+        nSendSize = 0;
+        nSendOffset = 0;
+        hashContinue = 0;
+        pindexLastGetBlocksBegin = 0;
+        hashLastGetBlocksEnd = 0;
+        nStartingHeight = -1;
+        fStartSync = false;
+        fGetAddr = false;
+        nMisbehavior = 0;
+        fRelayTxes = false;
+        setInventoryKnown.max_size(SendBufferSize() / 1000);
+        pfilter = new CBloomFilter();
+
+        // Be shy and don't send version until we hear
+        if (hSocket != INVALID_SOCKET && !fInbound)
+            PushVersion();
+    }
+
+    ~CNode()
+    {
+        if (hSocket != INVALID_SOCKET)
+        {
+            closesocket(hSocket);
+            hSocket = INVALID_SOCKET;
+        }
+        if (pfilter)
+            delete pfilter;
+    }
+
+private:
+    CNode(const CNode&);
+    void operator=(const CNode&);
+public:
+
+
+    int GetRefCount()
+    {
+        assert(nRefCount >= 0);
+        return nRefCount;
+    }
+
+    // requires LOCK(cs_vRecvMsg)
+    unsigned int GetTotalRecvSize()
+    {
+        unsigned int total = 0;
+        BOOST_FOREACH(const CNetMessage &msg, vRecvMsg) 
+            total += msg.vRecv.size() + 24;
+        return total;
+    }
+
+    // requires LOCK(cs_vRecvMsg)
+    bool ReceiveMsgBytes(const char *pch, unsigned int nBytes);
+
+    // requires LOCK(cs_vRecvMsg)
+    void SetRecvVersion(int nVersionIn)
+    {
+        nRecvVersion = nVersionIn;
+        BOOST_FOREACH(CNetMessage &msg, vRecvMsg)
+            msg.SetVersion(nVersionIn);
+    }
+
+    CNode* AddRef()
+    {
+        nRefCount++;
+        return this;
+    }
+
+    void Release()
+    {
+        nRefCount--;
+    }
+
+
+
+    void AddAddressKnown(const CAddress& addr)
+    {
+        setAddrKnown.insert(addr);
+    }
+
+    void PushAddress(const CAddress& addr)
+    {
+        // Known checking here is only to save space from duplicates.
+        // SendMessages will filter it again for knowns that were added
+        // after addresses were pushed.
+        if (addr.IsValid() && !setAddrKnown.count(addr))
+            vAddrToSend.push_back(addr);
+    }
+
+
+    void AddInventoryKnown(const CInv& inv)
+    {
+        {
+            LOCK(cs_inventory);
+            setInventoryKnown.insert(inv);
+        }
+    }
+
+    void PushInventory(const CInv& inv)
+    {
+        {
+            LOCK(cs_inventory);
+            if (!setInventoryKnown.count(inv))
+                vInventoryToSend.push_back(inv);
+        }
+    }
+
+    void AskFor(const CInv& inv)
+    {
+        // We're using mapAskFor as a priority queue,
+        // the key is the earliest time the request can be sent
+        int64 nRequestTime;
+        limitedmap<CInv, int64>::const_iterator it = mapAlreadyAskedFor.find(inv);
+        if (it != mapAlreadyAskedFor.end())
+            nRequestTime = it->second;
+        else
+            nRequestTime = 0;
+        if (fDebugNet)
+            printf("askfor %s   %"PRI64d" (%s)\n", inv.ToString().c_str(), nRequestTime, DateTimeStrFormat("%H:%M:%S", nRequestTime/1000000).c_str());
+
+        // Make sure not to reuse time indexes to keep things in the same order
+        int64 nNow = (GetTime() - 1) * 1000000;
+        static int64 nLastTime;
+        ++nLastTime;
+        nNow = std::max(nNow, nLastTime);
+        nLastTime = nNow;
+
+        // Each retry is 2 minutes after the last
+        nRequestTime = std::max(nRequestTime + 2 * 60 * 1000000, nNow);
+        if (it != mapAlreadyAskedFor.end())
+            mapAlreadyAskedFor.update(it, nRequestTime);
+        else
+            mapAlreadyAskedFor.insert(std::make_pair(inv, nRequestTime));
+        mapAskFor.insert(std::make_pair(nRequestTime, inv));
+    }
+
+
+
+    // TODO: Document the postcondition of this function.  Is cs_vSend locked?
+    void BeginMessage(const char* pszCommand) EXCLUSIVE_LOCK_FUNCTION(cs_vSend)
+    {
+        ENTER_CRITICAL_SECTION(cs_vSend);
+        assert(ssSend.size() == 0);
+        ssSend << CMessageHeader(pszCommand, 0);
+        if (fDebug)
+            printf("sending: %s ", pszCommand);
+    }
+
+    // TODO: Document the precondition of this function.  Is cs_vSend locked?
+    void AbortMessage() UNLOCK_FUNCTION(cs_vSend)
+    {
+        ssSend.clear();
+
+        LEAVE_CRITICAL_SECTION(cs_vSend);
+
+        if (fDebug)
+            printf("(aborted)\n");
+    }
+
+    // TODO: Document the precondition of this function.  Is cs_vSend locked?
+    void EndMessage() UNLOCK_FUNCTION(cs_vSend)
+    {
+        if (mapArgs.count("-dropmessagestest") && GetRand(atoi(mapArgs["-dropmessagestest"])) == 0)
+        {
+            printf("dropmessages DROPPING SEND MESSAGE\n");
+            AbortMessage();
+            return;
+        }
+
+        if (ssSend.size() == 0)
+            return;
+
+        // Set the size
+        unsigned int nSize = ssSend.size() - CMessageHeader::HEADER_SIZE;
+        memcpy((char*)&ssSend[CMessageHeader::MESSAGE_SIZE_OFFSET], &nSize, sizeof(nSize));
+
+        // Set the checksum
+        uint256 hash = HashKeccak(ssSend.begin() + CMessageHeader::HEADER_SIZE, ssSend.end());
+        unsigned int nChecksum = 0;
+        memcpy(&nChecksum, &hash, sizeof(nChecksum));
+        assert(ssSend.size () >= CMessageHeader::CHECKSUM_OFFSET + sizeof(nChecksum));
+        memcpy((char*)&ssSend[CMessageHeader::CHECKSUM_OFFSET], &nChecksum, sizeof(nChecksum));
+
+        if (fDebug) {
+            printf("(%d bytes)\n", nSize);
+        }
+
+        std::deque<CSerializeData>::iterator it = vSendMsg.insert(vSendMsg.end(), CSerializeData());
+        ssSend.GetAndClear(*it);
+        nSendSize += (*it).size();
+
+        // If write queue empty, attempt "optimistic write"
+        if (it == vSendMsg.begin())
+            SocketSendData(this);
+
+        LEAVE_CRITICAL_SECTION(cs_vSend);
+    }
+
+    void PushVersion();
+
+
+    void PushMessage(const char* pszCommand)
+    {
+        try
+        {
+            BeginMessage(pszCommand);
+            EndMessage();
+        }
+        catch (...)
+        {
+            AbortMessage();
+            throw;
+        }
+    }
+
+    template<typename T1>
+    v
