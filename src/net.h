@@ -461,4 +461,181 @@ public:
     }
 
     template<typename T1>
-    v
+    void PushMessage(const char* pszCommand, const T1& a1)
+    {
+        try
+        {
+            BeginMessage(pszCommand);
+            ssSend << a1;
+            EndMessage();
+        }
+        catch (...)
+        {
+            AbortMessage();
+            throw;
+        }
+    }
+
+    template<typename T1, typename T2>
+    void PushMessage(const char* pszCommand, const T1& a1, const T2& a2)
+    {
+        try
+        {
+            BeginMessage(pszCommand);
+            ssSend << a1 << a2;
+            EndMessage();
+        }
+        catch (...)
+        {
+            AbortMessage();
+            throw;
+        }
+    }
+
+    template<typename T1, typename T2, typename T3>
+    void PushMessage(const char* pszCommand, const T1& a1, const T2& a2, const T3& a3)
+    {
+        try
+        {
+            BeginMessage(pszCommand);
+            ssSend << a1 << a2 << a3;
+            EndMessage();
+        }
+        catch (...)
+        {
+            AbortMessage();
+            throw;
+        }
+    }
+
+    template<typename T1, typename T2, typename T3, typename T4>
+    void PushMessage(const char* pszCommand, const T1& a1, const T2& a2, const T3& a3, const T4& a4)
+    {
+        try
+        {
+            BeginMessage(pszCommand);
+            ssSend << a1 << a2 << a3 << a4;
+            EndMessage();
+        }
+        catch (...)
+        {
+            AbortMessage();
+            throw;
+        }
+    }
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5>
+    void PushMessage(const char* pszCommand, const T1& a1, const T2& a2, const T3& a3, const T4& a4, const T5& a5)
+    {
+        try
+        {
+            BeginMessage(pszCommand);
+            ssSend << a1 << a2 << a3 << a4 << a5;
+            EndMessage();
+        }
+        catch (...)
+        {
+            AbortMessage();
+            throw;
+        }
+    }
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
+    void PushMessage(const char* pszCommand, const T1& a1, const T2& a2, const T3& a3, const T4& a4, const T5& a5, const T6& a6)
+    {
+        try
+        {
+            BeginMessage(pszCommand);
+            ssSend << a1 << a2 << a3 << a4 << a5 << a6;
+            EndMessage();
+        }
+        catch (...)
+        {
+            AbortMessage();
+            throw;
+        }
+    }
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
+    void PushMessage(const char* pszCommand, const T1& a1, const T2& a2, const T3& a3, const T4& a4, const T5& a5, const T6& a6, const T7& a7)
+    {
+        try
+        {
+            BeginMessage(pszCommand);
+            ssSend << a1 << a2 << a3 << a4 << a5 << a6 << a7;
+            EndMessage();
+        }
+        catch (...)
+        {
+            AbortMessage();
+            throw;
+        }
+    }
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8>
+    void PushMessage(const char* pszCommand, const T1& a1, const T2& a2, const T3& a3, const T4& a4, const T5& a5, const T6& a6, const T7& a7, const T8& a8)
+    {
+        try
+        {
+            BeginMessage(pszCommand);
+            ssSend << a1 << a2 << a3 << a4 << a5 << a6 << a7 << a8;
+            EndMessage();
+        }
+        catch (...)
+        {
+            AbortMessage();
+            throw;
+        }
+    }
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9>
+    void PushMessage(const char* pszCommand, const T1& a1, const T2& a2, const T3& a3, const T4& a4, const T5& a5, const T6& a6, const T7& a7, const T8& a8, const T9& a9)
+    {
+        try
+        {
+            BeginMessage(pszCommand);
+            ssSend << a1 << a2 << a3 << a4 << a5 << a6 << a7 << a8 << a9;
+            EndMessage();
+        }
+        catch (...)
+        {
+            AbortMessage();
+            throw;
+        }
+    }
+
+    void PushGetBlocks(CBlockIndex* pindexBegin, uint256 hashEnd);
+    bool IsSubscribed(unsigned int nChannel);
+    void Subscribe(unsigned int nChannel, unsigned int nHops=0);
+    void CancelSubscribe(unsigned int nChannel);
+    void CloseSocketDisconnect();
+    void Cleanup();
+
+
+    // Denial-of-service detection/prevention
+    // The idea is to detect peers that are behaving
+    // badly and disconnect/ban them, but do it in a
+    // one-coding-mistake-won't-shatter-the-entire-network
+    // way.
+    // IMPORTANT:  There should be nothing I can give a
+    // node that it will forward on that will make that
+    // node's peers drop it. If there is, an attacker
+    // can isolate a node and/or try to split the network.
+    // Dropping a node for sending stuff that is invalid
+    // now but might be valid in a later version is also
+    // dangerous, because it can cause a network split
+    // between nodes running old code and nodes running
+    // new code.
+    static void ClearBanned(); // needed for unit testing
+    static bool IsBanned(CNetAddr ip);
+    bool Misbehaving(int howmuch); // 1 == a little, 100 == a lot
+    void copyStats(CNodeStats &stats);
+};
+
+
+
+class CTransaction;
+void RelayTransaction(const CTransaction& tx, const uint256& hash);
+void RelayTransaction(const CTransaction& tx, const uint256& hash, const CDataStream& ss);
+
+#endif
