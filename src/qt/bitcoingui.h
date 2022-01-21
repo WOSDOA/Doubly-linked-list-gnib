@@ -184,4 +184,25 @@ private slots:
 
     /** Show Sign/Verify Message dialog and switch to sign message tab */
     void gotoSignMessageTab(QString addr = "");
-    /** Show Sign/Verify Message dialog and switch 
+    /** Show Sign/Verify Message dialog and switch to verify message tab */
+    void gotoVerifyMessageTab(QString addr = "");
+
+    /** Show configuration dialog */
+    void optionsClicked();
+    /** Show about dialog */
+    void aboutClicked();
+#ifndef Q_OS_MAC
+    /** Handle tray icon clicked */
+    void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
+#endif
+
+    /** Show window if hidden, unminimize when minimized, rise when obscured or show if hidden and fToggleHidden is true */
+    void showNormalIfMinimized(bool fToggleHidden = false);
+    /** Simply calls showNormalIfMinimized(true) for use in SLOT() macro */
+    void toggleHidden();
+
+    /** called by a timer to check if fRequestShutdown has been set **/
+    void detectShutdown();
+};
+
+#endif // BITCOINGUI_H
