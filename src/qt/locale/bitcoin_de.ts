@@ -1,17 +1,17 @@
 
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="da" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.0">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
         <source>About MaxCoin</source>
-        <translation>Om MaxCoin</translation>
+        <translation>Über MaxCoin</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>&lt;b&gt;MaxCoin&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;MaxCoin&lt;/b&gt; version</translation>
+        <translation>&lt;b&gt;MaxCoin&lt;/b&gt;-Version</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -22,11 +22,11 @@ Distributed under the MIT/X11 software license, see the accompanying file COPYIN
 
 This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/) and cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.</source>
         <translation>
-Dette program er ekperimentielt.
+Dies ist experimentelle Software.
 
-Det er gjort tilgængeligt under MIT/X11-softwarelicensen. Se den tilhørende fil &quot;COPYING&quot; eller http://www.opensource.org/licenses/mit-license.php.
+Veröffentlicht unter der MIT/X11-Softwarelizenz, siehe beiligende Datei COPYING oder http://www.opensource.org/licenses/mit-license.php.
 
-Produktet indeholder software som er udviklet af OpenSSL Project til brug i OpenSSL Toolkit (http://www.openssl.org/), kryptografisk software skrevet af Eric Young (eay@cryptsoft.com) og UPnP-software skrevet af Thomas Bernard.</translation>
+Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im OpenSSL-Toolkit (http://www.openssl.org/) entwickelt wurde, sowie kryptographische Software geschrieben von Eric Young (eay@cryptsoft.com) und UPnP-Software geschrieben von Thomas Bernard.</translation>
     </message>
     <message>
         <location filename="../aboutdialog.cpp" line="+14"/>
@@ -36,7 +36,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <message>
         <location line="+0"/>
         <source>The MaxCoin developers</source>
-        <translation>MaxCoin-udviklerne</translation>
+        <translation>Die Bitcoinentwickler</translation>
     </message>
 </context>
 <context>
@@ -44,122 +44,122 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <message>
         <location filename="../forms/addressbookpage.ui" line="+14"/>
         <source>Address Book</source>
-        <translation>Adressebog</translation>
+        <translation>Adressbuch</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Double-click to edit address or label</source>
-        <translation>Dobbeltklik for at redigere adresse eller mærkat</translation>
+        <translation>Doppelklicken, um die Adresse oder die Bezeichnung zu bearbeiten</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Create a new address</source>
-        <translation>Opret en ny adresse</translation>
+        <translation>Eine neue Adresse erstellen</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>Kopier den valgte adresse til systemets udklipsholder</translation>
+        <translation>Ausgewählte Adresse in die Zwischenablage kopieren</translation>
     </message>
     <message>
         <location line="-11"/>
         <source>&amp;New Address</source>
-        <translation>Ny adresse</translation>
+        <translation>&amp;Neue Adresse</translation>
     </message>
     <message>
         <location filename="../addressbookpage.cpp" line="+63"/>
         <source>These are your MaxCoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
-        <translation>Dette er dine MaxCoin-adresser til at modtage betalinger med. Du kan give en forskellig adresse til hver afsender, så du kan holde styr på, hvem der betaler dig.</translation>
+        <translation>Dies sind Ihre MaxCoin-Adressen zum Empfangen von Zahlungen. Es steht Ihnen frei, jedem Absender eine Andere mitzuteilen, um einen besseren Überblick über eingehende Zahlungen zu erhalten.</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="+14"/>
         <source>&amp;Copy Address</source>
-        <translation>Kopier adresse</translation>
+        <translation>Adresse &amp;kopieren</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Show &amp;QR Code</source>
-        <translation>Vis QR-kode</translation>
+        <translation>&amp;QR-Code anzeigen</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Sign a message to prove you own a MaxCoin address</source>
-        <translation>Underskriv en besked for at bevise, at en MaxCoin-adresse tilhører dig</translation>
+        <translation>Eine Nachricht signieren, um den Besitz einer MaxCoin-Adresse zu beweisen</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sign &amp;Message</source>
-        <translation>Underskriv besked</translation>
+        <translation>Nachricht &amp;signieren</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Delete the currently selected address from the list</source>
-        <translation>Slet den markerede adresse fra listen</translation>
+        <translation>Die ausgewählte Adresse aus der Liste entfernen.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Export the data in the current tab to a file</source>
-        <translation>Eksportér den aktuelle visning til en fil</translation>
+        <translation>Daten der aktuellen Ansicht in eine Datei exportieren</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Export</source>
-        <translation>Eksporter</translation>
+        <translation>E&amp;xportieren</translation>
     </message>
     <message>
         <location line="-44"/>
         <source>Verify a message to ensure it was signed with a specified MaxCoin address</source>
-        <translation>Efterprøv en besked for at sikre, at den er underskrevet med den angivne MaxCoin-adresse</translation>
+        <translation>Eine Nachricht verifizieren, um sicherzustellen, dass diese mit einer angegebenen MaxCoin-Adresse signiert wurde</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Verify Message</source>
-        <translation>Efterprøv besked</translation>
+        <translation>Nachricht &amp;verifizieren</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>&amp;Delete</source>
-        <translation>Slet</translation>
+        <translation>&amp;Löschen</translation>
     </message>
     <message>
         <location filename="../addressbookpage.cpp" line="-5"/>
         <source>These are your MaxCoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Disse er dine MaxCoin-adresser for at sende betalinger. Tjek altid beløb og modtageradresse, inden du sender bitcoins.</translation>
+        <translation>Dies sind Ihre MaxCoin-Adressen zum Tätigen von Überweisungen. Bitte prüfen Sie den Betrag und die Empfangsadresse, bevor Sie Bitcoins überweisen.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Copy &amp;Label</source>
-        <translation>Kopier mærkat</translation>
+        <translation>&amp;Bezeichnung kopieren</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;Edit</source>
-        <translation>Rediger</translation>
+        <translation>&amp;Editieren</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Send &amp;Coins</source>
-        <translation>Send bitcoins</translation>
+        <translation>Bitcoins &amp;überweisen</translation>
     </message>
     <message>
         <location line="+260"/>
         <source>Export Address Book Data</source>
-        <translation>Eksporter adressebogsdata</translation>
+        <translation>Adressbuch exportieren</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Comma separated file (*.csv)</source>
-        <translation>Kommasepareret fil (*.csv)</translation>
+        <translation>Kommagetrennte-Datei (*.csv)</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Error exporting</source>
-        <translation>Fejl under eksport</translation>
+        <translation>Fehler beim Exportieren</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Could not write to file %1.</source>
-        <translation>Kunne ikke skrive til filen %1.</translation>
+        <translation>Konnte nicht in Datei %1 schreiben.</translation>
     </message>
 </context>
 <context>
@@ -167,7 +167,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <message>
         <location filename="../addresstablemodel.cpp" line="+144"/>
         <source>Label</source>
-        <translation>Mærkat</translation>
+        <translation>Bezeichnung</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -177,7 +177,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <message>
         <location line="+36"/>
         <source>(no label)</source>
-        <translation>(ingen mærkat)</translation>
+        <translation>(keine Bezeichnung)</translation>
     </message>
 </context>
 <context>
@@ -185,99 +185,99 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <message>
         <location filename="../forms/askpassphrasedialog.ui" line="+26"/>
         <source>Passphrase Dialog</source>
-        <translation>Adgangskodedialog</translation>
+        <translation>Passphrasendialog</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Enter passphrase</source>
-        <translation>Indtast adgangskode</translation>
+        <translation>Passphrase eingeben</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>New passphrase</source>
-        <translation>Ny adgangskode</translation>
+        <translation>Neue Passphrase</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Repeat new passphrase</source>
-        <translation>Gentag ny adgangskode</translation>
+        <translation>Neue Passphrase wiederholen</translation>
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="+33"/>
         <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;10 or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
-        <translation>Indtast den nye adgangskode til tegnebogen.&lt;br/&gt;Brug venligst en adgangskode på &lt;b&gt;10 eller flere tilfældige tegn&lt;/b&gt; eller &lt;b&gt;otte eller flere ord&lt;/b&gt;.</translation>
+        <translation>Geben Sie die neue Passphrase für die Brieftasche ein.&lt;br&gt;Bitte benutzen Sie eine Passphrase bestehend aus &lt;b&gt;10 oder mehr zufälligen Zeichen&lt;/b&gt; oder &lt;b&gt;8 oder mehr Wörtern&lt;/b&gt;.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Encrypt wallet</source>
-        <translation>Krypter tegnebog</translation>
+        <translation>Brieftasche verschlüsseln</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
-        <translation>Denne funktion har brug for din tegnebogs adgangskode for at låse tegnebogen op.</translation>
+        <translation>Dieser Vorgang benötigt Ihre Passphrase, um die Brieftasche zu entsperren.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Unlock wallet</source>
-        <translation>Lås tegnebog op</translation>
+        <translation>Brieftasche entsperren</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>Denne funktion har brug for din tegnebogs adgangskode for at dekryptere tegnebogen.</translation>
+        <translation>Dieser Vorgang benötigt Ihre Passphrase, um die Brieftasche zu entschlüsseln.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Decrypt wallet</source>
-        <translation>Dekrypter tegnebog</translation>
+        <translation>Brieftasche entschlüsseln</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Change passphrase</source>
-        <translation>Skift adgangskode</translation>
+        <translation>Passphrase ändern</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter the old and new passphrase to the wallet.</source>
-        <translation>Indtast den gamle og den nye adgangskode til tegnebogen.</translation>
+        <translation>Geben Sie die alte und neue Passphrase der Brieftasche ein.</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Confirm wallet encryption</source>
-        <translation>Bekræft tegnebogskryptering</translation>
+        <translation>Verschlüsselung der Brieftasche bestätigen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>Advarsel: Hvis du krypterer din tegnebog og mister din adgangskode, vil du &lt;b&gt;MISTE ALLE DINE BITCOINS&lt;/b&gt;!</translation>
+        <translation>Warnung: Wenn Sie Ihre Brieftasche verschlüsseln und Ihre Passphrase verlieren, werden Sie &lt;b&gt;alle Ihre Bitcoins verlieren&lt;/b&gt;!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Are you sure you wish to encrypt your wallet?</source>
-        <translation>Er du sikker på, at du ønsker at kryptere din tegnebog?</translation>
+        <translation>Sind Sie sich sicher, dass Sie Ihre Brieftasche verschlüsseln möchten?</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
-        <translation>VIGTIGT: Enhver tidligere sikkerhedskopi, som du har lavet af tegnebogsfilen, bør blive erstattet af den nyligt genererede, krypterede tegnebogsfil. Af sikkerhedsmæssige årsager vil tidligere sikkerhedskopier af den ikke-krypterede tegnebogsfil blive ubrugelig i det øjeblik, du starter med at anvende den nye, krypterede tegnebog.</translation>
+        <translation>WICHTIG: Alle vorherigen Sicherungen Ihrer Brieftasche sollten durch die neu erzeugte, verschlüsselte Brieftasche ersetzt werden. Aus Sicherheitsgründen werden vorherige Sicherungen der unverschlüsselten Brieftasche nutzlos, sobald Sie die neue, verschlüsselte Brieftasche verwenden.</translation>
     </message>
     <message>
         <location line="+100"/>
         <location line="+24"/>
         <source>Warning: The Caps Lock key is on!</source>
-        <translation>Advarsel: Caps Lock-tasten er aktiveret!</translation>
+        <translation>Warnung: Die Feststelltaste ist aktiviert!</translation>
     </message>
     <message>
         <location line="-130"/>
         <location line="+58"/>
         <source>Wallet encrypted</source>
-        <translation>Tegnebog krypteret</translation>
+        <translation>Brieftasche verschlüsselt</translation>
     </message>
     <message>
         <location line="-56"/>
         <source>MaxCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation>MaxCoin vil nu lukke for at gennemføre krypteringsprocessen. Husk på, at kryptering af din tegnebog vil ikke beskytte dine bitcoins fuldt ud mod at blive stjålet af malware på din computer.</translation>
+        <translation>MaxCoin wird jetzt beendet, um den Verschlüsselungsprozess abzuschließen. Bitte beachten Sie, dass die Verschlüsselung Ihrer Brieftasche nicht vollständig vor Diebstahl Ihrer Bitcoins durch Schadsoftware schützt, die Ihren Computer befällt.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -285,40 +285,40 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
         <location line="+42"/>
         <location line="+6"/>
         <source>Wallet encryption failed</source>
-        <translation>Tegnebogskryptering mislykkedes</translation>
+        <translation>Verschlüsselung der Brieftasche fehlgeschlagen</translation>
     </message>
     <message>
         <location line="-54"/>
         <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
-        <translation>Tegnebogskryptering mislykkedes på grund af en intern fejl. Din tegnebog blev ikke krypteret.</translation>
+        <translation>Die Verschlüsselung der Brieftasche ist aufgrund eines internen Fehlers fehlgeschlagen. Ihre Brieftasche wurde nicht verschlüsselt.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+48"/>
         <source>The supplied passphrases do not match.</source>
-        <translation>De angivne adgangskoder stemmer ikke overens.</translation>
+        <translation>Die eingegebenen Passphrasen stimmen nicht überein.</translation>
     </message>
     <message>
         <location line="-37"/>
         <source>Wallet unlock failed</source>
-        <translation>Tegnebogsoplåsning mislykkedes</translation>
+        <translation>Entsperrung der Brieftasche fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+11"/>
         <location line="+19"/>
         <source>The passphrase entered for the wallet decryption was incorrect.</source>
-        <translation>Den angivne adgangskode for tegnebogsdekrypteringen er forkert.</translation>
+        <translation>Die eingegebene Passphrase zum Entschlüsseln der Brieftasche war nicht korrekt.</translation>
     </message>
     <message>
         <location line="-20"/>
         <source>Wallet decryption failed</source>
-        <translation>Tegnebogsdekryptering mislykkedes</translation>
+        <translation>Entschlüsselung der Brieftasche fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Wallet passphrase was successfully changed.</source>
-        <translation>Tegnebogens adgangskode blev ændret.</translation>
+        <translation>Die Passphrase der Brieftasche wurde erfolgreich geändert.</translation>
     </message>
 </context>
 <context>
@@ -326,132 +326,132 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <message>
         <location filename="../bitcoingui.cpp" line="+233"/>
         <source>Sign &amp;message...</source>
-        <translation>Underskriv besked...</translation>
+        <translation>Nachricht s&amp;ignieren...</translation>
     </message>
     <message>
         <location line="+280"/>
         <source>Synchronizing with network...</source>
-        <translation>Synkroniserer med netværk...</translation>
+        <translation>Synchronisiere mit Netzwerk...</translation>
     </message>
     <message>
         <location line="-349"/>
         <source>&amp;Overview</source>
-        <translation>Oversigt</translation>
+        <translation>&amp;Übersicht</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show general overview of wallet</source>
-        <translation>Vis generel oversigt over tegnebog</translation>
+        <translation>Allgemeine Übersicht der Brieftasche anzeigen</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>&amp;Transactions</source>
-        <translation>Transaktioner</translation>
+        <translation>&amp;Transaktionen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Browse transaction history</source>
-        <translation>Gennemse transaktionshistorik</translation>
+        <translation>Transaktionsverlauf durchsehen</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Edit the list of stored addresses and labels</source>
-        <translation>Rediger listen over gemte adresser og mærkater</translation>
+        <translation>Liste der gespeicherten Zahlungsadressen und Bezeichnungen bearbeiten</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Show the list of addresses for receiving payments</source>
-        <translation>Vis listen over adresser for at modtage betalinger</translation>
+        <translation>Liste der Empfangsadressen anzeigen</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>E&amp;xit</source>
-        <translation>Luk</translation>
+        <translation>&amp;Beenden</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Quit application</source>
-        <translation>Afslut program</translation>
+        <translation>Anwendung beenden</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Show information about MaxCoin</source>
-        <translation>Vis informationer om MaxCoin</translation>
+        <translation>Informationen über MaxCoin anzeigen</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>About &amp;Qt</source>
-        <translation>Om Qt</translation>
+        <translation>Über &amp;Qt</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show information about Qt</source>
-        <translation>Vis informationer om Qt</translation>
+        <translation>Informationen über Qt anzeigen</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&amp;Options...</source>
-        <translation>Indstillinger...</translation>
+        <translation>&amp;Konfiguration...</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>&amp;Encrypt Wallet...</source>
-        <translation>Krypter tegnebog...</translation>
+        <translation>Brieftasche &amp;verschlüsseln...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Backup Wallet...</source>
-        <translation>Sikkerhedskopier tegnebog...</translation>
+        <translation>Brieftasche &amp;sichern...</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&amp;Change Passphrase...</source>
-        <translation>Skift adgangskode...</translation>
+        <translation>Passphrase &amp;ändern...</translation>
     </message>
     <message>
         <location line="+285"/>
         <source>Importing blocks from disk...</source>
-        <translation>Importerer blokke fra disken...</translation>
+        <translation>Importiere Blöcke von Laufwerk...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Reindexing blocks on disk...</source>
-        <translation>Genindekserer blokke på disken...</translation>
+        <translation>Reindiziere Blöcke auf Laufwerk...</translation>
     </message>
     <message>
         <location line="-347"/>
         <source>Send coins to a MaxCoin address</source>
-        <translation>Send bitcoins til en MaxCoin-adresse</translation>
+        <translation>Bitcoins an eine MaxCoin-Adresse überweisen</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Modify configuration options for MaxCoin</source>
-        <translation>Rediger konfigurationsindstillinger af MaxCoin</translation>
+        <translation>Die Konfiguration des Clients bearbeiten</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Backup wallet to another location</source>
-        <translation>Lav sikkerhedskopi af tegnebogen til et andet sted</translation>
+        <translation>Eine Sicherungskopie der Brieftasche erstellen und abspeichern</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the passphrase used for wallet encryption</source>
-        <translation>Skift adgangskode anvendt til tegnebogskryptering</translation>
+        <translation>Ändert die Passphrase, die für die Verschlüsselung der Brieftasche benutzt wird</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>&amp;Debug window</source>
-        <translation>Fejlsøgningsvindue</translation>
+        <translation>&amp;Debugfenster</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open debugging and diagnostic console</source>
-        <translation>Åbn fejlsøgnings- og diagnosticeringskonsollen</translation>
+        <translation>Debugging- und Diagnosekonsole öffnen</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>&amp;Verify message...</source>
-        <translation>Efterprøv besked...</translation>
+        <translation>Nachricht &amp;verifizieren...</translation>
     </message>
     <message>
         <location line="-165"/>
@@ -462,178 +462,178 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <message>
         <location line="-530"/>
         <source>Wallet</source>
-        <translation>Tegnebog</translation>
+        <translation>Brieftasche</translation>
     </message>
     <message>
         <location line="+101"/>
         <source>&amp;Send</source>
-        <translation>Send</translation>
+        <translation>Überweisen</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Receive</source>
-        <translation>Modtag</translation>
+        <translation>&amp;Empfangen</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>&amp;Addresses</source>
-        <translation>Adresser</translation>
+        <translation>&amp;Adressen</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>&amp;About MaxCoin</source>
-        <translation>Om MaxCoin</translation>
+        <translation>&amp;Über MaxCoin</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>&amp;Show / Hide</source>
-        <translation>Vis/skjul</translation>
+        <translation>&amp;Anzeigen / Verstecken</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show or hide the main Window</source>
-        <translation>Vis eller skjul hovedvinduet</translation>
+        <translation>Das Hauptfenster anzeigen oder verstecken</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Krypter de private nøgler, der hører til din tegnebog</translation>
+        <translation>Verschlüsselt die zu Ihrer Brieftasche gehörenden privaten Schlüssel</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Sign messages with your MaxCoin addresses to prove you own them</source>
-        <translation>Underskriv beskeder med dine MaxCoin-adresser for at bevise, at de tilhører dig</translation>
+        <translation>Nachrichten signieren, um den Besitz Ihrer MaxCoin-Adressen zu beweisen</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify messages to ensure they were signed with specified MaxCoin addresses</source>
-        <translation>Efterprøv beskeder for at sikre, at de er underskrevet med de(n) angivne MaxCoin-adresse(r)</translation>
+        <translation>Nachrichten verifizieren, um sicherzustellen, dass diese mit den angegebenen MaxCoin-Adressen signiert wurden</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>&amp;File</source>
-        <translation>Fil</translation>
+        <translation>&amp;Datei</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Settings</source>
-        <translation>Indstillinger</translation>
+        <translation>&amp;Einstellungen</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>&amp;Help</source>
-        <translation>Hjælp</translation>
+        <translation>&amp;Hilfe</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tabs toolbar</source>
-        <translation>Faneværktøjslinje</translation>
+        <translation>Registerkartenleiste</translation>
     </message>
     <message>
         <location line="+17"/>
         <location line="+10"/>
         <source>[testnet]</source>
-        <translation>[testnetværk]</translation>
+        <translation>[Testnetz]</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>MaxCoin client</source>
-        <translation>MaxCoin-klient</translation>
+        <translation>MaxCoin-Client</translation>
     </message>
     <message numerus="yes">
         <location line="+141"/>
         <source>%n active connection(s) to MaxCoin network</source>
-        <translation><numerusform>%n aktiv(e) forbindelse(r) til MaxCoin-netværket</numerusform><numerusform>%n aktiv(e) forbindelse(r) til MaxCoin-netværket</numerusform></translation>
+        <translation><numerusform>%n aktive Verbindung zum MaxCoin-Netzwerk</numerusform><numerusform>%n aktive Verbindungen zum MaxCoin-Netzwerk</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
         <source>No block source available...</source>
-        <translation>Ingen blokkilde tilgængelig...</translation>
+        <translation>Keine Blockquelle verfügbar...</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Processed %1 of %2 (estimated) blocks of transaction history.</source>
-        <translation>%1 ud af %2 (estimeret) blokke af transaktionshistorikken er blevet behandlet.</translation>
+        <translation>%1 von (geschätzten) %2 Blöcken des Transaktionsverlaufs verarbeitet.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Processed %1 blocks of transaction history.</source>
-        <translation>%1 blokke af transaktionshistorikken er blevet behandlet.</translation>
+        <translation>%1 Blöcke des Transaktionsverlaufs verarbeitet.</translation>
     </message>
     <message numerus="yes">
         <location line="+20"/>
         <source>%n hour(s)</source>
-        <translation><numerusform>%n time(r)</numerusform><numerusform>%n time(r)</numerusform></translation>
+        <translation><numerusform>%n Stunde</numerusform><numerusform>%n Stunden</numerusform></translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n day(s)</source>
-        <translation><numerusform>%n dag(e)</numerusform><numerusform>%n dag(e)</numerusform></translation>
+        <translation><numerusform>%n Tag</numerusform><numerusform>%n Tage</numerusform></translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n week(s)</source>
-        <translation><numerusform>%n uge(r)</numerusform><numerusform>%n uge(r)</numerusform></translation>
+        <translation><numerusform>%n Woche</numerusform><numerusform>%n Wochen</numerusform></translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 behind</source>
-        <translation>%1 bagefter</translation>
+        <translation>%1 im Rückstand</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Last received block was generated %1 ago.</source>
-        <translation>Senest modtagne blok blev genereret for %1 siden.</translation>
+        <translation>Der letzte empfangene Block ist %1 alt.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Transactions after this will not yet be visible.</source>
-        <translation>Transaktioner herefter vil endnu ikke være synlige.</translation>
+        <translation>Transaktionen hiernach werden noch nicht angezeigt.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Error</source>
-        <translation>Fejl</translation>
+        <translation>Fehler</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning</source>
-        <translation>Advarsel</translation>
+        <translation>Warnung</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Information</source>
-        <translation>Information</translation>
+        <translation>Hinweis</translation>
     </message>
     <message>
         <location line="+70"/>
         <source>This transaction is over the size limit. You can still send it for a fee of %1, which goes to the nodes that process your transaction and helps to support the network. Do you want to pay the fee?</source>
-        <translation>Transaktionen overskrider størrelsesgrænsen. Du kan stadig sende den for et gebyr på %1, hvilket går til de knuder, der behandler din transaktion og hjælper med at understøtte netværket. Vil du betale gebyret?</translation>
+        <translation>Die Transaktion übersteigt das Größenlimit. Sie können sie trotzdem senden, wenn Sie eine zusätzliche Transaktionsgebühr in Höhe von %1 zahlen. Diese wird an die Knoten verteilt, die Ihre Transaktion bearbeiten und unterstützt damit das MaxCoin-Netzwerk. Möchten Sie die Gebühr bezahlen?</translation>
     </message>
     <message>
         <location line="-140"/>
         <source>Up to date</source>
-        <translation>Opdateret</translation>
+        <translation>Auf aktuellem Stand</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Catching up...</source>
-        <translation>Indhenter...</translation>
+        <translation>Hole auf...</translation>
     </message>
     <message>
         <location line="+113"/>
         <source>Confirm transaction fee</source>
-        <translation>Bekræft transaktionsgebyr</translation>
+        <translation>Transaktionsgebühr bestätigen</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Sent transaction</source>
-        <translation>Afsendt transaktion</translation>
+        <translation>Gesendete Transaktion</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Incoming transaction</source>
-        <translation>Indgående transaktion</translation>
+        <translation>Eingehende Transaktion</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -642,38 +642,37 @@ Amount: %2
 Type: %3
 Address: %4
 </source>
-        <translation>Dato: %1
-Beløb: %2
-Type: %3
-Adresse: %4
-</translation>
+        <translation>Datum: %1
+Betrag: %2
+Typ: %3
+Adresse: %4</translation>
     </message>
     <message>
         <location line="+33"/>
         <location line="+23"/>
         <source>URI handling</source>
-        <translation>URI-håndtering</translation>
+        <translation>URI Verarbeitung</translation>
     </message>
     <message>
         <location line="-23"/>
         <location line="+23"/>
         <source>URI can not be parsed! This can be caused by an invalid MaxCoin address or malformed URI parameters.</source>
-        <translation>URI kan ikke fortolkes! Dette kan skyldes en ugyldig MaxCoin-adresse eller misdannede URI-parametre.</translation>
+        <translation>URI kann nicht analysiert werden! Dies kann durch eine ungültige MaxCoin-Adresse oder fehlerhafte URI-Parameter verursacht werden.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Tegnebog er &lt;b&gt;krypteret&lt;/b&gt; og i øjeblikket &lt;b&gt;ulåst&lt;/b&gt;</translation>
+        <translation>Brieftasche ist &lt;b&gt;verschlüsselt&lt;/b&gt; und aktuell &lt;b&gt;entsperrt&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Tegnebog er &lt;b&gt;krypteret&lt;/b&gt; og i øjeblikket &lt;b&gt;låst&lt;/b&gt;</translation>
+        <translation>Brieftasche ist &lt;b&gt;verschlüsselt&lt;/b&gt; und aktuell &lt;b&gt;gesperrt&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+111"/>
         <source>A fatal error occurred. MaxCoin can no longer continue safely and will quit.</source>
-        <translation>Der opstod en fatal fejl. MaxCoin kan ikke længere fortsætte sikkert og vil afslutte.</translation>
+        <translation>Ein schwerer Fehler ist aufgetreten. MaxCoin kann nicht stabil weiter ausgeführt werden und wird beendet.</translation>
     </message>
 </context>
 <context>
@@ -681,7 +680,7 @@ Adresse: %4
     <message>
         <location filename="../clientmodel.cpp" line="+104"/>
         <source>Network Alert</source>
-        <translation>Netværksadvarsel</translation>
+        <translation>Netzwerkalarm</translation>
     </message>
 </context>
 <context>
@@ -689,67 +688,67 @@ Adresse: %4
     <message>
         <location filename="../forms/editaddressdialog.ui" line="+14"/>
         <source>Edit Address</source>
-        <translation>Rediger adresse</translation>
+        <translation>Adresse bearbeiten</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>&amp;Label</source>
-        <translation>Mærkat</translation>
+        <translation>&amp;Bezeichnung</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>The label associated with this address book entry</source>
-        <translation>Mærkaten forbundet med denne post i adressebogen</translation>
+        <translation>Die Bezeichnung dieses Adressbuchseintrags</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Address</source>
-        <translation>Adresse</translation>
+        <translation>&amp;Adresse</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>The address associated with this address book entry. This can only be modified for sending addresses.</source>
-        <translation>Adressen tilknyttet til denne post i adressebogen. Dette kan kun ændres for afsendelsesadresser.</translation>
+        <translation>Die Adresse des Adressbucheintrags. Diese kann nur für Zahlungsadressen bearbeitet werden.</translation>
     </message>
     <message>
         <location filename="../editaddressdialog.cpp" line="+21"/>
         <source>New receiving address</source>
-        <translation>Ny modtagelsesadresse</translation>
+        <translation>Neue Empfangsadresse</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>New sending address</source>
-        <translation>Ny afsendelsesadresse</translation>
+        <translation>Neue Zahlungsadresse</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Edit receiving address</source>
-        <translation>Rediger modtagelsesadresse</translation>
+        <translation>Empfangsadresse bearbeiten</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Edit sending address</source>
-        <translation>Rediger afsendelsesadresse</translation>
+        <translation>Zahlungsadresse bearbeiten</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>The entered address &quot;%1&quot; is already in the address book.</source>
-        <translation>Den indtastede adresse &quot;%1&quot; er allerede i adressebogen.</translation>
+        <translation>Die eingegebene Adresse &quot;%1&quot; befindet sich bereits im Adressbuch.</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>The entered address &quot;%1&quot; is not a valid MaxCoin address.</source>
-        <translation>Den indtastede adresse &quot;%1&quot; er ikke en gyldig MaxCoin-adresse.</translation>
+        <translation>Die eingegebene Adresse &quot;%1&quot; ist keine gültige MaxCoin-Adresse.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Could not unlock wallet.</source>
-        <translation>Kunne ikke låse tegnebog op.</translation>
+        <translation>Die Brieftasche konnte nicht entsperrt werden.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>New key generation failed.</source>
-        <translation>Ny nøglegenerering mislykkedes.</translation>
+        <translation>Generierung eines neuen Schlüssels fehlgeschlagen.</translation>
     </message>
 </context>
 <context>
@@ -763,37 +762,37 @@ Adresse: %4
     <message>
         <location line="-12"/>
         <source>version</source>
-        <translation>version</translation>
+        <translation>Version</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Usage:</source>
-        <translation>Anvendelse:</translation>
+        <translation>Benutzung:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>command-line options</source>
-        <translation>kommandolinjetilvalg</translation>
+        <translation>Kommandozeilenoptionen</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>UI options</source>
-        <translation>Brugergrænsefladeindstillinger</translation>
+        <translation>UI-Optionen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Set language, for example &quot;de_DE&quot; (default: system locale)</source>
-        <translation>Angiv sprog, f.eks &quot;de_DE&quot; (standard: systemlokalitet)</translation>
+        <translation>Sprache festlegen, z.B. &quot;de_DE&quot; (Standard: System Locale)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Start minimized</source>
-        <translation>Start minimeret</translation>
+        <translation>Minimiert starten</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show splash screen on startup (default: 1)</source>
-        <translation>Vis opstartsbillede ved start (standard: 1)</translation>
+        <translation>Startbildschirm beim Starten anzeigen (Standard: 1)</translation>
     </message>
 </context>
 <context>
@@ -801,209 +800,209 @@ Adresse: %4
     <message>
         <location filename="../forms/optionsdialog.ui" line="+14"/>
         <source>Options</source>
-        <translation>Indstillinger</translation>
+        <translation>Erweiterte Einstellungen</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>&amp;Main</source>
-        <translation>Generelt</translation>
+        <translation>&amp;Allgemein</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB.</source>
-        <translation>Valgfrit transaktionsgebyr pr. kB, der hjælper dine transaktioner med at blive behandlet hurtigt. De fleste transaktioner er på 1 kB.</translation>
+        <translation>Optionale Transaktionsgebühr pro KB, die sicherstellt, dass Ihre Transaktionen schnell bearbeitet werden. Die meisten Transaktionen sind 1 kB groß.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Pay transaction &amp;fee</source>
-        <translation>Betal transaktionsgebyr</translation>
+        <translation>Transaktions&amp;gebühr bezahlen</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Automatically start MaxCoin after logging in to the system.</source>
-        <translation>Start MaxCoin automatisk, når der logges ind på systemet</translation>
+        <translation>MaxCoin nach der Anmeldung am System automatisch ausführen.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Start MaxCoin on system login</source>
-        <translation>Start MaxCoin, når systemet startes</translation>
+        <translation>&amp;Starte MaxCoin nach Systemanmeldung</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Reset all client options to default.</source>
-        <translation>Nulstil alle klientindstillinger til deres standard.</translation>
+        <translation>Setzt die Clientkonfiguration auf Standardwerte zurück.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Reset Options</source>
-        <translation>Nulstil indstillinger</translation>
+        <translation>Konfiguration &amp;zurücksetzen</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&amp;Network</source>
-        <translation>Netværk</translation>
+        <translation>&amp;Netzwerk</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Automatically open the MaxCoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Åbn MaxCoin-klientens port på routeren automatisk. Dette virker kun, når din router understøtter UPnP og UPnP er aktiveret.</translation>
+        <translation>Automatisch den MaxCoin-Clientport auf dem Router öffnen. Dies funktioniert nur, wenn Ihr Router UPnP unterstützt und dies aktiviert ist.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Map port using &amp;UPnP</source>
-        <translation>Konfigurer port vha. UPnP</translation>
+        <translation>Portweiterleitung via &amp;UPnP</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Connect to the MaxCoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
-        <translation>Opret forbindelse til MaxCoin-netværket via en SOCKS-proxy (f.eks. ved tilslutning gennem Tor)</translation>
+        <translation>Über einen SOCKS-Proxy mit dem MaxCoin-Netzwerk verbinden (z.B. beim Verbinden über Tor).</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Connect through SOCKS proxy:</source>
-        <translation>Forbind gennem SOCKS-proxy:</translation>
+        <translation>Über einen SOCKS-Proxy &amp;verbinden:</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Proxy &amp;IP:</source>
-        <translation>Proxy-IP:</translation>
+        <translation>Proxy-&amp;IP:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>IP address of the proxy (e.g. 127.0.0.1)</source>
-        <translation>IP-adressen på proxyen (f.eks. 127.0.0.1)</translation>
+        <translation>IP-Adresse des Proxies (z.B. 127.0.0.1)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Port:</source>
-        <translation>Port:</translation>
+        <translation>&amp;Port:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Port of the proxy (e.g. 9050)</source>
-        <translation>Porten på proxyen (f.eks. 9050)</translation>
+        <translation>Port des Proxies (z.B. 9050)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>SOCKS &amp;Version:</source>
-        <translation>SOCKS-version</translation>
+        <translation>SOCKS-&amp;Version:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>SOCKS version of the proxy (e.g. 5)</source>
-        <translation>SOCKS-version af proxyen (f.eks. 5)</translation>
+        <translation>SOCKS-Version des Proxies (z.B. 5)</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>&amp;Window</source>
-        <translation>Vindue</translation>
+        <translation>&amp;Programmfenster</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Show only a tray icon after minimizing the window.</source>
-        <translation>Vis kun et statusikon efter minimering af vinduet.</translation>
+        <translation>Nur ein Symbol im Infobereich anzeigen, nachdem das Programmfenster minimiert wurde.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Minimize to the tray instead of the taskbar</source>
-        <translation>Minimer til statusfeltet i stedet for proceslinjen</translation>
+        <translation>In den Infobereich anstatt in die Taskleiste &amp;minimieren</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Quit in the menu.</source>
-        <translation>Minimer i stedet for at afslutte programmet, når vinduet lukkes. Når denne indstilling er valgt, vil programmet kun blive lukket, når du har valgt Afslut i menuen.</translation>
+        <translation>Minimiert die Anwendung anstatt sie zu beenden wenn das Fenster geschlossen wird. Wenn dies aktiviert ist, müssen Sie das Programm über &quot;Beenden&quot; im Menü schließen.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>M&amp;inimize on close</source>
-        <translation>Minimer ved lukning</translation>
+        <translation>Beim Schließen m&amp;inimieren</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>&amp;Display</source>
-        <translation>Visning</translation>
+        <translation>&amp;Anzeige</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>User Interface &amp;language:</source>
-        <translation>Brugergrænsefladesprog:</translation>
+        <translation>&amp;Sprache der Benutzeroberfläche:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>The user interface language can be set here. This setting will take effect after restarting MaxCoin.</source>
-        <translation>Brugergrænsefladesproget kan angives her. Denne indstilling træder først i kraft, når MaxCoin genstartes.</translation>
+        <translation>Legt die Sprache der Benutzeroberfläche fest. Diese Einstellung wird erst nach einem Neustart von MaxCoin aktiv.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>&amp;Unit to show amounts in:</source>
-        <translation>Enhed at vise beløb i:</translation>
+        <translation>&amp;Einheit der Beträge:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Vælg den standard underopdelingsenhed, som skal vises i brugergrænsefladen og ved afsendelse af bitcoins.</translation>
+        <translation>Wählen Sie die Standarduntereinheit, die in der Benutzeroberfläche und beim Überweisen von Bitcoins angezeigt werden soll.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Whether to show MaxCoin addresses in the transaction list or not.</source>
-        <translation>Afgør hvorvidt MaxCoin-adresser skal vises i transaktionslisten eller ej.</translation>
+        <translation>Legt fest, ob MaxCoin-Adressen in der Transaktionsliste angezeigt werden.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Display addresses in transaction list</source>
-        <translation>Vis adresser i transaktionsliste</translation>
+        <translation>Adressen in der Transaktionsliste &amp;anzeigen</translation>
     </message>
     <message>
         <location line="+71"/>
         <source>&amp;OK</source>
-        <translation>OK</translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Cancel</source>
-        <translation>Annuller</translation>
+        <translation>&amp;Abbrechen</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Apply</source>
-        <translation>Anvend</translation>
+        <translation>&amp;Übernehmen</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="+53"/>
         <source>default</source>
-        <translation>standard</translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <location line="+130"/>
         <source>Confirm options reset</source>
-        <translation>Bekræft nulstilling af indstillinger</translation>
+        <translation>Zurücksetzen der Konfiguration bestätigen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Some settings may require a client restart to take effect.</source>
-        <translation>Nogle indstillinger kan kræve, at klienten genstartes, før de træder i kraft.</translation>
+        <translation>Einige Einstellungen benötigen möglicherweise einen Clientneustart, um aktiv zu werden.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Do you want to proceed?</source>
-        <translation>Ønsker du at fortsætte?</translation>
+        <translation>Wollen Sie fortfahren?</translation>
     </message>
     <message>
         <location line="+42"/>
         <location line="+9"/>
         <source>Warning</source>
-        <translation>Advarsel</translation>
+        <translation>Warnung</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+9"/>
         <source>This setting will take effect after restarting MaxCoin.</source>
-        <translation>Denne indstilling træder i kraft, efter MaxCoin genstartes.</translation>
+        <translation>Diese Einstellung wird erst nach einem Neustart von MaxCoin aktiv.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>The supplied proxy address is invalid.</source>
-        <translation>Ugyldig proxy-adresse</translation>
+        <translation>Die eingegebene Proxyadresse ist ungültig.</translation>
     </message>
 </context>
 <context>
@@ -1017,53 +1016,53 @@ Adresse: %4
         <location line="+50"/>
         <location line="+166"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the MaxCoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Den viste information kan være forældet. Din tegnebog synkroniserer automatisk med MaxCoin-netværket, når en forbindelse etableres, men denne proces er ikke gennemført endnu.</translation>
+        <translation>Die angezeigten Informationen sind möglicherweise nicht mehr aktuell. Ihre Brieftasche wird automatisch synchronisiert, nachdem eine Verbindung zum MaxCoin-Netzwerk hergestellt wurde. Dieser Prozess ist jedoch derzeit noch nicht abgeschlossen.</translation>
     </message>
     <message>
         <location line="-124"/>
         <source>Balance:</source>
-        <translation>Saldo:</translation>
+        <translation>Kontostand:</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Unconfirmed:</source>
-        <translation>Ubekræftede:</translation>
+        <translation>Unbestätigt:</translation>
     </message>
     <message>
         <location line="-78"/>
         <source>Wallet</source>
-        <translation>Tegnebog</translation>
+        <translation>Brieftasche</translation>
     </message>
     <message>
         <location line="+107"/>
         <source>Immature:</source>
-        <translation>Umodne:</translation>
+        <translation>Unreif:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Mined balance that has not yet matured</source>
-        <translation>Udvunden saldo, som endnu ikke er modnet</translation>
+        <translation>Erarbeiteter Betrag der noch nicht gereift ist</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>&lt;b&gt;Recent transactions&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Nyeste transaktioner&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;Letzte Transaktionen&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="-101"/>
         <source>Your current balance</source>
-        <translation>Din nuværende saldo</translation>
+        <translation>Ihr aktueller Kontostand</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the current balance</source>
-        <translation>Summen af transaktioner, der endnu ikke er bekræftet og endnu ikke er inkluderet i den nuværende saldo</translation>
+        <translation>Betrag aus unbestätigten Transaktionen, der noch nicht im aktuellen Kontostand enthalten ist</translation>
     </message>
     <message>
         <location filename="../overviewpage.cpp" line="+116"/>
         <location line="+1"/>
         <source>out of sync</source>
-        <translation>ikke synkroniseret</translation>
+        <translation>nicht synchron</translation>
     </message>
 </context>
 <context>
@@ -1071,7 +1070,7 @@ Adresse: %4
     <message>
         <location filename="../paymentserver.cpp" line="+107"/>
         <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Kan ikke starte bitcoin: click-to-pay-håndtering</translation>
+        <translation>&quot;bitcoin: Klicken-zum-Bezahlen&quot;-Handler konnte nicht gestartet werden</translation>
     </message>
 </context>
 <context>
@@ -1079,57 +1078,57 @@ Adresse: %4
     <message>
         <location filename="../forms/qrcodedialog.ui" line="+14"/>
         <source>QR Code Dialog</source>
-        <translation>QR-kode-dialog</translation>
+        <translation>QR-Code-Dialog</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Request Payment</source>
-        <translation>Anmod om betaling</translation>
+        <translation>Zahlung anfordern</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Amount:</source>
-        <translation>Beløb:</translation>
+        <translation>Betrag:</translation>
     </message>
     <message>
         <location line="-44"/>
         <source>Label:</source>
-        <translation>Mærkat:</translation>
+        <translation>Bezeichnung:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Message:</source>
-        <translation>Besked:</translation>
+        <translation>Nachricht:</translation>
     </message>
     <message>
         <location line="+71"/>
         <source>&amp;Save As...</source>
-        <translation>Gem som...</translation>
+        <translation>&amp;Speichern unter...</translation>
     </message>
     <message>
         <location filename="../qrcodedialog.cpp" line="+62"/>
         <source>Error encoding URI into QR Code.</source>
-        <translation>Fejl ved kodning fra URI til QR-kode</translation>
+        <translation>Fehler beim Kodieren der URI in den QR-Code.</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>The entered amount is invalid, please check.</source>
-        <translation>Det indtastede beløb er ugyldig, tjek venligst.</translation>
+        <translation>Der eingegebene Betrag ist ungültig, bitte überprüfen.</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation>Resulterende URI var for lang; prøv at forkorte teksten til mærkaten/beskeden.</translation>
+        <translation>Resultierende URI zu lang, bitte den Text für Bezeichnung / Nachricht kürzen.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Save QR Code</source>
-        <translation>Gem QR-kode</translation>
+        <translation>QR-Code abspeichern</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>PNG Images (*.png)</source>
-        <translation>PNG-billeder (*.png)</translation>
+        <translation>PNG-Bild (*.png)</translation>
     </message>
 </context>
 <context>
@@ -1137,7 +1136,7 @@ Adresse: %4
     <message>
         <location filename="../forms/rpcconsole.ui" line="+46"/>
         <source>Client name</source>
-        <translation>Klientnavn</translation>
+        <translation>Clientname</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1151,132 +1150,132 @@ Adresse: %4
         <location line="+23"/>
         <location filename="../rpcconsole.cpp" line="+339"/>
         <source>N/A</source>
-        <translation>N/A</translation>
+        <translation>n.v.</translation>
     </message>
     <message>
         <location line="-217"/>
         <source>Client version</source>
-        <translation>Klientversion</translation>
+        <translation>Clientversion</translation>
     </message>
     <message>
         <location line="-45"/>
         <source>&amp;Information</source>
-        <translation>Information</translation>
+        <translation>&amp;Information</translation>
     </message>
     <message>
         <location line="+68"/>
         <source>Using OpenSSL version</source>
-        <translation>Anvendt OpenSSL-version</translation>
+        <translation>Verwendete OpenSSL-Version</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Startup time</source>
-        <translation>Opstartstid</translation>
+        <translation>Startzeit</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Network</source>
-        <translation>Netværk</translation>
+        <translation>Netzwerk</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Number of connections</source>
-        <translation>Antal forbindelser</translation>
+        <translation>Anzahl Verbindungen</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>On testnet</source>
-        <translation>Tilsluttet testnetværk</translation>
+        <translation>Im Testnetz</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Block chain</source>
-        <translation>Blokkæde</translation>
+        <translation>Blockkette</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Current number of blocks</source>
-        <translation>Nuværende antal blokke</translation>
+        <translation>Aktuelle Anzahl Blöcke</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Estimated total blocks</source>
-        <translation>Estimeret antal blokke</translation>
+        <translation>Geschätzte Gesamtzahl Blöcke</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Last block time</source>
-        <translation>Tidsstempel for seneste blok</translation>
+        <translation>Letzte Blockzeit</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>&amp;Open</source>
-        <translation>Åbn</translation>
+        <translation>&amp;Öffnen</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Command-line options</source>
-        <translation>Kommandolinjetilvalg</translation>
+        <translation>Kommandozeilenoptionen</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Show the MaxCoin-Qt help message to get a list with possible MaxCoin command-line options.</source>
-        <translation>Vis MaxCoin-Qt-hjælpebeskeden for at få en liste over de tilgængelige MaxCoin-kommandolinjeindstillinger.</translation>
+        <translation>Zeige die MaxCoin-Qt-Hilfsnachricht, um eine Liste mit möglichen Kommandozeilenoptionen zu erhalten.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Show</source>
-        <translation>Vis</translation>
+        <translation>&amp;Anzeigen</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>&amp;Console</source>
-        <translation>Konsol</translation>
+        <translation>&amp;Konsole</translation>
     </message>
     <message>
         <location line="-260"/>
         <source>Build date</source>
-        <translation>Byggedato</translation>
+        <translation>Erstellungsdatum</translation>
     </message>
     <message>
         <location line="-104"/>
         <source>MaxCoin - Debug window</source>
-        <translation>MaxCoin - Fejlsøgningsvindue</translation>
+        <translation>MaxCoin - Debugfenster</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>MaxCoin Core</source>
-        <translation>MaxCoin Core</translation>
+        <translation>MaxCoin-Kern</translation>
     </message>
     <message>
         <location line="+279"/>
         <source>Debug log file</source>
-        <translation>Fejlsøgningslogfil</translation>
+        <translation>Debugprotokolldatei</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Open the MaxCoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Åbn MaxCoin-fejlsøgningslogfilen fra det nuværende datakatalog. Dette kan tage nogle få sekunder for en store logfiler.</translation>
+        <translation>Öffnet die MaxCoin-Debugprotokolldatei aus dem aktuellen Datenverzeichnis. Dies kann bei großen Protokolldateien einige Sekunden dauern.</translation>
     </message>
     <message>
         <location line="+102"/>
         <source>Clear console</source>
-        <translation>Ryd konsol</translation>
+        <translation>Konsole zurücksetzen</translation>
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="-30"/>
         <source>Welcome to the MaxCoin RPC console.</source>
-        <translation>Velkommen til MaxCoin RPC-konsollen</translation>
+        <translation>Willkommen in der MaxCoin-RPC-Konsole.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
-        <translation>Brug op og ned-piletasterne til at navigere historikken og &lt;b&gt;Ctrl-L&lt;/b&gt; til at rydde skærmen.</translation>
+        <translation>Pfeiltaste hoch und runter, um die Historie durchzublättern und &lt;b&gt;Strg-L&lt;/b&gt;, um die Konsole zurückzusetzen.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
-        <translation>Tast &lt;b&gt;help&lt;/b&gt; for en oversigt over de tilgængelige kommandoer.</translation>
+        <translation>Bitte &lt;b&gt;help&lt;/b&gt; eingeben, um eine Übersicht verfügbarer Befehle zu erhalten.</translation>
     </message>
 </context>
 <context>
@@ -1291,102 +1290,102 @@ Adresse: %4
         <location line="+5"/>
         <location line="+5"/>
         <source>Send Coins</source>
-        <translation>Send bitcoins</translation>
+        <translation>Bitcoins überweisen</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Send to multiple recipients at once</source>
-        <translation>Send til flere modtagere på en gang</translation>
+        <translation>In einer Transaktion an mehrere Empfänger auf einmal überweisen</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Add &amp;Recipient</source>
-        <translation>Tilføj modtager</translation>
+        <translation>Empfänger &amp;hinzufügen</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Remove all transaction fields</source>
-        <translation>Fjern alle transaktionsfelter</translation>
+        <translation>Alle Überweisungsfelder zurücksetzen</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Clear &amp;All</source>
-        <translation>Ryd alle</translation>
+        <translation>&amp;Zurücksetzen</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Balance:</source>
-        <translation>Saldo:</translation>
+        <translation>Kontostand:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>123.456 BTC</source>
-        <translation>123,456 BTC</translation>
+        <translation>123.456 BTC</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Confirm the send action</source>
-        <translation>Bekræft afsendelsen</translation>
+        <translation>Überweisung bestätigen</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>S&amp;end</source>
-        <translation>Afsend</translation>
+        <translation>&amp;Überweisen</translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-59"/>
         <source>&lt;b&gt;%1&lt;/b&gt; to %2 (%3)</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt; til %2 (%3)</translation>
+        <translation>&lt;b&gt;%1&lt;/b&gt; an %2 (%3)</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Confirm send coins</source>
-        <translation>Bekræft afsendelse af bitcoins</translation>
+        <translation>Überweisung bestätigen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to send %1?</source>
-        <translation>Er du sikker på, at du vil sende %1?</translation>
+        <translation>Sind Sie sich sicher, dass Sie die folgende Überweisung ausführen möchten?&lt;br&gt;%1</translation>
     </message>
     <message>
         <location line="+0"/>
         <source> and </source>
-        <translation> og </translation>
+        <translation> und </translation>
     </message>
     <message>
         <location line="+23"/>
         <source>The recipient address is not valid, please recheck.</source>
-        <translation>Modtagerens adresse er ikke gyldig. Tjek venligst adressen igen.</translation>
+        <translation>Die Zahlungsadresse ist ungültig, bitte nochmals überprüfen.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>The amount to pay must be larger than 0.</source>
-        <translation>Beløbet til betaling skal være større end 0.</translation>
+        <translation>Der zu zahlende Betrag muss größer als 0 sein.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>The amount exceeds your balance.</source>
-        <translation>Beløbet overstiger din saldo.</translation>
+        <translation>Der angegebene Betrag übersteigt Ihren Kontostand.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>The total exceeds your balance when the %1 transaction fee is included.</source>
-        <translation>Totalen overstiger din saldo, når %1 transaktionsgebyr er inkluderet.</translation>
+        <translation>Der angegebene Betrag übersteigt aufgrund der Transaktionsgebühr in Höhe von %1 Ihren Kontostand.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation>Duplikeret adresse fundet. Du kan kun sende til hver adresse en gang pr. afsendelse.</translation>
+        <translation>Doppelte Adresse gefunden, pro Überweisung kann an jede Adresse nur einmalig etwas überwiesen werden.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error: Transaction creation failed!</source>
-        <translation>Fejl: Oprettelse af transaktionen mislykkedes!</translation>
+        <translation>Fehler: Transaktionserstellung fehlgeschlagen!</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error: The transaction was rejected. This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Fejl: Transaktionen blev afvist. Dette kan ske, hvis nogle af dine bitcoins i din tegnebog allerede er brugt, som hvis du brugte en kopi af wallet.dat og dine bitcoins er blevet brugt i kopien, men ikke er markeret som brugt her.</translation>
+        <translation>Fehler: Die Transaktion wurde abgelehnt. Dies kann passieren, wenn einige Bitcoins aus Ihrer Brieftasche bereits ausgegeben wurden. Beispielsweise weil Sie eine Kopie Ihrer wallet.dat genutzt, die Bitcoins dort ausgegeben haben und dies daher in der derzeit aktiven Brieftasche nicht vermerkt ist.</translation>
     </message>
 </context>
 <context>
@@ -1399,33 +1398,33 @@ Adresse: %4
     <message>
         <location line="+15"/>
         <source>A&amp;mount:</source>
-        <translation>Beløb:</translation>
+        <translation>&amp;Betrag:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Pay &amp;To:</source>
-        <translation>Betal til:</translation>
+        <translation>&amp;Empfänger:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>The address to send the payment to (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
-        <translation>MaxCoin-adressen som betalingen skal sendes til (f.eks. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+        <translation>Die Zahlungsadresse der Überweisung (z.B. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
     </message>
     <message>
         <location line="+60"/>
         <location filename="../sendcoinsentry.cpp" line="+26"/>
         <source>Enter a label for this address to add it to your address book</source>
-        <translation>Indtast en mærkat for denne adresse for at føje den til din adressebog</translation>
+        <translation>Adressbezeichnung eingeben (diese wird zusammen mit der Adresse dem Adressbuch hinzugefügt)</translation>
     </message>
     <message>
         <location line="-78"/>
         <source>&amp;Label:</source>
-        <translation>Mærkat:</translation>
+        <translation>&amp;Bezeichnung:</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Choose address from address book</source>
-        <translation>Vælg adresse fra adressebog</translation>
+        <translation>Adresse aus Adressbuch wählen</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1435,7 +1434,7 @@ Adresse: %4
     <message>
         <location line="+7"/>
         <source>Paste address from clipboard</source>
-        <translation>Indsæt adresse fra udklipsholderen</translation>
+        <translation>Adresse aus der Zwischenablage einfügen</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1445,12 +1444,12 @@ Adresse: %4
     <message>
         <location line="+7"/>
         <source>Remove this recipient</source>
-        <translation>Fjern denne modtager</translation>
+        <translation>Diesen Empfänger entfernen</translation>
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
         <source>Enter a MaxCoin address (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
-        <translation>Indtast en MaxCoin-adresse (f.eks. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+        <translation>MaxCoin-Adresse eingeben (z.B. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
     </message>
 </context>
 <context>
@@ -1458,28 +1457,28 @@ Adresse: %4
     <message>
         <location filename="../forms/signverifymessagedialog.ui" line="+14"/>
         <source>Signatures - Sign / Verify a Message</source>
-        <translation>Underskrifter - Underskriv/efterprøv en besked</translation>
+        <translation>Signaturen - eine Nachricht signieren / verifizieren</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&amp;Sign Message</source>
-        <translation>Underskriv besked</translation>
+        <translation>Nachricht &amp;signieren</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>Du kan underskrive beskeder med dine MaxCoin-adresser for at bevise, at de tilhører dig. Pas på ikke at underskrive noget vagt, da phisingangreb kan narre dig til at overdrage din identitet. Underskriv kun fuldt detaljerede udsagn, du er enig i.</translation>
+        <translation>Sie können Nachrichten mit Ihren Adressen signieren, um den Besitz dieser Adressen zu beweisen. Bitte nutzen Sie diese Funktion mit Vorsicht und nehmen Sie sich vor Phishingangriffen in Acht. Signieren Sie nur Nachrichten, mit denen Sie vollständig einverstanden sind.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>The address to sign the message with (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
-        <translation>MaxCoin-adressen som beskeden skal underskrives med (f.eks. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+        <translation>Die Adresse mit der die Nachricht signiert wird (z.B. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+213"/>
         <source>Choose an address from the address book</source>
-        <translation>Vælg adresse fra adressebog</translation>
+        <translation>Eine Adresse aus dem Adressbuch wählen</translation>
     </message>
     <message>
         <location line="-203"/>
@@ -1490,7 +1489,7 @@ Adresse: %4
     <message>
         <location line="-203"/>
         <source>Paste address from clipboard</source>
-        <translation>Indsæt adresse fra udklipsholderen</translation>
+        <translation>Adresse aus der Zwischenablage einfügen</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1500,90 +1499,90 @@ Adresse: %4
     <message>
         <location line="+12"/>
         <source>Enter the message you want to sign here</source>
-        <translation>Indtast beskeden, du ønsker at underskrive</translation>
+        <translation>Zu signierende Nachricht hier eingeben</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Signature</source>
-        <translation>Underskrift</translation>
+        <translation>Signatur</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Copy the current signature to the system clipboard</source>
-        <translation>Kopier den nuværende underskrift til systemets udklipsholder</translation>
+        <translation>Aktuelle Signatur in die Zwischenablage kopieren</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Sign the message to prove you own this MaxCoin address</source>
-        <translation>Underskriv denne besked for at bevise, at MaxCoin-adressen tilhører dig</translation>
+        <translation>Die Nachricht signieren, um den Besitz dieser MaxCoin-Adresse zu beweisen</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sign &amp;Message</source>
-        <translation>Underskriv besked</translation>
+        <translation>&amp;Nachricht signieren</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Reset all sign message fields</source>
-        <translation>Nulstil alle underskriv besked-indtastningsfelter</translation>
+        <translation>Alle &quot;Nachricht signieren&quot;-Felder zurücksetzen</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+146"/>
         <source>Clear &amp;All</source>
-        <translation>Ryd alle</translation>
+        <translation>&amp;Zurücksetzen</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>&amp;Verify Message</source>
-        <translation>Efterprøv besked</translation>
+        <translation>Nachricht &amp;verifizieren</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
-        <translation>Indtast den underskrevne adresse, beskeden (inkluder linjeskift, mellemrum mv. nøjagtigt, som de fremgår) og underskriften for at efterprøve beskeden. Vær forsigtig med ikke at lægge mere i underskriften end besked selv, så du undgår at blive narret af et man-in-the-middle-angreb.</translation>
+        <translation>Geben Sie die signierende Adresse, Nachricht (achten Sie darauf Zeilenumbrüche, Leerzeichen, Tabulatoren usw. exakt zu kopieren) und Signatur unten ein, um die Nachricht zu verifizieren. Vorsicht, interpretieren Sie nicht mehr in die Signatur, als in der signierten Nachricht selber enthalten ist, um nicht von einerm Man-in-the-middle-Angriff hinters Licht geführt zu werden.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>The address the message was signed with (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
-        <translation>MaxCoin-adressen som beskeden er underskrevet med (f.eks. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+        <translation>Die Adresse mit der die Nachricht signiert wurde (z.B. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Verify the message to ensure it was signed with the specified MaxCoin address</source>
-        <translation>Efterprøv beskeden for at sikre, at den er underskrevet med den angivne MaxCoin-adresse</translation>
+        <translation>Die Nachricht verifizieren, um sicherzustellen, dass diese mit der angegebenen MaxCoin-Adresse signiert wurde</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Verify &amp;Message</source>
-        <translation>Efterprøv besked</translation>
+        <translation>&amp;Nachricht verifizieren</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Reset all verify message fields</source>
-        <translation>Nulstil alle efterprøv besked-indtastningsfelter</translation>
+        <translation>Alle &quot;Nachricht verifizieren&quot;-Felder zurücksetzen</translation>
     </message>
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
         <source>Enter a MaxCoin address (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
-        <translation>Indtast en MaxCoin-adresse (f.eks. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+        <translation>MaxCoin-Adresse eingeben (z.B. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
-        <translation>Klik &quot;Underskriv besked&quot; for at generere underskriften</translation>
+        <translation>Auf &quot;Nachricht signieren&quot; klicken, um die Signatur zu erzeugen</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Enter MaxCoin signature</source>
-        <translation>Indtast MaxCoin-underskriften</translation>
+        <translation>MaxCoin-Signatur eingeben</translation>
     </message>
     <message>
         <location line="+82"/>
         <location line="+81"/>
         <source>The entered address is invalid.</source>
-        <translation>Den indtastede adresse er ugyldig.</translation>
+        <translation>Die eingegebene Adresse ist ungültig.</translation>
     </message>
     <message>
         <location line="-81"/>
@@ -1591,59 +1590,59 @@ Adresse: %4
         <location line="+73"/>
         <location line="+8"/>
         <source>Please check the address and try again.</source>
-        <translation>Tjek venligst adressen, og forsøg igen.</translation>
+        <translation>Bitte überprüfen Sie die Adresse und versuchen Sie es erneut.</translation>
     </message>
     <message>
         <location line="-81"/>
         <location line="+81"/>
         <source>The entered address does not refer to a key.</source>
-        <translation>Den indtastede adresse henviser ikke til en nøgle.</translation>
+        <translation>Die eingegebene Adresse verweist nicht auf einen Schlüssel.</translation>
     </message>
     <message>
         <location line="-73"/>
         <source>Wallet unlock was cancelled.</source>
-        <translation>Tegnebogsoplåsning annulleret.</translation>
+        <translation>Entsperrung der Brieftasche wurde abgebrochen.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Private key for the entered address is not available.</source>
-        <translation>Den private nøgle for den indtastede adresse er ikke tilgængelig.</translation>
+        <translation>Privater Schlüssel zur eingegebenen Adresse ist nicht verfügbar.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Message signing failed.</source>
-        <translation>Underskrivning af besked mislykkedes.</translation>
+        <translation>Signierung der Nachricht fehlgeschlagen.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Message signed.</source>
-        <translation>Besked underskrevet.</translation>
+        <translation>Nachricht signiert.</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>The signature could not be decoded.</source>
-        <translation>Underskriften kunne ikke afkodes.</translation>
+        <translation>Die Signatur konnte nicht dekodiert werden.</translation>
     </message>
     <message>
         <location line="+0"/>
         <location line="+13"/>
         <source>Please check the signature and try again.</source>
-        <translation>Tjek venligst underskriften, og forsøg igen.</translation>
+        <translation>Bitte überprüfen Sie die Signatur und versuchen Sie es erneut.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>The signature did not match the message digest.</source>
-        <translation>Underskriften matcher ikke beskedens indhold.</translation>
+        <translation>Die Signatur entspricht nicht dem Message Digest.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Message verification failed.</source>
-        <translation>Efterprøvelse af besked mislykkedes.</translation>
+        <translation>Verifikation der Nachricht fehlgeschlagen.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Message verified.</source>
-        <translation>Besked efterprøvet.</translation>
+        <translation>Nachricht verifiziert.</translation>
     </message>
 </context>
 <context>
@@ -1651,12 +1650,12 @@ Adresse: %4
     <message>
         <location filename="../splashscreen.cpp" line="+22"/>
         <source>The MaxCoin developers</source>
-        <translation>MaxCoin-udviklerne</translation>
+        <translation>Die Bitcoinentwickler</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>[testnet]</source>
-        <translation>[testnet]</translation>
+        <translation>[Testnetz]</translation>
     </message>
 </context>
 <context>
@@ -1664,7 +1663,7 @@ Adresse: %4
     <message>
         <location filename="../transactiondesc.cpp" line="+20"/>
         <source>Open until %1</source>
-        <translation>Åben indtil %1</translation>
+        <translation>Offen bis %1</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1674,12 +1673,12 @@ Adresse: %4
     <message>
         <location line="+2"/>
         <source>%1/unconfirmed</source>
-        <translation>%1/ubekræftet</translation>
+        <translation>%1/unbestätigt</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 confirmations</source>
-        <translation>%1 bekræftelser</translation>
+        <translation>%1 Bestätigungen</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -1689,46 +1688,46 @@ Adresse: %4
     <message numerus="yes">
         <location line="+7"/>
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, transmitteret igennem %n knude(r)</numerusform><numerusform>, transmitteret igennem %n knude(r)</numerusform></translation>
+        <translation><numerusform>, über %n Knoten übertragen</numerusform><numerusform>, über %n Knoten übertragen</numerusform></translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Date</source>
-        <translation>Dato</translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Source</source>
-        <translation>Kilde</translation>
+        <translation>Quelle</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Generated</source>
-        <translation>Genereret</translation>
+        <translation>Generiert</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+17"/>
         <source>From</source>
-        <translation>Fra</translation>
+        <translation>Von</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+22"/>
         <location line="+58"/>
         <source>To</source>
-        <translation>Til</translation>
+        <translation>An</translation>
     </message>
     <message>
         <location line="-77"/>
         <location line="+2"/>
         <source>own address</source>
-        <translation>egen adresse</translation>
+        <translation>eigene Adresse</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>label</source>
-        <translation>mærkat</translation>
+        <translation>Bezeichnung</translation>
     </message>
     <message>
         <location line="+37"/>
@@ -1737,17 +1736,17 @@ Adresse: %4
         <location line="+17"/>
         <location line="+30"/>
         <source>Credit</source>
-        <translation>Kredit</translation>
+        <translation>Gutschrift</translation>
     </message>
     <message numerus="yes">
         <location line="-102"/>
         <source>matures in %n more block(s)</source>
-        <translation><numerusform>modner efter yderligere %n blok(ke)</numerusform><numerusform>modner efter yderligere %n blok(ke)</numerusform></translation>
+        <translation><numerusform>reift noch %n weiteren Block</numerusform><numerusform>reift noch %n weitere Blöcke</numerusform></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>not accepted</source>
-        <translation>ikke accepteret</translation>
+        <translation>nicht angenommen</translation>
     </message>
     <message>
         <location line="+44"/>
@@ -1755,22 +1754,22 @@ Adresse: %4
         <location line="+15"/>
         <location line="+30"/>
         <source>Debit</source>
-        <translation>Debet</translation>
+        <translation>Belastung</translation>
     </message>
     <message>
         <location line="-39"/>
         <source>Transaction fee</source>
-        <translation>Transaktionsgebyr</translation>
+        <translation>Transaktionsgebühr</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Net amount</source>
-        <translation>Nettobeløb</translation>
+        <translation>Nettobetrag</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Message</source>
-        <translation>Besked</translation>
+        <translation>Nachricht signieren</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1780,17 +1779,17 @@ Adresse: %4
     <message>
         <location line="+2"/>
         <source>Transaction ID</source>
-        <translation>Transaktionens ID</translation>
+        <translation>Transaktions-ID</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Genererede bitcoins skal vente 120 blokke, før de kan blive brugt. Da du genererede denne blok, blev den transmitteret til netværket for at blive føjet til blokkæden. Hvis det mislykkes at komme ind i kæden, vil den skifte til &quot;ikke godkendt&quot; og ikke blive kunne bruges. Dette kan lejlighedsvis ske, hvis en anden knude genererer en blok inden for få sekunder af din.</translation>
+        <translation>Generierte Bitcoins müssen 120 Blöcke lang reifen, bevor sie ausgegeben werden können. Als Sie diesen Block generierten, wurde er an das Netzwerk übertragen, um ihn der Blockkette hinzuzufügen. Falls dies fehlschlägt wird der Status in &quot;nicht angenommen&quot; geändert und der Betrag wird nicht verfügbar werden. Das kann gelegentlich passieren, wenn ein anderer Knoten einen Block fast zeitgleich generiert.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Debug information</source>
-        <translation>Fejlsøgningsinformation</translation>
+        <translation>Debuginformationen</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1800,37 +1799,37 @@ Adresse: %4
     <message>
         <location line="+3"/>
         <source>Inputs</source>
-        <translation>Input</translation>
+        <translation>Eingaben</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Amount</source>
-        <translation>Beløb</translation>
+        <translation>Betrag</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>true</source>
-        <translation>sand</translation>
+        <translation>wahr</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>false</source>
-        <translation>falsk</translation>
+        <translation>falsch</translation>
     </message>
     <message>
         <location line="-209"/>
         <source>, has not been successfully broadcast yet</source>
-        <translation>, er ikke blevet transmitteret endnu</translation>
+        <translation>, wurde noch nicht erfolgreich übertragen</translation>
     </message>
     <message numerus="yes">
         <location line="-35"/>
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Åben %n blok yderligere</numerusform><numerusform>Åben %n blokke yderligere</numerusform></translation>
+        <translation><numerusform>Offen für %n weiteren Block</numerusform><numerusform>Offen für %n weitere Blöcke</numerusform></translation>
     </message>
     <message>
         <location line="+70"/>
         <source>unknown</source>
-        <translation>ukendt</translation>
+        <translation>unbekannt</translation>
     </message>
 </context>
 <context>
@@ -1838,12 +1837,12 @@ Adresse: %4
     <message>
         <location filename="../forms/transactiondescdialog.ui" line="+14"/>
         <source>Transaction details</source>
-        <translation>Transaktionsdetaljer</translation>
+        <translation>Transaktionsdetails</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>This pane shows a detailed description of the transaction</source>
-        <translation>Denne rude viser en detaljeret beskrivelse af transaktionen</translation>
+        <translation>Dieser Bereich zeigt eine detaillierte Beschreibung der Transaktion an</translation>
     </message>
 </context>
 <context>
@@ -1851,12 +1850,12 @@ Adresse: %4
     <message>
         <location filename="../transactiontablemodel.cpp" line="+225"/>
         <source>Date</source>
-        <translation>Dato</translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1866,102 +1865,102 @@ Adresse: %4
     <message>
         <location line="+0"/>
         <source>Amount</source>
-        <translation>Beløb</translation>
+        <translation>Betrag</translation>
     </message>
     <message numerus="yes">
         <location line="+57"/>
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Åben %n blok(ke) yderligere</numerusform><numerusform>Åben %n blok(ke) yderligere</numerusform></translation>
+        <translation><numerusform>Offen für %n weiteren Block</numerusform><numerusform>Offen für %n weitere Blöcke</numerusform></translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Open until %1</source>
-        <translation>Åben indtil %1</translation>
+        <translation>Offen bis %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Offline (%1 confirmations)</source>
-        <translation>Offline (%1 bekræftelser)</translation>
+        <translation>Offline (%1 Bestätigungen)</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Unconfirmed (%1 of %2 confirmations)</source>
-        <translation>Ubekræftet (%1 af %2 bekræftelser)</translation>
+        <translation>Unbestätigt (%1 von %2 Bestätigungen)</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Confirmed (%1 confirmations)</source>
-        <translation>Bekræftet (%1 bekræftelser)</translation>
+        <translation>Bestätigt (%1 Bestätigungen)</translation>
     </message>
     <message numerus="yes">
         <location line="+8"/>
         <source>Mined balance will be available when it matures in %n more block(s)</source>
-        <translation><numerusform>Udvunden saldo, som vil være tilgængelig, når den modner efter yderligere %n blok(ke)</numerusform><numerusform>Udvunden saldo, som vil være tilgængelig, når den modner efter yderligere %n blok(ke)</numerusform></translation>
+        <translation><numerusform>Erarbeiteter Betrag wird verfügbar sein, nachdem er noch %n weiteren Block reift</numerusform><numerusform>Erarbeiteter Betrag wird verfügbar sein, nachdem er noch %n weitere Blöcke reift</numerusform></translation>
     </message>
     <message>
         <location line="+5"/>
         <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation>Denne blok blev ikke modtaget af nogen andre knuder og vil formentlig ikke blive accepteret!</translation>
+        <translation>Dieser Block wurde von keinem anderen Knoten empfangen und wird wahrscheinlich nicht angenommen werden!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Generated but not accepted</source>
-        <translation>Genereret, men ikke accepteret</translation>
+        <translation>Generiert, jedoch nicht angenommen</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Received with</source>
-        <translation>Modtaget med</translation>
+        <translation>Empfangen über</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Received from</source>
-        <translation>Modtaget fra</translation>
+        <translation>Empfangen von</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sent to</source>
-        <translation>Sendt til</translation>
+        <translation>Überwiesen an</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Payment to yourself</source>
-        <translation>Betaling til dig selv</translation>
+        <translation>Eigenüberweisung</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mined</source>
-        <translation>Udvundne</translation>
+        <translation>Erarbeitet</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>(n/a)</source>
-        <translation>(n/a)</translation>
+        <translation>(k.A.)</translation>
     </message>
     <message>
         <location line="+199"/>
         <source>Transaction status. Hover over this field to show number of confirmations.</source>
-        <translation>Transaktionsstatus. Hold musen over dette felt for at vise antallet af bekræftelser.</translation>
+        <translation>Transaktionsstatus. Fahren Sie mit der Maus über dieses Feld, um die Anzahl der Bestätigungen zu sehen.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Date and time that the transaction was received.</source>
-        <translation>Dato og klokkeslæt for modtagelse af transaktionen.</translation>
+        <translation>Datum und Uhrzeit als die Transaktion empfangen wurde.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Type of transaction.</source>
-        <translation>Transaktionstype.</translation>
+        <translation>Art der Transaktion</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Destination address of transaction.</source>
-        <translation>Destinationsadresse for transaktion.</translation>
+        <translation>Zieladresse der Transaktion</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Amount removed from or added to balance.</source>
-        <translation>Beløb fjernet eller tilføjet balance.</translation>
+        <translation>Der Betrag, der dem Kontostand abgezogen oder hinzugefügt wurde.</translation>
     </message>
 </context>
 <context>
@@ -1975,127 +1974,127 @@ Adresse: %4
     <message>
         <location line="-15"/>
         <source>Today</source>
-        <translation>I dag</translation>
+        <translation>Heute</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This week</source>
-        <translation>Denne uge</translation>
+        <translation>Diese Woche</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This month</source>
-        <translation>Denne måned</translation>
+        <translation>Diesen Monat</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Last month</source>
-        <translation>Sidste måned</translation>
+        <translation>Letzten Monat</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This year</source>
-        <translation>Dette år</translation>
+        <translation>Dieses Jahr</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Range...</source>
-        <translation>Interval...</translation>
+        <translation>Zeitraum...</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Received with</source>
-        <translation>Modtaget med</translation>
+        <translation>Empfangen über</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sent to</source>
-        <translation>Sendt til</translation>
+        <translation>Überwiesen an</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>To yourself</source>
-        <translation>Til dig selv</translation>
+        <translation>Eigenüberweisung</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Mined</source>
-        <translation>Udvundne</translation>
+        <translation>Erarbeitet</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Other</source>
-        <translation>Andet</translation>
+        <translation>Andere</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Enter address or label to search</source>
-        <translation>Indtast adresse eller mærkat for at søge</translation>
+        <translation>Zu suchende Adresse oder Bezeichnung eingeben</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Min amount</source>
-        <translation>Minimumsbeløb</translation>
+        <translation>Minimaler Betrag</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Copy address</source>
-        <translation>Kopier adresse</translation>
+        <translation>Adresse kopieren</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy label</source>
-        <translation>Kopier mærkat</translation>
+        <translation>Bezeichnung kopieren</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy amount</source>
-        <translation>Kopier beløb</translation>
+        <translation>Betrag kopieren</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy transaction ID</source>
-        <translation>Kopier transaktionens ID</translation>
+        <translation>Transaktions-ID kopieren</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Edit label</source>
-        <translation>Rediger mærkat</translation>
+        <translation>Bezeichnung bearbeiten</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show transaction details</source>
-        <translation>Vis transaktionsdetaljer</translation>
+        <translation>Transaktionsdetails anzeigen</translation>
     </message>
     <message>
         <location line="+139"/>
         <source>Export Transaction Data</source>
-        <translation>Eksporter transaktionsdata</translation>
+        <translation>Transaktionen exportieren</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Comma separated file (*.csv)</source>
-        <translation>Kommasepareret fil (*.csv)</translation>
+        <translation>Kommagetrennte-Datei (*.csv)</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Confirmed</source>
-        <translation>Bekræftet</translation>
+        <translation>Bestätigt</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Date</source>
-        <translation>Dato</translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Label</source>
-        <translation>Mærkat</translation>
+        <translation>Bezeichnung</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2105,7 +2104,7 @@ Adresse: %4
     <message>
         <location line="+1"/>
         <source>Amount</source>
-        <translation>Beløb</translation>
+        <translation>Betrag</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2115,22 +2114,22 @@ Adresse: %4
     <message>
         <location line="+4"/>
         <source>Error exporting</source>
-        <translation>Fejl under eksport</translation>
+        <translation>Fehler beim Exportieren</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Could not write to file %1.</source>
-        <translation>Kunne ikke skrive til filen %1.</translation>
+        <translation>Konnte nicht in Datei %1 schreiben.</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>Range:</source>
-        <translation>Interval:</translation>
+        <translation>Zeitraum:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>to</source>
-        <translation>til</translation>
+        <translation>bis</translation>
     </message>
 </context>
 <context>
@@ -2138,7 +2137,7 @@ Adresse: %4
     <message>
         <location filename="../walletmodel.cpp" line="+193"/>
         <source>Send Coins</source>
-        <translation>Send bitcoins</translation>
+        <translation>Bitcoins überweisen</translation>
     </message>
 </context>
 <context>
@@ -2146,42 +2145,42 @@ Adresse: %4
     <message>
         <location filename="../walletview.cpp" line="+42"/>
         <source>&amp;Export</source>
-        <translation>Eksporter</translation>
+        <translation>E&amp;xportieren</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Export the data in the current tab to a file</source>
-        <translation>Eksportér den aktuelle visning til en fil</translation>
+        <translation>Daten der aktuellen Ansicht in eine Datei exportieren</translation>
     </message>
     <message>
         <location line="+193"/>
         <source>Backup Wallet</source>
-        <translation>Sikkerhedskopier tegnebog</translation>
+        <translation>Brieftasche sichern</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Wallet Data (*.dat)</source>
-        <translation>Tegnebogsdata (*.dat)</translation>
+        <translation>Brieftaschendaten (*.dat)</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Backup Failed</source>
-        <translation>Foretagelse af sikkerhedskopi fejlede</translation>
+        <translation>Sicherung fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>There was an error trying to save the wallet data to the new location.</source>
-        <translation>Der opstod en fejl i forbindelse med at gemme tegnebogsdata til det nye sted</translation>
+        <translation>Beim Speichern der Brieftaschendaten an die neue Position ist ein Fehler aufgetreten.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Backup Successful</source>
-        <translation>Sikkerhedskopieret problemfri</translation>
+        <translation>Sicherung erfolgreich</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>The wallet data was successfully saved to the new location.</source>
-        <translation>Tegnebogsdata blev problemfrit gemt til det nye sted.</translation>
+        <translation>Speichern der Brieftaschendaten an die neue Position war erfolgreich.</translation>
     </message>
 </context>
 <context>
@@ -2189,112 +2188,112 @@ Adresse: %4
     <message>
         <location filename="../bitcoinstrings.cpp" line="+94"/>
         <source>MaxCoin version</source>
-        <translation>MaxCoin-version</translation>
+        <translation>MaxCoin-Version</translation>
     </message>
     <message>
         <location line="+102"/>
         <source>Usage:</source>
-        <translation>Anvendelse:</translation>
+        <translation>Benutzung:</translation>
     </message>
     <message>
         <location line="-29"/>
         <source>Send command to -server or bitcoind</source>
-        <translation>Send kommando til -server eller bitcoind</translation>
+        <translation>Befehl an -server oder bitcoind senden</translation>
     </message>
     <message>
         <location line="-23"/>
         <source>List commands</source>
-        <translation>Liste over kommandoer</translation>
+        <translation>Befehle auflisten</translation>
     </message>
     <message>
         <location line="-12"/>
         <source>Get help for a command</source>
-        <translation>Få hjælp til en kommando</translation>
+        <translation>Hilfe zu einem Befehl erhalten</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Options:</source>
-        <translation>Indstillinger:</translation>
+        <translation>Optionen:</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Angiv konfigurationsfil (standard: bitcoin.conf)</translation>
+        <translation>Konfigurationsdatei festlegen (Standard: bitcoin.conf)</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Angiv pid-fil (default: bitcoind.pid)</translation>
+        <translation>PID-Datei festlegen (Standard: bitcoind.pid)</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Specify data directory</source>
-        <translation>Angiv datakatalog</translation>
+        <translation>Datenverzeichnis festlegen</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Set database cache size in megabytes (default: 25)</source>
-        <translation>Angiv databasecachestørrelse i megabytes (standard: 25)</translation>
+        <translation>Größe des Datenbankcaches in MB festlegen (Standard: 25)</translation>
     </message>
     <message>
         <location line="-28"/>
         <source>Listen for connections on &lt;port&gt; (default: 8669 or testnet: 18669)</source>
-        <translation>Lyt til forbindelser på &lt;port&gt; (standard: 8669 eller testnetværk: 18669)</translation>
+        <translation>&lt;port&gt; nach Verbindungen abhören (Standard: 8669 oder Testnetz: 18669)</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Maintain at most &lt;n&gt; connections to peers (default: 125)</source>
-        <translation>Oprethold højest &lt;n&gt; forbindelser til andre i netværket (standard: 125)</translation>
+        <translation>Maximal &lt;n&gt; Verbindungen zu Gegenstellen aufrechterhalten (Standard: 125)</translation>
     </message>
     <message>
         <location line="-48"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
-        <translation>Forbind til en knude for at modtage adresse, og afbryd</translation>
+        <translation>Mit dem Knoten verbinden um Adressen von Gegenstellen abzufragen, danach trennen</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>Specify your own public address</source>
-        <translation>Angiv din egen offentlige adresse</translation>
+        <translation>Die eigene öffentliche Adresse angeben</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Threshold for disconnecting misbehaving peers (default: 100)</source>
-        <translation>Grænse for afbrydelse til dårlige forbindelser (standard: 100)</translation>
+        <translation>Schwellenwert, um Verbindungen zu sich nicht konform verhaltenden Gegenstellen zu beenden (Standard: 100)</translation>
     </message>
     <message>
         <location line="-134"/>
         <source>Number of seconds to keep misbehaving peers from reconnecting (default: 86400)</source>
-        <translation>Antal sekunder dårlige forbindelser skal vente før reetablering (standard: 86400)</translation>
+        <translation>Anzahl Sekunden, während denen sich nicht konform verhaltenden Gegenstellen die Wiederverbindung verweigert wird (Standard: 86400)</translation>
     </message>
     <message>
         <location line="-29"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv4: %s</source>
-        <translation>Der opstod en fejl ved angivelse af RPC-porten %u til at lytte på IPv4: %s</translation>
+        <translation>Beim Einrichten des abzuhörenden RPC-Ports %u für IPv4 ist ein Fehler aufgetreten: %s</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8669 or testnet: 18669)</source>
-        <translation>Lyt til JSON-RPC-forbindelser på &lt;port&gt; (standard: 8669 eller testnetværk: 18669)</translation>
+        <translation>&lt;port&gt; nach JSON-RPC-Verbindungen abhören (Standard: 8669 oder Testnetz: 18669)</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Accept command line and JSON-RPC commands</source>
-        <translation>Accepter kommandolinje- og JSON-RPC-kommandoer</translation>
+        <translation>Kommandozeilenbefehle und JSON-RPC-Befehle annehmen</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Run in the background as a daemon and accept commands</source>
-        <translation>Kør i baggrunden som en service, og accepter kommandoer</translation>
+        <translation>Als Hintergrunddienst starten und Befehle annehmen</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Use the test network</source>
-        <translation>Brug testnetværket</translation>
+        <translation>Das Testnetz verwenden</translation>
     </message>
     <message>
         <location line="-112"/>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
-        <translation>Accepter forbindelser udefra (standard: 1 hvis hverken -proxy eller -connect)</translation>
+        <translation>Eingehende Verbindungen annehmen (Standard: 1, wenn nicht -proxy oder -connect)</translation>
     </message>
     <message>
         <location line="-80"/>
@@ -2309,631 +2308,631 @@ If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
 for example: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.com
 </source>
-        <translation>%s, du skal angive en RPC-adgangskode i konfigurationsfilen:
+        <translation>%s, Sie müssen den Wert rpcpasswort in dieser Konfigurationsdatei angeben:
 %s
-Det anbefales, at du bruger nedenstående, tilfældige adgangskode:
+Es wird empfohlen das folgende Zufallspasswort zu verwenden:
 rpcuser=bitcoinrpc
 rpcpassword=%s
-(du behøver ikke huske denne adgangskode)
-Brugernavnet og adgangskode MÅ IKKE være det samme.
-Hvis filen ikke eksisterer, opret den og giv ingen andre end ejeren læserettighed.
-Det anbefales også at angive alertnotify, så du påmindes om problemer;
-f.eks.: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.com
+(Sie müssen sich dieses Passwort nicht merken!)
+Der Benutzername und das Passwort dürfen NICHT identisch sein.
+Falls die Konfigurationsdatei nicht existiert, erzeugen Sie diese bitte mit Leserechten nur für den Dateibesitzer.
+Es wird ebenfalls empfohlen alertnotify anzugeben, um im Problemfall benachrichtig zu werden;
+zum Beispiel: alertnotify=echo %%s | mail -s \&quot;MaxCoin Alert\&quot; admin@foo.com
 </translation>
     </message>
     <message>
         <location line="+17"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv6, falling back to IPv4: %s</source>
-        <translation>Der opstod en fejl ved angivelse af RPC-porten %u til at lytte på IPv6, falder tilbage til IPv4: %s</translation>
+        <translation>Beim Einrichten des abzuhörenden RPC-Ports %u für IPv6 ist ein Fehler aufgetreten, es wird auf IPv4 zurückgegriffen: %s</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
-        <translation>Tildel til den givne adresse og lyt altid på den. Brug [vært]:port-notation for IPv6</translation>
+        <translation>An die angegebene Adresse binden und immer abhören. Für IPv6 [Host]:Port-Schreibweise verwenden</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Cannot obtain a lock on data directory %s. MaxCoin is probably already running.</source>
-        <translation>Kan ikke opnå lås på datakatalog %s. MaxCoin er sandsynligvis allerede startet.</translation>
+        <translation>Datenverzeichnis %s kann nicht gesperrt werden. Evtl. wurde MaxCoin bereits gestartet.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Fejl: Transaktionen blev afvist. Dette kan ske, hvis nogle af dine bitcoins i din tegnebog allerede er brugt, som hvis du brugte en kopi af wallet.dat og dine bitcoins er blevet brugt i kopien, men ikke er markeret som brugt her.</translation>
+        <translation>Fehler: Die Transaktion wurde abgelehnt! Dies kann passieren, wenn einige Bitcoins aus Ihrer Brieftasche bereits ausgegeben wurden. Beispielsweise weil Sie eine Kopie Ihrer wallet.dat genutzt, die Bitcoins dort ausgegeben haben und dies daher in der derzeit aktiven Brieftasche nicht vermerkt ist.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
-        <translation>Fejl: Denne transaktion kræver et transaktionsgebyr på minimum %s pga. dens størrelse, kompleksitet eller anvendelse af nyligt modtagne bitcoins!</translation>
+        <translation>Fehler: Diese Transaktion benötigt aufgrund ihres Betrags, ihrer Komplexität oder der Nutzung kürzlich erhaltener Zahlungen eine Transaktionsgebühr in Höhe von mindestens %s!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Execute command when a relevant alert is received (%s in cmd is replaced by message)</source>
-        <translation>Udfør kommando, når en relevant advarsel modtages (%s i kommandoen erstattes med beskeden)</translation>
+        <translation>Kommando ausführen wenn ein relevanter Alarm empfangen wird (%s im Kommando wird durch die Nachricht ersetzt)</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation>Udfør kommando, når en transaktion i tegnebogen ændres (%s i kommandoen erstattes med TxID)</translation>
+        <translation>Kommando ausführen wenn sich eine Transaktion der Briefrasche verändert (%s im Kommando wird durch die TxID ersetzt)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 27000)</source>
-        <translation>Angiv maksimumstørrelse for høj prioritet/lavt gebyr-transaktioner i bytes (standard: 27000)</translation>
+        <translation>Maximale Größe von &quot;high-priority/low-fee&quot;-Transaktionen in Byte festlegen (Standard: 27000)</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
-        <translation>Dette er en foreløbig testudgivelse - brug på eget ansvar - brug ikke til udvinding eller handelsprogrammer</translation>
+        <translation>Dies ist eine Vorab-Testversion - Verwendung auf eigene Gefahr - nicht für Mining- oder Handelsanwendungen nutzen!</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
-        <translation>Advarsel: -paytxfee er sat meget højt! Dette er det gebyr du vil betale, hvis du sender en transaktion.</translation>
+        <translation>Warnung: -paytxfee ist auf einen sehr hohen Wert festgelegt! Dies ist die Gebühr die beim Senden einer Transaktion fällig wird.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning: Displayed transactions may not be correct! You may need to upgrade, or other nodes may need to upgrade.</source>
-        <translation>Advarsel: Viste transaktioner kan være ukorrekte! Du eller andre knuder kan have behov for at opgradere.</translation>
+        <translation>Warnung: Angezeigte Transaktionen sind evtl. nicht korrekt! Sie oder die anderen Knoten müssen unter Umständen (den Client) aktualisieren.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong MaxCoin will not work properly.</source>
-        <translation>Advarsel: Undersøg venligst, at din computers dato og klokkeslæt er korrekt indstillet! Hvis der er fejl i disse, vil MaxCoin ikke fungere korrekt.</translation>
+        <translation>Warnung: Bitte korrigieren Sie die Datums- und Uhrzeiteinstellungen Ihres Computers, da MaxCoin ansonsten nicht ordnungsgemäß funktionieren wird!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
-        <translation>Advarsel: fejl under læsning af wallet.dat! Alle nøgler blev læst korrekt, men transaktionsdata eller adressebogsposter kan mangle eller være forkerte.</translation>
+        <translation>Warnung: Lesen von wallet.dat fehlgeschlagen! Alle Schlüssel wurden korrekt gelesen, Transaktionsdaten bzw. Adressbucheinträge fehlen aber möglicherweise oder sind inkorrekt.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning: wallet.dat corrupt, data salvaged! Original wallet.dat saved as wallet.{timestamp}.bak in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
-        <translation>Advarsel: wallet.dat ødelagt, data reddet! Oprindelig wallet.net gemt som wallet.{timestamp}.bak i %s; hvis din saldo eller dine transaktioner er forkert, bør du genskabe fra en sikkerhedskopi.</translation>
+        <translation>Warnung: wallet.dat beschädigt, Rettung erfolgreich! Original wallet.dat wurde als wallet.{Zeitstempel}.dat in %s gespeichert. Falls Ihr Kontostand oder Transaktionen nicht korrekt sind, sollten Sie von einer Datensicherung wiederherstellen.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Attempt to recover private keys from a corrupt wallet.dat</source>
-        <translation>Forsøg at genskabe private nøgler fra ødelagt wallet.dat</translation>
+        <translation>Versucht private Schlüssel aus einer beschädigten wallet.dat wiederherzustellen</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Block creation options:</source>
-        <translation>Blokoprettelsestilvalg:</translation>
+        <translation>Blockerzeugungsoptionen:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Connect only to the specified node(s)</source>
-        <translation>Tilslut kun til de(n) angivne knude(r)</translation>
+        <translation>Nur mit dem/den angegebenen Knoten verbinden</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Corrupted block database detected</source>
-        <translation>Ødelagt blokdatabase opdaget</translation>
+        <translation>Beschädigte Blockdatenbank erkannt</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Discover own IP address (default: 1 when listening and no -externalip)</source>
-        <translation>Find egen IP-adresse (standard: 1 når lytter og ingen -externalip)</translation>
+        <translation>Eigene IP-Adresse erkennen (Standard: 1, wenn abgehört wird und nicht -externalip)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Do you want to rebuild the block database now?</source>
-        <translation>Ønsker du at genbygge blokdatabasen nu?</translation>
+        <translation>Möchten Sie die Blockdatenbank nun neu aufbauen?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Error initializing block database</source>
-        <translation>Klargøring af blokdatabase mislykkedes</translation>
+        <translation>Fehler beim Initialisieren der Blockdatenbank</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Error initializing wallet database environment %s!</source>
-        <translation>Klargøring af tegnebogsdatabasemiljøet %s mislykkedes!</translation>
+        <translation>Fehler beim Initialisieren der Brieftaschen-Datenbankumgebung %s!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Error loading block database</source>
-        <translation>Indlæsning af blokdatabase mislykkedes</translation>
+        <translation>Fehler beim Laden der Blockdatenbank</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Error opening block database</source>
-        <translation>Åbning af blokdatabase mislykkedes</translation>
+        <translation>Fehler beim Öffnen der Blockdatenbank</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Error: Disk space is low!</source>
-        <translation>Fejl: Mangel på ledig diskplads!</translation>
+        <translation>Fehler: Zu wenig freier Laufwerksspeicherplatz!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Error: Wallet locked, unable to create transaction!</source>
-        <translation>Fejl: Tegnebog låst, kan ikke oprette transaktion!</translation>
+        <translation>Fehler: Brieftasche gesperrt, Transaktion kann nicht erstellt werden!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Error: system error: </source>
-        <translation>Fejl: systemfejl: </translation>
+        <translation>Fehler: Systemfehler: </translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
-        <translation>Lytning på enhver port mislykkedes. Brug -listen=0, hvis du ønsker dette.</translation>
+        <translation>Fehler, es konnte kein Port abgehört werden. Wenn dies so gewünscht wird -listen=0 verwenden.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to read block info</source>
-        <translation>Læsning af blokinformation mislykkedes</translation>
+        <translation>Lesen der Blockinformationen fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to read block</source>
-        <translation>Læsning af blok mislykkedes</translation>
+        <translation>Lesen des Blocks fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to sync block index</source>
-        <translation>Synkronisering af blokindeks mislykkedes</translation>
+        <translation>Synchronisation des Blockindex fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write block index</source>
-        <translation>Skrivning af blokindeks mislykkedes</translation>
+        <translation>Schreiben des Blockindex fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write block info</source>
-        <translation>Skrivning af blokinformation mislykkedes</translation>
+        <translation>Schreiben der Blockinformationen fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write block</source>
-        <translation>Skrivning af blok mislykkedes</translation>
+        <translation>Schreiben des Blocks fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write file info</source>
-        <translation>Skriving af filinformation mislykkedes</translation>
+        <translation>Schreiben der Dateiinformationen fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write to coin database</source>
-        <translation>Skrivning af bitcoin-database mislykkedes</translation>
+        <translation>Schreiben in die Münzendatenbank fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write transaction index</source>
-        <translation>Skrivning af transaktionsindeks mislykkedes</translation>
+        <translation>Schreiben des Transaktionsindex fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write undo data</source>
-        <translation>Skrivning af genskabelsesdata mislykkedes</translation>
+        <translation>Schreiben der Rücksetzdaten fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Find peers using DNS lookup (default: 1 unless -connect)</source>
-        <translation>Find ligeværdige ved DNS-opslag (standard: 1 hvis ikke -connect)</translation>
+        <translation>Gegenstellen via DNS-Namensauflösung finden (Standard: 1, außer bei -connect)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Generate coins (default: 0)</source>
-        <translation>Generer bitcoins (standard: 0)</translation>
+        <translation>Bitcoins generieren (Standard: 0)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>How many blocks to check at startup (default: 288, 0 = all)</source>
-        <translation>Antal blokke som tjekkes ved opstart (0=alle, standard: 288)</translation>
+        <translation>Wieviele Blöcke sollen beim Starten geprüft werden (Standard: 288, 0 = alle)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>How thorough the block verification is (0-4, default: 3)</source>
-        <translation>Grundighed af efterprøvning af blokke (0-4, standard: 3)</translation>
+        <translation>Wie gründlich soll die Blockprüfung sein (0-4, Standard: 3)</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Not enough file descriptors available.</source>
-        <translation>For få tilgængelige fildeskriptorer.</translation>
+        <translation>Nicht genügend File-Deskriptoren verfügbar.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Rebuild block chain index from current blk000??.dat files</source>
-        <translation>Genbyg blokkædeindeks fra nuværende blk000??.dat filer</translation>
+        <translation>Blockkettenindex aus aktuellen Dateien blk000??.dat wiederaufbauen</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Set the number of threads to service RPC calls (default: 4)</source>
-        <translation>Angiv antallet af tråde til at håndtere RPC-kald (standard: 4)</translation>
+        <translation>Maximale Anzahl an Threads zur Verarbeitung von RPC-Anfragen festlegen (Standard: 4)</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Verifying blocks...</source>
-        <translation>Efterprøver blokke...</translation>
+        <translation>Verifiziere Blöcke...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verifying wallet...</source>
-        <translation>Efterprøver tegnebog...</translation>
+        <translation>Verifiziere Brieftasche...</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Imports blocks from external blk000??.dat file</source>
-        <translation>Importerer blokke fra ekstern blk000??.dat fil</translation>
+        <translation>Blöcke aus externer Datei blk000??.dat importieren</translation>
     </message>
     <message>
         <location line="-76"/>
         <source>Set the number of script verification threads (up to 16, 0 = auto, &lt;0 = leave that many cores free, default: 0)</source>
-        <translation>Angiv nummeret af skriptefterprøvningstråde (op til 16, 0 = automatisk, &lt;0 = efterlad det antal kerner tilgængelige, standard: 0)</translation>
+        <translation>Maximale Anzahl an Skript-Verifizierungs-Threads festlegen (bis zu 16, 0 = automatisch, &lt;0 = soviele Kerne frei lassen, Standard: 0)</translation>
     </message>
     <message>
         <location line="+77"/>
         <source>Information</source>
-        <translation>Information</translation>
+        <translation>Hinweis</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Invalid -tor address: &apos;%s&apos;</source>
-        <translation>Ugyldig -tor adresse: &apos;%s&apos;</translation>
+        <translation>Ungültige Adresse in -tor: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Ugyldigt beløb til -minrelaytxfee=&lt;beløb&gt;:&apos;%s&apos;</translation>
+        <translation>Ungültiger Betrag für -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invalid amount for -mintxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Ugyldigt beløb til -mintxfee=&lt;beløb&gt;:&apos;%s&apos;</translation>
+        <translation>Ungültiger Betrag für -mintxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Maintain a full transaction index (default: 0)</source>
-        <translation>Vedligehold et komplet transaktionsindeks (standard: 0)</translation>
+        <translation>Einen vollständigen Transaktionsindex pflegen (Standard: 0)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: 5000)</source>
-        <translation>Maksimum for modtagelsesbuffer pr. forbindelse, &lt;n&gt;*1000 bytes (standard: 5000)</translation>
+        <translation>Maximale Größe, &lt;n&gt; * 1000 Byte, des Empfangspuffers pro Verbindung (Standard: 5000)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Maximum per-connection send buffer, &lt;n&gt;*1000 bytes (default: 1000)</source>
-        <translation>Maksimum for afsendelsesbuffer pr. forbindelse, &lt;n&gt;*1000 bytes (standard: 1000)</translation>
+        <translation>Maximale Größe, &lt;n&gt; * 1000 Byte, des Sendepuffers pro Verbindung (Standard: 1000)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Only accept block chain matching built-in checkpoints (default: 1)</source>
-        <translation>Accepter kun blokkæde, som matcher indbyggede kontrolposter (standard: 1)</translation>
+        <translation>Blockkette nur akzeptieren, wenn sie mit den integrierten Prüfpunkten übereinstimmt (Standard: 1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Only connect to nodes in network &lt;net&gt; (IPv4, IPv6 or Tor)</source>
-        <translation>Tilslut kun til knuder i netværk &lt;net&gt; (IPv4, IPv6 eller Tor)</translation>
+        <translation>Verbinde nur zu Knoten des Netztyps &lt;net&gt; (IPv4, IPv6 oder Tor)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Output extra debugging information. Implies all other -debug* options</source>
-        <translation>Skriv ekstra fejlsøgningsinformation. Indebærer alle andre -debug* tilvalg</translation>
+        <translation>Ausgabe zusätzlicher Debugginginformationen. Beinhaltet alle anderen &quot;-debug*&quot;-Parameter</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Output extra network debugging information</source>
-        <translation>Skriv ekstra netværksfejlsøgningsinformation</translation>
+        <translation>Ausgabe zusätzlicher Netzwerk-Debugginginformationen</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Prepend debug output with timestamp</source>
-        <translation>Tilføj fejlsøgningsoutput med tidsstempel</translation>
+        <translation>Der Debugausgabe einen Zeitstempel voranstellen</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>SSL options: (see the MaxCoin Wiki for SSL setup instructions)</source>
-        <translation>SSL-indstillinger: (se MaxCoin Wiki for SSL-opsætningsinstruktioner)</translation>
+        <translation>SSL-Optionen: (siehe MaxCoin-Wiki für SSL-Installationsanweisungen)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Select the version of socks proxy to use (4-5, default: 5)</source>
-        <translation>Angiv version af SOCKS-proxyen (4-5, standard: 5)</translation>
+        <translation>SOCKS-Version des Proxies festlegen (4-5, Standard: 5)</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Send trace/debug info to console instead of debug.log file</source>
-        <translation>Send sporings-/fejlsøgningsinformation til konsollen i stedet for debug.log filen</translation>
+        <translation>Rückverfolgungs- und Debuginformationen an die Konsole senden anstatt sie in die Datei debug.log zu schreiben</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Send trace/debug info to debugger</source>
-        <translation>Send sporings-/fejlsøgningsinformation til fejlsøgningprogrammet</translation>
+        <translation>Rückverfolgungs- und Debuginformationen an den Debugger senden</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Set maximum block size in bytes (default: 250000)</source>
-        <translation>Angiv maksimumblokstørrelse i bytes (standard: 250000)</translation>
+        <translation>Maximale Blockgröße in Byte festlegen (Standard: 250000)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Set minimum block size in bytes (default: 0)</source>
-        <translation>Angiv minimumsblokstørrelse i bytes (standard: 0)</translation>
+        <translation>Minimale Blockgröße in Byte festlegen (Standard: 0)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
-        <translation>Formindsk debug.log filen ved klientopstart (standard: 1 hvis ikke -debug)</translation>
+        <translation>Verkleinere Datei debug.log beim Start des Clients (Standard: 1, wenn kein -debug)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Signing transaction failed</source>
-        <translation>Underskrift af transaktion mislykkedes</translation>
+        <translation>Signierung der Transaktion fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Specify connection timeout in milliseconds (default: 5000)</source>
-        <translation>Angiv tilslutningstimeout i millisekunder (standard: 5000)</translation>
+        <translation>Verbindungstimeout in Millisekunden festlegen (Standard: 5000)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>System error: </source>
-        <translation>Systemfejl: </translation>
+        <translation>Systemfehler: </translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Transaction amount too small</source>
-        <translation>Transaktionsbeløb er for lavt</translation>
+        <translation>Transaktionsbetrag zu gering</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transaction amounts must be positive</source>
-        <translation>Transaktionsbeløb skal være positive</translation>
+        <translation>Transaktionsbeträge müssen positiv sein</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transaction too large</source>
-        <translation>Transaktionen er for stor</translation>
+        <translation>Transaktion zu groß</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Use UPnP to map the listening port (default: 0)</source>
-        <translation>Forsøg at bruge UPnP til at konfigurere den lyttende port (standard: 0)</translation>
+        <translation>UPnP verwenden, um die Portweiterleitung einzurichten (Standard: 0)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Use UPnP to map the listening port (default: 1 when listening)</source>
-        <translation>Forsøg at bruge UPnP til at konfigurere den lyttende port (standard: 1 når lytter)</translation>
+        <translation>UPnP verwenden, um die Portweiterleitung einzurichten (Standard: 1, wenn abgehört wird)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Use proxy to reach tor hidden services (default: same as -proxy)</source>
-        <translation>Brug proxy til at tilgå Tor Hidden Services (standard: som -proxy)</translation>
+        <translation>Proxy verwenden, um versteckte Tor-Dienste zu erreichen (Standard: identisch mit -proxy)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Username for JSON-RPC connections</source>
-        <translation>Brugernavn til JSON-RPC-forbindelser</translation>
+        <translation>Benutzername für JSON-RPC-Verbindungen</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Warning</source>
-        <translation>Advarsel</translation>
+        <translation>Warnung</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Warning: This version is obsolete, upgrade required!</source>
-        <translation>Advarsel: Denne version er forældet, opgradering påkrævet!</translation>
+        <translation>Warnung: Diese Version is veraltet, Aktualisierung erforderlich!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You need to rebuild the databases using -reindex to change -txindex</source>
-        <translation>Du skal genbygge databaserne med -reindex for at ændre -txindex</translation>
+        <translation>Sie müssen die Datenbank mit Hilfe von -reindex neu aufbauen, um -txindex zu verändern.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>wallet.dat corrupt, salvage failed</source>
-        <translation>wallet.dat ødelagt, redning af data mislykkedes</translation>
+        <translation>wallet.dat beschädigt, Rettung fehlgeschlagen</translation>
     </message>
     <message>
         <location line="-50"/>
         <source>Password for JSON-RPC connections</source>
-        <translation>Adgangskode til JSON-RPC-forbindelser</translation>
+        <translation>Passwort für JSON-RPC-Verbindungen</translation>
     </message>
     <message>
         <location line="-67"/>
         <source>Allow JSON-RPC connections from specified IP address</source>
-        <translation>Tillad JSON-RPC-forbindelser fra bestemt IP-adresse</translation>
+        <translation>JSON-RPC-Verbindungen von der angegebenen IP-Adresse erlauben</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Send commands to node running on &lt;ip&gt; (default: 127.0.0.1)</source>
-        <translation>Send kommandoer til knude, der kører på &lt;ip&gt; (standard: 127.0.0.1)</translation>
+        <translation>Sende Befehle an Knoten &lt;ip&gt; (Standard: 127.0.0.1)</translation>
     </message>
     <message>
         <location line="-120"/>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
-        <translation>Udfør kommando, når den bedste blok ændres (%s i kommandoen erstattes med blokhash)</translation>
+        <translation>Kommando ausführen wenn der beste Block wechselt (%s im Kommando wird durch den Hash des Blocks ersetzt)</translation>
     </message>
     <message>
         <location line="+147"/>
         <source>Upgrade wallet to latest format</source>
-        <translation>Opgrader tegnebog til seneste format</translation>
+        <translation>Brieftasche auf das neueste Format aktualisieren</translation>
     </message>
     <message>
         <location line="-21"/>
         <source>Set key pool size to &lt;n&gt; (default: 100)</source>
-        <translation>Angiv nøglepoolstørrelse til &lt;n&gt; (standard: 100)</translation>
+        <translation>Größe des Schlüsselpools festlegen auf &lt;n&gt; (Standard: 100)</translation>
     </message>
     <message>
         <location line="-12"/>
         <source>Rescan the block chain for missing wallet transactions</source>
-        <translation>Gennemsøg blokkæden for manglende tegnebogstransaktioner</translation>
+        <translation>Blockkette erneut nach fehlenden Transaktionen der Brieftasche durchsuchen</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Use OpenSSL (https) for JSON-RPC connections</source>
-        <translation>Brug OpenSSL (https) for JSON-RPC-forbindelser</translation>
+        <translation>OpenSSL (https) für JSON-RPC-Verbindungen verwenden</translation>
     </message>
     <message>
         <location line="-26"/>
         <source>Server certificate file (default: server.cert)</source>
-        <translation>Servercertifikat-fil (standard: server.cert)</translation>
+        <translation>Serverzertifikat (Standard: server.cert)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Server private key (default: server.pem)</source>
-        <translation>Serverens private nøgle (standard: server.pem)</translation>
+        <translation>Privater Serverschlüssel (Standard: server.pem)</translation>
     </message>
     <message>
         <location line="-151"/>
         <source>Acceptable ciphers (default: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</source>
-        <translation>Acceptable ciphers (standard: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</translation>
+        <translation>Akzeptierte Chiffren (Standard: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</translation>
     </message>
     <message>
         <location line="+165"/>
         <source>This help message</source>
-        <translation>Denne hjælpebesked</translation>
+        <translation>Dieser Hilfetext</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Unable to bind to %s on this computer (bind returned error %d, %s)</source>
-        <translation>Kunne ikke tildele %s på denne computer (bind returnerede fejl %d, %s)</translation>
+        <translation>Kann auf diesem Computer nicht an %s binden (von bind zurückgegebener Fehler %d, %s)</translation>
     </message>
     <message>
         <location line="-91"/>
         <source>Connect through socks proxy</source>
-        <translation>Tilslut via SOCKS-proxy</translation>
+        <translation>Verbindung über SOCKS-Proxy herstellen</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
-        <translation>Tillad DNS-opslag for -addnode, -seednode og -connect</translation>
+        <translation>Erlaube DNS-Namensauflösung für -addnode, -seednode und -connect</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Loading addresses...</source>
-        <translation>Indlæser adresser...</translation>
+        <translation>Lade Adressen...</translation>
     </message>
     <message>
         <location line="-35"/>
         <source>Error loading wallet.dat: Wallet corrupted</source>
-        <translation>Fejl ved indlæsning af wallet.dat: Tegnebog ødelagt</translation>
+        <translation>Fehler beim Laden von wallet.dat: Brieftasche beschädigt</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Error loading wallet.dat: Wallet requires newer version of MaxCoin</source>
-        <translation>Fejl ved indlæsning af wallet.dat: Tegnebog kræver en nyere version af MaxCoin</translation>
+        <translation>Fehler beim Laden von wallet.dat: Brieftasche benötigt neuere Version von MaxCoin</translation>
     </message>
     <message>
         <location line="+93"/>
         <source>Wallet needed to be rewritten: restart MaxCoin to complete</source>
-        <translation>Det var nødvendigt at genskrive tegnebogen: genstart MaxCoin for at gennemføre</translation>
+        <translation>Brieftasche musste neu geschrieben werden: Starten Sie MaxCoin zur Fertigstellung neu</translation>
     </message>
     <message>
         <location line="-95"/>
         <source>Error loading wallet.dat</source>
-        <translation>Fejl ved indlæsning af wallet.dat</translation>
+        <translation>Fehler beim Laden von wallet.dat (Brieftasche)</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Invalid -proxy address: &apos;%s&apos;</source>
-        <translation>Ugyldig -proxy adresse: &apos;%s&apos;</translation>
+        <translation>Ungültige Adresse in -proxy: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
-        <translation>Ukendt netværk anført i -onlynet: &apos;%s&apos;</translation>
+        <translation>Unbekannter Netztyp in -onlynet angegeben: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Unknown -socks proxy version requested: %i</source>
-        <translation>Ukendt -socks proxy-version: %i</translation>
+        <translation>Unbekannte Proxyversion in -socks angefordert: %i</translation>
     </message>
     <message>
         <location line="-96"/>
         <source>Cannot resolve -bind address: &apos;%s&apos;</source>
-        <translation>Kan ikke finde -bind adressen: &apos;%s&apos;</translation>
+        <translation>Kann Adresse in -bind nicht auflösen: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
-        <translation>Kan ikke finde -externalip adressen: &apos;%s&apos;</translation>
+        <translation>Kann Adresse in -externalip nicht auflösen: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Ugyldigt beløb for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
+        <translation>Ungültiger Betrag für -paytxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invalid amount</source>
-        <translation>Ugyldigt beløb</translation>
+        <translation>Ungültiger Betrag</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Insufficient funds</source>
-        <translation>Manglende dækning</translation>
+        <translation>Unzureichender Kontostand</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Loading block index...</source>
-        <translation>Indlæser blokindeks...</translation>
+        <translation>Lade Blockindex...</translation>
     </message>
     <message>
         <location line="-57"/>
         <source>Add a node to connect to and attempt to keep the connection open</source>
-        <translation>Tilføj en knude til at forbinde til og forsøg at holde forbindelsen åben</translation>
+        <translation>Mit dem Knoten verbinden und versuchen die Verbindung aufrecht zu halten</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Unable to bind to %s on this computer. MaxCoin is probably already running.</source>
-        <translation>Kunne ikke tildele %s på denne computer. MaxCoin kører sikkert allerede.</translation>
+        <translation>Kann auf diesem Computer nicht an %s binden. Evtl. wurde MaxCoin bereits gestartet.</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Fee per KB to add to transactions you send</source>
-        <translation>Gebyr pr. kB, som skal tilføjes til transaktioner, du sender</translation>
+        <translation>Gebühr pro KB, die gesendeten Transaktionen hinzugefügt wird</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Loading wallet...</source>
-        <translation>Indlæser tegnebog...</translation>
+        <translation>Lade Brieftasche...</translation>
     </message>
     <message>
         <location line="-52"/>
         <source>Cannot downgrade wallet</source>
-        <translation>Kan ikke nedgradere tegnebog</translation>
+        <translation>Brieftasche kann nicht auf eine ältere Version herabgestuft werden</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Cannot write default address</source>
-        <translation>Kan ikke skrive standardadresse</translation>
+        <translation>Standardadresse kann nicht geschrieben werden</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Rescanning...</source>
-        <translation>Genindlæser...</translation>
+        <translation>Durchsuche erneut...</translation>
     </message>
     <message>
         <location line="-57"/>
         <source>Done loading</source>
-        <translation>Indlæsning gennemført</translation>
+        <translation>Laden abgeschlossen</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>To use the %s option</source>
-        <translation>For at bruge %s mulighed</translation>
+        <translation>Zur Nutzung der %s Option</translation>
     </message>
     <message>
         <location line="-74"/>
         <source>Error</source>
-        <translation>Fejl</translation>
+        <translation>Fehler</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>You must set rpcpassword=&lt;password&gt; in the configuration file:
 %s
 If the file does not exist, create it with owner-readable-only file permissions.</source>
-        <translation>Du skal angive rpcpassword=&lt;password&gt; i konfigurationsfilen:
+        <translation>Sie müssen den Wert rpcpassword=&lt;passwort&gt; in der Konfigurationsdatei angeben:
 %s
-Hvis filen ikke eksisterer, opret den og giv ingen andre end ejeren læserettighed.</translation>
+Falls die Konfigurationsdatei nicht existiert, erzeugen Sie diese bitte mit Leserechten nur für den Dateibesitzer.</translation>
     </message>
 </context>
 </TS>
