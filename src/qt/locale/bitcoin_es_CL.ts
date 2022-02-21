@@ -1,17 +1,17 @@
 
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es_CL" version="2.0">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
         <source>About MaxCoin</source>
-        <translation>Acerca de MaxCoin</translation>
+        <translation>Sobre MaxCoin</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>&lt;b&gt;MaxCoin&lt;/b&gt; version</source>
-        <translation>Versión de &lt;b&gt;MaxCoin&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;MaxCoin&lt;/b&gt; - versión </translation>
     </message>
     <message>
         <location line="+57"/>
@@ -28,18 +28,18 @@ Distribuido bajo la licencia MIT/X11, vea el archivo adjunto
 COPYING o http://www.opensource.org/licenses/mit-license.php.
 
 Este producto incluye software desarrollado por OpenSSL Project para su uso en
-el OpenSSL Toolkit (http://www.openssl.org/) y software criptográfico escrito por
-Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</translation>
+el OpenSSL Toolkit (http://www.openssl.org/), software criptográfico escrito por
+Eric Young (eay@cryptsoft.com) y UPnP software escrito por Thomas Bernard.</translation>
     </message>
     <message>
         <location filename="../aboutdialog.cpp" line="+14"/>
         <source>Copyright</source>
-        <translation>Copyright</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>The MaxCoin developers</source>
-        <translation>Los programadores MaxCoin</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -47,92 +47,92 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location filename="../forms/addressbookpage.ui" line="+14"/>
         <source>Address Book</source>
-        <translation>Libreta de direcciones</translation>
+        <translation>Guia de direcciones</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Double-click to edit address or label</source>
-        <translation>Haga doble clic para editar una dirección o etiqueta</translation>
+        <translation>Haz doble clic para editar una dirección o etiqueta</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Create a new address</source>
-        <translation>Crear una nueva dirección</translation>
+        <translation>Crea una nueva dirección</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>Copiar la dirección seleccionada al portapapeles del sistema</translation>
+        <translation>Copia la dirección seleccionada al portapapeles</translation>
     </message>
     <message>
         <location line="-11"/>
         <source>&amp;New Address</source>
-        <translation>&amp;Añadir dirección</translation>
+        <translation>&amp;Nueva dirección</translation>
     </message>
     <message>
         <location filename="../addressbookpage.cpp" line="+63"/>
         <source>These are your MaxCoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
-        <translation>Estas son sus direcciones MaxCoin para recibir pagos. Puede utilizar una diferente por cada persona emisora para saber quién le está pagando.</translation>
+        <translation>Estas son tus direcciones MaxCoin para recibir pagos. Puedes utilizar una diferente por cada persona emisora para saber quien te está pagando.</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="+14"/>
         <source>&amp;Copy Address</source>
-        <translation>&amp;Copiar dirección</translation>
+        <translation>&amp;Copia dirección</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Show &amp;QR Code</source>
-        <translation>Mostrar código &amp;QR </translation>
+        <translation>Mostrar Código &amp;QR </translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Sign a message to prove you own a MaxCoin address</source>
-        <translation>Firmar un mensaje para demostrar que se posee una dirección MaxCoin</translation>
+        <translation>Firmar un mensaje para provar que usted es dueño de esta dirección</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sign &amp;Message</source>
-        <translation>&amp;Firmar mensaje</translation>
+        <translation>Firmar Mensaje</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Delete the currently selected address from the list</source>
-        <translation>Borrar de la lista la dirección seleccionada</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+27"/>
         <source>Export the data in the current tab to a file</source>
-        <translation>Exportar a un archivo los datos de esta pestaña</translation>
+        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-44"/>
         <source>Verify a message to ensure it was signed with a specified MaxCoin address</source>
-        <translation>Verificar un mensaje para comprobar que fue firmado con la dirección MaxCoin indicada</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Verify Message</source>
-        <translation>&amp;Verificar mensaje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>&amp;Delete</source>
-        <translation>&amp;Eliminar</translation>
+        <translation>&amp;Borrar</translation>
     </message>
     <message>
         <location filename="../addressbookpage.cpp" line="-5"/>
         <source>These are your MaxCoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Estas son sus direcciones MaxCoin para enviar pagos. Compruebe siempre la cantidad y la dirección receptora antes de transferir monedas.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>Copy &amp;Label</source>
-        <translation>Copiar &amp;etiqueta</translation>
+        <translation>Copia &amp;etiqueta</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -142,27 +142,27 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location line="+1"/>
         <source>Send &amp;Coins</source>
-        <translation>Enviar &amp;monedas</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+260"/>
         <source>Export Address Book Data</source>
-        <translation>Exportar datos de la libreta de direcciones</translation>
+        <translation>Exporta datos de la guia de direcciones</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Comma separated file (*.csv)</source>
-        <translation>Archivos de columnas separadas por coma (*.csv)</translation>
+        <translation>Archivos separados por coma (*.csv)</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Error exporting</source>
-        <translation>Error al exportar</translation>
+        <translation>Exportar errores</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Could not write to file %1.</source>
-        <translation>No se pudo escribir en el archivo %1.</translation>
+        <translation>No se pudo escribir al archivo %1.</translation>
     </message>
 </context>
 <context>
@@ -188,12 +188,12 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location filename="../forms/askpassphrasedialog.ui" line="+26"/>
         <source>Passphrase Dialog</source>
-        <translation>Diálogo de contraseña</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
         <source>Enter passphrase</source>
-        <translation>Introducir contraseña</translation>
+        <translation>Introduce contraseña actual      </translation>
     </message>
     <message>
         <location line="+14"/>
@@ -203,84 +203,84 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location line="+14"/>
         <source>Repeat new passphrase</source>
-        <translation>Repita la nueva contraseña</translation>
+        <translation>Repite nueva contraseña:</translation>
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="+33"/>
         <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;10 or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
-        <translation>Introduzca la nueva contraseña del monedero.&lt;br/&gt;Por favor elija una con &lt;b&gt;10 o más caracteres aleatorios&lt;/b&gt; u &lt;b&gt;ocho o más palabras&lt;/b&gt;.</translation>
+        <translation>Introduce la nueva contraseña para la billetera.&lt;br/&gt;Por favor utiliza un contraseña &lt;b&gt;de 10 o mas caracteres aleatorios&lt;/b&gt;, u &lt;b&gt;ocho o mas palabras&lt;/b&gt;.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Encrypt wallet</source>
-        <translation>Cifrar el monedero</translation>
+        <translation>Codificar billetera</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
-        <translation>Esta operación requiere su contraseña para desbloquear el monedero.</translation>
+        <translation>Esta operación necesita la contraseña para desbloquear la billetera.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Unlock wallet</source>
-        <translation>Desbloquear monedero</translation>
+        <translation>Desbloquea billetera</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>Esta operación requiere su contraseña para descifrar el monedero.</translation>
+        <translation>Esta operación necesita la contraseña para decodificar la billetara.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Decrypt wallet</source>
-        <translation>Descifrar el monedero</translation>
+        <translation>Decodificar cartera</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Change passphrase</source>
-        <translation>Cambiar contraseña</translation>
+        <translation>Cambia contraseña</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter the old and new passphrase to the wallet.</source>
-        <translation>Introduzca la contraseña anterior del monedero y la nueva. </translation>
+        <translation>Introduce la contraseña anterior y la nueva de cartera</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Confirm wallet encryption</source>
-        <translation>Confirmar cifrado del monedero</translation>
+        <translation>Confirma la codificación de cartera</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>Atencion: ¡Si cifra su monedero y pierde la contraseña perderá &lt;b&gt;TODOS SUS BITCOINS&lt;/b&gt;!&quot;</translation>
+        <translation>Atención: ¡Si codificas tu billetera y pierdes la contraseña perderás &lt;b&gt;TODOS TUS BITCOINS&lt;/b&gt;!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Are you sure you wish to encrypt your wallet?</source>
-        <translation>¿Seguro que desea cifrar su monedero?</translation>
+        <translation>¿Seguro que quieres seguir codificando la billetera?</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
-        <translation>IMPORTANTE: Cualquier copia de seguridad que haya realizado previamente de su archivo de monedero debe reemplazarse con el nuevo archivo de monedero cifrado. Por razones de seguridad, las copias de seguridad previas del archivo de monedero no cifradas serán inservibles en cuanto comience a usar el nuevo monedero cifrado.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+100"/>
         <location line="+24"/>
         <source>Warning: The Caps Lock key is on!</source>
-        <translation>Aviso: ¡La tecla de bloqueo de mayúsculas está activada!</translation>
+        <translation>Precaucion: Mayúsculas Activadas</translation>
     </message>
     <message>
         <location line="-130"/>
         <location line="+58"/>
         <source>Wallet encrypted</source>
-        <translation>Monedero cifrado</translation>
+        <translation>Billetera codificada</translation>
     </message>
     <message>
         <location line="-56"/>
         <source>MaxCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation>MaxCoin se cerrará para finalizar el proceso de cifrado. Recuerde que el cifrado de su monedero no puede proteger totalmente sus bitcoins de robo por malware que infecte su sistema.</translation>
+        <translation>MaxCoin se cerrará para finalizar el proceso de encriptación. Recuerde que encriptar su billetera no protegera completatamente sus bitcoins de ser robados por malware que infecte su computador</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -288,12 +288,12 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
         <location line="+42"/>
         <location line="+6"/>
         <source>Wallet encryption failed</source>
-        <translation>Ha fallado el cifrado del monedero</translation>
+        <translation>Falló la codificación de la billetera</translation>
     </message>
     <message>
         <location line="-54"/>
         <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
-        <translation>Ha fallado el cifrado del monedero debido a un error interno. El monedero no ha sido cifrado.</translation>
+        <translation>La codificación de la billetera falló debido a un error interno. Tu billetera no ha sido codificada.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -304,24 +304,24 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location line="-37"/>
         <source>Wallet unlock failed</source>
-        <translation>Ha fallado el desbloqueo del monedero</translation>
+        <translation>Ha fallado el desbloqueo de la billetera</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+11"/>
         <location line="+19"/>
         <source>The passphrase entered for the wallet decryption was incorrect.</source>
-        <translation>La contraseña introducida para descifrar el monedero es incorrecta.</translation>
+        <translation>La contraseña introducida para decodificar la billetera es incorrecta.</translation>
     </message>
     <message>
         <location line="-20"/>
         <source>Wallet decryption failed</source>
-        <translation>Ha fallado el descifrado del monedero</translation>
+        <translation>Ha fallado la decodificación de la billetera</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Wallet passphrase was successfully changed.</source>
-        <translation>Se ha cambiado correctamente la contraseña del monedero.</translation>
+        <translation>La contraseña de billetera ha sido cambiada con éxito.</translation>
     </message>
 </context>
 <context>
@@ -329,12 +329,12 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location filename="../bitcoingui.cpp" line="+233"/>
         <source>Sign &amp;message...</source>
-        <translation>Firmar &amp;mensaje...</translation>
+        <translation>Firmar &amp;Mensaje...</translation>
     </message>
     <message>
         <location line="+280"/>
         <source>Synchronizing with network...</source>
-        <translation>Sincronizando con la red…</translation>
+        <translation>Sincronizando con la red...</translation>
     </message>
     <message>
         <location line="-349"/>
@@ -344,27 +344,27 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location line="+1"/>
         <source>Show general overview of wallet</source>
-        <translation>Mostrar vista general del monedero</translation>
+        <translation>Muestra una vista general de la billetera</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>&amp;Transactions</source>
-        <translation>&amp;Transacciones</translation>
+        <translation>&amp;Transacciónes</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Browse transaction history</source>
-        <translation>Examinar el historial de transacciones</translation>
+        <translation>Explora el historial de transacciónes</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Edit the list of stored addresses and labels</source>
-        <translation>Editar la lista de las direcciones y etiquetas almacenadas</translation>
+        <translation>Edita la lista de direcciones y etiquetas almacenadas</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Show the list of addresses for receiving payments</source>
-        <translation>Mostrar la lista de direcciones utilizadas para recibir pagos</translation>
+        <translation>Muestra la lista de direcciónes utilizadas para recibir pagos</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -374,87 +374,87 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location line="+1"/>
         <source>Quit application</source>
-        <translation>Salir de la aplicación</translation>
+        <translation>Salir del programa</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Show information about MaxCoin</source>
-        <translation>Mostrar información acerca de MaxCoin</translation>
+        <translation>Muestra información acerca de MaxCoin</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>About &amp;Qt</source>
-        <translation>Acerca de &amp;Qt</translation>
+        <translation>Acerca de</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show information about Qt</source>
-        <translation>Mostrar información acerca de Qt</translation>
+        <translation>Mostrar Información sobre QT</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&amp;Options...</source>
-        <translation>&amp;Opciones...</translation>
+        <translation>&amp;Opciones</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Cifrar monedero…</translation>
+        <translation>&amp;Codificar la billetera...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Backup Wallet...</source>
-        <translation>Copia de &amp;respaldo del monedero...</translation>
+        <translation>&amp;Respaldar billetera...</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&amp;Change Passphrase...</source>
-        <translation>&amp;Cambiar la contraseña…</translation>
+        <translation>&amp;Cambiar la contraseña...</translation>
     </message>
     <message>
         <location line="+285"/>
         <source>Importing blocks from disk...</source>
-        <translation>Importando bloques de disco...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Reindexing blocks on disk...</source>
-        <translation>Reindexando bloques en disco...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-347"/>
         <source>Send coins to a MaxCoin address</source>
-        <translation>Enviar monedas a una dirección MaxCoin</translation>
+        <translation>Enviar monedas a una dirección bitcoin</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Modify configuration options for MaxCoin</source>
-        <translation>Modificar las opciones de configuración de MaxCoin</translation>
+        <translation>Modifica las opciones de configuración de bitcoin</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Backup wallet to another location</source>
-        <translation>Copia de seguridad del monedero en otra ubicación</translation>
+        <translation>Respaldar billetera en otra ubicación</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the passphrase used for wallet encryption</source>
-        <translation>Cambiar la contraseña utilizada para el cifrado del monedero</translation>
+        <translation>Cambiar la contraseña utilizada para la codificación de la billetera</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>&amp;Debug window</source>
-        <translation>Ventana de &amp;depuración</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Open debugging and diagnostic console</source>
-        <translation>Abrir la consola de depuración y diagnóstico</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-4"/>
         <source>&amp;Verify message...</source>
-        <translation>&amp;Verificar mensaje...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-165"/>
@@ -465,52 +465,52 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location line="-530"/>
         <source>Wallet</source>
-        <translation>Monedero</translation>
+        <translation>Cartera</translation>
     </message>
     <message>
         <location line="+101"/>
         <source>&amp;Send</source>
-        <translation>&amp;Enviar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Receive</source>
-        <translation>&amp;Recibir</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>&amp;Addresses</source>
-        <translation>&amp;Direcciones</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+22"/>
         <source>&amp;About MaxCoin</source>
-        <translation>&amp;Acerca de MaxCoin</translation>
+        <translation>&amp;Sobre MaxCoin</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>&amp;Show / Hide</source>
-        <translation>Mo&amp;strar/ocultar</translation>
+        <translation>&amp;Mostrar/Ocultar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show or hide the main Window</source>
-        <translation>Mostrar u ocultar la ventana principal</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Cifrar las claves privadas de su monedero</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Sign messages with your MaxCoin addresses to prove you own them</source>
-        <translation>Firmar mensajes con sus direcciones MaxCoin para demostrar la propiedad</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify messages to ensure they were signed with specified MaxCoin addresses</source>
-        <translation>Verificar mensajes comprobando que están firmados con direcciones MaxCoin concretas</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+28"/>
@@ -525,7 +525,7 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location line="+6"/>
         <source>&amp;Help</source>
-        <translation>A&amp;yuda</translation>
+        <translation>&amp;Ayuda</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -536,7 +536,7 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
         <location line="+17"/>
         <location line="+10"/>
         <source>[testnet]</source>
-        <translation>[testnet]</translation>
+        <translation>[red-de-pruebas]</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -551,67 +551,67 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location line="+22"/>
         <source>No block source available...</source>
-        <translation>Ninguna fuente de bloques disponible ...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+12"/>
         <source>Processed %1 of %2 (estimated) blocks of transaction history.</source>
-        <translation>Se han procesado %1 de %2 bloques (estimados) del historial de transacciones.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>Processed %1 blocks of transaction history.</source>
-        <translation>Procesados %1 bloques del historial de transacciones.</translation>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
         <location line="+20"/>
         <source>%n hour(s)</source>
-        <translation><numerusform>%n hora</numerusform><numerusform>%n horas</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n day(s)</source>
-        <translation><numerusform>%n día</numerusform><numerusform>%n días</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n week(s)</source>
-        <translation><numerusform>%n semana</numerusform><numerusform>%n semanas</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 behind</source>
-        <translation>%1 atrás</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>Last received block was generated %1 ago.</source>
-        <translation>El último bloque recibido fue generado hace %1.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Transactions after this will not yet be visible.</source>
-        <translation>Las transacciones posteriores a esta aún no están visibles.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+22"/>
         <source>Error</source>
-        <translation>Error</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning</source>
-        <translation>Aviso</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Information</source>
-        <translation>Información</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+70"/>
         <source>This transaction is over the size limit. You can still send it for a fee of %1, which goes to the nodes that process your transaction and helps to support the network. Do you want to pay the fee?</source>
-        <translation>Esta transacción supera el límite de tamaño. Puede enviarla con una comisión de %1, destinada a los nodos que procesen su transacción para contribuir al mantenimiento de la red. ¿Desea pagar esta comisión?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-140"/>
@@ -621,12 +621,12 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location line="+31"/>
         <source>Catching up...</source>
-        <translation>Actualizando...</translation>
+        <translation>Recuperando...</translation>
     </message>
     <message>
         <location line="+113"/>
         <source>Confirm transaction fee</source>
-        <translation>Confirme la tarifa de la transacción</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
@@ -648,35 +648,34 @@ Address: %4
         <translation>Fecha: %1
 Cantidad: %2
 Tipo: %3
-Dirección: %4
-</translation>
+Dirección: %4</translation>
     </message>
     <message>
         <location line="+33"/>
         <location line="+23"/>
         <source>URI handling</source>
-        <translation>Gestión de URI</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-23"/>
         <location line="+23"/>
         <source>URI can not be parsed! This can be caused by an invalid MaxCoin address or malformed URI parameters.</source>
-        <translation>¡No se puede interpretar la URI! Esto puede deberse a una dirección MaxCoin inválida o a parámetros de URI mal formados.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>El monedero está &lt;b&gt;cifrado&lt;/b&gt; y actualmente &lt;b&gt;desbloqueado&lt;/b&gt;</translation>
+        <translation>La billetera esta &lt;b&gt;codificada&lt;/b&gt; y actualmente &lt;b&gt;desbloqueda&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>El monedero está &lt;b&gt;cifrado&lt;/b&gt; y actualmente &lt;b&gt;bloqueado&lt;/b&gt;</translation>
+        <translation>La billetera esta &lt;b&gt;codificada&lt;/b&gt; y actualmente &lt;b&gt;bloqueda&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+111"/>
         <source>A fatal error occurred. MaxCoin can no longer continue safely and will quit.</source>
-        <translation>Ha ocurrido un error crítico. MaxCoin ya no puede continuar con seguridad y se cerrará.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -684,7 +683,7 @@ Dirección: %4
     <message>
         <location filename="../clientmodel.cpp" line="+104"/>
         <source>Network Alert</source>
-        <translation>Alerta de red</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -692,7 +691,7 @@ Dirección: %4
     <message>
         <location filename="../forms/editaddressdialog.ui" line="+14"/>
         <source>Edit Address</source>
-        <translation>Editar Dirección</translation>
+        <translation>Editar dirección</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -702,7 +701,7 @@ Dirección: %4
     <message>
         <location line="+10"/>
         <source>The label associated with this address book entry</source>
-        <translation>La etiqueta asociada con esta entrada en la libreta</translation>
+        <translation>La etiqueta asociada con esta entrada de la libreta de direcciones</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -712,7 +711,7 @@ Dirección: %4
     <message>
         <location line="+10"/>
         <source>The address associated with this address book entry. This can only be modified for sending addresses.</source>
-        <translation>La dirección asociada con esta entrada en la guía. Solo puede ser modificada para direcciones de envío.</translation>
+        <translation>La dirección asociada con esta entrada en la libreta de direcciones. Solo puede ser modificada para direcciónes de envío.</translation>
     </message>
     <message>
         <location filename="../editaddressdialog.cpp" line="+21"/>
@@ -732,27 +731,27 @@ Dirección: %4
     <message>
         <location line="+4"/>
         <source>Edit sending address</source>
-        <translation>Editar dirección de envío</translation>
+        <translation>Editar dirección de envio</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>The entered address &quot;%1&quot; is already in the address book.</source>
-        <translation>La dirección introducida &quot;%1&quot; ya está presente en la libreta de direcciones.</translation>
+        <translation>La dirección introducida &quot;%1&quot; ya esta guardada en la libreta de direcciones.</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>The entered address &quot;%1&quot; is not a valid MaxCoin address.</source>
-        <translation>La dirección introducida &quot;%1&quot; no es una dirección MaxCoin válida.</translation>
+        <translation>La dirección introducida &quot;%1&quot; no es una dirección MaxCoin valida.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Could not unlock wallet.</source>
-        <translation>No se pudo desbloquear el monedero.</translation>
+        <translation>No se pudo desbloquear la billetera.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>New key generation failed.</source>
-        <translation>Ha fallado la generación de la nueva clave.</translation>
+        <translation>La generación de nueva clave falló.</translation>
     </message>
 </context>
 <context>
@@ -761,7 +760,7 @@ Dirección: %4
         <location filename="../guiutil.cpp" line="+424"/>
         <location line="+12"/>
         <source>MaxCoin-Qt</source>
-        <translation>MaxCoin-Qt</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-12"/>
@@ -776,27 +775,28 @@ Dirección: %4
     <message>
         <location line="+1"/>
         <source>command-line options</source>
-        <translation>opciones de la línea de órdenes</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>UI options</source>
-        <translation>Opciones GUI</translation>
+        <translation>UI opciones</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Set language, for example &quot;de_DE&quot; (default: system locale)</source>
-        <translation>Establecer el idioma, por ejemplo, &quot;es_ES&quot; (predeterminado: configuración regional del sistema)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Start minimized</source>
-        <translation>Arrancar minimizado</translation>
+        <translation>Arranca minimizado
+</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show splash screen on startup (default: 1)</source>
-        <translation>Mostrar pantalla de bienvenida en el inicio (predeterminado: 1)</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -814,67 +814,67 @@ Dirección: %4
     <message>
         <location line="+6"/>
         <source>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB.</source>
-        <translation>Tarifa de transacción opcional por kB que ayuda a asegurar que sus transacciones sean procesadas rápidamente. La mayoría de transacciones son de 1kB.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
         <source>Pay transaction &amp;fee</source>
-        <translation>Comisión de &amp;transacciones</translation>
+        <translation>Comisión de &amp;transacciónes</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Automatically start MaxCoin after logging in to the system.</source>
-        <translation>Iniciar MaxCoin automáticamente al encender el sistema.</translation>
+        <translation>Inicia MaxCoin automáticamente despues de encender el computador</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Start MaxCoin on system login</source>
-        <translation>&amp;Iniciar MaxCoin al iniciar el sistema</translation>
+        <translation>&amp;Inicia MaxCoin al iniciar el sistema</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Reset all client options to default.</source>
-        <translation>Restablecer todas las opciones del cliente a las predeterminadas.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Reset Options</source>
-        <translation>&amp;Restablecer opciones</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>&amp;Network</source>
-        <translation>&amp;Red</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Automatically open the MaxCoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Abrir automáticamente el puerto del cliente MaxCoin en el router. Esta opción solo funciona si el router admite UPnP y está activado.</translation>
+        <translation>Abre automáticamente el puerto del cliente MaxCoin en el router. Esto funciona solo cuando tu router es compatible con UPnP y está habilitado.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Map port using &amp;UPnP</source>
-        <translation>Mapear el puerto usando &amp;UPnP</translation>
+        <translation>Direcciona el puerto usando &amp;UPnP</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Connect to the MaxCoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
-        <translation>Conectar a la red MaxCoin a través de un proxy SOCKS (ej. para conectar con la red Tor)</translation>
+        <translation>Conecta a la red MaxCoin a través de un proxy SOCKS (ej. cuando te conectas por la red Tor)</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Connect through SOCKS proxy:</source>
-        <translation>&amp;Conectar a través de un proxy SOCKS:</translation>
+        <translation>&amp;Conecta a traves de un proxy SOCKS:</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Proxy &amp;IP:</source>
-        <translation>Dirección &amp;IP del proxy:</translation>
+        <translation>&amp;IP Proxy:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>IP address of the proxy (e.g. 127.0.0.1)</source>
-        <translation>Dirección IP del proxy (ej. 127.0.0.1)</translation>
+        <translation>Dirección IP del servidor proxy (ej. 127.0.0.1)</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -889,124 +889,124 @@ Dirección: %4
     <message>
         <location line="+7"/>
         <source>SOCKS &amp;Version:</source>
-        <translation>&amp;Versión SOCKS:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>SOCKS version of the proxy (e.g. 5)</source>
-        <translation>Versión del proxy SOCKS (ej. 5)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+36"/>
         <source>&amp;Window</source>
-        <translation>&amp;Ventana</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Show only a tray icon after minimizing the window.</source>
-        <translation>Minimizar la ventana a la bandeja de iconos del sistema.</translation>
+        <translation>Muestra solo un ícono en la bandeja después de minimizar la ventana</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Minimize to the tray instead of the taskbar</source>
-        <translation>&amp;Minimizar a la bandeja en vez de a la barra de tareas</translation>
+        <translation>&amp;Minimiza a la bandeja en vez de la barra de tareas</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Quit in the menu.</source>
-        <translation>Minimizar en lugar de salir de la aplicación al cerrar la ventana.Cuando esta opción está activa, la aplicación solo se puede cerrar seleccionando Salir desde el menú.</translation>
+        <translation>Minimiza la ventana en lugar de salir del programa cuando la ventana se cierra. Cuando esta opción esta activa el programa solo se puede cerrar seleccionando Salir desde el menu.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>M&amp;inimize on close</source>
-        <translation>M&amp;inimizar al cerrar</translation>
+        <translation>M&amp;inimiza a la bandeja al cerrar</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>&amp;Display</source>
-        <translation>&amp;Interfaz</translation>
+        <translation>&amp;Mostrado</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>User Interface &amp;language:</source>
-        <translation>I&amp;dioma de la interfaz de usuario</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>The user interface language can be set here. This setting will take effect after restarting MaxCoin.</source>
-        <translation>El idioma de la interfaz de usuario puede establecerse aquí. Este ajuste se aplicará cuando se reinicie MaxCoin.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
         <source>&amp;Unit to show amounts in:</source>
-        <translation>Mostrar las cantidades en la &amp;unidad:</translation>
+        <translation>&amp;Unidad en la que mostrar cantitades:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Elegir la subdivisión predeterminada para mostrar cantidades en la interfaz y cuando se envían monedas.</translation>
+        <translation>Elige la subdivisión por defecto para mostrar cantidaded en la interfaz cuando se envien monedas</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Whether to show MaxCoin addresses in the transaction list or not.</source>
-        <translation>Mostrar o no las direcciones MaxCoin en la lista de transacciones.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Display addresses in transaction list</source>
-        <translation>&amp;Mostrar las direcciones en la lista de transacciones</translation>
+        <translation>&amp;Muestra direcciones en el listado de transaccioines</translation>
     </message>
     <message>
         <location line="+71"/>
         <source>&amp;OK</source>
-        <translation>&amp;Aceptar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Cancelar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Apply</source>
-        <translation>&amp;Aplicar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="+53"/>
         <source>default</source>
-        <translation>predeterminado</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+130"/>
         <source>Confirm options reset</source>
-        <translation>Confirme el restablecimiento de las opciones</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Some settings may require a client restart to take effect.</source>
-        <translation>Algunas configuraciones pueden requerir un reinicio del cliente para que sean efectivas.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Do you want to proceed?</source>
-        <translation>¿Quiere proceder?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+42"/>
         <location line="+9"/>
         <source>Warning</source>
-        <translation>Aviso</translation>
+        <translation>Atención</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+9"/>
         <source>This setting will take effect after restarting MaxCoin.</source>
-        <translation>Esta configuración tendrá efecto tras reiniciar MaxCoin.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+29"/>
         <source>The supplied proxy address is invalid.</source>
-        <translation>La dirección proxy indicada es inválida.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1014,13 +1014,13 @@ Dirección: %4
     <message>
         <location filename="../forms/overviewpage.ui" line="+14"/>
         <source>Form</source>
-        <translation>Desde</translation>
+        <translation>Formulario</translation>
     </message>
     <message>
         <location line="+50"/>
         <location line="+166"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the MaxCoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>La información mostrada puede estar desactualizada. Su monedero se sincroniza automáticamente con la red MaxCoin después de que se haya establecido una conexión , pero este proceso aún no se ha completado.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-124"/>
@@ -1030,43 +1030,43 @@ Dirección: %4
     <message>
         <location line="+29"/>
         <source>Unconfirmed:</source>
-        <translation>No confirmado(s):</translation>
+        <translation>No confirmados:</translation>
     </message>
     <message>
         <location line="-78"/>
         <source>Wallet</source>
-        <translation>Monedero</translation>
+        <translation>Cartera</translation>
     </message>
     <message>
         <location line="+107"/>
         <source>Immature:</source>
-        <translation>No disponible:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>Mined balance that has not yet matured</source>
-        <translation>Saldo recién minado que aún no está disponible.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+46"/>
         <source>&lt;b&gt;Recent transactions&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Movimientos recientes&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;Transacciones recientes&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="-101"/>
         <source>Your current balance</source>
-        <translation>Su saldo actual</translation>
+        <translation>Tu saldo actual</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the current balance</source>
-        <translation>Total de las transacciones que faltan por confirmar y que no contribuyen al saldo actual</translation>
+        <translation>Total de transacciones que no han sido confirmadas aun, y que no cuentan para el saldo actual.</translation>
     </message>
     <message>
         <location filename="../overviewpage.cpp" line="+116"/>
         <location line="+1"/>
         <source>out of sync</source>
-        <translation>desincronizado</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1074,7 +1074,7 @@ Dirección: %4
     <message>
         <location filename="../paymentserver.cpp" line="+107"/>
         <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>No se pudo iniciar bitcoin: manejador de pago-al-clic</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1082,22 +1082,22 @@ Dirección: %4
     <message>
         <location filename="../forms/qrcodedialog.ui" line="+14"/>
         <source>QR Code Dialog</source>
-        <translation>Diálogo de códigos QR</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+59"/>
         <source>Request Payment</source>
-        <translation>Solicitud de pago</translation>
+        <translation>Solicitar Pago</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Amount:</source>
-        <translation>Cuantía:</translation>
+        <translation>Cantidad:</translation>
     </message>
     <message>
         <location line="-44"/>
         <source>Label:</source>
-        <translation>Etiqueta:</translation>
+        <translation>Etiqueta</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -1107,27 +1107,27 @@ Dirección: %4
     <message>
         <location line="+71"/>
         <source>&amp;Save As...</source>
-        <translation>&amp;Guardar como...</translation>
+        <translation>&amp;Guardar Como...</translation>
     </message>
     <message>
         <location filename="../qrcodedialog.cpp" line="+62"/>
         <source>Error encoding URI into QR Code.</source>
-        <translation>Error al codificar la URI en el código QR.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+40"/>
         <source>The entered amount is invalid, please check.</source>
-        <translation>La cantidad introducida es inválida. Compruébela, por favor.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+23"/>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation>URI esultante demasiado larga. Intente reducir el texto de la etiqueta / mensaje.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+25"/>
         <source>Save QR Code</source>
-        <translation>Guardar código QR</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
@@ -1140,7 +1140,7 @@ Dirección: %4
     <message>
         <location filename="../forms/rpcconsole.ui" line="+46"/>
         <source>Client name</source>
-        <translation>Nombre del cliente</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
@@ -1154,132 +1154,132 @@ Dirección: %4
         <location line="+23"/>
         <location filename="../rpcconsole.cpp" line="+339"/>
         <source>N/A</source>
-        <translation>N/D</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-217"/>
         <source>Client version</source>
-        <translation>Versión del cliente</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-45"/>
         <source>&amp;Information</source>
-        <translation>&amp;Información</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+68"/>
         <source>Using OpenSSL version</source>
-        <translation>Utilizando la versión OpenSSL</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+49"/>
         <source>Startup time</source>
-        <translation>Hora de inicio</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+29"/>
         <source>Network</source>
-        <translation>Red</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Number of connections</source>
-        <translation>Número de conexiones</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+23"/>
         <source>On testnet</source>
-        <translation>En la red de pruebas</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+23"/>
         <source>Block chain</source>
-        <translation>Cadena de bloques</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Current number of blocks</source>
-        <translation>Número actual de bloques</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+23"/>
         <source>Estimated total blocks</source>
-        <translation>Bloques totales estimados</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+23"/>
         <source>Last block time</source>
-        <translation>Hora del último bloque</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+52"/>
         <source>&amp;Open</source>
-        <translation>&amp;Abrir</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
         <source>Command-line options</source>
-        <translation>Opciones de la línea de órdenes</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Show the MaxCoin-Qt help message to get a list with possible MaxCoin command-line options.</source>
-        <translation>Mostrar el mensaje de ayuda de MaxCoin-Qt que enumera las opciones disponibles de línea de órdenes para MaxCoin.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Show</source>
-        <translation>&amp;Mostrar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
         <source>&amp;Console</source>
-        <translation>&amp;Consola</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-260"/>
         <source>Build date</source>
-        <translation>Fecha de compilación</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-104"/>
         <source>MaxCoin - Debug window</source>
-        <translation>MaxCoin - Ventana de depuración</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+25"/>
         <source>MaxCoin Core</source>
-        <translation>Núcleo de MaxCoin</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+279"/>
         <source>Debug log file</source>
-        <translation>Archivo de registro de depuración</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Open the MaxCoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Abrir el archivo de registro de depuración en el directorio actual de datos. Esto puede llevar varios segundos para archivos de registro grandes.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+102"/>
         <source>Clear console</source>
-        <translation>Borrar consola</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="-30"/>
         <source>Welcome to the MaxCoin RPC console.</source>
-        <translation>Bienvenido a la consola RPC de MaxCoin</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
-        <translation>Use las flechas arriba y abajo para navegar por el historial y &lt;b&gt;Control+L&lt;/b&gt; para limpiar la pantalla.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
-        <translation>Escriba &lt;b&gt;help&lt;/b&gt; para ver un resumen de los comandos disponibles.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1299,27 +1299,27 @@ Dirección: %4
     <message>
         <location line="+50"/>
         <source>Send to multiple recipients at once</source>
-        <translation>Enviar a multiples destinatarios de una vez</translation>
+        <translation>Enviar a múltiples destinatarios</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Add &amp;Recipient</source>
-        <translation>Añadir &amp;destinatario</translation>
+        <translation>&amp;Agrega destinatario</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Remove all transaction fields</source>
-        <translation>Eliminar todos los campos de las transacciones</translation>
+        <translation>Remover todos los campos de la transacción</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Clear &amp;All</source>
-        <translation>Limpiar &amp;todo</translation>
+        <translation>&amp;Borra todos</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Balance:</source>
-        <translation>Saldo:</translation>
+        <translation>Balance:</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1329,27 +1329,27 @@ Dirección: %4
     <message>
         <location line="+31"/>
         <source>Confirm the send action</source>
-        <translation>Confirmar el envío</translation>
+        <translation>Confirma el envio</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>S&amp;end</source>
-        <translation>&amp;Enviar</translation>
+        <translation>&amp;Envía</translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-59"/>
         <source>&lt;b&gt;%1&lt;/b&gt; to %2 (%3)</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt; a %2 (%3)</translation>
+        <translation>&lt;b&gt;%1&lt;/b&gt; to %2 (%3)</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Confirm send coins</source>
-        <translation>Confirmar el envío de monedas</translation>
+        <translation>Confirmar el envio de monedas</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to send %1?</source>
-        <translation>¿Está seguro de que desea enviar %1?</translation>
+        <translation>Estas seguro que quieres enviar %1?</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1359,37 +1359,37 @@ Dirección: %4
     <message>
         <location line="+23"/>
         <source>The recipient address is not valid, please recheck.</source>
-        <translation>La dirección de recepción no es válida, compruébela de nuevo.</translation>
+        <translation>La dirección de destinatarion no es valida, comprueba otra vez.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>The amount to pay must be larger than 0.</source>
-        <translation>La cantidad por pagar tiene que ser mayor de 0.</translation>
+        <translation>La cantidad por pagar tiene que ser mayor 0.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>The amount exceeds your balance.</source>
-        <translation>La cantidad sobrepasa su saldo.</translation>
+        <translation>La cantidad sobrepasa tu saldo.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>The total exceeds your balance when the %1 transaction fee is included.</source>
-        <translation>El total sobrepasa su saldo cuando se incluye la tasa de envío de %1</translation>
+        <translation>El total sobrepasa tu saldo cuando se incluyen %1 como tasa de envio.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation>Se ha encontrado una dirección duplicada. Solo se puede enviar a cada dirección una vez por operación de envío.</translation>
+        <translation>Tienes una dirección duplicada, solo puedes enviar a direcciónes individuales de una sola vez.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error: Transaction creation failed!</source>
-        <translation>Error: ¡Ha fallado la creación de la transacción!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Error: The transaction was rejected. This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Error: transacción rechazada. Puede haber ocurrido si alguna de las monedas ya estaba gastada o si ha usado una copia de wallet.dat y las monedas se gastaron en la copia pero no se han marcado así aquí.</translation>
+        <translation>Error: La transacción fue rechazada. Esto puede haber ocurrido si alguna de las monedas ya estaba gastada o si ha usado una copia de wallet.dat y las monedas se gastaron en la copia pero no se han marcado como gastadas aqui.</translation>
     </message>
 </context>
 <context>
@@ -1397,12 +1397,12 @@ Dirección: %4
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="+14"/>
         <source>Form</source>
-        <translation>Envío</translation>
+        <translation>Envio</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>A&amp;mount:</source>
-        <translation>Ca&amp;ntidad:</translation>
+        <translation>Cantidad:</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1412,13 +1412,13 @@ Dirección: %4
     <message>
         <location line="+34"/>
         <source>The address to send the payment to (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
-        <translation>La dirección a la que enviar el pago (p. ej. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+60"/>
         <location filename="../sendcoinsentry.cpp" line="+26"/>
         <source>Enter a label for this address to add it to your address book</source>
-        <translation>Etiquete esta dirección para añadirla a la libreta</translation>
+        <translation>Introduce una etiqueta a esta dirección para añadirla a tu guia</translation>
     </message>
     <message>
         <location line="-78"/>
@@ -1428,7 +1428,7 @@ Dirección: %4
     <message>
         <location line="+28"/>
         <source>Choose address from address book</source>
-        <translation>Elija una dirección de la libreta de direcciones</translation>
+        <translation>Elije dirección de la guia</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1438,7 +1438,7 @@ Dirección: %4
     <message>
         <location line="+7"/>
         <source>Paste address from clipboard</source>
-        <translation>Pegar dirección desde portapapeles</translation>
+        <translation>Pega dirección desde portapapeles</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1448,12 +1448,12 @@ Dirección: %4
     <message>
         <location line="+7"/>
         <source>Remove this recipient</source>
-        <translation>Eliminar destinatario</translation>
+        <translation>Elimina destinatario</translation>
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
         <source>Enter a MaxCoin address (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
-        <translation>Introduzca una dirección MaxCoin (ej. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+        <translation>Introduce una dirección MaxCoin (ej. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
     </message>
 </context>
 <context>
@@ -1461,28 +1461,28 @@ Dirección: %4
     <message>
         <location filename="../forms/signverifymessagedialog.ui" line="+14"/>
         <source>Signatures - Sign / Verify a Message</source>
-        <translation>Firmas - Firmar / verificar un mensaje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>&amp;Sign Message</source>
-        <translation>&amp;Firmar mensaje</translation>
+        <translation>&amp;Firmar Mensaje</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>Puede firmar mensajes con sus direcciones para demostrar que las posee. Tenga cuidado de no firmar cualquier cosa vaga, ya que los ataques de phishing pueden tratar de engañarle para suplantar su identidad. Firme solo declaraciones totalmente detalladas con las que usted esté de acuerdo.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
         <source>The address to sign the message with (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
-        <translation>La dirección con la que firmar el mensaje (ej. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+        <translation>Introduce una dirección MaxCoin (ej. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+213"/>
         <source>Choose an address from the address book</source>
-        <translation>Elija una dirección de la libreta de direcciones</translation>
+        <translation>Elije dirección de la guia</translation>
     </message>
     <message>
         <location line="-203"/>
@@ -1493,7 +1493,7 @@ Dirección: %4
     <message>
         <location line="-203"/>
         <source>Paste address from clipboard</source>
-        <translation>Pegar dirección desde portapapeles</translation>
+        <translation>Pega dirección desde portapapeles</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1503,90 +1503,90 @@ Dirección: %4
     <message>
         <location line="+12"/>
         <source>Enter the message you want to sign here</source>
-        <translation>Introduzca el mensaje que desea firmar aquí</translation>
+        <translation>Escriba el mensaje que desea firmar</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Signature</source>
-        <translation>Firma</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+27"/>
         <source>Copy the current signature to the system clipboard</source>
-        <translation>Copiar la firma actual al portapapeles del sistema</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
         <source>Sign the message to prove you own this MaxCoin address</source>
-        <translation>Firmar el mensaje para demostrar que se posee esta dirección MaxCoin</translation>
+        <translation>Firmar un mensjage para probar que usted es dueño de esta dirección</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sign &amp;Message</source>
-        <translation>Firmar &amp;mensaje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>Reset all sign message fields</source>
-        <translation>Limpiar todos los campos de la firma de mensaje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <location line="+146"/>
         <source>Clear &amp;All</source>
-        <translation>Limpiar &amp;todo</translation>
+        <translation>&amp;Borra todos</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>&amp;Verify Message</source>
-        <translation>&amp;Verificar mensaje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
-        <translation>Introduzca la dirección para la firma, el mensaje (asegurándose de copiar tal cual los saltos de línea, espacios, tabulaciones, etc.) y la firma a continuación para verificar el mensaje. Tenga cuidado de no asumir más información de lo que dice el propio mensaje firmado para evitar fraudes basados en ataques de tipo man-in-the-middle.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
         <source>The address the message was signed with (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
-        <translation>La dirección con la que se firmó el mensaje (ej. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+        <translation>Introduce una dirección MaxCoin (ej. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Verify the message to ensure it was signed with the specified MaxCoin address</source>
-        <translation>Verificar el mensaje para comprobar que fue firmado con la dirección MaxCoin indicada</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Verify &amp;Message</source>
-        <translation>Verificar &amp;mensaje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>Reset all verify message fields</source>
-        <translation>Limpiar todos los campos de la verificación de mensaje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
         <source>Enter a MaxCoin address (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
-        <translation>Introduzca una dirección MaxCoin (ej. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+        <translation>Introduce una dirección MaxCoin (ej. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
-        <translation>Haga clic en &quot;Firmar mensaje&quot; para generar la firma</translation>
+        <translation>Click en &quot;Firmar Mensage&quot; para conseguir firma</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Enter MaxCoin signature</source>
-        <translation>Introduzca una firma MaxCoin</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+82"/>
         <location line="+81"/>
         <source>The entered address is invalid.</source>
-        <translation>La dirección introducida es inválida.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-81"/>
@@ -1594,59 +1594,59 @@ Dirección: %4
         <location line="+73"/>
         <location line="+8"/>
         <source>Please check the address and try again.</source>
-        <translation>Verifique la dirección e inténtelo de nuevo.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-81"/>
         <location line="+81"/>
         <source>The entered address does not refer to a key.</source>
-        <translation>La dirección introducida no corresponde a una clave.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-73"/>
         <source>Wallet unlock was cancelled.</source>
-        <translation>Se ha cancelado el desbloqueo del monedero. </translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Private key for the entered address is not available.</source>
-        <translation>No se dispone de la clave privada para la dirección introducida.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+12"/>
         <source>Message signing failed.</source>
-        <translation>Ha fallado la firma del mensaje.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Message signed.</source>
-        <translation>Mensaje firmado.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+59"/>
         <source>The signature could not be decoded.</source>
-        <translation>No se puede decodificar la firma.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <location line="+13"/>
         <source>Please check the signature and try again.</source>
-        <translation>Compruebe la firma e inténtelo de nuevo.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>The signature did not match the message digest.</source>
-        <translation>La firma no coincide con el resumen del mensaje.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Message verification failed.</source>
-        <translation>La verificación del mensaje ha fallado.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Message verified.</source>
-        <translation>Mensaje verificado.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1654,12 +1654,12 @@ Dirección: %4
     <message>
         <location filename="../splashscreen.cpp" line="+22"/>
         <source>The MaxCoin developers</source>
-        <translation>Los programadores MaxCoin</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>[testnet]</source>
-        <translation>[testnet]</translation>
+        <translation>[red-de-pruebas]</translation>
     </message>
 </context>
 <context>
@@ -1672,7 +1672,7 @@ Dirección: %4
     <message>
         <location line="+6"/>
         <source>%1/offline</source>
-        <translation>%1/fuera de línea</translation>
+        <translation>%1/fuera de linea</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1682,7 +1682,7 @@ Dirección: %4
     <message>
         <location line="+2"/>
         <source>%1 confirmations</source>
-        <translation>%1 confirmaciones</translation>
+        <translation>%1 confirmaciónes</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -1692,7 +1692,7 @@ Dirección: %4
     <message numerus="yes">
         <location line="+7"/>
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, transmitir a través de %n nodo</numerusform><numerusform>, transmitir a través de %n nodos</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1702,7 +1702,7 @@ Dirección: %4
     <message>
         <location line="+7"/>
         <source>Source</source>
-        <translation>Fuente</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
@@ -1720,13 +1720,13 @@ Dirección: %4
         <location line="+22"/>
         <location line="+58"/>
         <source>To</source>
-        <translation>Para</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-77"/>
         <location line="+2"/>
         <source>own address</source>
-        <translation>dirección propia</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-2"/>
@@ -1740,12 +1740,12 @@ Dirección: %4
         <location line="+17"/>
         <location line="+30"/>
         <source>Credit</source>
-        <translation>Crédito</translation>
+        <translation>Credito</translation>
     </message>
     <message numerus="yes">
         <location line="-102"/>
         <source>matures in %n more block(s)</source>
-        <translation><numerusform>disponible en %n bloque más</numerusform><numerusform>disponible en %n bloques más</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1758,17 +1758,17 @@ Dirección: %4
         <location line="+15"/>
         <location line="+30"/>
         <source>Debit</source>
-        <translation>Débito</translation>
+        <translation>Debito</translation>
     </message>
     <message>
         <location line="-39"/>
         <source>Transaction fee</source>
-        <translation>Comisión de transacción</translation>
+        <translation>Comisión transacción</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Net amount</source>
-        <translation>Cantidad neta</translation>
+        <translation>Cantidad total</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1783,17 +1783,17 @@ Dirección: %4
     <message>
         <location line="+2"/>
         <source>Transaction ID</source>
-        <translation>Identificador de transacción</translation>
+        <translation>ID de Transacción</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Las monedas generadas deben esperar 120 bloques antes de que se puedan gastar. Cuando se generó este bloque, se emitió a la red para ser agregado a la cadena de bloques. Si no consigue incorporarse a la cadena, su estado cambiará a &quot;no aceptado&quot; y las monedas no se podrán gastar. Esto puede ocurrir ocasionalmente si otro nodo genera un bloque casi al mismo tiempo que el suyo.</translation>
+        <translation>Las monedas generadas deben esperar 120 bloques antes de ser gastadas. Cuando has generado este bloque se emitió a la red para ser agregado en la cadena de bloques. Si falla al incluirse en la cadena, cambiará a &quot;no aceptado&quot; y las monedas no se podrán gastar. Esto puede ocurrir ocasionalmente si otro nodo genera un bloque casi al mismo tiempo que el tuyo.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Debug information</source>
-        <translation>Información de depuración</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
@@ -1803,7 +1803,7 @@ Dirección: %4
     <message>
         <location line="+3"/>
         <source>Inputs</source>
-        <translation>entradas</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+23"/>
@@ -1813,22 +1813,22 @@ Dirección: %4
     <message>
         <location line="+1"/>
         <source>true</source>
-        <translation>verdadero</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>false</source>
-        <translation>falso</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-209"/>
         <source>, has not been successfully broadcast yet</source>
-        <translation>, todavía no se ha sido difundido satisfactoriamente</translation>
+        <translation>, no ha sido emitido satisfactoriamente todavía</translation>
     </message>
     <message numerus="yes">
         <location line="-35"/>
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Abrir para %n bloque más</numerusform><numerusform>Abrir para %n bloques más</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <location line="+70"/>
@@ -1874,7 +1874,7 @@ Dirección: %4
     <message numerus="yes">
         <location line="+57"/>
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Abrir para %n bloque más</numerusform><numerusform>Abrir para %n bloques más</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1884,12 +1884,12 @@ Dirección: %4
     <message>
         <location line="+3"/>
         <source>Offline (%1 confirmations)</source>
-        <translation>Fuera de línea (%1 confirmaciones)</translation>
+        <translation>Fuera de linea (%1 confirmaciónes)</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Unconfirmed (%1 of %2 confirmations)</source>
-        <translation>No confirmado (%1 de %2 confirmaciones)</translation>
+        <translation>No confirmado (%1 de %2 confirmaciónes)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1899,17 +1899,17 @@ Dirección: %4
     <message numerus="yes">
         <location line="+8"/>
         <source>Mined balance will be available when it matures in %n more block(s)</source>
-        <translation><numerusform>El saldo recién minado estará disponible cuando venza el plazo en %n bloque más</numerusform><numerusform>El saldo recién minado estará disponible cuando venza el plazo en %n bloques más</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <location line="+5"/>
         <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation>Este bloque no ha sido recibido por otros nodos y probablemente no sea aceptado!</translation>
+        <translation>Este bloque no ha sido recibido por otros nodos y probablemente no sea aceptado !</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Generated but not accepted</source>
-        <translation>Generado pero no aceptado</translation>
+        <translation>Generado pero no acceptado</translation>
     </message>
     <message>
         <location line="+43"/>
@@ -1919,7 +1919,7 @@ Dirección: %4
     <message>
         <location line="+2"/>
         <source>Received from</source>
-        <translation>Recibidos de</translation>
+        <translation>Recibido de</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1929,7 +1929,7 @@ Dirección: %4
     <message>
         <location line="+2"/>
         <source>Payment to yourself</source>
-        <translation>Pago propio</translation>
+        <translation>Pagar a usted mismo</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1939,17 +1939,17 @@ Dirección: %4
     <message>
         <location line="+38"/>
         <source>(n/a)</source>
-        <translation>(nd)</translation>
+        <translation>(n/a)</translation>
     </message>
     <message>
         <location line="+199"/>
         <source>Transaction status. Hover over this field to show number of confirmations.</source>
-        <translation>Estado de transacción. Pasa el ratón sobre este campo para ver el número de confirmaciones.</translation>
+        <translation>Estado de transacción. Pasa el raton sobre este campo para ver el numero de confirmaciónes.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Date and time that the transaction was received.</source>
-        <translation>Fecha y hora en que se recibió la transacción.</translation>
+        <translation>Fecha y hora cuando se recibió la transaccion</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1959,12 +1959,12 @@ Dirección: %4
     <message>
         <location line="+2"/>
         <source>Destination address of transaction.</source>
-        <translation>Dirección de destino de la transacción.</translation>
+        <translation>Dirección de destino para la transacción</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Amount removed from or added to balance.</source>
-        <translation>Cantidad retirada o añadida al saldo.</translation>
+        <translation>Cantidad restada o añadida al balance</translation>
     </message>
 </context>
 <context>
@@ -1988,7 +1988,7 @@ Dirección: %4
     <message>
         <location line="+1"/>
         <source>This month</source>
-        <translation>Este mes</translation>
+        <translation>Esta mes</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2018,7 +2018,7 @@ Dirección: %4
     <message>
         <location line="+2"/>
         <source>To yourself</source>
-        <translation>A usted mismo</translation>
+        <translation>A ti mismo</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2033,52 +2033,52 @@ Dirección: %4
     <message>
         <location line="+7"/>
         <source>Enter address or label to search</source>
-        <translation>Introduzca una dirección o etiqueta que buscar</translation>
+        <translation>Introduce una dirección o etiqueta para  buscar</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Min amount</source>
-        <translation>Cantidad mínima</translation>
+        <translation>Cantidad minima</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Copy address</source>
-        <translation>Copiar dirección</translation>
+        <translation>Copia dirección</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy label</source>
-        <translation>Copiar etiqueta</translation>
+        <translation>Copia etiqueta</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy amount</source>
-        <translation>Copiar cuantía</translation>
+        <translation>Copiar Cantidad</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy transaction ID</source>
-        <translation>Copiar identificador de transacción</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Edit label</source>
-        <translation>Editar etiqueta</translation>
+        <translation>Edita etiqueta</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show transaction details</source>
-        <translation>Mostrar detalles de la transacción</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+139"/>
         <source>Export Transaction Data</source>
-        <translation>Exportar datos de la transacción</translation>
+        <translation>Exportar datos de transacción</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Comma separated file (*.csv)</source>
-        <translation>Archivos de columnas separadas por coma (*.csv)</translation>
+        <translation>Archivos separados por coma (*.csv)</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2149,42 +2149,42 @@ Dirección: %4
     <message>
         <location filename="../walletview.cpp" line="+42"/>
         <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Export the data in the current tab to a file</source>
-        <translation>Exportar a un archivo los datos de esta pestaña</translation>
+        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
     </message>
     <message>
         <location line="+193"/>
         <source>Backup Wallet</source>
-        <translation>Respaldo de monedero</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Wallet Data (*.dat)</source>
-        <translation>Datos de monedero (*.dat)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Backup Failed</source>
-        <translation>Ha fallado el respaldo</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>There was an error trying to save the wallet data to the new location.</source>
-        <translation>Se ha producido un error al intentar guardar los datos del monedero en la nueva ubicación.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>Backup Successful</source>
-        <translation>Se ha completado con éxito la copia de respaldo</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>The wallet data was successfully saved to the new location.</source>
-        <translation>Los datos del monedero se han guardado con éxito en la nueva ubicación.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2192,7 +2192,7 @@ Dirección: %4
     <message>
         <location filename="../bitcoinstrings.cpp" line="+94"/>
         <source>MaxCoin version</source>
-        <translation>Versión de MaxCoin</translation>
+        <translation>Versión MaxCoin</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -2202,7 +2202,8 @@ Dirección: %4
     <message>
         <location line="-29"/>
         <source>Send command to -server or bitcoind</source>
-        <translation>Envíar comando a -server o bitcoind</translation>
+        <translation>Envia comando a bitcoin lanzado con -server u bitcoind
+</translation>
     </message>
     <message>
         <location line="-23"/>
@@ -2225,64 +2226,65 @@ Dirección: %4
     <message>
         <location line="+24"/>
         <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Especificar archivo de configuración (predeterminado: bitcoin.conf)
+        <translation>Especifica archivo de configuración (predeterminado: bitcoin.conf)
 </translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Especificar archivo pid (predeterminado: bitcoin.pid)
+        <translation>Especifica archivo pid (predeterminado: bitcoin.pid)
 </translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Specify data directory</source>
-        <translation>Especificar directorio para los datos</translation>
+        <translation>Especifica directorio para los datos
+</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Set database cache size in megabytes (default: 25)</source>
-        <translation>Establecer el tamaño de caché de la base de datos en megabytes (predeterminado: 25)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-28"/>
         <source>Listen for connections on &lt;port&gt; (default: 8669 or testnet: 18669)</source>
-        <translation>Escuchar conexiones en &lt;puerto&gt; (predeterminado: 8669 o testnet: 18669)</translation>
+        <translation>Escuchar por conecciones en &lt;puerto&gt; (Por defecto: 8669 o red de prueba: 18669)</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Maintain at most &lt;n&gt; connections to peers (default: 125)</source>
-        <translation>Mantener como máximo &lt;n&gt; conexiones a pares (predeterminado: 125)</translation>
+        <translation>Mantener al menos &lt;n&gt; conecciones por cliente (por defecto: 125) </translation>
     </message>
     <message>
         <location line="-48"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
-        <translation>Conectar a un nodo para obtener direcciones de pares y desconectar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+82"/>
         <source>Specify your own public address</source>
-        <translation>Especifique su propia dirección pública</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Threshold for disconnecting misbehaving peers (default: 100)</source>
-        <translation>Umbral para la desconexión de pares con mal comportamiento (predeterminado: 100)</translation>
+        <translation>Umbral de desconección de clientes con mal comportamiento (por defecto: 100)</translation>
     </message>
     <message>
         <location line="-134"/>
         <source>Number of seconds to keep misbehaving peers from reconnecting (default: 86400)</source>
-        <translation>Número de segundos en que se evita la reconexión de pares con mal comportamiento (predeterminado: 86400)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-29"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv4: %s</source>
-        <translation>Ha ocurrido un error al configurar el puerto RPC %u para escucha en IPv4: %s</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+27"/>
         <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8669 or testnet: 18669)</source>
-        <translation>Escuchar conexiones JSON-RPC en &lt;puerto&gt; (predeterminado: 8669 o testnet:18669)</translation>
+        <translation>Escucha conexiones JSON-RPC en el puerto &lt;port&gt; (predeterminado: 8669 or testnet: 18669)</translation>
     </message>
     <message>
         <location line="+37"/>
@@ -2293,19 +2295,19 @@ Dirección: %4
     <message>
         <location line="+76"/>
         <source>Run in the background as a daemon and accept commands</source>
-        <translation>Correr como demonio y aceptar comandos
+        <translation>Correr como demonio y acepta comandos
 </translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Use the test network</source>
-        <translation>Usar la red de pruebas
+        <translation>Usa la red de pruebas
 </translation>
     </message>
     <message>
         <location line="-112"/>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
-        <translation>Aceptar conexiones desde el exterior (predeterminado: 1 si no -proxy o -connect)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-80"/>
@@ -2320,322 +2322,313 @@ If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
 for example: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.com
 </source>
-        <translation>%s, debe establecer un valor rpcpassword en el archivo de configuración:
-%s
-Se recomienda utilizar la siguiente contraseña aleatoria:
-rpcuser=bitcoinrpc
-rpcpassword=%s
-(no es necesario recordar esta contraseña)
-El nombre de usuario y la contraseña DEBEN NO ser iguales.
-Si el archivo no existe, créelo con permisos de archivo de solo lectura.
-Se recomienda también establecer alertnotify para recibir notificaciones de problemas.
-Por ejemplo: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.com
-</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv6, falling back to IPv4: %s</source>
-        <translation>Ha ocurrido un error al configurar el puerto RPC %u para escuchar mediante IPv6. Recurriendo a IPv4: %s</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
-        <translation>Vincular a la dirección dada y escuchar siempre en ella. Utilice la notación [host]:port para IPv6</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Cannot obtain a lock on data directory %s. MaxCoin is probably already running.</source>
-        <translation>No se puede bloquear el directorio de datos %s. Probablemente MaxCoin ya se está ejecutando.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>¡Error: se ha rechazado la transacción! Esto puede ocurrir si ya se han gastado algunas de las monedas del monedero, como ocurriría si hubiera hecho una copia de wallet.dat y se hubieran gastado monedas a partir de la copia, con lo que no se habrían marcado aquí como gastadas.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
-        <translation>¡Error: Esta transacción requiere una comisión de al menos %s debido a su monto, complejidad, o al uso de fondos recién recibidos!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Execute command when a relevant alert is received (%s in cmd is replaced by message)</source>
-        <translation>Ejecutar orden cuando se reciba un aviso relevante (%s en cmd se reemplazará por el mensaje)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation>Ejecutar comando cuando una transacción del monedero cambia (%s en cmd se remplazará por TxID)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
         <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 27000)</source>
-        <translation>Establecer el tamaño máximo de las transacciones de alta prioridad/comisión baja en bytes (predeterminado:27000)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
-        <translation>Esta es una versión de pre-prueba - utilícela bajo su propio riesgo. No la utilice para usos comerciales o de minería.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
-        <translation>Aviso: ¡-paytxfee tiene un valor muy alto! Esta es la comisión que pagará si envía una transacción.</translation>
+        <translation>Precaución: -paytxfee es muy alta. Esta es la comisión que pagarás si envias una transacción.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning: Displayed transactions may not be correct! You may need to upgrade, or other nodes may need to upgrade.</source>
-        <translation>Aviso: ¡Las transacciones mostradas pueden no ser correctas! Puede necesitar una actualización o bien otros nodos necesitan actualizarse.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong MaxCoin will not work properly.</source>
-        <translation>Precaución: Por favor, ¡revise que la fecha y hora de su ordenador son correctas! Si su reloj está mal, MaxCoin no funcionará correctamente.</translation>
+        <translation>Precaución: Por favor revise que la fecha y hora de tu ordenador son correctas. Si tu reloj está mal configurado MaxCoin no funcionará correctamente.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
-        <translation>Aviso: ¡Error al leer wallet.dat! Todas las claves se han leído correctamente, pero podrían faltar o ser incorrectos los datos de transacciones o las entradas de la libreta de direcciones.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning: wallet.dat corrupt, data salvaged! Original wallet.dat saved as wallet.{timestamp}.bak in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
-        <translation>Aviso: ¡Recuperados datos de wallet.dat corrupto! El wallet.dat original se ha guardado como wallet.{timestamp}.bak en %s; si hubiera errores en su saldo o transacciones, deberá restaurar una copia de seguridad.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>Attempt to recover private keys from a corrupt wallet.dat</source>
-        <translation>Intento de recuperar claves privadas de un wallet.dat corrupto</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Block creation options:</source>
-        <translation>Opciones de creación de bloques:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Connect only to the specified node(s)</source>
-        <translation>Conectar sólo a los nodos (o nodo) especificados</translation>
+        <translation>Conecta solo al nodo especificado
+</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Corrupted block database detected</source>
-        <translation>Corrupción de base de datos de bloques detectada.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Discover own IP address (default: 1 when listening and no -externalip)</source>
-        <translation>Descubrir dirección IP propia (predeterminado: 1 al escuchar sin -externalip)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Do you want to rebuild the block database now?</source>
-        <translation>¿Quieres reconstruir la base de datos de bloques ahora?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Error initializing block database</source>
-        <translation>Error al inicializar la base de datos de bloques</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Error initializing wallet database environment %s!</source>
-        <translation>Error al inicializar el entorno de la base de datos del monedero  %s</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Error loading block database</source>
-        <translation>Error cargando base de datos de bloques</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>Error opening block database</source>
-        <translation>Error al abrir base de datos de bloques.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Error: Disk space is low!</source>
-        <translation>Error: ¡Espacio en disco bajo!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Error: Wallet locked, unable to create transaction!</source>
-        <translation>Error: ¡El monedero está bloqueado; no se puede crear la transacción!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Error: system error: </source>
-        <translation>Error: error de sistema: </translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
-        <translation>Ha fallado la escucha en todos los puertos. Use -listen=0 si desea esto.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to read block info</source>
-        <translation>No se ha podido leer la información de bloque</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to read block</source>
-        <translation>No se ha podido leer el bloque</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to sync block index</source>
-        <translation>No se ha podido sincronizar el índice de bloques</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write block index</source>
-        <translation>No se ha podido escribir en el índice de bloques</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write block info</source>
-        <translation>No se ha podido escribir la información de bloques</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write block</source>
-        <translation>No se ha podido escribir el bloque</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write file info</source>
-        <translation>No se ha podido escribir la información de archivo</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write to coin database</source>
-        <translation>No se ha podido escribir en la base de datos de monedas</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write transaction index</source>
-        <translation>No se ha podido escribir en el índice de transacciones</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to write undo data</source>
-        <translation>No se han podido escribir los datos de deshacer</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Find peers using DNS lookup (default: 1 unless -connect)</source>
-        <translation>Encontrar pares mediante búsqueda de DNS (predeterminado: 1 salvo con -connect)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Generate coins (default: 0)</source>
-        <translation>Generar monedas (por defecto: 0)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>How many blocks to check at startup (default: 288, 0 = all)</source>
-        <translation>Cuántos bloques comprobar al iniciar (predeterminado: 288, 0 = todos)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>How thorough the block verification is (0-4, default: 3)</source>
-        <translation>Como es de exhaustiva la verificación de bloques (0-4, por defecto 3)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+19"/>
         <source>Not enough file descriptors available.</source>
-        <translation>No hay suficientes descriptores de archivo disponibles. </translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Rebuild block chain index from current blk000??.dat files</source>
-        <translation>Reconstruir el índice de la cadena de bloques a partir de los archivos blk000??.dat actuales</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
         <source>Set the number of threads to service RPC calls (default: 4)</source>
-        <translation>Establecer el número de hilos para atender las llamadas RPC (predeterminado: 4)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+26"/>
         <source>Verifying blocks...</source>
-        <translation>Verificando bloques...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Verifying wallet...</source>
-        <translation>Verificando monedero...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-69"/>
         <source>Imports blocks from external blk000??.dat file</source>
-        <translation>Importa los bloques desde un archivo blk000??.dat externo</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-76"/>
         <source>Set the number of script verification threads (up to 16, 0 = auto, &lt;0 = leave that many cores free, default: 0)</source>
-        <translation>Configura el número de hilos para el script de verificación (hasta 16, 0 = auto, &lt;0 = leave that many cores free, por fecto: 0)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+77"/>
         <source>Information</source>
-        <translation>Información</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Invalid -tor address: &apos;%s&apos;</source>
-        <translation>Dirección -tor inválida: &apos;%s&apos;</translation>
+        <translation>Dirección -tor invalida: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Inválido por el monto -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Invalid amount for -mintxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Inválido por el monto -mintxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Maintain a full transaction index (default: 0)</source>
-        <translation>Mantener índice de transacciones completo (predeterminado: 0)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: 5000)</source>
-        <translation>Búfer de recepción máximo por conexión, &lt;n&gt;*1000 bytes (predeterminado: 5000)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Maximum per-connection send buffer, &lt;n&gt;*1000 bytes (default: 1000)</source>
-        <translation>Búfer de recepción máximo por conexión, , &lt;n&gt;*1000 bytes (predeterminado: 1000)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Only accept block chain matching built-in checkpoints (default: 1)</source>
-        <translation>Aceptar solamente cadena de bloques que concuerde con los puntos de control internos (predeterminado: 1)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Only connect to nodes in network &lt;net&gt; (IPv4, IPv6 or Tor)</source>
-        <translation>Conectarse solo a nodos de la red &lt;net&gt; (IPv4, IPv6 o Tor)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Output extra debugging information. Implies all other -debug* options</source>
-        <translation>Mostrar información de depuración adicional. Implica todos los demás opciones -debug*</translation>
+        <translation>Adjuntar informacion extra de depuracion. Implies all other -debug* options</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Output extra network debugging information</source>
-        <translation>Mostrar información de depuración adicional</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Prepend debug output with timestamp</source>
-        <translation>Anteponer marca temporal a la información de depuración</translation>
+        <translation>Anteponer salida de depuracion con marca de tiempo</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2645,103 +2638,103 @@ Por ejemplo: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
     <message>
         <location line="+1"/>
         <source>Select the version of socks proxy to use (4-5, default: 5)</source>
-        <translation>Elija la versión del proxy socks a usar (4-5, predeterminado: 5)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Send trace/debug info to console instead of debug.log file</source>
-        <translation>Enviar información de trazas/depuración a la consola en lugar de al archivo debug.log</translation>
+        <translation>Enviar informacion de seguimiento a la consola en vez del archivo debug.log</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Send trace/debug info to debugger</source>
-        <translation>Enviar información de trazas/depuración al depurador</translation>
+        <translation>Enviar informacion de seguimiento al depurador</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Set maximum block size in bytes (default: 250000)</source>
-        <translation>Establecer tamaño máximo de bloque en bytes (predeterminado: 250000)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Set minimum block size in bytes (default: 0)</source>
-        <translation>Establecer tamaño mínimo de bloque en bytes (predeterminado: 0)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
-        <translation>Reducir el archivo debug.log al iniciar el cliente (predeterminado: 1 sin -debug)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Signing transaction failed</source>
-        <translation>Transacción falló</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Specify connection timeout in milliseconds (default: 5000)</source>
-        <translation>Especificar el tiempo máximo de conexión en milisegundos (predeterminado: 5000)</translation>
+        <translation>Especifica tiempo de espera para conexion en milisegundos (predeterminado: 5000)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>System error: </source>
-        <translation>Error de sistema: </translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>Transaction amount too small</source>
-        <translation>Monto de la transacción muy pequeño</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Transaction amounts must be positive</source>
-        <translation>Montos de transacciones deben ser positivos</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Transaction too large</source>
-        <translation>Transacción demasiado grande</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Use UPnP to map the listening port (default: 0)</source>
-        <translation>Usar UPnP para asignar el puerto de escucha (predeterminado: 0)</translation>
+        <translation>Intenta usar UPnP para mapear el puerto de escucha (default: 0)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Use UPnP to map the listening port (default: 1 when listening)</source>
-        <translation>Usar UPnP para asignar el puerto de escucha (predeterminado: 1 al escuchar)</translation>
+        <translation>Intenta usar UPnP para mapear el puerto de escucha (default: 1 when listening)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Use proxy to reach tor hidden services (default: same as -proxy)</source>
-        <translation>Utilizar proxy para conectar a Tor servicios ocultos (predeterminado: igual que -proxy)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Username for JSON-RPC connections</source>
-        <translation>Nombre de usuario para las conexiones JSON-RPC
+        <translation>Usuario para las conexiones JSON-RPC
 </translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Warning</source>
-        <translation>Aviso</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Warning: This version is obsolete, upgrade required!</source>
-        <translation>Aviso: Esta versión es obsoleta, actualización necesaria!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>You need to rebuild the databases using -reindex to change -txindex</source>
-        <translation>Necesita reconstruir las bases de datos con la opción -reindex para modificar -txindex</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>wallet.dat corrupt, salvage failed</source>
-        <translation>wallet.dat corrupto. Ha fallado la recuperación.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-50"/>
@@ -2752,58 +2745,59 @@ Por ejemplo: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
     <message>
         <location line="-67"/>
         <source>Allow JSON-RPC connections from specified IP address</source>
-        <translation>Permitir conexiones JSON-RPC desde la dirección IP especificada
+        <translation>Permite conexiones JSON-RPC desde la dirección IP especificada
 </translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Send commands to node running on &lt;ip&gt; (default: 127.0.0.1)</source>
-        <translation>Enviar comando al nodo situado en &lt;ip&gt; (predeterminado: 127.0.0.1)
+        <translation>Envia comando al nodo situado en &lt;ip&gt; (predeterminado: 127.0.0.1)
 </translation>
     </message>
     <message>
         <location line="-120"/>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
-        <translation>Ejecutar un comando cuando cambia el mejor bloque (%s en cmd se sustituye por el hash de bloque)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+147"/>
         <source>Upgrade wallet to latest format</source>
-        <translation>Actualizar el monedero al último formato</translation>
+        <translation>Actualizar billetera al formato actual</translation>
     </message>
     <message>
         <location line="-21"/>
         <source>Set key pool size to &lt;n&gt; (default: 100)</source>
-        <translation>Ajustar el número de claves en reserva &lt;n&gt; (predeterminado: 100)
+        <translation>Ajusta el numero de claves en reserva &lt;n&gt; (predeterminado: 100)
 </translation>
     </message>
     <message>
         <location line="-12"/>
         <source>Rescan the block chain for missing wallet transactions</source>
-        <translation>Volver a examinar la cadena de bloques en busca de transacciones del monedero perdidas</translation>
+        <translation>Rescanea la cadena de bloques para transacciones perdidas de la cartera
+</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Use OpenSSL (https) for JSON-RPC connections</source>
-        <translation>Usar OpenSSL (https) para las conexiones JSON-RPC
+        <translation>Usa OpenSSL (https) para las conexiones JSON-RPC
 </translation>
     </message>
     <message>
         <location line="-26"/>
         <source>Server certificate file (default: server.cert)</source>
-        <translation>Certificado del servidor (predeterminado: server.cert)
+        <translation>Certificado del servidor (Predeterminado: server.cert)
 </translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Server private key (default: server.pem)</source>
-        <translation>Clave privada del servidor (predeterminado: server.pem)
+        <translation>Clave privada del servidor (Predeterminado: server.pem)
 </translation>
     </message>
     <message>
         <location line="-151"/>
         <source>Acceptable ciphers (default: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</source>
-        <translation>Cifrados aceptados (predeterminado: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)
+        <translation>Cifrados aceptados (Predeterminado: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)
 </translation>
     </message>
     <message>
@@ -2815,67 +2809,68 @@ Por ejemplo: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
     <message>
         <location line="+6"/>
         <source>Unable to bind to %s on this computer (bind returned error %d, %s)</source>
-        <translation>No es posible conectar con %s en este sistema (bind ha dado el error %d, %s)</translation>
+        <translation>No es posible escuchar en el %s en este ordenador (bind returned error %d, %s)</translation>
     </message>
     <message>
         <location line="-91"/>
         <source>Connect through socks proxy</source>
-        <translation>Conectar mediante proxy socks</translation>
+        <translation>Conecta mediante proxy socks</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
-        <translation>Permitir búsquedas DNS para -addnode, -seednode y -connect</translation>
+        <translation>Permite búsqueda DNS para addnode y connect
+</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Loading addresses...</source>
-        <translation>Cargando direcciones...</translation>
+        <translation>Cargando direcciónes...</translation>
     </message>
     <message>
         <location line="-35"/>
         <source>Error loading wallet.dat: Wallet corrupted</source>
-        <translation>Error al cargar wallet.dat: el monedero está dañado</translation>
+        <translation>Error cargando wallet.dat: Billetera corrupta</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Error loading wallet.dat: Wallet requires newer version of MaxCoin</source>
-        <translation>Error al cargar wallet.dat: El monedero requiere una versión más reciente de MaxCoin</translation>
+        <translation>Error cargando wallet.dat: Billetera necesita una vercion reciente de MaxCoin</translation>
     </message>
     <message>
         <location line="+93"/>
         <source>Wallet needed to be rewritten: restart MaxCoin to complete</source>
-        <translation>El monedero ha necesitado ser reescrito. Reinicie MaxCoin para completar el proceso</translation>
+        <translation>La billetera necesita ser reescrita: reinicie MaxCoin para completar</translation>
     </message>
     <message>
         <location line="-95"/>
         <source>Error loading wallet.dat</source>
-        <translation>Error al cargar wallet.dat</translation>
+        <translation>Error cargando wallet.dat</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Invalid -proxy address: &apos;%s&apos;</source>
-        <translation>Dirección -proxy inválida: &apos;%s&apos;</translation>
+        <translation>Dirección -proxy invalida: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
-        <translation>La red especificada en -onlynet &apos;%s&apos; es desconocida</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-1"/>
         <source>Unknown -socks proxy version requested: %i</source>
-        <translation>Solicitada versión de proxy -socks desconocida: %i</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-96"/>
         <source>Cannot resolve -bind address: &apos;%s&apos;</source>
-        <translation>No se puede resolver la dirección de -bind: &apos;%s&apos;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
-        <translation>No se puede resolver la dirección de -externalip: &apos;%s&apos;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+44"/>
@@ -2885,7 +2880,7 @@ Por ejemplo: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
     <message>
         <location line="+1"/>
         <source>Invalid amount</source>
-        <translation>Cuantía no válida</translation>
+        <translation>Cantidad inválida</translation>
     </message>
     <message>
         <location line="-6"/>
@@ -2895,52 +2890,52 @@ Por ejemplo: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
     <message>
         <location line="+10"/>
         <source>Loading block index...</source>
-        <translation>Cargando el índice de bloques...</translation>
+        <translation>Cargando el index de bloques...</translation>
     </message>
     <message>
         <location line="-57"/>
         <source>Add a node to connect to and attempt to keep the connection open</source>
-        <translation>Añadir un nodo al que conectarse y tratar de mantener la conexión abierta</translation>
+        <translation>Agrega un nodo para conectarse and attempt to keep the connection open</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Unable to bind to %s on this computer. MaxCoin is probably already running.</source>
-        <translation>No es posible conectar con %s en este sistema. Probablemente MaxCoin ya está ejecutándose.</translation>
+        <translation>No es posible escuchar en el %s en este ordenador. Probablemente MaxCoin ya se está ejecutando.</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Fee per KB to add to transactions you send</source>
-        <translation>Tarifa por KB que añadir a las transacciones que envíe</translation>
+        <translation>Comisión por kB para adicionarla a las transacciones enviadas</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Loading wallet...</source>
-        <translation>Cargando monedero...</translation>
+        <translation>Cargando cartera...</translation>
     </message>
     <message>
         <location line="-52"/>
         <source>Cannot downgrade wallet</source>
-        <translation>No se puede rebajar el monedero</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Cannot write default address</source>
-        <translation>No se puede escribir la dirección predeterminada</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+64"/>
         <source>Rescanning...</source>
-        <translation>Reexplorando...</translation>
+        <translation>Rescaneando...</translation>
     </message>
     <message>
         <location line="-57"/>
         <source>Done loading</source>
-        <translation>Generado pero no aceptado</translation>
+        <translation>Carga completa</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>To use the %s option</source>
-        <translation>Para utilizar la opción %s</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-74"/>
@@ -2952,9 +2947,7 @@ Por ejemplo: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
         <source>You must set rpcpassword=&lt;password&gt; in the configuration file:
 %s
 If the file does not exist, create it with owner-readable-only file permissions.</source>
-        <translation>Tiene que establecer rpcpassword=&lt;contraseña&gt; en el fichero de configuración: ⏎
-%s ⏎
-Si el archivo no existe, créelo con permiso de lectura solamente del propietario.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
