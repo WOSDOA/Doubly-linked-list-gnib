@@ -1424,4 +1424,139 @@ Osoite: %4</translation>
     <message>
         <location line="+28"/>
         <source>Choose address from address book</source>
-        <translat
+        <translation>Valitse osoite osoitekirjasta</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Alt+A</source>
+        <translation>Alt+A</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Paste address from clipboard</source>
+        <translation>Liitä osoite leikepöydältä</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Alt+P</source>
+        <translation>Alt+P</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Remove this recipient</source>
+        <translation>Poista </translation>
+    </message>
+    <message>
+        <location filename="../sendcoinsentry.cpp" line="+1"/>
+        <source>Enter a MaxCoin address (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
+        <translation>Anna MaxCoin-osoite (esim. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+    </message>
+</context>
+<context>
+    <name>SignVerifyMessageDialog</name>
+    <message>
+        <location filename="../forms/signverifymessagedialog.ui" line="+14"/>
+        <source>Signatures - Sign / Verify a Message</source>
+        <translation>Allekirjoitukset - Allekirjoita / Varmista viesti</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>&amp;Sign Message</source>
+        <translation>&amp;Allekirjoita viesti</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <translation>Voit allekirjoittaa viestit omalla osoitteellasi todistaaksesi että omistat ne. Ole huolellinen, että et allekirjoita mitään epämääräistä, phishing-hyökkääjät voivat huijata sinua allekirjoittamaan luovuttamalla henkilöllisyytesi. Allekirjoita selvitys täysin yksityiskohtaisesti mihin olet sitoutunut.</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>The address to sign the message with (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
+        <translation>Osoite, jolla viesti allekirjoitetaan (esimerkiksi mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <location line="+213"/>
+        <source>Choose an address from the address book</source>
+        <translation>Valitse osoite osoitekirjasta</translation>
+    </message>
+    <message>
+        <location line="-203"/>
+        <location line="+213"/>
+        <source>Alt+A</source>
+        <translation>Alt+A</translation>
+    </message>
+    <message>
+        <location line="-203"/>
+        <source>Paste address from clipboard</source>
+        <translation>Liitä osoite leikepöydältä</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Alt+P</source>
+        <translation>Alt+P</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Enter the message you want to sign here</source>
+        <translation>Kirjoita tähän viesti minkä haluat allekirjoittaa</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Signature</source>
+        <translation>Allekirjoitus</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Copy the current signature to the system clipboard</source>
+        <translation>Kopioi tämänhetkinen allekirjoitus leikepöydälle</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Sign the message to prove you own this MaxCoin address</source>
+        <translation>Allekirjoita viesti todistaaksesi, että omistat tämän MaxCoin-osoitteen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Sign &amp;Message</source>
+        <translation>Allekirjoita &amp;viesti</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Reset all sign message fields</source>
+        <translation>Tyhjennä kaikki allekirjoita-viesti-kentät</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location line="+146"/>
+        <source>Clear &amp;All</source>
+        <translation>&amp;Tyhjennä Kaikki</translation>
+    </message>
+    <message>
+        <location line="-87"/>
+        <source>&amp;Verify Message</source>
+        <translation>&amp;Varmista viesti</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
+        <translation>Syötä allekirjoittava osoite, viesti ja allekirjoitus alla oleviin kenttiin varmistaaksesi allekirjoituksen aitouden. Varmista että kopioit kaikki kentät täsmälleen oikein, myös rivinvaihdot, välilyönnit, tabulaattorit, jne.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>The address the message was signed with (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
+        <translation>Osoite, jolla viesti allekirjoitettiin (esimerkiksi mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+    </message>
+    <message>
+        <location line="+40"/>
+        <source>Verify the message to ensure it was signed with the specified MaxCoin address</source>
+        <translation>Tarkista viestin allekirjoitus varmistaaksesi, että se allekirjoitettiin tietyllä MaxCoin-osoitteella</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Verify &amp;Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
+      
