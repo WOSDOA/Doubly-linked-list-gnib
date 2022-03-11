@@ -2486,4 +2486,160 @@ for example: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
         <translation type="unfinished"/>
     </message>
     <message>
-        <loc
+        <location line="+1"/>
+        <source>Failed to write transaction index</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write undo data</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Find peers using DNS lookup (default: 1 unless -connect)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Generate coins (default: 0)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>How many blocks to check at startup (default: 288, 0 = all)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>How thorough the block verification is (0-4, default: 3)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Not enough file descriptors available.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Rebuild block chain index from current blk000??.dat files</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Set the number of threads to service RPC calls (default: 4)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Verifying blocks...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Verifying wallet...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-69"/>
+        <source>Imports blocks from external blk000??.dat file</source>
+        <translation>Importiraj blokove sa vanjskog blk000??.dat fajla</translation>
+    </message>
+    <message>
+        <location line="-76"/>
+        <source>Set the number of script verification threads (up to 16, 0 = auto, &lt;0 = leave that many cores free, default: 0)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+77"/>
+        <source>Information</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Invalid -tor address: &apos;%s&apos;</source>
+        <translation>Nevaljala -tor adresa: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Invalid amount for -mintxfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Maintain a full transaction index (default: 0)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: 5000)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Maximum per-connection send buffer, &lt;n&gt;*1000 bytes (default: 1000)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Only accept block chain matching built-in checkpoints (default: 1)</source>
+        <translation>Prihvati samo lance blokova koji se podudaraju sa ugrađenim checkpoint-ovima (default: 1)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Only connect to nodes in network &lt;net&gt; (IPv4, IPv6 or Tor)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Output extra debugging information. Implies all other -debug* options</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Output extra network debugging information</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Prepend debug output with timestamp</source>
+        <translation>Dodaj izlaz debuga na početak sa vremenskom oznakom</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>SSL options: (see the MaxCoin Wiki for SSL setup instructions)</source>
+        <translation>SSL postavke: (za detalje o podešavanju SSL opcija vidi MaxCoin Wiki)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Select the version of socks proxy to use (4-5, default: 5)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send trace/debug info to console instead of debug.log file</source>
+        <translation>Šalji trace/debug informacije na konzolu umjesto u debug.log datoteku</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Send trace/debug info to debugger</source>
+        <translation>Pošalji trace/debug informacije u debugger</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Set maximum block size in bytes (default: 250000)</source>
+        <translation>Podesite maksimalnu veličinu bloka u bajtovima (default: 250000)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Set minimum block size in bytes (default: 0)</source>
+        <translation>Podesite minimalnu veličinu bloka u bajtovima (default: 0)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Shrink debug.log file on client star
