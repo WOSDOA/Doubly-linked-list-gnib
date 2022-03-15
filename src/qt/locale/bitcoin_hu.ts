@@ -483,4 +483,171 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
         <translation>&amp;A Bitcoinról</translation>
     </message>
     <message>
-        <loca
+        <location line="+9"/>
+        <source>&amp;Show / Hide</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show or hide the main Window</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation>A pénztárcájához tartozó privát kulcsok titkosítása</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Sign messages with your MaxCoin addresses to prove you own them</source>
+        <translation>Üzenet aláírása a MaxCoin címmel, amivel bizonyítja, hogy a cím az ön tulajdona.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Verify messages to ensure they were signed with specified MaxCoin addresses</source>
+        <translation>Annak ellenőrzése, hogy az üzenetek valóban a megjelölt MaxCoin címekkel vannak-e alaírva</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>&amp;File</source>
+        <translation>&amp;Fájl</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>&amp;Settings</source>
+        <translation>&amp;Beállítások</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Help</source>
+        <translation>&amp;Súgó</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Tabs toolbar</source>
+        <translation>Fül eszköztár</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <location line="+10"/>
+        <source>[testnet]</source>
+        <translation>[teszthálózat]</translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>MaxCoin client</source>
+        <translation>MaxCoin kliens</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+141"/>
+        <source>%n active connection(s) to MaxCoin network</source>
+        <translation><numerusform>%n aktív kapcsolat a MaxCoin-hálózattal</numerusform><numerusform>%n aktív kapcsolat a MaxCoin-hálózattal</numerusform></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>No block source available...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Processed %1 of %2 (estimated) blocks of transaction history.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Processed %1 blocks of transaction history.</source>
+        <translation>A tranzakció-történet %1 blokkja feldolgozva.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+20"/>
+        <source>%n hour(s)</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <location line="+4"/>
+        <source>%n day(s)</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <location line="+4"/>
+        <source>%n week(s)</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>%1 behind</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Last received block was generated %1 ago.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Transactions after this will not yet be visible.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Warning</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Information</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+70"/>
+        <source>This transaction is over the size limit. You can still send it for a fee of %1, which goes to the nodes that process your transaction and helps to support the network. Do you want to pay the fee?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-140"/>
+        <source>Up to date</source>
+        <translation>Naprakész</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Catching up...</source>
+        <translation>Frissítés...</translation>
+    </message>
+    <message>
+        <location line="+113"/>
+        <source>Confirm transaction fee</source>
+        <translation>Tranzakciós díj jóváhagyása</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Sent transaction</source>
+        <translation>Tranzakció elküldve.</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Incoming transaction</source>
+        <translation>Beérkező tranzakció</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Date: %1
+Amount: %2
+Type: %3
+Address: %4
+</source>
+        <translation>Dátum: %1
+Összeg: %2
+Típus: %3
+Cím: %4
+</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <location line="+23"/>
+        <source>URI handling</source>
+        <translation type="unfinish
