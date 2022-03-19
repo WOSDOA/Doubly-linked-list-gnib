@@ -2624,4 +2624,160 @@ for example: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
     <message>
         <location line="+2"/>
         <source>Prepend debug output with timestamp</source>
-     
+        <translation>Időbélyeges hibakeresési kimenet hozzáadása az elejéhez</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>SSL options: (see the MaxCoin Wiki for SSL setup instructions)</source>
+        <translation>SSL-opciók: (lásd a MaxCoin Wiki SSL-beállítási instrukcióit)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Select the version of socks proxy to use (4-5, default: 5)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send trace/debug info to console instead of debug.log file</source>
+        <translation>trace/debug információ küldése a konzolra a debog.log fájl helyett</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Send trace/debug info to debugger</source>
+        <translation>trace/debug információ küldése a debuggerre</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Set maximum block size in bytes (default: 250000)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Set minimum block size in bytes (default: 0)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Signing transaction failed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Specify connection timeout in milliseconds (default: 5000)</source>
+        <translation>Csatlakozás időkerete milliszekundumban (alapértelmezett: 5000)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>System error: </source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Transaction amount too small</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Transaction amounts must be positive</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Transaction too large</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Use UPnP to map the listening port (default: 0)</source>
+        <translation>UPnP-használat engedélyezése a figyelő port feltérképezésénél (default: 0)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use UPnP to map the listening port (default: 1 when listening)</source>
+        <translation>UPnP-használat engedélyezése a figyelő port feltérképezésénél (default: 1 when listening)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use proxy to reach tor hidden services (default: same as -proxy)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Username for JSON-RPC connections</source>
+        <translation>Felhasználói név JSON-RPC csatlakozásokhoz
+</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Warning</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Warning: This version is obsolete, upgrade required!</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>wallet.dat corrupt, salvage failed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-50"/>
+        <source>Password for JSON-RPC connections</source>
+        <translation>Jelszó JSON-RPC csatlakozásokhoz
+</translation>
+    </message>
+    <message>
+        <location line="-67"/>
+        <source>Allow JSON-RPC connections from specified IP address</source>
+        <translation>JSON-RPC csatlakozások engedélyezése meghatározott IP-címről
+</translation>
+    </message>
+    <message>
+        <location line="+76"/>
+        <source>Send commands to node running on &lt;ip&gt; (default: 127.0.0.1)</source>
+        <translation>Parancsok küldése &lt;ip&gt; címen működő csomóponthoz (alapértelmezett: 127.0.0.1)
+</translation>
+    </message>
+    <message>
+        <location line="-120"/>
+        <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
+        <translation>Parancs, amit akkor hajt végre, amikor a legjobb blokk megváltozik (%s a cmd-ban lecserélődik a blokk hash-re)</translation>
+    </message>
+    <message>
+        <location line="+147"/>
+        <source>Upgrade wallet to latest format</source>
+        <translation>A Tárca frissítése a legfrissebb formátumra</translation>
+    </message>
+    <message>
+        <location line="-21"/>
+        <source>Set key pool size to &lt;n&gt; (default: 100)</source>
+        <translation>Kulcskarika mérete &lt;n&gt; (alapértelmezett: 100)
+</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <source>Rescan the block chain for missing wallet transactions</source>
+        <translation>Blokklánc újraszkennelése hiányzó tárca-tranzakciók után
+</translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>Use OpenSSL (https) for JSON-RPC connections</source>
+        <translation>OpenSSL (https) használata JSON-RPC csatalkozásokhoz
+</translation>
+    </message>
+    <message>
+        <location line="-26"/>
+        <source>Server certificate file (
