@@ -2780,4 +2780,159 @@ for example: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
     </message>
     <message>
         <location line="-26"/>
-        <source>Server certificate file (
+        <source>Server certificate file (default: server.cert)</source>
+        <translation>Szervertanúsítvány-fájl (alapértelmezett: server.cert)
+</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Server private key (default: server.pem)</source>
+        <translation>Szerver titkos kulcsa (alapértelmezett: server.pem)
+</translation>
+    </message>
+    <message>
+        <location line="-151"/>
+        <source>Acceptable ciphers (default: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</source>
+        <translation>Elfogadható rejtjelkulcsok (alapértelmezett: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH )
+</translation>
+    </message>
+    <message>
+        <location line="+165"/>
+        <source>This help message</source>
+        <translation>Ez a súgó-üzenet
+</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Unable to bind to %s on this computer (bind returned error %d, %s)</source>
+        <translation>A %s nem elérhető ezen a gépen (bind returned error %d, %s)</translation>
+    </message>
+    <message>
+        <location line="-91"/>
+        <source>Connect through socks proxy</source>
+        <translation>Csatlakozás SOCKS proxyn keresztül</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
+        <translation>DNS-kikeresés engedélyezése az addnode-nál és a connect-nél</translation>
+    </message>
+    <message>
+        <location line="+55"/>
+        <source>Loading addresses...</source>
+        <translation>Címek betöltése...</translation>
+    </message>
+    <message>
+        <location line="-35"/>
+        <source>Error loading wallet.dat: Wallet corrupted</source>
+        <translation>Hiba a wallet.dat betöltése közben: meghibásodott tárca</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Error loading wallet.dat: Wallet requires newer version of MaxCoin</source>
+        <translation>Hiba a wallet.dat betöltése közben: ehhez a tárcához újabb verziójú MaxCoin-kliens szükséges</translation>
+    </message>
+    <message>
+        <location line="+93"/>
+        <source>Wallet needed to be rewritten: restart MaxCoin to complete</source>
+        <translation>A Tárca újraírása szükséges: Indítsa újra a teljesen a MaxCoin-t</translation>
+    </message>
+    <message>
+        <location line="-95"/>
+        <source>Error loading wallet.dat</source>
+        <translation>Hiba az wallet.dat betöltése közben</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Invalid -proxy address: &apos;%s&apos;</source>
+        <translation>Érvénytelen -proxy cím: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+56"/>
+        <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
+        <translation>Ismeretlen hálózat lett megadva -onlynet: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Unknown -socks proxy version requested: %i</source>
+        <translation>Ismeretlen -socks proxy kérése: %i</translation>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>Cannot resolve -bind address: &apos;%s&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+44"/>
+        <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation>Étvénytelen -paytxfee=&lt;összeg&gt; összeg: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Invalid amount</source>
+        <translation>Étvénytelen összeg</translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>Insufficient funds</source>
+        <translation>Nincs elég bitcoinod.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Loading block index...</source>
+        <translation>Blokkindex betöltése...</translation>
+    </message>
+    <message>
+        <location line="-57"/>
+        <source>Add a node to connect to and attempt to keep the connection open</source>
+        <translation>Elérendő csomópont megadása and attempt to keep the connection open</translation>
+    </message>
+    <message>
+        <location line="-25"/>
+        <source>Unable to bind to %s on this computer. MaxCoin is probably already running.</source>
+        <translation>A %s nem elérhető ezen a gépen. A MaxCoin valószínűleg fut már.</translation>
+    </message>
+    <message>
+        <location line="+64"/>
+        <source>Fee per KB to add to transactions you send</source>
+        <translation>kB-onként felajánlandó díj az általad küldött tranzakciókhoz</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Loading wallet...</source>
+        <translation>Tárca betöltése...</translation>
+    </message>
+    <message>
+        <location line="-52"/>
+        <source>Cannot downgrade wallet</source>
+        <translation>Nem sikerült a Tárca visszaállítása a korábbi verzióra</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Cannot write default address</source>
+        <translation>Nem sikerült az alapértelmezett címet írni.</translation>
+    </message>
+    <message>
+        <location line="+64"/>
+        <source>Rescanning...</source>
+        <translation>Újraszkennelés...</translation>
+    </message>
+    <message>
+        <location line="-57"/>
+        <source>Done loading</source>
+        <translation>Betöltés befejezve.</translation>
+    </message>
+    <message>
+        <location line="+82"/>
+        <source>To use the %s option</source>
+        <translation>Használd a %s opciót</translation>
+    </message>
+    <message>
+        <location line="-74"/>
+        <source>Error</source>
+        <translation>Hiba</tran
