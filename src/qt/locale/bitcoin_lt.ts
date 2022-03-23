@@ -274,4 +274,164 @@ Platinama pagal MIT/X11 licenciją, kurią rasite faile COPYING arba http://www.
     </message>
     <message>
         <location line="-56"/>
-        <source>MaxCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect
+        <source>MaxCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <translation>MaxCoin dabar užsidarys šifravimo proceso pabaigai. Atminkite, kad piniginės šifravimas negali pilnai apsaugoti bitcoinų vagysčių kai tinkle esančios kenkėjiškos programos patenka į jūsų kompiuterį.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <location line="+7"/>
+        <location line="+42"/>
+        <location line="+6"/>
+        <source>Wallet encryption failed</source>
+        <translation>Nepavyko užšifruoti piniginę</translation>
+    </message>
+    <message>
+        <location line="-54"/>
+        <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
+        <translation>Dėl vidinės klaidos nepavyko užšifruoti piniginę.Piniginė neužšifruota.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+48"/>
+        <source>The supplied passphrases do not match.</source>
+        <translation>Įvestos slaptafrazės nesutampa.</translation>
+    </message>
+    <message>
+        <location line="-37"/>
+        <source>Wallet unlock failed</source>
+        <translation>Nepavyko atrakinti piniginę</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+11"/>
+        <location line="+19"/>
+        <source>The passphrase entered for the wallet decryption was incorrect.</source>
+        <translation>Neteisingai įvestas slaptažodis piniginės iššifravimui.</translation>
+    </message>
+    <message>
+        <location line="-20"/>
+        <source>Wallet decryption failed</source>
+        <translation>Nepavyko iššifruoti piniginės</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Wallet passphrase was successfully changed.</source>
+        <translation>Piniginės slaptažodis sėkmingai pakeistas.</translation>
+    </message>
+</context>
+<context>
+    <name>BitcoinGUI</name>
+    <message>
+        <location filename="../bitcoingui.cpp" line="+233"/>
+        <source>Sign &amp;message...</source>
+        <translation>Pasirašyti ži&amp;nutę...</translation>
+    </message>
+    <message>
+        <location line="+280"/>
+        <source>Synchronizing with network...</source>
+        <translation>Sinchronizavimas su tinklu ...</translation>
+    </message>
+    <message>
+        <location line="-349"/>
+        <source>&amp;Overview</source>
+        <translation>&amp;Apžvalga</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show general overview of wallet</source>
+        <translation>Rodyti piniginės bendrą apžvalgą</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>&amp;Transactions</source>
+        <translation>&amp;Sandoriai</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Browse transaction history</source>
+        <translation>Apžvelgti sandorių istoriją</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Edit the list of stored addresses and labels</source>
+        <translation>Redaguoti išsaugotus adresus bei žymes</translation>
+    </message>
+    <message>
+        <location line="-14"/>
+        <source>Show the list of addresses for receiving payments</source>
+        <translation>Parodyti adresų sąraša mokėjimams gauti</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>E&amp;xit</source>
+        <translation>&amp;Išeiti</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Quit application</source>
+        <translation>Išjungti programą</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show information about MaxCoin</source>
+        <translation>Rodyti informaciją apie MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>About &amp;Qt</source>
+        <translation>Apie &amp;Qt</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show information about Qt</source>
+        <translation>Rodyti informaciją apie Qt</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Options...</source>
+        <translation>&amp;Parinktys...</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Encrypt Wallet...</source>
+        <translation>&amp;Užšifruoti piniginę...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Backup Wallet...</source>
+        <translation>&amp;Backup piniginę...</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Change Passphrase...</source>
+        <translation>&amp;Keisti slaptafrazę...</translation>
+    </message>
+    <message>
+        <location line="+285"/>
+        <source>Importing blocks from disk...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Reindexing blocks on disk...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-347"/>
+        <source>Send coins to a MaxCoin address</source>
+        <translation>Siųsti monetas MaxCoin adresui</translation>
+    </message>
+    <message>
+        <location line="+49"/>
+        <source>Modify configuration options for MaxCoin</source>
+        <translation>Keisti bitcoin konfigūracijos galimybes</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Backup wallet to another location</source>
+        <translation>Daryti piniginės atsarginę kopiją</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Change the passphrase used for wallet encryption</source>
+        <translation>Pakeisti slaptafrazę na
