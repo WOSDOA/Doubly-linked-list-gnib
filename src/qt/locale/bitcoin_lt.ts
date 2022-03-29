@@ -1937,4 +1937,203 @@ Adresas: %4</translation>
     </message>
     <message>
         <location line="+199"/>
-        <source>Transaction s
+        <source>Transaction status. Hover over this field to show number of confirmations.</source>
+        <translation>Sandorio būklė. Užvedus pelės žymeklį ant šios srities matysite patvirtinimų skaičių.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Date and time that the transaction was received.</source>
+        <translation>Sandorio gavimo data ir laikas</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Type of transaction.</source>
+        <translation>Sandorio tipas.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Destination address of transaction.</source>
+        <translation>Sandorio paskirties adresas</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Amount removed from or added to balance.</source>
+        <translation>Suma pridėta ar išskaičiuota iš balanso</translation>
+    </message>
+</context>
+<context>
+    <name>TransactionView</name>
+    <message>
+        <location filename="../transactionview.cpp" line="+52"/>
+        <location line="+16"/>
+        <source>All</source>
+        <translation>Visi</translation>
+    </message>
+    <message>
+        <location line="-15"/>
+        <source>Today</source>
+        <translation>Šiandien</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This week</source>
+        <translation>Šią savaitę</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This month</source>
+        <translation>Šį mėnesį</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last month</source>
+        <translation>Paskutinį mėnesį</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This year</source>
+        <translation>Šiais metais</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Range...</source>
+        <translation>Intervalas...</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Received with</source>
+        <translation>Gauta su</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Sent to</source>
+        <translation>Išsiųsta</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>To yourself</source>
+        <translation>Skirta sau</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Mined</source>
+        <translation>Išgauta</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Other</source>
+        <translation>Kita</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Enter address or label to search</source>
+        <translation>Įveskite adresą ar žymę į paiešką</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Min amount</source>
+        <translation>Minimali suma</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Copy address</source>
+        <translation>Kopijuoti adresą</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy label</source>
+        <translation>Kopijuoti žymę</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy amount</source>
+        <translation>Kopijuoti sumą</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy transaction ID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Edit label</source>
+        <translation>Taisyti žymę</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show transaction details</source>
+        <translation>Rodyti sandėrio detales</translation>
+    </message>
+    <message>
+        <location line="+139"/>
+        <source>Export Transaction Data</source>
+        <translation>Sandorio duomenų eksportavimas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kableliais atskirtų duomenų failas (*.csv)</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Confirmed</source>
+        <translation>Patvirtintas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Date</source>
+        <translation>Data</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Type</source>
+        <translation>Tipas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Label</source>
+        <translation>Žymė</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Address</source>
+        <translation>Adresas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Amount</source>
+        <translation>Suma</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Error exporting</source>
+        <translation>Eksportavimo klaida</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Could not write to file %1.</source>
+        <translation>Neįmanoma įrašyti į failą %1.</translation>
+    </message>
+    <message>
+        <location line="+100"/>
+        <source>Range:</source>
+        <translation>Grupė:</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>to</source>
+        <translation>skirta</translation>
+    </message>
+</context>
+<context>
+    <name>WalletModel</name>
+    <message>
+        <location filename="../walletmodel.cpp" line="+193"/>
+        <source>Send Coins</source>
+        <translation>Siųsti monetas</translation>
+    
