@@ -2750,4 +2750,151 @@ for example: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
     </message>
     <message>
         <location line="-12"/>
-        <so
+        <source>Rescan the block chain for missing wallet transactions</source>
+        <translation>Ieškoti  prarastų piniginės sandorių blokų grandinėje</translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>Use OpenSSL (https) for JSON-RPC connections</source>
+        <translation>Naudoti OpenSSL (https) jungimuisi JSON-RPC </translation>
+    </message>
+    <message>
+        <location line="-26"/>
+        <source>Server certificate file (default: server.cert)</source>
+        <translation>Serverio sertifikato failas (pagal nutylėjimą: server.cert)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Server private key (default: server.pem)</source>
+        <translation>Serverio privatus raktas (pagal nutylėjimą: server.pem)</translation>
+    </message>
+    <message>
+        <location line="-151"/>
+        <source>Acceptable ciphers (default: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</source>
+        <translation>Priimtini šifrai (pagal nutylėjimą: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</translation>
+    </message>
+    <message>
+        <location line="+165"/>
+        <source>This help message</source>
+        <translation>Pagelbos žinutė</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Unable to bind to %s on this computer (bind returned error %d, %s)</source>
+        <translation>Nepavyko susieti šiame kompiuteryje prievado %s (bind returned error %d, %s)</translation>
+    </message>
+    <message>
+        <location line="-91"/>
+        <source>Connect through socks proxy</source>
+        <translation>Jungtis per socks tarpinį serverį</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
+        <translation>Leisti DNS paiešką sujungimui ir mazgo pridėjimui</translation>
+    </message>
+    <message>
+        <location line="+55"/>
+        <source>Loading addresses...</source>
+        <translation>Užkraunami adresai...</translation>
+    </message>
+    <message>
+        <location line="-35"/>
+        <source>Error loading wallet.dat: Wallet corrupted</source>
+        <translation> wallet.dat pakrovimo klaida,  wallet.dat sugadintas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Error loading wallet.dat: Wallet requires newer version of MaxCoin</source>
+        <translation> wallet.dat pakrovimo klaida,  wallet.dat reikalauja naujasnės MaxCoin versijos</translation>
+    </message>
+    <message>
+        <location line="+93"/>
+        <source>Wallet needed to be rewritten: restart MaxCoin to complete</source>
+        <translation>Piniginė turi būti prrašyta: įvykdymui perkraukite MaxCoin</translation>
+    </message>
+    <message>
+        <location line="-95"/>
+        <source>Error loading wallet.dat</source>
+        <translation> wallet.dat pakrovimo klaida</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Invalid -proxy address: &apos;%s&apos;</source>
+        <translation>Neteisingas proxy adresas: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+56"/>
+        <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Unknown -socks proxy version requested: %i</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>Cannot resolve -bind address: &apos;%s&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+44"/>
+        <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation>Neteisinga suma -paytxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Invalid amount</source>
+        <translation>Neteisinga suma</translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>Insufficient funds</source>
+        <translation>Nepakanka lėšų</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Loading block index...</source>
+        <translation>Įkeliamas blokų indeksas...</translation>
+    </message>
+    <message>
+        <location line="-57"/>
+        <source>Add a node to connect to and attempt to keep the connection open</source>
+        <translation>Pridėti mazgą prie sujungti su and attempt to keep the connection open</translation>
+    </message>
+    <message>
+        <location line="-25"/>
+        <source>Unable to bind to %s on this computer. MaxCoin is probably already running.</source>
+        <translation>Nepavyko susieti šiame kompiuteryje prievado %s. MaxCoin tikriausiai jau veikia.</translation>
+    </message>
+    <message>
+        <location line="+64"/>
+        <source>Fee per KB to add to transactions you send</source>
+        <translation>Įtraukti mokestį už kB siunčiamiems sandoriams</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Loading wallet...</source>
+        <translation>Užkraunama piniginė...</translation>
+    </message>
+    <message>
+        <location line="-52"/>
+        <source>Cannot downgrade wallet</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Cannot write default address</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+64"/>
+        <source>Rescanning...</source>
+        <translation>Peržiūra</translation>
+    <
