@@ -574,4 +574,157 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
         <source>%n week(s)</source>
         <translation><numerusform>%n semana</numerusform><numerusform>%n semanas</numerusform></translation>
     </message>
-    <
+    <message>
+        <location line="+4"/>
+        <source>%1 behind</source>
+        <translation>%1 atrás</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Last received block was generated %1 ago.</source>
+        <translation>Último bloco recebido foi gerado %1 atrás.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Transactions after this will not yet be visible.</source>
+        <translation>Transações após isso ainda não estão visíveis.</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Error</source>
+        <translation>Erro</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Warning</source>
+        <translation>Cuidado</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Information</source>
+        <translation>Informação</translation>
+    </message>
+    <message>
+        <location line="+70"/>
+        <source>This transaction is over the size limit. You can still send it for a fee of %1, which goes to the nodes that process your transaction and helps to support the network. Do you want to pay the fee?</source>
+        <translation>A transação está acima do tamanho limite. Você ainda enviar ela com uma taxa de %1, que vai para os nós processam sua transação e ajuda a manter a rede. Você quer pagar a taxa?</translation>
+    </message>
+    <message>
+        <location line="-140"/>
+        <source>Up to date</source>
+        <translation>Atualizado</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Catching up...</source>
+        <translation>Recuperando o atraso ...</translation>
+    </message>
+    <message>
+        <location line="+113"/>
+        <source>Confirm transaction fee</source>
+        <translation>Confirmar taxa de transação</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Sent transaction</source>
+        <translation>Transação enviada</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Incoming transaction</source>
+        <translation>Transação recebida</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Date: %1
+Amount: %2
+Type: %3
+Address: %4
+</source>
+        <translation>Data: %1
+Quantidade: %2
+Tipo: %3
+Endereço: %4</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <location line="+23"/>
+        <source>URI handling</source>
+        <translation>Manipulação de URI</translation>
+    </message>
+    <message>
+        <location line="-23"/>
+        <location line="+23"/>
+        <source>URI can not be parsed! This can be caused by an invalid MaxCoin address or malformed URI parameters.</source>
+        <translation>URI não pode ser decodificado! Isso pode ter sido causado por um endereço MaxCoin inválido ou por parâmetros URI malformados.</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
+        <translation>Carteira está &lt;b&gt;criptografada&lt;/b&gt; e atualmente &lt;b&gt;desbloqueada&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
+        <translation>Carteira está &lt;b&gt;criptografada&lt;/b&gt; e atualmente &lt;b&gt;bloqueada&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../bitcoin.cpp" line="+111"/>
+        <source>A fatal error occurred. MaxCoin can no longer continue safely and will quit.</source>
+        <translation>Um erro fatal ocorreu. MaxCoin não pode continuar em segurança e irá fechar.</translation>
+    </message>
+</context>
+<context>
+    <name>ClientModel</name>
+    <message>
+        <location filename="../clientmodel.cpp" line="+104"/>
+        <source>Network Alert</source>
+        <translation>Alerta da Rede</translation>
+    </message>
+</context>
+<context>
+    <name>EditAddressDialog</name>
+    <message>
+        <location filename="../forms/editaddressdialog.ui" line="+14"/>
+        <source>Edit Address</source>
+        <translation>Editar Endereço</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>&amp;Label</source>
+        <translation>&amp;Etiqueta</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The label associated with this address book entry</source>
+        <translation>A etiqueta associada a esse endereço do catálogo</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>&amp;Address</source>
+        <translation>&amp;Endereço</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The address associated with this address book entry. This can only be modified for sending addresses.</source>
+        <translation>O endereço associado à essa entrada do seu catálogo de endereços. Isso só pode ser modificado para endereço de envio.</translation>
+    </message>
+    <message>
+        <location filename="../editaddressdialog.cpp" line="+21"/>
+        <source>New receiving address</source>
+        <translation>Novo endereço de recebimento</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>New sending address</source>
+        <translation>Novo endereço de envio</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Edit receiving address</source>
+        <translation>Editar endereço de recebimento</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Edit sending address</source>
+        <translation>Editar endereço de envio</tra
