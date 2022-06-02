@@ -1207,4 +1207,164 @@ Endereço: %4</translation>
         <translation>Horário do último bloco</translation>
     </message>
     <message>
-        <locatio
+        <location line="+52"/>
+        <source>&amp;Open</source>
+        <translation>&amp;Abrir</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Command-line options</source>
+        <translation>Opções da linha de comando</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Show the MaxCoin-Qt help message to get a list with possible MaxCoin command-line options.</source>
+        <translation>Mostrar mensagem de ajuda do MaxCoin-Qt para obter uma lista com possíveis opções da linha de comando do MaxCoin.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Show</source>
+        <translation>&amp;Mostrar</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>&amp;Console</source>
+        <translation>&amp;Console</translation>
+    </message>
+    <message>
+        <location line="-260"/>
+        <source>Build date</source>
+        <translation>Data do &apos;build&apos;</translation>
+    </message>
+    <message>
+        <location line="-104"/>
+        <source>MaxCoin - Debug window</source>
+        <translation>MaxCoin - Janela de Depuração</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>MaxCoin Core</source>
+        <translation>Núcleo MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+279"/>
+        <source>Debug log file</source>
+        <translation>Arquivo de log de Depuração</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Open the MaxCoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Abrir o arquivo de log de depuração do MaxCoin do diretório atual de dados. Isso pode levar alguns segundos para arquivos de log grandes.</translation>
+    </message>
+    <message>
+        <location line="+102"/>
+        <source>Clear console</source>
+        <translation>Limpar console</translation>
+    </message>
+    <message>
+        <location filename="../rpcconsole.cpp" line="-30"/>
+        <source>Welcome to the MaxCoin RPC console.</source>
+        <translation>Bem-vindo ao console MaxCoin RPC.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
+        <translation>Use as setas para cima e para baixo para navegar pelo histórico, e &lt;b&gt;Ctrl-L&lt;/b&gt; para limpar a tela.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
+        <translation>Digite &lt;b&gt;help&lt;/b&gt; para uma visão geral dos comandos disponíveis.</translation>
+    </message>
+</context>
+<context>
+    <name>SendCoinsDialog</name>
+    <message>
+        <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
+        <location filename="../sendcoinsdialog.cpp" line="+124"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+6"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <source>Send Coins</source>
+        <translation>Enviar dinheiro</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <source>Send to multiple recipients at once</source>
+        <translation>Enviar para vários destinatários de uma só vez</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Add &amp;Recipient</source>
+        <translation>Adicionar destinatário</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Remove all transaction fields</source>
+        <translation>Remover todos os campos da transação</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Clear &amp;All</source>
+        <translation>Limpar Tudo</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Balance:</source>
+        <translation>Saldo:</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>123.456 BTC</source>
+        <translation>123.456 BTC</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Confirm the send action</source>
+        <translation>Confirmar o envio</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>S&amp;end</source>
+        <translation>Enviar</translation>
+    </message>
+    <message>
+        <location filename="../sendcoinsdialog.cpp" line="-59"/>
+        <source>&lt;b&gt;%1&lt;/b&gt; to %2 (%3)</source>
+        <translation>&lt;b&gt;%1&lt;/b&gt; para %2 (%3)</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Confirm send coins</source>
+        <translation>Confirmar envio de dinheiro</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Are you sure you want to send %1?</source>
+        <translation>Você tem certeza que deseja enviar %1?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source> and </source>
+        <translation>e</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>The recipient address is not valid, please recheck.</source>
+        <translation>O endereço do destinatário não é válido, favor verificar.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>The amount to pay must be larger than 0.</source>
+        <translation>A quantidade a ser paga precisa ser maior que 0.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>The amount exceeds your balance.</source>
+        <translation>A quantidade excede seu saldo.</translation>
+    </message>
+    <message>
+        <location line="
