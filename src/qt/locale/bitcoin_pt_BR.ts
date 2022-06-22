@@ -2167,4 +2167,141 @@ Endereço: %4</translation>
         <translation>Cópia de segurança Falhou</translation>
     </message>
     <message>
-        <location line="+0"
+        <location line="+0"/>
+        <source>There was an error trying to save the wallet data to the new location.</source>
+        <translation>Houve um erro ao tentar salvar os dados da carteira para uma nova localização.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Backup Successful</source>
+        <translation>Backup feito com sucesso</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>The wallet data was successfully saved to the new location.</source>
+        <translation>Os dados da carteira foram salvos com sucesso na nova localização</translation>
+    </message>
+</context>
+<context>
+    <name>bitcoin-core</name>
+    <message>
+        <location filename="../bitcoinstrings.cpp" line="+94"/>
+        <source>MaxCoin version</source>
+        <translation>Versão do MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+102"/>
+        <source>Usage:</source>
+        <translation>Uso:</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>Send command to -server or bitcoind</source>
+        <translation>Enviar comando para -server ou bitcoind</translation>
+    </message>
+    <message>
+        <location line="-23"/>
+        <source>List commands</source>
+        <translation>Lista de comandos</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <source>Get help for a command</source>
+        <translation>Obtenha ajuda sobre um comando</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Options:</source>
+        <translation>Opções:</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Specify configuration file (default: bitcoin.conf)</source>
+        <translation>Especifique um arquivo de configurações (padrão: bitcoin.conf)</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Specify pid file (default: bitcoind.pid)</source>
+        <translation>Especifique um arquivo de pid (padrão: bitcoind.pid)</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Specify data directory</source>
+        <translation>Especificar diretório de dados</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>Set database cache size in megabytes (default: 25)</source>
+        <translation>Definir o tamanho do cache do banco de dados em megabytes (padrão: 25)</translation>
+    </message>
+    <message>
+        <location line="-28"/>
+        <source>Listen for connections on &lt;port&gt; (default: 8669 or testnet: 18669)</source>
+        <translation>Procurar por conexões em &lt;port&gt; (padrão: 8669 ou testnet:18669)</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Maintain at most &lt;n&gt; connections to peers (default: 125)</source>
+        <translation>Manter no máximo &lt;n&gt; conexões aos peers (padrão: 125)</translation>
+    </message>
+    <message>
+        <location line="-48"/>
+        <source>Connect to a node to retrieve peer addresses, and disconnect</source>
+        <translation>Conectar a um nó para receber endereços de participantes, e desconectar.</translation>
+    </message>
+    <message>
+        <location line="+82"/>
+        <source>Specify your own public address</source>
+        <translation>Especificar seu próprio endereço público</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Threshold for disconnecting misbehaving peers (default: 100)</source>
+        <translation>Limite para desconectar peers mal comportados (padrão: 100)</translation>
+    </message>
+    <message>
+        <location line="-134"/>
+        <source>Number of seconds to keep misbehaving peers from reconnecting (default: 86400)</source>
+        <translation>Número de segundos para impedir que peers mal comportados reconectem (padrão: 86400)</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>An error occurred while setting up the RPC port %u for listening on IPv4: %s</source>
+        <translation>Um erro ocorreu ao configurar a porta RPC %u para escuta em IPv4: %s</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8669 or testnet: 18669)</source>
+        <translation>Escutar conexões JSON-RPC na porta &lt;porta&gt; (padrão: 8669 ou testnet: 18669)</translation>
+    </message>
+    <message>
+        <location line="+37"/>
+        <source>Accept command line and JSON-RPC commands</source>
+        <translation>Aceitar linha de comando e comandos JSON-RPC</translation>
+    </message>
+    <message>
+        <location line="+76"/>
+        <source>Run in the background as a daemon and accept commands</source>
+        <translation>Rodar em segundo plano como serviço e aceitar comandos</translation>
+    </message>
+    <message>
+        <location line="+37"/>
+        <source>Use the test network</source>
+        <translation>Usar rede de teste</translation>
+    </message>
+    <message>
+        <location line="-112"/>
+        <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
+        <translation>Aceitar conexões externas (padrão: 1 se opções -proxy ou -connect não estiverem presentes)</translation>
+    </message>
+    <message>
+        <location line="-80"/>
+        <source>%s, you must set a rpcpassword in the configuration file:
+%s
+It is recommended you use the following random password:
+rpcuser=bitcoinrpc
+rpcpassword=%s
+(you do not need to remember this password)
+The username and password MUST NOT be the same.
+If the file does not exist, create it with owner-readable-only file permissions.
+It is also recommended to set alertnotify so you are notified of probl
