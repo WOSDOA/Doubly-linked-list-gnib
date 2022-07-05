@@ -2813,4 +2813,125 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
         <location line="-35"/>
         <source>Error loading wallet.dat: Wallet corrupted</source>
         <translation>Erro ao carregar wallet.dat: Carteira corrompida</translation>
- 
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Error loading wallet.dat: Wallet requires newer version of MaxCoin</source>
+        <translation>Erro ao carregar wallet.dat: Carteira requer uma versão mais nova do MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+93"/>
+        <source>Wallet needed to be rewritten: restart MaxCoin to complete</source>
+        <translation>A Carteira precisou ser reescrita: reinicie o MaxCoin para completar</translation>
+    </message>
+    <message>
+        <location line="-95"/>
+        <source>Error loading wallet.dat</source>
+        <translation>Erro ao carregar wallet.dat</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Invalid -proxy address: &apos;%s&apos;</source>
+        <translation>Endereço -proxy inválido: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+56"/>
+        <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
+        <translation>Rede desconhecida especificada em -onlynet: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Unknown -socks proxy version requested: %i</source>
+        <translation>Versão desconhecida do proxy -socks requisitada: %i</translation>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>Cannot resolve -bind address: &apos;%s&apos;</source>
+        <translation>Impossível encontrar o endereço -bind: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
+        <translation>Impossível encontrar endereço -externalip: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+44"/>
+        <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation>Quantidade inválida para -paytxfee=&lt;quantidade&gt;: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Invalid amount</source>
+        <translation>Quantidade inválida</translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>Insufficient funds</source>
+        <translation>Saldo insuficiente</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Loading block index...</source>
+        <translation>Carregando índice de blocos...</translation>
+    </message>
+    <message>
+        <location line="-57"/>
+        <source>Add a node to connect to and attempt to keep the connection open</source>
+        <translation>Adicionar um nó com o qual se conectar e tentar manter a conexão ativa</translation>
+    </message>
+    <message>
+        <location line="-25"/>
+        <source>Unable to bind to %s on this computer. MaxCoin is probably already running.</source>
+        <translation>Impossível vincular a %s neste computador. O MaxCoin provavelmente já está rodando.</translation>
+    </message>
+    <message>
+        <location line="+64"/>
+        <source>Fee per KB to add to transactions you send</source>
+        <translation>Taxa por KB a ser acrescida nas transações que você enviar</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Loading wallet...</source>
+        <translation>Carregando carteira...</translation>
+    </message>
+    <message>
+        <location line="-52"/>
+        <source>Cannot downgrade wallet</source>
+        <translation>Não é possível fazer downgrade da carteira</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Cannot write default address</source>
+        <translation>Não foi possível escrever no endereço padrão</translation>
+    </message>
+    <message>
+        <location line="+64"/>
+        <source>Rescanning...</source>
+        <translation>Re-escaneando...</translation>
+    </message>
+    <message>
+        <location line="-57"/>
+        <source>Done loading</source>
+        <translation>Carregamento terminado</translation>
+    </message>
+    <message>
+        <location line="+82"/>
+        <source>To use the %s option</source>
+        <translation>Para usar a opção %s</translation>
+    </message>
+    <message>
+        <location line="-74"/>
+        <source>Error</source>
+        <translation>Erro</translation>
+    </message>
+    <message>
+        <location line="-31"/>
+        <source>You must set rpcpassword=&lt;password&gt; in the configuration file:
+%s
+If the file does not exist, create it with owner-readable-only file permissions.</source>
+        <translation>Você precisa especificar rpcpassword=&lt;senha&gt; no arquivo de configurações:⏎
+%s⏎
+Se o arquivo não existir, crie um com permissão de leitura apenas pelo dono</translation>
+    </message>
+</context>
+</TS>
