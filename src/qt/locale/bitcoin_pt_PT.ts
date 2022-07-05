@@ -172,4 +172,131 @@ Este produto inclui software desenvolvido pelo Projecto OpenSSL para uso no Open
         <location line="+0"/>
         <source>Address</source>
         <translation>Endereço</translation>
- 
+    </message>
+    <message>
+        <location line="+36"/>
+        <source>(no label)</source>
+        <translation>(Sem rótulo)</translation>
+    </message>
+</context>
+<context>
+    <name>AskPassphraseDialog</name>
+    <message>
+        <location filename="../forms/askpassphrasedialog.ui" line="+26"/>
+        <source>Passphrase Dialog</source>
+        <translation>Diálogo de Frase-Passe</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Enter passphrase</source>
+        <translation>Escreva a frase de segurança</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>New passphrase</source>
+        <translation>Nova frase de segurança</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Repeat new passphrase</source>
+        <translation>Repita a nova frase de segurança</translation>
+    </message>
+    <message>
+        <location filename="../askpassphrasedialog.cpp" line="+33"/>
+        <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;10 or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
+        <translation>Escreva a nova frase de seguraça da sua carteira. &lt;br/&gt; Por favor, use uma frase de &lt;b&gt;10 ou mais caracteres aleatórios,&lt;/b&gt; ou &lt;b&gt;oito ou mais palavras&lt;/b&gt;.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Encrypt wallet</source>
+        <translation>Encriptar carteira</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>This operation needs your wallet passphrase to unlock the wallet.</source>
+        <translation>A sua frase de segurança é necessária para desbloquear a carteira.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Unlock wallet</source>
+        <translation>Desbloquear carteira</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
+        <translation>A sua frase de segurança é necessária para desencriptar a carteira.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Decrypt wallet</source>
+        <translation>Desencriptar carteira</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Change passphrase</source>
+        <translation>Alterar frase de segurança</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enter the old and new passphrase to the wallet.</source>
+        <translation>Escreva a frase de segurança antiga seguida da nova para a carteira.</translation>
+    </message>
+    <message>
+        <location line="+46"/>
+        <source>Confirm wallet encryption</source>
+        <translation>Confirmar encriptação da carteira</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
+        <translation>Atenção: Se encriptar a carteira e perder a sua senha irá &lt;b&gt;PERDER TODOS OS SEUS BITCOINS&lt;/b&gt;!</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Are you sure you wish to encrypt your wallet?</source>
+        <translation>Tem a certeza que deseja encriptar a carteira?</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
+        <translation>IMPORTANTE: Qualquer cópia de segurança anterior da carteira deverá ser substituída com o novo, actualmente encriptado, ficheiro de carteira. Por razões de segurança, cópias de segurança não encriptadas efectuadas anteriormente do ficheiro da carteira tornar-se-ão inúteis assim que começar a usar a nova carteira encriptada.</translation>
+    </message>
+    <message>
+        <location line="+100"/>
+        <location line="+24"/>
+        <source>Warning: The Caps Lock key is on!</source>
+        <translation>Atenção: A tecla Caps Lock está activa!</translation>
+    </message>
+    <message>
+        <location line="-130"/>
+        <location line="+58"/>
+        <source>Wallet encrypted</source>
+        <translation>Carteira encriptada</translation>
+    </message>
+    <message>
+        <location line="-56"/>
+        <source>MaxCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <translation>O cliente MaxCoin irá agora ser fechado para terminar o processo de encriptação. Recorde que a encriptação da sua carteira não protegerá totalmente os seus bitcoins de serem roubados por programas maliciosos que infectem o seu computador.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <location line="+7"/>
+        <location line="+42"/>
+        <location line="+6"/>
+        <source>Wallet encryption failed</source>
+        <translation>A encriptação da carteira falhou</translation>
+    </message>
+    <message>
+        <location line="-54"/>
+        <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
+        <translation>A encriptação da carteira falhou devido a um erro interno. A carteira não foi encriptada.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+48"/>
+        <source>The supplied passphrases do not match.</source>
+        <translation>As frases de segurança fornecidas não coincidem.</translation>
+    </message>
+    <message>
+        <location line="-37"/>
+        <source>Wallet
