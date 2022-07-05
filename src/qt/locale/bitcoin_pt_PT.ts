@@ -470,4 +470,157 @@ Este produto inclui software desenvolvido pelo Projecto OpenSSL para uso no Open
     </message>
     <message>
         <location line="+7"/>
-        <sour
+        <source>&amp;Receive</source>
+        <translation>&amp;Receber</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>&amp;Addresses</source>
+        <translation>E&amp;ndereços</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>&amp;About MaxCoin</source>
+        <translation>&amp;Sobre o MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>&amp;Show / Hide</source>
+        <translation>Mo&amp;strar / Ocultar</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show or hide the main Window</source>
+        <translation>Mostrar ou esconder a Janela principal</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation>Encriptar as chaves privadas que pertencem à sua carteira</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Sign messages with your MaxCoin addresses to prove you own them</source>
+        <translation>Assine mensagens com os seus endereços MaxCoin para provar que os controla</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Verify messages to ensure they were signed with specified MaxCoin addresses</source>
+        <translation>Verifique mensagens para assegurar que foram assinadas com o endereço MaxCoin especificado</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>&amp;File</source>
+        <translation>&amp;Ficheiro</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>&amp;Settings</source>
+        <translation>Con&amp;figurações</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Help</source>
+        <translation>A&amp;juda</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Tabs toolbar</source>
+        <translation>Barra de separadores</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <location line="+10"/>
+        <source>[testnet]</source>
+        <translation>[rede de testes]</translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>MaxCoin client</source>
+        <translation>Cliente MaxCoin</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+141"/>
+        <source>%n active connection(s) to MaxCoin network</source>
+        <translation><numerusform>%n ligação ativa à rede MaxCoin</numerusform><numerusform>%n ligações ativas à rede MaxCoin</numerusform></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>No block source available...</source>
+        <translation>Nenhum bloco fonto disponível</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Processed %1 of %2 (estimated) blocks of transaction history.</source>
+        <translation>Processados %1 dos %2 blocos (estimados) do histórico de transacções.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Processed %1 blocks of transaction history.</source>
+        <translation>Processados %1 blocos do histórico de transações.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+20"/>
+        <source>%n hour(s)</source>
+        <translation><numerusform>%n hora</numerusform><numerusform>%n horas</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <location line="+4"/>
+        <source>%n day(s)</source>
+        <translation><numerusform>%n dia</numerusform><numerusform>%n dias</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <location line="+4"/>
+        <source>%n week(s)</source>
+        <translation><numerusform>%n semana</numerusform><numerusform>%n semanas</numerusform></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>%1 behind</source>
+        <translation>%1 em atraso</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Last received block was generated %1 ago.</source>
+        <translation>Último bloco recebido foi gerado há %1 atrás.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Transactions after this will not yet be visible.</source>
+        <translation>Transações posteriores poderão não ser imediatamente visíveis.</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Error</source>
+        <translation>Erro</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Warning</source>
+        <translation>Aviso</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Information</source>
+        <translation>Informação</translation>
+    </message>
+    <message>
+        <location line="+70"/>
+        <source>This transaction is over the size limit. You can still send it for a fee of %1, which goes to the nodes that process your transaction and helps to support the network. Do you want to pay the fee?</source>
+        <translation>Esta transação tem um tamanho superior ao limite máximo. Poderá enviá-la pagando uma taxa de %1, que será entregue ao nó que processar a sua transação e ajudará a suportar a rede. Deseja pagar a taxa?</translation>
+    </message>
+    <message>
+        <location line="-140"/>
+        <source>Up to date</source>
+        <translation>Atualizado</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Catching up...</source>
+        <translation>Recuperando...</translation>
+    </message>
+    <message>
+        <location line="+113"/>
+        <source>Confirm transaction fee</source>
+        <translation>Confirme a taxa de transação</translation>
+    </message
