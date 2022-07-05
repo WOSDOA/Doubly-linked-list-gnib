@@ -2391,4 +2391,154 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
     </message>
     <message>
         <location line="+14"/>
-        <source>Attempt to recover 
+        <source>Attempt to recover private keys from a corrupt wallet.dat</source>
+        <translation>Tentar recuperar chaves privadas de um arquivo wallet.dat corrompido</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Block creation options:</source>
+        <translation>Opções de criação de blocos:</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Connect only to the specified node(s)</source>
+        <translation>Conectar apenas a nó(s) específico(s)</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Corrupted block database detected</source>
+        <translation>Detectado Banco de dados de blocos corrompido</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Discover own IP address (default: 1 when listening and no -externalip)</source>
+        <translation>Descobrir os próprios endereços IP (padrão: 1 quando no modo listening e opção -externalip não estiver presente)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Do you want to rebuild the block database now?</source>
+        <translation>Você quer reconstruir o banco de dados de blocos agora?</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Error initializing block database</source>
+        <translation>Erro ao inicializar banco de dados de blocos</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Error initializing wallet database environment %s!</source>
+        <translation>Erro ao inicializar ambiente de banco de dados de carteira %s!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Error loading block database</source>
+        <translation>Erro ao carregar banco de dados de blocos</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Error opening block database</source>
+        <translation>Erro ao abrir banco de dados de blocos</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Error: Disk space is low!</source>
+        <translation>Erro: Espaço em disco insuficiente!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Error: Wallet locked, unable to create transaction!</source>
+        <translation>Erro: Carteira travada, impossível criar transação!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Error: system error: </source>
+        <translation>Erro: erro de sistema</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
+        <translation>Falha ao escutar em qualquer porta. Use -listen=0 se você quiser isso.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to read block info</source>
+        <translation>Falha ao ler informação de bloco</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to read block</source>
+        <translation>Falha ao ler bloco</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to sync block index</source>
+        <translation>Falha ao sincronizar índice de blocos</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write block index</source>
+        <translation>Falha ao escrever índice de blocos</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write block info</source>
+        <translation>Falha ao escrever informações de bloco</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write block</source>
+        <translation>Falha ao escrever bloco</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write file info</source>
+        <translation>Falha ao escrever informções de arquivo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write to coin database</source>
+        <translation>Falha ao escrever banco de dados de moedas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write transaction index</source>
+        <translation>Falha ao escrever índice de transações</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write undo data</source>
+        <translation>Falha ao escrever dados para desfazer ações</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Find peers using DNS lookup (default: 1 unless -connect)</source>
+        <translation>Procurar pares usando consulta de DNS (padrão: 1 a menos que a opção -connect esteja presente)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Generate coins (default: 0)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>How many blocks to check at startup (default: 288, 0 = all)</source>
+        <translation>Quantos blocos checar ao inicializar (padrão: 288, 0 = todos)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>How thorough the block verification is (0-4, default: 3)</source>
+        <translation>Quão minuciosa é a verificação dos blocos (0-4, padrão: 3)</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Not enough file descriptors available.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Rebuild block chain index from current blk000??.dat files</source>
+        <translation>Reconstruir índice de blockchain a partir dos arquivos atuais blk000??.dat</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        
