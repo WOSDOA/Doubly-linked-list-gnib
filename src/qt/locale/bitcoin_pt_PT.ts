@@ -787,4 +787,147 @@ Endereço: %4
     <message>
         <location line="+1"/>
         <source>Start minimized</source>
-        
+        <translation>Iniciar minimizado</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show splash screen on startup (default: 1)</source>
+        <translation>Mostrar animação ao iniciar (por defeito: 1)</translation>
+    </message>
+</context>
+<context>
+    <name>OptionsDialog</name>
+    <message>
+        <location filename="../forms/optionsdialog.ui" line="+14"/>
+        <source>Options</source>
+        <translation>Opções</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>&amp;Main</source>
+        <translation>&amp;Principal</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB.</source>
+        <translation>Taxa de transação opcional por KB que ajuda a assegurar que as suas transações serão processadas rapidamente. A maioria das transações tem 1 kB.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Pay transaction &amp;fee</source>
+        <translation>Pagar &amp;taxa de transação</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Automatically start MaxCoin after logging in to the system.</source>
+        <translation>Começar o MaxCoin automaticamente ao iniciar sessão no sistema.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Start MaxCoin on system login</source>
+        <translation>&amp;Começar o MaxCoin ao iniciar o sistema</translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>Reset all client options to default.</source>
+        <translation>Repôr todas as opções.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Reset Options</source>
+        <translation>&amp;Repôr Opções</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>&amp;Network</source>
+        <translation>&amp;Rede</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Automatically open the MaxCoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Abrir a porta do cliente bitcoin automaticamente no seu router. Isto penas funciona se o seu router suportar UPnP e este se encontrar ligado.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Map port using &amp;UPnP</source>
+        <translation>Mapear porta usando &amp;UPnP</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Connect to the MaxCoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
+        <translation>Ligar à rede MaxCoin através de um proxy SOCKS (p.ex. quando ligar através de Tor).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Connect through SOCKS proxy:</source>
+        <translation>Ligar através de proxy SO&amp;CKS:</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Proxy &amp;IP:</source>
+        <translation>&amp;IP do proxy:</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>IP address of the proxy (e.g. 127.0.0.1)</source>
+        <translation>Endereço IP do proxy (p.ex. 127.0.0.1)</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>&amp;Port:</source>
+        <translation>&amp;Porta:</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Port of the proxy (e.g. 9050)</source>
+        <translation>Porta do proxy (p.ex. 9050)</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>SOCKS &amp;Version:</source>
+        <translation>&amp;Versão SOCKS:</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>SOCKS version of the proxy (e.g. 5)</source>
+        <translation>Versão do proxy SOCKS (p.ex. 5)</translation>
+    </message>
+    <message>
+        <location line="+36"/>
+        <source>&amp;Window</source>
+        <translation>&amp;Janela</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Show only a tray icon after minimizing the window.</source>
+        <translation>Apenas mostrar o ícone da bandeja após minimizar a janela.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Minimize to the tray instead of the taskbar</source>
+        <translation>&amp;Minimizar para a bandeja e não para a barra de ferramentas</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Quit in the menu.</source>
+        <translation>Minimize ao invés de sair da aplicação quando a janela é fechada. Com esta  opção selecionada, a aplicação apenas será encerrada quando escolher Sair da aplicação no menú.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>M&amp;inimize on close</source>
+        <translation>M&amp;inimizar ao fechar</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>&amp;Display</source>
+        <translation>Vis&amp;ualização</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>User Interface &amp;language:</source>
+        <translation>&amp;Linguagem da interface de utilizador:</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>The user interface language can be set here. This setting will take effect after restarting MaxCoin.</source>
+        <translation>A linguagem da i
