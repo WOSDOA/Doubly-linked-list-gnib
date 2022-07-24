@@ -1408,4 +1408,139 @@ Endereço: %4
     <message>
         <location line="+34"/>
         <source>The address to send the payment to (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
-        <translation>O endereço para onde enviar o pagamento  (p.ex. mXAdbKFo1vu3Svqt4fWMy
+        <translation>O endereço para onde enviar o pagamento  (p.ex. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+    </message>
+    <message>
+        <location line="+60"/>
+        <location filename="../sendcoinsentry.cpp" line="+26"/>
+        <source>Enter a label for this address to add it to your address book</source>
+        <translation>Escreva um rótulo para este endereço para o adicionar ao seu livro de endereços</translation>
+    </message>
+    <message>
+        <location line="-78"/>
+        <source>&amp;Label:</source>
+        <translation>Rótu&amp;lo:</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Choose address from address book</source>
+        <translation>Escolher endereço do livro de endereços</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Alt+A</source>
+        <translation>Alt+A</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Paste address from clipboard</source>
+        <translation>Cole endereço da área de transferência</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Alt+P</source>
+        <translation>Alt+P</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Remove this recipient</source>
+        <translation>Remover este destinatário</translation>
+    </message>
+    <message>
+        <location filename="../sendcoinsentry.cpp" line="+1"/>
+        <source>Enter a MaxCoin address (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
+        <translation>Introduza um endereço MaxCoin (p.ex. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+    </message>
+</context>
+<context>
+    <name>SignVerifyMessageDialog</name>
+    <message>
+        <location filename="../forms/signverifymessagedialog.ui" line="+14"/>
+        <source>Signatures - Sign / Verify a Message</source>
+        <translation>Assinaturas - Assinar / Verificar uma Mensagem</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>&amp;Sign Message</source>
+        <translation>A&amp;ssinar Mensagem</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <translation>Pode assinar mensagens com os seus endereços para provar que são seus. Tenha atenção ao assinar mensagens ambíguas, pois ataques de phishing podem tentar enganá-lo, de modo a assinar a sua identidade para os atacantes. Apenas assine declarações completamente detalhadas com as quais concorde.</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>The address to sign the message with (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
+        <translation>O endereço a utilizar para assinar a mensagem (p.ex. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <location line="+213"/>
+        <source>Choose an address from the address book</source>
+        <translation>Escolher endereço do livro de endereços</translation>
+    </message>
+    <message>
+        <location line="-203"/>
+        <location line="+213"/>
+        <source>Alt+A</source>
+        <translation>Alt+A</translation>
+    </message>
+    <message>
+        <location line="-203"/>
+        <source>Paste address from clipboard</source>
+        <translation>Cole endereço da área de transferência</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Alt+P</source>
+        <translation>Alt+P</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Enter the message you want to sign here</source>
+        <translation>Escreva aqui a mensagem que deseja assinar</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Signature</source>
+        <translation>Assinatura</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Copy the current signature to the system clipboard</source>
+        <translation>Copiar a assinatura actual para a área de transferência</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Sign the message to prove you own this MaxCoin address</source>
+        <translation>Assine uma mensagem para provar que é dono deste endereço MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Sign &amp;Message</source>
+        <translation>Assinar &amp;Mensagem</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Reset all sign message fields</source>
+        <translation>Repôr todos os campos de assinatura de mensagem</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location line="+146"/>
+        <source>Clear &amp;All</source>
+        <translation>Limpar &amp;Tudo</translation>
+    </message>
+    <message>
+        <location line="-87"/>
+        <source>&amp;Verify Message</source>
+        <translation>&amp;Verificar Mensagem</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
+        <translation>Introduza o endereço de assinatura, mensagem (assegure-se de copiar quebras de linha, espaços, tabuladores, etc. exactamente) e assinatura abaixo para verificar a mensagem. Tenha atenção para não ler mais na assinatura do que o que estiver na mensagem assinada, para evitar ser enganado por um atacante que se encontre entre si e quem assinou a mensagem.</translation>
+    </message>
+    <message>
+       
