@@ -2225,4 +2225,121 @@ Endereço: %4
         <source>Specify pid file (default: bitcoind.pid)</source>
         <translation>Especificar ficheiro pid (por defeito: bitcoind.pid)</translation>
     </message>
-    <
+    <message>
+        <location line="-1"/>
+        <source>Specify data directory</source>
+        <translation>Especificar pasta de dados</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>Set database cache size in megabytes (default: 25)</source>
+        <translation>Definir o tamanho da cache de base de dados em megabytes (por defeito: 25)</translation>
+    </message>
+    <message>
+        <location line="-28"/>
+        <source>Listen for connections on &lt;port&gt; (default: 8669 or testnet: 18669)</source>
+        <translation>Escute por ligações em &lt;port&gt; (por defeito: 8669 ou testnet: 18669)</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Maintain at most &lt;n&gt; connections to peers (default: 125)</source>
+        <translation>Manter no máximo &lt;n&gt; ligações a outros nós da rede (por defeito: 125)</translation>
+    </message>
+    <message>
+        <location line="-48"/>
+        <source>Connect to a node to retrieve peer addresses, and disconnect</source>
+        <translation>Ligar a um nó para recuperar endereços de pares, e desligar</translation>
+    </message>
+    <message>
+        <location line="+82"/>
+        <source>Specify your own public address</source>
+        <translation>Especifique o seu endereço público</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Threshold for disconnecting misbehaving peers (default: 100)</source>
+        <translation>Tolerância para desligar nós mal-formados (por defeito: 100)</translation>
+    </message>
+    <message>
+        <location line="-134"/>
+        <source>Number of seconds to keep misbehaving peers from reconnecting (default: 86400)</source>
+        <translation>Número de segundos a impedir que nós mal-formados se liguem de novo (por defeito: 86400)</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>An error occurred while setting up the RPC port %u for listening on IPv4: %s</source>
+        <translation>Ocorreu um erro ao definir a porta %u do serviço RPC a escutar em IPv4: %s</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8669 or testnet: 18669)</source>
+        <translation>Escutar por ligações JSON-RPC em &lt;port&gt; (por defeito: 8669 ou rede de testes: 18669)</translation>
+    </message>
+    <message>
+        <location line="+37"/>
+        <source>Accept command line and JSON-RPC commands</source>
+        <translation>Aceitar comandos da consola e JSON-RPC</translation>
+    </message>
+    <message>
+        <location line="+76"/>
+        <source>Run in the background as a daemon and accept commands</source>
+        <translation>Correr o processo como um daemon e aceitar comandos</translation>
+    </message>
+    <message>
+        <location line="+37"/>
+        <source>Use the test network</source>
+        <translation>Utilizar a rede de testes - testnet</translation>
+    </message>
+    <message>
+        <location line="-112"/>
+        <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
+        <translation>Aceitar ligações externas (padrão: 1 sem -proxy ou -connect)</translation>
+    </message>
+    <message>
+        <location line="-80"/>
+        <source>%s, you must set a rpcpassword in the configuration file:
+%s
+It is recommended you use the following random password:
+rpcuser=bitcoinrpc
+rpcpassword=%s
+(you do not need to remember this password)
+The username and password MUST NOT be the same.
+If the file does not exist, create it with owner-readable-only file permissions.
+It is also recommended to set alertnotify so you are notified of problems;
+for example: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.com
+</source>
+        <translation>%s, deverá definir rpcpassword no ficheiro de configuração :
+ %s
+É recomendado que use a seguinte palavra-passe aleatória:
+rpcuser=bitcoinrpc
+rpcpassword=%s
+(não precisa recordar esta palavra-passe)
+O nome de utilizador e password NÃO DEVEM ser iguais.
+Se o ficheiro não existir, crie-o com permissões de leitura apenas para o dono.
+Também é recomendado definir alertnotify para que seja alertado sobre problemas;
+por exemplo: alertnotify=echo %%s | mail -s &quot;Alerta MaxCoin&quot; admin@foo.com
+</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>An error occurred while setting up the RPC port %u for listening on IPv6, falling back to IPv4: %s</source>
+        <translation>Ocorreu um erro ao definir a porta %u do serviço RPC a escutar em IPv6, a usar IPv4: %s</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
+        <translation>Trancar a endereço específio e sempre escutar nele. Use a notação [anfitrião]:porta para IPv6</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Cannot obtain a lock on data directory %s. MaxCoin is probably already running.</source>
+        <translation>Impossível trancar a pasta de dados %s.  Provavelmente o MaxCoin já está a ser executado.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
+        <translation>Erro: A transação foi rejeitada.  Isso poderá acontecer se algumas das moedas na sua carteira já tiverem sido gastas, se por exemplo tiver usado uma cópia do ficheiro wallet.dat e as moedas foram gastas na cópia mas não foram marcadas como gastas aqui.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently receive
