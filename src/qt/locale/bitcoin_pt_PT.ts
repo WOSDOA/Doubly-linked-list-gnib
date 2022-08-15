@@ -2342,4 +2342,110 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Alerta MaxCoin&quot; admin@foo
     </message>
     <message>
         <location line="+4"/>
-        <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently receive
+        <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
+        <translation>Erro: Esta transação requer uma taxa de transação mínima de %s devido á sua quantia, complexidade, ou uso de fundos recebidos recentemente!  </translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Execute command when a relevant alert is received (%s in cmd is replaced by message)</source>
+        <translation>Executar comando quando um alerta relevante for recebido (no comando, %s é substituído pela mensagem)</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
+        <translation>Executar comando quando uma das transações na carteira mudar (no comando, %s é substituído pelo ID da Transação)</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 27000)</source>
+        <translation>Definir tamanho máximo de transações de alta-/baixa-prioridade em bytes (por defeito: 27000)</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
+        <translation>Esta é uma versão de pré-lançamento - use à sua responsabilidade - não usar para minar ou aplicações comerciais</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
+        <translation>Atenção: -paytxfee está definida com um valor muito alto! Esta é a taxa que irá pagar se enviar uma transação.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Warning: Displayed transactions may not be correct! You may need to upgrade, or other nodes may need to upgrade.</source>
+        <translation>Atenção: As transações mostradas poderão não estar correctas! Poderá ter que atualizar ou outros nós poderão ter que atualizar.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong MaxCoin will not work properly.</source>
+        <translation>Atenção: Por favor verifique que a data e hora do seu computador estão correctas! Se o seu relógio não estiver certo o MaxCoin não irá funcionar correctamente.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
+        <translation>Atenção: erro ao ler wallet.dat! Todas as chaves foram lidas correctamente, mas dados de transação ou do livro de endereços podem estar em falta ou incorrectos.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Warning: wallet.dat corrupt, data salvaged! Original wallet.dat saved as wallet.{timestamp}.bak in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
+        <translation>Atenção: wallet.dat corrupto, dados recuperados! wallet.dat original salvo como wallet.{timestamp}.bak em %s; se o seu saldo ou transações estiverem incorrectos deverá recuperar de uma cópia de segurança.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Attempt to recover private keys from a corrupt wallet.dat</source>
+        <translation>Tentar recuperar chaves privadas de um wallet.dat corrupto</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Block creation options:</source>
+        <translation>Opções de criação de bloco:</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Connect only to the specified node(s)</source>
+        <translation>Apenas ligar ao(s) nó(s) especificado(s)</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Corrupted block database detected</source>
+        <translation>Cadeia de blocos corrompida detectada</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Discover own IP address (default: 1 when listening and no -externalip)</source>
+        <translation>Descobrir endereço IP próprio (padrão: 1 ao escutar e sem -externalip)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Do you want to rebuild the block database now?</source>
+        <translation>Deseja reconstruir agora a cadeia de blocos?</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Error initializing block database</source>
+        <translation>Erro ao inicializar a cadeia de blocos</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Error initializing wallet database environment %s!</source>
+        <translation>Erro ao inicializar o ambiente de base de dados da carteira %s!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Error loading block database</source>
+        <translation>Erro ao carregar cadeia de blocos</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Error opening block database</source>
+        <translation>Erro ao abrir a cadeia de blocos</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Error: Disk space is low!</source>
+        <translation>Erro: Pouco espaço em disco!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Error: Wallet locked, unable to create transaction!</source>
+        <translation>Erro: Carteira bloqueada, incapaz de criar
