@@ -2448,4 +2448,145 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Alerta MaxCoin&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Error: Wallet locked, unable to create transaction!</source>
-        <translation>Erro: Carteira bloqueada, incapaz de criar
+        <translation>Erro: Carteira bloqueada, incapaz de criar transação!  </translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Error: system error: </source>
+        <translation>Erro: erro do sistema:</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
+        <translation>Falhou a escutar em qualquer porta. Use -listen=0 se quer isto.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to read block info</source>
+        <translation>Falha ao ler info do bloco</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to read block</source>
+        <translation>Falha ao ler bloco</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to sync block index</source>
+        <translation>Falha ao sincronizar índice do bloco</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write block index</source>
+        <translation>Falha ao escrever índice do bloco</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write block info</source>
+        <translation>Falha ao escrever info do bloco</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write block</source>
+        <translation>Falha ao escrever o bloco</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write file info</source>
+        <translation>Falha ao escrever info do ficheiro</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write to coin database</source>
+        <translation>Falha ao escrever na base de dados de moedas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write transaction index</source>
+        <translation>Falha ao escrever índice de transações</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to write undo data</source>
+        <translation>Falha ao escrever histórico de modificações</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Find peers using DNS lookup (default: 1 unless -connect)</source>
+        <translation>Encontrar pares usando procura DNS (por defeito: 1 excepto -connect)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Generate coins (default: 0)</source>
+        <translation>Gerar moedas (por defeito: 0)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>How many blocks to check at startup (default: 288, 0 = all)</source>
+        <translation>Quantos blocos verificar ao começar (por defeito: 288, 0 = todos)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>How thorough the block verification is (0-4, default: 3)</source>
+        <translation>Qual a minúcia na verificação de blocos (0-4, por defeito: 3)</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Not enough file descriptors available.</source>
+        <translation>Descritores de ficheiros disponíveis são insuficientes.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Rebuild block chain index from current blk000??.dat files</source>
+        <translation>Reconstruir a cadeia de blocos dos ficheiros blk000??.dat actuais</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Set the number of threads to service RPC calls (default: 4)</source>
+        <translation>Defina o número de processos para servir as chamadas RPC (por defeito: 4)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Verifying blocks...</source>
+        <translation>Verificando blocos...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Verifying wallet...</source>
+        <translation>Verificando a carteira...</translation>
+    </message>
+    <message>
+        <location line="-69"/>
+        <source>Imports blocks from external blk000??.dat file</source>
+        <translation>Importar blocos de um ficheiro blk000??.dat externo</translation>
+    </message>
+    <message>
+        <location line="-76"/>
+        <source>Set the number of script verification threads (up to 16, 0 = auto, &lt;0 = leave that many cores free, default: 0)</source>
+        <translation>Defina o número de processos de verificação (até 16, 0 = automático, &lt;0 = disponibiliza esse número de núcleos livres, por defeito: 0)</translation>
+    </message>
+    <message>
+        <location line="+77"/>
+        <source>Information</source>
+        <translation>Informação</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Invalid -tor address: &apos;%s&apos;</source>
+        <translation>Endereço -tor inválido: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation>Quantia inválida para -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Invalid amount for -mintxfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation>Quantia inválida para -mintxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Maintain a full transaction index (default: 0)</source>
+        <translation>Manter índice de transações completo (por defeito: 0)</translation>
+    </
