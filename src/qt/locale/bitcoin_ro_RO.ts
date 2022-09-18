@@ -220,3 +220,145 @@ This product includes software developed by the OpenSSL Project for use in the O
         <location line="+3"/>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
         <translation>Această operaţiune necesită parola pentru decriptarea portofelului electronic.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Decrypt wallet</source>
+        <translation>Decriptează portofelul.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Change passphrase</source>
+        <translation>Schimbă fraza de acces</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enter the old and new passphrase to the wallet.</source>
+        <translation>Introduceţi vechea parola a portofelului eletronic şi apoi pe cea nouă.</translation>
+    </message>
+    <message>
+        <location line="+46"/>
+        <source>Confirm wallet encryption</source>
+        <translation>Confirmă criptarea portofelului.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
+        <translation>Atenție: Dacă pierdeţi parola portofelului electronic dupa criptare, &lt;b&gt;VEŢI PIERDE ÎNTREAGA SUMĂ DE BITCOIN ACUMULATĂ&lt;/b&gt;!</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Are you sure you wish to encrypt your wallet?</source>
+        <translation>Sunteţi sigur că doriţi să criptaţi portofelul electronic?</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+100"/>
+        <location line="+24"/>
+        <source>Warning: The Caps Lock key is on!</source>
+        <translation>Atentie! Caps Lock este pornit</translation>
+    </message>
+    <message>
+        <location line="-130"/>
+        <location line="+58"/>
+        <source>Wallet encrypted</source>
+        <translation>Portofel criptat </translation>
+    </message>
+    <message>
+        <location line="-56"/>
+        <source>MaxCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <translation>MaxCoin se va închide acum pentru a termina procesul de criptare. Amintiți-vă că criptarea portofelului dumneavoastră nu poate proteja în totalitate bitcoins dvs. de a fi furate de intentii rele.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <location line="+7"/>
+        <location line="+42"/>
+        <location line="+6"/>
+        <source>Wallet encryption failed</source>
+        <translation>Criptarea portofelului a eșuat.</translation>
+    </message>
+    <message>
+        <location line="-54"/>
+        <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
+        <translation>Criptarea portofelului a eșuat din cauza unei erori interne. Portofelul tău nu a fost criptat.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+48"/>
+        <source>The supplied passphrases do not match.</source>
+        <translation>Fraza de acces introdusă nu se potrivește.</translation>
+    </message>
+    <message>
+        <location line="-37"/>
+        <source>Wallet unlock failed</source>
+        <translation>Deblocarea portofelului electronic a eşuat.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+11"/>
+        <location line="+19"/>
+        <source>The passphrase entered for the wallet decryption was incorrect.</source>
+        <translation>Parola introdusă pentru decriptarea portofelului electronic a fost incorectă.</translation>
+    </message>
+    <message>
+        <location line="-20"/>
+        <source>Wallet decryption failed</source>
+        <translation>Decriptarea portofelului electronic a eşuat.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Wallet passphrase was successfully changed.</source>
+        <translation>Parola portofelului electronic a fost schimbată.</translation>
+    </message>
+</context>
+<context>
+    <name>BitcoinGUI</name>
+    <message>
+        <location filename="../bitcoingui.cpp" line="+233"/>
+        <source>Sign &amp;message...</source>
+        <translation>Semneaza &amp;mesaj...</translation>
+    </message>
+    <message>
+        <location line="+280"/>
+        <source>Synchronizing with network...</source>
+        <translation>Se sincronizează cu reţeaua...</translation>
+    </message>
+    <message>
+        <location line="-349"/>
+        <source>&amp;Overview</source>
+        <translation>&amp;Detalii</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show general overview of wallet</source>
+        <translation>Afişează detalii despre portofelul electronic</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>&amp;Transactions</source>
+        <translation>&amp;Tranzacţii</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Browse transaction history</source>
+        <translation>Istoricul tranzacţiilor</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Edit the list of stored addresses and labels</source>
+        <translation>Editaţi lista de adrese şi etichete.</translation>
+    </message>
+    <message>
+        <location line="-14"/>
+        <source>Show the list of addresses for receiving payments</source>
+        <translation>Lista de adrese pentru recepţionarea plăţilor</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>E&amp;xit</source>
+        <translation>Ieșire</translation>
+    </messa
