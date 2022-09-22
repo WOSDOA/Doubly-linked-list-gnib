@@ -361,4 +361,180 @@ This product includes software developed by the OpenSSL Project for use in the O
         <location line="+31"/>
         <source>E&amp;xit</source>
         <translation>Ieșire</translation>
-    </messa
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Quit application</source>
+        <translation>Părăsiţi aplicaţia</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show information about MaxCoin</source>
+        <translation>Informaţii despre MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>About &amp;Qt</source>
+        <translation>Despre &amp;Qt</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show information about Qt</source>
+        <translation>Informaţii despre Qt</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Options...</source>
+        <translation>&amp;Setări...</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Encrypt Wallet...</source>
+        <translation>Criptează portofelul electronic...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Backup Wallet...</source>
+        <translation>&amp;Backup portofelul electronic...</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Change Passphrase...</source>
+        <translation>&amp;Schimbă parola...</translation>
+    </message>
+    <message>
+        <location line="+285"/>
+        <source>Importing blocks from disk...</source>
+        <translation>Importare blocks de pe disk...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Reindexing blocks on disk...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-347"/>
+        <source>Send coins to a MaxCoin address</source>
+        <translation>&amp;Trimiteţi MaxCoin către o anumită adresă</translation>
+    </message>
+    <message>
+        <location line="+49"/>
+        <source>Modify configuration options for MaxCoin</source>
+        <translation>Modifică setările pentru MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Backup wallet to another location</source>
+        <translation>Creaza copie de rezerva a portofelului intr-o locatie diferita</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Change the passphrase used for wallet encryption</source>
+        <translation>&amp;Schimbă parola folosită pentru criptarea portofelului electronic</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Debug window</source>
+        <translation>&amp; Fereastra debug</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open debugging and diagnostic console</source>
+        <translation>Deschide consola de debug si diagnosticare</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>&amp;Verify message...</source>
+        <translation>Verifica mesajul</translation>
+    </message>
+    <message>
+        <location line="-165"/>
+        <location line="+530"/>
+        <source>MaxCoin</source>
+        <translation>MaxCoin</translation>
+    </message>
+    <message>
+        <location line="-530"/>
+        <source>Wallet</source>
+        <translation>Portofelul</translation>
+    </message>
+    <message>
+        <location line="+101"/>
+        <source>&amp;Send</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>&amp;Receive</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>&amp;Addresses</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>&amp;About MaxCoin</source>
+        <translation>&amp;Despre MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>&amp;Show / Hide</source>
+        <translation>Arata/Ascunde</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show or hide the main Window</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Sign messages with your MaxCoin addresses to prove you own them</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Verify messages to ensure they were signed with specified MaxCoin addresses</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>&amp;File</source>
+        <translation>&amp;Fişier</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>&amp;Settings</source>
+        <translation>&amp;Setări</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Help</source>
+        <translation>&amp;Ajutor</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Tabs toolbar</source>
+        <translation>Bara de ferestre de lucru</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <location line="+10"/>
+        <source>[testnet]</source>
+        <translation>[testnet]</translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>MaxCoin client</source>
+        <translation>Client MaxCoin</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+141"/>
+        <source>%n active connection(s) to MaxCoin network</source>
+        <translation><numerusform>%n active connections to MaxCoin network</numerusform><numerusform>%n active connections to MaxCoin network</numerusform><numerusform>%n a
