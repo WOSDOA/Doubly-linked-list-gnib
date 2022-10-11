@@ -699,4 +699,160 @@ Address: %4
     <message>
         <location line="+10"/>
         <source>The address associated with this address book entry. This can only be modified for sending addresses.</source>
-        <translation>Adresa asociată cu această înregistrare în Lista de adrese. Aceasta poate fi modificată doar pe
+        <translation>Adresa asociată cu această înregistrare în Lista de adrese. Aceasta poate fi modificată doar pentru expediere.</translation>
+    </message>
+    <message>
+        <location filename="../editaddressdialog.cpp" line="+21"/>
+        <source>New receiving address</source>
+        <translation>Noua adresă de primire</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>New sending address</source>
+        <translation>Noua adresă de trimitere</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Edit receiving address</source>
+        <translation>Editează adresa de primire</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Edit sending address</source>
+        <translation>Editează adresa de trimitere</translation>
+    </message>
+    <message>
+        <location line="+76"/>
+        <source>The entered address &quot;%1&quot; is already in the address book.</source>
+        <translation>Adresa introdusă &quot;%1&quot; se află deja în Lista de adrese.</translation>
+    </message>
+    <message>
+        <location line="-5"/>
+        <source>The entered address &quot;%1&quot; is not a valid MaxCoin address.</source>
+        <translation>Adresa introdusă &quot;%1&quot; nu este o adresă bitcoin valabilă.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Could not unlock wallet.</source>
+        <translation>Portofelul electronic nu a putut fi deblocat .</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>New key generation failed.</source>
+        <translation>New key generation failed.</translation>
+    </message>
+</context>
+<context>
+    <name>GUIUtil::HelpMessageBox</name>
+    <message>
+        <location filename="../guiutil.cpp" line="+424"/>
+        <location line="+12"/>
+        <source>MaxCoin-Qt</source>
+        <translation>MaxCoin-Qt</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <source>version</source>
+        <translation>versiunea</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Usage:</source>
+        <translation>Uz:</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>command-line options</source>
+        <translation>command-line setări</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>UI options</source>
+        <translation>UI setări</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Set language, for example &quot;de_DE&quot; (default: system locale)</source>
+        <translation>Seteaza limba, de exemplu: &quot;de_DE&quot; (initialt: system locale)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start minimized</source>
+        <translation>Incepe miniaturizare</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show splash screen on startup (default: 1)</source>
+        <translation>Afișează pe ecran splash la pornire (implicit: 1)</translation>
+    </message>
+</context>
+<context>
+    <name>OptionsDialog</name>
+    <message>
+        <location filename="../forms/optionsdialog.ui" line="+14"/>
+        <source>Options</source>
+        <translation>Setări</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>&amp;Main</source>
+        <translation>&amp;Principal</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Pay transaction &amp;fee</source>
+        <translation>Plăteşte comision pentru tranzacţie &amp;f</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Automatically start MaxCoin after logging in to the system.</source>
+        <translation>Porneşte automat programul MaxCoin la pornirea computerului.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Start MaxCoin on system login</source>
+        <translation>&amp;S Porneşte MaxCoin la pornirea sistemului</translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>Reset all client options to default.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Reset Options</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>&amp;Network</source>
+        <translation>&amp;Retea</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Automatically open the MaxCoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Deschide automat în router portul aferent clientului MaxCoin. Funcţionează doar în cazul în care routerul e compatibil UPnP şi opţiunea e activată.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Map port using &amp;UPnP</source>
+        <translation>Mapeaza portul folosind &amp;UPnP</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Connect to the MaxCoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
+        <translation>Conectare la reţeaua MaxCoin folosind un proxy SOCKS (de exemplu, când conexiunea se stabileşte prin reţeaua Tor)</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Connect through SOCKS proxy:</source>
+        <translation>&amp;Conectează prin proxy SOCKS:</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Proxy &amp;IP:</sour
