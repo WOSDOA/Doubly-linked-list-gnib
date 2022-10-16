@@ -1179,4 +1179,170 @@ Address: %4
         <translation>Pe testnet</translation>
     </message>
     <message>
-        <locatio
+        <location line="+23"/>
+        <source>Block chain</source>
+        <translation>Lant bloc</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current number of blocks</source>
+        <translation>Numarul curent de blockuri</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Estimated total blocks</source>
+        <translation>Estimarea totala a blocks</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Last block time</source>
+        <translation>Ultimul block a fost gasit la:</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>&amp;Open</source>
+        <translation>&amp;Deschide</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Command-line options</source>
+        <translation>Command-line setări</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Show the MaxCoin-Qt help message to get a list with possible MaxCoin command-line options.</source>
+        <translation>Arata mesajul de ajutor MaxCoin-QT pentru a obtine o lista cu posibilele optiuni ale comenzilor MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Show</source>
+        <translation>&amp; Arata</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>&amp;Console</source>
+        <translation>&amp;Consola</translation>
+    </message>
+    <message>
+        <location line="-260"/>
+        <source>Build date</source>
+        <translation>Construit la data:</translation>
+    </message>
+    <message>
+        <location line="-104"/>
+        <source>MaxCoin - Debug window</source>
+        <translation>MaxCoin-Fereastra pentru debug</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>MaxCoin Core</source>
+        <translation>MaxCoin Core</translation>
+    </message>
+    <message>
+        <location line="+279"/>
+        <source>Debug log file</source>
+        <translation>Loguri debug</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Open the MaxCoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Deschide logurile debug din directorul curent. Aceasta poate dura cateva secunde pentru fisierele mai mari</translation>
+    </message>
+    <message>
+        <location line="+102"/>
+        <source>Clear console</source>
+        <translation>Curata consola</translation>
+    </message>
+    <message>
+        <location filename="../rpcconsole.cpp" line="-30"/>
+        <source>Welcome to the MaxCoin RPC console.</source>
+        <translation>Bun venit la consola bitcoin RPC</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
+        <translation>Foloseste sagetile sus si jos pentru a naviga in istoric si &lt;b&gt;Ctrl-L&lt;/b&gt; pentru a curata.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
+        <translation>Scrie &lt;b&gt;help&lt;/b&gt; pentru a vedea comenzile disponibile</translation>
+    </message>
+</context>
+<context>
+    <name>SendCoinsDialog</name>
+    <message>
+        <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
+        <location filename="../sendcoinsdialog.cpp" line="+124"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+6"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <source>Send Coins</source>
+        <translation>Trimite MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <source>Send to multiple recipients at once</source>
+        <translation>Trimite simultan către mai mulţi destinatari</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Add &amp;Recipient</source>
+        <translation>&amp;Adaugă destinatar</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Remove all transaction fields</source>
+        <translation>Sterge toate spatiile de tranzactie</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Clear &amp;All</source>
+        <translation>Şterge &amp;tot</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Balance:</source>
+        <translation>Balanţă:</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>123.456 BTC</source>
+        <translation>123.456 BTC</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Confirm the send action</source>
+        <translation>Confirmă operaţiunea de trimitere</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>S&amp;end</source>
+        <translation>&amp;S Trimite</translation>
+    </message>
+    <message>
+        <location filename="../sendcoinsdialog.cpp" line="-59"/>
+        <source>&lt;b&gt;%1&lt;/b&gt; to %2 (%3)</source>
+        <translation>&lt;b&gt;%1&lt;/b&gt; la %2 (%3)</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Confirm send coins</source>
+        <translation>Confirmaţi trimiterea de bitcoin</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Are you sure you want to send %1?</source>
+        <translation>Sunteţi sigur că doriţi să trimiteţi %1?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source> and </source>
+        <translation> şi </translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>The recipient address is not valid, 
