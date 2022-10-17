@@ -1489,4 +1489,156 @@ Address: %4
     </message>
     <message>
         <location line="+12"/>
-        <source>Enter the message you want to
+        <source>Enter the message you want to sign here</source>
+        <translation>Introduce mesajul pe care vrei sa il semnezi, aici.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Signature</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Copy the current signature to the system clipboard</source>
+        <translation>Copiaza semnatura curenta in clipboard-ul sistemului</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Sign the message to prove you own this MaxCoin address</source>
+        <translation>Semneaza mesajul pentru a dovedi ca detii acesta adresa MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Sign &amp;Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Reset all sign message fields</source>
+        <translation>Reseteaza toate spatiile mesajelor semnate.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location line="+146"/>
+        <source>Clear &amp;All</source>
+        <translation>Şterge &amp;tot</translation>
+    </message>
+    <message>
+        <location line="-87"/>
+        <source>&amp;Verify Message</source>
+        <translation>Verifica mesajul</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>The address the message was signed with (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
+        <translation>Introduceţi o adresă MaxCoin (de exemplu: mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+    </message>
+    <message>
+        <location line="+40"/>
+        <source>Verify the message to ensure it was signed with the specified MaxCoin address</source>
+        <translation>Verifica mesajul pentru a fi sigur ca a fost semnat cu adresa MaxCoin specifica</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Verify &amp;Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Reset all verify message fields</source>
+        <translation>Reseteaza toate spatiile mesajelor semnate.</translation>
+    </message>
+    <message>
+        <location filename="../signverifymessagedialog.cpp" line="+27"/>
+        <location line="+3"/>
+        <source>Enter a MaxCoin address (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
+        <translation>Introduceţi o adresă MaxCoin (de exemplu: mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Click &quot;Sign Message&quot; to generate signature</source>
+        <translation>Click &quot;Semneaza msajul&quot; pentru a genera semnatura</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enter MaxCoin signature</source>
+        <translation>Introduce semnatura bitocin</translation>
+    </message>
+    <message>
+        <location line="+82"/>
+        <location line="+81"/>
+        <source>The entered address is invalid.</source>
+        <translation>Adresa introdusa nu este valida</translation>
+    </message>
+    <message>
+        <location line="-81"/>
+        <location line="+8"/>
+        <location line="+73"/>
+        <location line="+8"/>
+        <source>Please check the address and try again.</source>
+        <translation>Te rugam verifica adresa si introduce-o din nou</translation>
+    </message>
+    <message>
+        <location line="-81"/>
+        <location line="+81"/>
+        <source>The entered address does not refer to a key.</source>
+        <translation>Adresa introdusa nu se refera la o cheie.</translation>
+    </message>
+    <message>
+        <location line="-73"/>
+        <source>Wallet unlock was cancelled.</source>
+        <translation>Blocarea portofelului a fost intrerupta</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Private key for the entered address is not available.</source>
+        <translation>Cheia privata pentru adresa introdusa nu este valida.</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Message signing failed.</source>
+        <translation>Semnarea mesajului a esuat</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Message signed.</source>
+        <translation>Mesaj Semnat!</translation>
+    </message>
+    <message>
+        <location line="+59"/>
+        <source>The signature could not be decoded.</source>
+        <translation>Aceasta semnatura nu a putut fi decodata</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+13"/>
+        <source>Please check the signature and try again.</source>
+        <translation>Verifica semnatura si incearca din nou</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>The signature did not match the message digest.</source>
+        <translation>Semnatura nu seamana!</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Message verification failed.</source>
+        <translation>Verificarea mesajului a esuat</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Message verified.</source>
+        <translation>Mesaj verificat</translation>
+    </message>
+</context>
+<context>
+    <name>SplashScreen</name>
+    <message>
+        <location filename="../splashscreen.cpp" line="+22"/>
+        <source>The MaxCoin developers</source>
+        <translation type="u
