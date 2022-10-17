@@ -1345,4 +1345,148 @@ Address: %4
     </message>
     <message>
         <location line="+23"/>
-        <source>The recipient address is not valid, 
+        <source>The recipient address is not valid, please recheck.</source>
+        <translation>Adresa destinatarului nu este validă, vă rugăm să o verificaţi.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>The amount to pay must be larger than 0.</source>
+        <translation>Suma de plată trebuie să fie mai mare decât 0.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>The amount exceeds your balance.</source>
+        <translation>Suma depăşeşte soldul contului.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>The total exceeds your balance when the %1 transaction fee is included.</source>
+        <translation>Total depăşeşte soldul contului in cazul plăţii comisionului de %1.</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Duplicate address found, can only send to each address once per send operation.</source>
+        <translation>S-a descoperit o adresă care figurează de două ori. Expedierea se poate realiza către fiecare adresă doar o singură dată pe operaţiune.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Error: Transaction creation failed!</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Error: The transaction was rejected. This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
+        <translation>Eroare: Tranyacţia a fost respinsă.  Acesta poate fi rezultatul cheltuirii prealabile a unei sume de bitcoin din portofelul electronic, ca în cazul folosirii unei copii a fisierului wallet.dat, în care s-au efectuat tranzacţii neînregistrate în fisierul curent.</translation>
+    </message>
+</context>
+<context>
+    <name>SendCoinsEntry</name>
+    <message>
+        <location filename="../forms/sendcoinsentry.ui" line="+14"/>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>A&amp;mount:</source>
+        <translation>Su&amp;mă :</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Pay &amp;To:</source>
+        <translation>Plăteşte Că&amp;tre:</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>The address to send the payment to (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+60"/>
+        <location filename="../sendcoinsentry.cpp" line="+26"/>
+        <source>Enter a label for this address to add it to your address book</source>
+        <translation>Adaugă o etichetă acestei adrese pentru a o trece în Lista de adrese</translation>
+    </message>
+    <message>
+        <location line="-78"/>
+        <source>&amp;Label:</source>
+        <translation>&amp;L Etichetă:</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Choose address from address book</source>
+        <translation>Alegeţi adresa din Listă</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Alt+A</source>
+        <translation>Alt+A</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Paste address from clipboard</source>
+        <translation>Lipiţi adresa copiată in clipboard.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Alt+P</source>
+        <translation>Alt+P</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Remove this recipient</source>
+        <translation>Şterge destinatarul</translation>
+    </message>
+    <message>
+        <location filename="../sendcoinsentry.cpp" line="+1"/>
+        <source>Enter a MaxCoin address (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
+        <translation>Introduceţi o adresă MaxCoin (de exemplu: mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+    </message>
+</context>
+<context>
+    <name>SignVerifyMessageDialog</name>
+    <message>
+        <location filename="../forms/signverifymessagedialog.ui" line="+14"/>
+        <source>Signatures - Sign / Verify a Message</source>
+        <translation>Semnatura- Semneaza/verifica un mesaj</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>&amp;Sign Message</source>
+        <translation>Semneaza Mesajul</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>The address to sign the message with (e.g. mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</source>
+        <translation>Introduceţi o adresă MaxCoin (de exemplu: mXAdbKFo1vu3Svqt4fWMyZM6jQTMuBR4RG)</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <location line="+213"/>
+        <source>Choose an address from the address book</source>
+        <translation>Alegeţi adresa din Listă</translation>
+    </message>
+    <message>
+        <location line="-203"/>
+        <location line="+213"/>
+        <source>Alt+A</source>
+        <translation>Alt+A</translation>
+    </message>
+    <message>
+        <location line="-203"/>
+        <source>Paste address from clipboard</source>
+        <translation>Lipiţi adresa copiată in clipboard.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Alt+P</source>
+        <translation>Alt+P</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Enter the message you want to
