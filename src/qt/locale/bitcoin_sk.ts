@@ -198,4 +198,143 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="+33"/>
-        <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;10 or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more
+        <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;10 or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
+        <translation>Zadajte nové heslo k peňaženke.&lt;br/&gt;Prosím použite heslo s dĺžkou aspon &lt;b&gt;10 alebo viac náhodných znakov&lt;/b&gt;, alebo &lt;b&gt;8 alebo viac slov&lt;/b&gt;.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Encrypt wallet</source>
+        <translation>Zašifrovať peňaženku</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>This operation needs your wallet passphrase to unlock the wallet.</source>
+        <translation>Táto operácia potrebuje heslo k vašej peňaženke aby ju mohla dešifrovať.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Unlock wallet</source>
+        <translation>Odomknúť peňaženku</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
+        <translation>Táto operácia potrebuje heslo k vašej peňaženke na dešifrovanie peňaženky.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Decrypt wallet</source>
+        <translation>Dešifrovať peňaženku</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Change passphrase</source>
+        <translation>Zmena hesla</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enter the old and new passphrase to the wallet.</source>
+        <translation>Zadajte staré a nové heslo k peňaženke.</translation>
+    </message>
+    <message>
+        <location line="+46"/>
+        <source>Confirm wallet encryption</source>
+        <translation>Potvrďte šifrovanie peňaženky</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
+        <translation>Varovanie: Ak zašifrujete peňaženku a stratíte heslo, &lt;b&gt;STRATÍTE VŠETKY VAŠE BITCOINY&lt;/b&gt;!⏎</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Are you sure you wish to encrypt your wallet?</source>
+        <translation>Ste si istí, že si želáte zašifrovať peňaženku?</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+100"/>
+        <location line="+24"/>
+        <source>Warning: The Caps Lock key is on!</source>
+        <translation>Varovanie: Caps Lock je zapnutý</translation>
+    </message>
+    <message>
+        <location line="-130"/>
+        <location line="+58"/>
+        <source>Wallet encrypted</source>
+        <translation>Peňaženka zašifrovaná</translation>
+    </message>
+    <message>
+        <location line="-56"/>
+        <source>MaxCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <translation>MaxCoin sa teraz ukončí pre dokončenie procesu šifrovania. Pamätaj že šifrovanie peňaženky Ťa nemôže úplne ochrániť pred kráďežou bitcoinov pomocou škodlivého software.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <location line="+7"/>
+        <location line="+42"/>
+        <location line="+6"/>
+        <source>Wallet encryption failed</source>
+        <translation>Šifrovanie peňaženky zlyhalo</translation>
+    </message>
+    <message>
+        <location line="-54"/>
+        <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
+        <translation>Šifrovanie peňaženky zlyhalo kôli internej chybe. Vaša peňaženka nebola zašifrovaná.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+48"/>
+        <source>The supplied passphrases do not match.</source>
+        <translation>Zadané heslá nesúhlasia.</translation>
+    </message>
+    <message>
+        <location line="-37"/>
+        <source>Wallet unlock failed</source>
+        <translation>Odomykanie peňaženky zlyhalo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+11"/>
+        <location line="+19"/>
+        <source>The passphrase entered for the wallet decryption was incorrect.</source>
+        <translation>Zadané heslo pre dešifrovanie peňaženky bolo nesprávne.</translation>
+    </message>
+    <message>
+        <location line="-20"/>
+        <source>Wallet decryption failed</source>
+        <translation>Zlyhalo šifrovanie peňaženky.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Wallet passphrase was successfully changed.</source>
+        <translation>Heslo k peňaženke bolo úspešne zmenené.</translation>
+    </message>
+</context>
+<context>
+    <name>BitcoinGUI</name>
+    <message>
+        <location filename="../bitcoingui.cpp" line="+233"/>
+        <source>Sign &amp;message...</source>
+        <translation>Podpísať &amp;správu...</translation>
+    </message>
+    <message>
+        <location line="+280"/>
+        <source>Synchronizing with network...</source>
+        <translation>Synchronizácia so sieťou...</translation>
+    </message>
+    <message>
+        <location line="-349"/>
+        <source>&amp;Overview</source>
+        <translation>&amp;Prehľad</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show general overview of wallet</source>
+        <translation>Zobraziť celkový prehľad o peňaženke</translation>
+    </message>
+    <mess
