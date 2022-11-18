@@ -2063,4 +2063,188 @@ Adresa: %4</translation>
     <message>
         <location line="+139"/>
         <source>Export Transaction Data</source>
-        <translation>Exportovať transakčné dát
+        <translation>Exportovať transakčné dáta</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Confirmed</source>
+        <translation>Potvrdené</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Date</source>
+        <translation>Dátum</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Type</source>
+        <translation>Typ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Label</source>
+        <translation>Popis</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Address</source>
+        <translation>Adresa</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Amount</source>
+        <translation>Suma</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Error exporting</source>
+        <translation>Chyba exportu</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Could not write to file %1.</source>
+        <translation>Nedalo sa zapisovať do súboru %1.</translation>
+    </message>
+    <message>
+        <location line="+100"/>
+        <source>Range:</source>
+        <translation>Rozsah:</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>to</source>
+        <translation>do</translation>
+    </message>
+</context>
+<context>
+    <name>WalletModel</name>
+    <message>
+        <location filename="../walletmodel.cpp" line="+193"/>
+        <source>Send Coins</source>
+        <translation>Poslať Bitcoins</translation>
+    </message>
+</context>
+<context>
+    <name>WalletView</name>
+    <message>
+        <location filename="../walletview.cpp" line="+42"/>
+        <source>&amp;Export</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportovať tento náhľad do súboru</translation>
+    </message>
+    <message>
+        <location line="+193"/>
+        <source>Backup Wallet</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Wallet Data (*.dat)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Backup Failed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>There was an error trying to save the wallet data to the new location.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Backup Successful</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>The wallet data was successfully saved to the new location.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>bitcoin-core</name>
+    <message>
+        <location filename="../bitcoinstrings.cpp" line="+94"/>
+        <source>MaxCoin version</source>
+        <translation>MaxCoin verzia</translation>
+    </message>
+    <message>
+        <location line="+102"/>
+        <source>Usage:</source>
+        <translation>Použitie:</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>Send command to -server or bitcoind</source>
+        <translation>Odoslať príkaz -server alebo bitcoind</translation>
+    </message>
+    <message>
+        <location line="-23"/>
+        <source>List commands</source>
+        <translation>Zoznam príkazov</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <source>Get help for a command</source>
+        <translation>Dostať pomoc pre príkaz</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Options:</source>
+        <translation>Možnosti:</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Specify configuration file (default: bitcoin.conf)</source>
+        <translation>Určiť súbor s nastaveniami (predvolené: bitcoin.conf)</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Specify pid file (default: bitcoind.pid)</source>
+        <translation>Určiť súbor pid (predvolené: bitcoind.pid)</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Specify data directory</source>
+        <translation>Určiť priečinok s dátami</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>Set database cache size in megabytes (default: 25)</source>
+        <translation>Veľkosť vyrovnávajúcej pamäte pre databázu v megabytoch (predvolené:25)</translation>
+    </message>
+    <message>
+        <location line="-28"/>
+        <source>Listen for connections on &lt;port&gt; (default: 8333 or testnet: 18668)</source>
+        <translation>Načúvať spojeniam na &lt;port&gt; (prednastavené: 8333 alebo testovacia sieť: 18668)</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Maintain at most &lt;n&gt; connections to peers (default: 125)</source>
+        <translation>Udržiavať maximálne &lt;n&gt; spojení (predvolené: 125)</translation>
+    </message>
+    <message>
+        <location line="-48"/>
+        <source>Connect to a node to retrieve peer addresses, and disconnect</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+82"/>
+        <source>Specify your own public address</source>
+        <translation type="unfinishe
