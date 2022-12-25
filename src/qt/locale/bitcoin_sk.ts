@@ -2711,4 +2711,152 @@ for example: alertnotify=echo %%s | mail -s &quot;MaxCoin Alert&quot; admin@foo.
     </message>
     <message>
         <location line="+1"/>
-        <source>w
+        <source>wallet.dat corrupt, salvage failed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-50"/>
+        <source>Password for JSON-RPC connections</source>
+        <translation>Heslo pre JSON-rPC spojenia</translation>
+    </message>
+    <message>
+        <location line="-67"/>
+        <source>Allow JSON-RPC connections from specified IP address</source>
+        <translation>Povoliť JSON-RPC spojenia z určenej IP adresy.</translation>
+    </message>
+    <message>
+        <location line="+76"/>
+        <source>Send commands to node running on &lt;ip&gt; (default: 127.0.0.1)</source>
+        <translation>Poslať príkaz nóde bežiacej na &lt;ip&gt; (predvolené: 127.0.0.1)</translation>
+    </message>
+    <message>
+        <location line="-120"/>
+        <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
+        <translation>Vykonaj príkaz, ak zmeny v najlepšom bloku (%s v príkaze nahradí blok hash)</translation>
+    </message>
+    <message>
+        <location line="+147"/>
+        <source>Upgrade wallet to latest format</source>
+        <translation>Aktualizuj peňaženku na najnovší formát.</translation>
+    </message>
+    <message>
+        <location line="-21"/>
+        <source>Set key pool size to &lt;n&gt; (default: 100)</source>
+        <translation>Nastaviť zásobu adries na &lt;n&gt; (predvolené: 100)</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <source>Rescan the block chain for missing wallet transactions</source>
+        <translation>Znovu skenovať reťaz blokov pre chýbajúce transakcie</translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>Use OpenSSL (https) for JSON-RPC connections</source>
+        <translation>Použiť OpenSSL (https) pre JSON-RPC spojenia</translation>
+    </message>
+    <message>
+        <location line="-26"/>
+        <source>Server certificate file (default: server.cert)</source>
+        <translation>Súbor s certifikátom servra (predvolené: server.cert)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Server private key (default: server.pem)</source>
+        <translation>Súkromný kľúč servra (predvolené: server.pem)</translation>
+    </message>
+    <message>
+        <location line="-151"/>
+        <source>Acceptable ciphers (default: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</source>
+        <translation>Prijateľné šifry (predvolené: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</translation>
+    </message>
+    <message>
+        <location line="+165"/>
+        <source>This help message</source>
+        <translation>Táto pomocná správa</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Unable to bind to %s on this computer (bind returned error %d, %s)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-91"/>
+        <source>Connect through socks proxy</source>
+        <translation>Pripojenie cez socks proxy</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
+        <translation>Povoliť vyhľadávanie DNS pre pridanie nódy a spojenie</translation>
+    </message>
+    <message>
+        <location line="+55"/>
+        <source>Loading addresses...</source>
+        <translation>Načítavanie adries...</translation>
+    </message>
+    <message>
+        <location line="-35"/>
+        <source>Error loading wallet.dat: Wallet corrupted</source>
+        <translation>Chyba načítania wallet.dat: Peňaženka je poškodená</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Error loading wallet.dat: Wallet requires newer version of MaxCoin</source>
+        <translation>Chyba načítania wallet.dat: Peňaženka vyžaduje novšiu verziu MaxCoin</translation>
+    </message>
+    <message>
+        <location line="+93"/>
+        <source>Wallet needed to be rewritten: restart MaxCoin to complete</source>
+        <translation>Bolo potrebné prepísať peňaženku: dokončite reštartovaním MaxCoin</translation>
+    </message>
+    <message>
+        <location line="-95"/>
+        <source>Error loading wallet.dat</source>
+        <translation>Chyba načítania wallet.dat</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Invalid -proxy address: &apos;%s&apos;</source>
+        <translation>Neplatná adresa proxy: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+56"/>
+        <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Unknown -socks proxy version requested: %i</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>Cannot resolve -bind address: &apos;%s&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+44"/>
+        <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation>Neplatná suma pre -paytxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Invalid amount</source>
+        <translation>Neplatná suma</translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>Insufficient funds</source>
+        <translation>Nedostatok prostriedkov</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Loading block index...</source>
+        <translation>Načítavanie zoznamu blokov...</translation>
+    </message>
+    <message
