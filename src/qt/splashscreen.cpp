@@ -47,4 +47,38 @@ SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f) :
     }
 
     //pixPaint.setFont(QFont(font, 33*fontFactor));
-    //fm = pixPain
+    //fm = pixPaint.fontMetrics();
+    //titleTextWidth  = fm.width(titleText);
+    //pixPaint.drawText(newPixmap.width()-titleTextWidth-paddingRight,paddingTop,titleText);
+
+    //pixPaint.setFont(QFont(font, 15*fontFactor));
+
+    // if the version string is to long, reduce size
+    //fm = pixPaint.fontMetrics();
+    //int versionTextWidth  = fm.width(versionText);
+    //if(versionTextWidth > titleTextWidth+paddingRight-10) {
+    //    pixPaint.setFont(QFont(font, 10*fontFactor));
+    //    titleVersionVSpace -= 5;
+    //}
+    //pixPaint.drawText(newPixmap.width()-titleTextWidth-paddingRight+2,paddingTop+titleVersionVSpace,versionText);
+
+    // draw copyright stuff
+    //pixPaint.setFont(QFont(font, 10*fontFactor));
+    //pixPaint.drawText(newPixmap.width()-titleTextWidth-paddingRight,paddingTop+titleCopyrightVSpace,copyrightText);
+    //pixPaint.drawText(newPixmap.width()-titleTextWidth-paddingRight,paddingTop+titleCopyrightVSpace+12,copyrightText2);
+
+    // draw testnet string if -testnet is on
+    if(QApplication::applicationName().contains(QString("-testnet"))) {
+        // draw copyright stuff
+        QFont boldFont = QFont(font, 10*fontFactor);
+        boldFont.setWeight(QFont::Bold);
+        pixPaint.setFont(boldFont);
+        fm = pixPaint.fontMetrics();
+        int testnetAddTextWidth  = fm.width(testnetAddText);
+        pixPaint.drawText(newPixmap.width()-testnetAddTextWidth-10,15,testnetAddText);
+    }
+
+    pixPaint.end();
+
+    this->setPixmap(newPixmap);
+}
