@@ -266,4 +266,187 @@ int TransactionTableModel::rowCount(const QModelIndex &parent) const
     return priv->size();
 }
 
-int Transac
+int TransactionTableModel::columnCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    return columns.length();
+}
+
+QString TransactionTableModel::formatTxStatus(const TransactionRecord *wtx) const
+{
+    QString status;
+
+    switch(wtx->status.status)
+    {
+    case TransactionStatus::OpenUntilBlock:
+        status = tr("Open for %n more block(s)","",wtx->status.open_for);
+        break;
+    case TransactionStatus::OpenUntilDate:
+        status = tr("Open until %1").arg(GUIUtil::dateTimeStr(wtx->status.open_for));
+        break;
+    case TransactionStatus::Offline:
+        status = tr("Offline (%1 confirmations)").arg(wtx->status.depth);
+        break;
+    case TransactionStatus::Unconfirmed:
+        status = tr("Unconfirmed (%1 of %2 confirmations)").arg(wtx->status.depth).arg(TransactionRecord::NumConfirmations);
+        break;
+    case TransactionStatus::HaveConfirmations:
+        status = tr("Confirmed (%1 confirmations)").arg(wtx->status.depth);
+        break;
+    }
+    if(wtx->type == TransactionRecord::Generated)
+    {
+        switch(wtx->status.maturity)
+        {
+        case TransactionStatus::Immature:
+            status += "\n" + tr("Mined balance will be available when it matures in %n more block(s)", "", wtx->status.matures_in);
+            break;
+        case TransactionStatus::Mature:
+            break;
+        case TransactionStatus::MaturesWarning:
+            status += "\n" + tr("This block was not received by any other nodes and will probably not be accepted!");
+            break;
+        case TransactionStatus::NotAccepted:
+            status += "\n" + tr("Generated but not accepted");
+            break;
+        }
+    }
+
+    return status;
+}
+
+QString TransactionTableModel::formatTxDate(const TransactionRecord *wtx) const
+{
+    if(wtx->time)
+    {
+        return GUIUtil::dateTimeStr(wtx->time);
+    }
+    else
+    {
+        return QString();
+    }
+}
+
+/* Look up address in address book, if found return label (address)
+   otherwise just return (address)
+ */
+QString TransactionTableModel::lookupAddress(const std::string &address, bool tooltip) const
+{
+    QString label = walletModel->getAddressTableModel()->labelForAddress(QString::fromStdString(address));
+    QString description;
+    if(!label.isEmpty())
+    {
+        description += label + QString(" ");
+    }
+    if(label.isEmpty() || walletModel->getOptionsModel()->getDisplayAddresses() || tooltip)
+    {
+        description += QString("(") + QString::fromStdString(address) + QString(")");
+    }
+    return description;
+}
+
+QString TransactionTableModel::formatTxType(const TransactionRecord *wtx) const
+{
+    switch(wtx->type)
+    {
+    case TransactionRecord::RecvWithAddress:
+        return tr("Received with");
+    case TransactionRecord::RecvFromOther:
+        return tr("Received from");
+    case TransactionRecord::SendToAddress:
+    case TransactionRecord::SendToOther:
+        return tr("Sent to");
+    case TransactionRecord::SendToSelf:
+        return tr("Payment to yourself");
+    case TransactionRecord::Generated:
+        return tr("Mined");
+    default:
+        return QString();
+    }
+}
+
+QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord *wtx) const
+{
+    switch(wtx->type)
+    {
+    case TransactionRecord::Generated:
+        return QIcon(":/icons/tx_mined");
+    case TransactionRecord::RecvWithAddress:
+    case TransactionRecord::RecvFromOther:
+        return QIcon(":/icons/tx_input");
+    case TransactionRecord::SendToAddress:
+    case TransactionRecord::SendToOther:
+        return QIcon(":/icons/tx_output");
+    default:
+        return QIcon(":/icons/tx_inout");
+    }
+    return QVariant();
+}
+
+QString TransactionTableModel::formatTxToAddress(const TransactionRecord *wtx, bool tooltip) const
+{
+    switch(wtx->type)
+    {
+    case TransactionRecord::RecvFromOther:
+        return QString::fromStdString(wtx->address);
+    case TransactionRecord::RecvWithAddress:
+    case TransactionRecord::SendToAddress:
+    case TransactionRecord::Generated:
+        return lookupAddress(wtx->address, tooltip);
+    case TransactionRecord::SendToOther:
+        return QString::fromStdString(wtx->address);
+    case TransactionRecord::SendToSelf:
+    default:
+        return tr("(n/a)");
+    }
+}
+
+QVariant TransactionTableModel::addressColor(const TransactionRecord *wtx) const
+{
+    // Show addresses without label in a less visible color
+    switch(wtx->type)
+    {
+    case TransactionRecord::RecvWithAddress:
+    case TransactionRecord::SendToAddress:
+    case TransactionRecord::Generated:
+        {
+        QString label = walletModel->getAddressTableModel()->labelForAddress(QString::fromStdString(wtx->address));
+        if(label.isEmpty())
+            return COLOR_BAREADDRESS;
+        } break;
+    case TransactionRecord::SendToSelf:
+        return COLOR_BAREADDRESS;
+    default:
+        break;
+    }
+    return QVariant();
+}
+
+QString TransactionTableModel::formatTxAmount(const TransactionRecord *wtx, bool showUnconfirmed) const
+{
+    QString str = BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), wtx->credit + wtx->debit);
+    if(showUnconfirmed)
+    {
+        if(!wtx->status.confirmed || wtx->status.maturity != TransactionStatus::Mature)
+        {
+            str = QString("[") + str + QString("]");
+        }
+    }
+    return QString(str);
+}
+
+QVariant TransactionTableModel::txStatusDecoration(const TransactionRecord *wtx) const
+{
+    if(wtx->type == TransactionRecord::Generated)
+    {
+        switch(wtx->status.maturity)
+        {
+        case TransactionStatus::Immature: {
+            int total = wtx->status.depth + wtx->status.matures_in;
+            int part = (wtx->status.depth * 4 / total) + 1;
+            return QIcon(QString(":/icons/transaction_%1").arg(part));
+            }
+        case TransactionStatus::Mature:
+            return QIcon(":/icons/transaction_confirmed");
+        case TransactionStatus::MaturesWarning:
+        case Transac
