@@ -76,4 +76,177 @@ bool parseCommandLine(std::vector<std::string> &args, const std::string &strComm
     {
         switch(state)
         {
-        case STATE_ARGUMENT: // In or after argum
+        case STATE_ARGUMENT: // In or after argument
+        case STATE_EATING_SPACES: // Handle runs of whitespace
+            switch(ch)
+            {
+            case '"': state = STATE_DOUBLEQUOTED; break;
+            case '\'': state = STATE_SINGLEQUOTED; break;
+            case '\\': state = STATE_ESCAPE_OUTER; break;
+            case ' ': case '\n': case '\t':
+                if(state == STATE_ARGUMENT) // Space ends argument
+                {
+                    args.push_back(curarg);
+                    curarg.clear();
+                }
+                state = STATE_EATING_SPACES;
+                break;
+            default: curarg += ch; state = STATE_ARGUMENT;
+            }
+            break;
+        case STATE_SINGLEQUOTED: // Single-quoted string
+            switch(ch)
+            {
+            case '\'': state = STATE_ARGUMENT; break;
+            default: curarg += ch;
+            }
+            break;
+        case STATE_DOUBLEQUOTED: // Double-quoted string
+            switch(ch)
+            {
+            case '"': state = STATE_ARGUMENT; break;
+            case '\\': state = STATE_ESCAPE_DOUBLEQUOTED; break;
+            default: curarg += ch;
+            }
+            break;
+        case STATE_ESCAPE_OUTER: // '\' outside quotes
+            curarg += ch; state = STATE_ARGUMENT;
+            break;
+        case STATE_ESCAPE_DOUBLEQUOTED: // '\' in double-quoted text
+            if(ch != '"' && ch != '\\') curarg += '\\'; // keep '\' for everything but the quote and '\' itself
+            curarg += ch; state = STATE_DOUBLEQUOTED;
+            break;
+        }
+    }
+    switch(state) // final state
+    {
+    case STATE_EATING_SPACES:
+        return true;
+    case STATE_ARGUMENT:
+        args.push_back(curarg);
+        return true;
+    default: // ERROR to end in one of the other states
+        return false;
+    }
+}
+
+void RPCExecutor::request(const QString &command)
+{
+    std::vector<std::string> args;
+    if(!parseCommandLine(args, command.toStdString()))
+    {
+        emit reply(RPCConsole::CMD_ERROR, QString("Parse error: unbalanced ' or \""));
+        return;
+    }
+    if(args.empty())
+        return; // Nothing to do
+    try
+    {
+        std::string strPrint;
+        // Convert argument list to JSON objects in method-dependent way,
+        // and pass it along with the method name to the dispatcher.
+        json_spirit::Value result = tableRPC.execute(
+            args[0],
+            RPCConvertValues(args[0], std::vector<std::string>(args.begin() + 1, args.end())));
+
+        // Format result reply
+        if (result.type() == json_spirit::null_type)
+            strPrint = "";
+        else if (result.type() == json_spirit::str_type)
+            strPrint = result.get_str();
+        else
+            strPrint = write_string(result, true);
+
+        emit reply(RPCConsole::CMD_REPLY, QString::fromStdString(strPrint));
+    }
+    catch (json_spirit::Object& objError)
+    {
+        try // Nice formatting for standard-format error
+        {
+            int code = find_value(objError, "code").get_int();
+            std::string message = find_value(objError, "message").get_str();
+            emit reply(RPCConsole::CMD_ERROR, QString::fromStdString(message) + " (code " + QString::number(code) + ")");
+        }
+        catch(std::runtime_error &) // raised when converting to invalid type, i.e. missing code or message
+        {   // Show raw JSON object
+            emit reply(RPCConsole::CMD_ERROR, QString::fromStdString(write_string(json_spirit::Value(objError), false)));
+        }
+    }
+    catch (std::exception& e)
+    {
+        emit reply(RPCConsole::CMD_ERROR, QString("Error: ") + QString::fromStdString(e.what()));
+    }
+}
+
+RPCConsole::RPCConsole(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::RPCConsole),
+    clientModel(0),
+    historyPtr(0)
+{
+    ui->setupUi(this);
+
+#ifndef Q_OS_MAC
+    ui->openDebugLogfileButton->setIcon(QIcon(":/icons/export"));
+    ui->showCLOptionsButton->setIcon(QIcon(":/icons/options"));
+#endif
+
+    // Install event filter for up and down arrow
+    ui->lineEdit->installEventFilter(this);
+    ui->messagesWidget->installEventFilter(this);
+
+    connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clear()));
+
+    // set OpenSSL version label
+    ui->openSSLVersion->setText(SSLeay_version(SSLEAY_VERSION));
+
+    startExecutor();
+
+    clear();
+}
+
+RPCConsole::~RPCConsole()
+{
+    emit stopExecutor();
+    delete ui;
+}
+
+bool RPCConsole::eventFilter(QObject* obj, QEvent *event)
+{
+    if(event->type() == QEvent::KeyPress) // Special key handling
+    {
+        QKeyEvent *keyevt = static_cast<QKeyEvent*>(event);
+        int key = keyevt->key();
+        Qt::KeyboardModifiers mod = keyevt->modifiers();
+        switch(key)
+        {
+        case Qt::Key_Up: if(obj == ui->lineEdit) { browseHistory(-1); return true; } break;
+        case Qt::Key_Down: if(obj == ui->lineEdit) { browseHistory(1); return true; } break;
+        case Qt::Key_PageUp: /* pass paging keys to messages widget */
+        case Qt::Key_PageDown:
+            if(obj == ui->lineEdit)
+            {
+                QApplication::postEvent(ui->messagesWidget, new QKeyEvent(*keyevt));
+                return true;
+            }
+            break;
+        default:
+            // Typing in messages widget brings focus to line edit, and redirects key there
+            // Exclude most combinations and keys that emit no text, except paste shortcuts
+            if(obj == ui->messagesWidget && (
+                  (!mod && !keyevt->text().isEmpty() && key != Qt::Key_Tab) ||
+                  ((mod & Qt::ControlModifier) && key == Qt::Key_V) ||
+                  ((mod & Qt::ShiftModifier) && key == Qt::Key_Insert)))
+            {
+                ui->lineEdit->setFocus();
+                QApplication::postEvent(ui->lineEdit, new QKeyEvent(*keyevt));
+                return true;
+            }
+        }
+    }
+    return QDialog::eventFilter(obj, event);
+}
+
+void RPCConsole::setClientModel(ClientModel *model)
+{
+    this->clientModel = model;
