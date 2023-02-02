@@ -417,4 +417,11 @@ void RPCConsole::on_openDebugLogfileButton_clicked()
 void RPCConsole::scrollToEnd()
 {
     QScrollBar *scrollbar = ui->messagesWidget->verticalScrollBar();
-    scrollbar->setV
+    scrollbar->setValue(scrollbar->maximum());
+}
+
+void RPCConsole::on_showCLOptionsButton_clicked()
+{
+    GUIUtil::HelpMessageBox help;
+    help.exec();
+}
