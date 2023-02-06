@@ -449,4 +449,184 @@ QVariant TransactionTableModel::txStatusDecoration(const TransactionRecord *wtx)
         case TransactionStatus::Mature:
             return QIcon(":/icons/transaction_confirmed");
         case TransactionStatus::MaturesWarning:
-        case Transac
+        case TransactionStatus::NotAccepted:
+            return QIcon(":/icons/transaction_0");
+        }
+    }
+    else
+    {
+        switch(wtx->status.status)
+        {
+        case TransactionStatus::OpenUntilBlock:
+        case TransactionStatus::OpenUntilDate:
+            return QColor(64,64,255);
+            break;
+        case TransactionStatus::Offline:
+            return QColor(192,192,192);
+        case TransactionStatus::Unconfirmed:
+            switch(wtx->status.depth)
+            {
+            case 0: return QIcon(":/icons/transaction_0");
+            case 1: return QIcon(":/icons/transaction_1");
+            case 2: return QIcon(":/icons/transaction_2");
+            case 3: return QIcon(":/icons/transaction_3");
+            case 4: return QIcon(":/icons/transaction_4");
+            default: return QIcon(":/icons/transaction_5");
+            };
+        case TransactionStatus::HaveConfirmations:
+            return QIcon(":/icons/transaction_confirmed");
+        }
+    }
+    return QColor(0,0,0);
+}
+
+QString TransactionTableModel::formatTooltip(const TransactionRecord *rec) const
+{
+    QString tooltip = formatTxStatus(rec) + QString("\n") + formatTxType(rec);
+    if(rec->type==TransactionRecord::RecvFromOther || rec->type==TransactionRecord::SendToOther ||
+       rec->type==TransactionRecord::SendToAddress || rec->type==TransactionRecord::RecvWithAddress)
+    {
+        tooltip += QString(" ") + formatTxToAddress(rec, true);
+    }
+    return tooltip;
+}
+
+QVariant TransactionTableModel::data(const QModelIndex &index, int role) const
+{
+    if(!index.isValid())
+        return QVariant();
+    TransactionRecord *rec = static_cast<TransactionRecord*>(index.internalPointer());
+
+    switch(role)
+    {
+    case Qt::DecorationRole:
+        switch(index.column())
+        {
+        case Status:
+            return txStatusDecoration(rec);
+        case ToAddress:
+            return txAddressDecoration(rec);
+        }
+        break;
+    case Qt::DisplayRole:
+        switch(index.column())
+        {
+        case Date:
+            return formatTxDate(rec);
+        case Type:
+            return formatTxType(rec);
+        case ToAddress:
+            return formatTxToAddress(rec, false);
+        case Amount:
+            return formatTxAmount(rec);
+        }
+        break;
+    case Qt::EditRole:
+        // Edit role is used for sorting, so return the unformatted values
+        switch(index.column())
+        {
+        case Status:
+            return QString::fromStdString(rec->status.sortKey);
+        case Date:
+            return rec->time;
+        case Type:
+            return formatTxType(rec);
+        case ToAddress:
+            return formatTxToAddress(rec, true);
+        case Amount:
+            return rec->credit + rec->debit;
+        }
+        break;
+    case Qt::ToolTipRole:
+        return formatTooltip(rec);
+    case Qt::TextAlignmentRole:
+        return column_alignments[index.column()];
+    case Qt::ForegroundRole:
+        // Non-confirmed transactions are grey
+        if(!rec->status.confirmed)
+        {
+            return COLOR_UNCONFIRMED;
+        }
+        if(index.column() == Amount && (rec->credit+rec->debit) < 0)
+        {
+            return COLOR_NEGATIVE;
+        }
+        if(index.column() == ToAddress)
+        {
+            return addressColor(rec);
+        }
+        break;
+    case TypeRole:
+        return rec->type;
+    case DateRole:
+        return QDateTime::fromTime_t(static_cast<uint>(rec->time));
+    case LongDescriptionRole:
+        return priv->describe(rec);
+    case AddressRole:
+        return QString::fromStdString(rec->address);
+    case LabelRole:
+        return walletModel->getAddressTableModel()->labelForAddress(QString::fromStdString(rec->address));
+    case AmountRole:
+        return rec->credit + rec->debit;
+    case TxIDRole:
+        return QString::fromStdString(rec->getTxID());
+    case ConfirmedRole:
+        // Return True if transaction counts for balance
+        return rec->status.confirmed && !(rec->type == TransactionRecord::Generated &&
+                                          rec->status.maturity != TransactionStatus::Mature);
+    case FormattedAmountRole:
+        return formatTxAmount(rec, false);
+    }
+    return QVariant();
+}
+
+QVariant TransactionTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if(orientation == Qt::Horizontal)
+    {
+        if(role == Qt::DisplayRole)
+        {
+            return columns[section];
+        }
+        else if (role == Qt::TextAlignmentRole)
+        {
+            return column_alignments[section];
+        } else if (role == Qt::ToolTipRole)
+        {
+            switch(section)
+            {
+            case Status:
+                return tr("Transaction status. Hover over this field to show number of confirmations.");
+            case Date:
+                return tr("Date and time that the transaction was received.");
+            case Type:
+                return tr("Type of transaction.");
+            case ToAddress:
+                return tr("Destination address of transaction.");
+            case Amount:
+                return tr("Amount removed from or added to balance.");
+            }
+        }
+    }
+    return QVariant();
+}
+
+QModelIndex TransactionTableModel::index(int row, int column, const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    TransactionRecord *data = priv->index(row);
+    if(data)
+    {
+        return createIndex(row, column, priv->index(row));
+    }
+    else
+    {
+        return QModelIndex();
+    }
+}
+
+void TransactionTableModel::updateDisplayUnit()
+{
+    // emit dataChanged to update Amount column with the current unit
+    emit dataChanged(index(0, Amount), index(priv->size()-1, Amount));
+}
