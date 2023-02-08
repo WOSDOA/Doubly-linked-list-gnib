@@ -96,4 +96,156 @@ TransactionView::TransactionView(QWidget *parent) :
     amountWidget->setValidator(new QDoubleValidator(0, 1e20, 8, this));
     hlayout->addWidget(amountWidget);
 
-    QVBoxLayout *vlayout = new QVBoxLa
+    QVBoxLayout *vlayout = new QVBoxLayout(this);
+    vlayout->setContentsMargins(0,0,0,0);
+    vlayout->setSpacing(0);
+
+    QTableView *view = new QTableView(this);
+    vlayout->addLayout(hlayout);
+    vlayout->addWidget(createDateRangeWidget());
+    vlayout->addWidget(view);
+    vlayout->setSpacing(0);
+    int width = view->verticalScrollBar()->sizeHint().width();
+    // Cover scroll bar width with spacing
+#ifdef Q_OS_MAC
+    hlayout->addSpacing(width+2);
+#else
+    hlayout->addSpacing(width);
+#endif
+    // Always show scroll bar
+    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    view->setTabKeyNavigation(false);
+    view->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    transactionView = view;
+
+    // Actions
+    QAction *copyAddressAction = new QAction(tr("Copy address"), this);
+    QAction *copyLabelAction = new QAction(tr("Copy label"), this);
+    QAction *copyAmountAction = new QAction(tr("Copy amount"), this);
+    QAction *copyTxIDAction = new QAction(tr("Copy transaction ID"), this);
+    QAction *editLabelAction = new QAction(tr("Edit label"), this);
+    QAction *showDetailsAction = new QAction(tr("Show transaction details"), this);
+
+    contextMenu = new QMenu();
+    contextMenu->addAction(copyAddressAction);
+    contextMenu->addAction(copyLabelAction);
+    contextMenu->addAction(copyAmountAction);
+    contextMenu->addAction(copyTxIDAction);
+    contextMenu->addAction(editLabelAction);
+    contextMenu->addAction(showDetailsAction);
+
+    // Connect actions
+    connect(dateWidget, SIGNAL(activated(int)), this, SLOT(chooseDate(int)));
+    connect(typeWidget, SIGNAL(activated(int)), this, SLOT(chooseType(int)));
+    connect(addressWidget, SIGNAL(textChanged(QString)), this, SLOT(changedPrefix(QString)));
+    connect(amountWidget, SIGNAL(textChanged(QString)), this, SLOT(changedAmount(QString)));
+
+    connect(view, SIGNAL(doubleClicked(QModelIndex)), this, SIGNAL(doubleClicked(QModelIndex)));
+    connect(view, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextualMenu(QPoint)));
+
+    connect(copyAddressAction, SIGNAL(triggered()), this, SLOT(copyAddress()));
+    connect(copyLabelAction, SIGNAL(triggered()), this, SLOT(copyLabel()));
+    connect(copyAmountAction, SIGNAL(triggered()), this, SLOT(copyAmount()));
+    connect(copyTxIDAction, SIGNAL(triggered()), this, SLOT(copyTxID()));
+    connect(editLabelAction, SIGNAL(triggered()), this, SLOT(editLabel()));
+    connect(showDetailsAction, SIGNAL(triggered()), this, SLOT(showDetails()));
+}
+
+void TransactionView::setModel(WalletModel *model)
+{
+    this->model = model;
+    if(model)
+    {
+        transactionProxyModel = new TransactionFilterProxy(this);
+        transactionProxyModel->setSourceModel(model->getTransactionTableModel());
+        transactionProxyModel->setDynamicSortFilter(true);
+        transactionProxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+        transactionProxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+        transactionProxyModel->setSortRole(Qt::EditRole);
+
+        transactionView->setModel(transactionProxyModel);
+        transactionView->setAlternatingRowColors(true);
+        transactionView->setSelectionBehavior(QAbstractItemView::SelectRows);
+        transactionView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        transactionView->setSortingEnabled(true);
+        transactionView->sortByColumn(TransactionTableModel::Status, Qt::DescendingOrder);
+        transactionView->verticalHeader()->hide();
+
+        transactionView->horizontalHeader()->resizeSection(TransactionTableModel::Status, 23);
+        transactionView->horizontalHeader()->resizeSection(TransactionTableModel::Date, 120);
+        transactionView->horizontalHeader()->resizeSection(TransactionTableModel::Type, 120);
+        transactionView->horizontalHeader()->setResizeMode(TransactionTableModel::ToAddress, QHeaderView::Stretch);
+        transactionView->horizontalHeader()->resizeSection(TransactionTableModel::Amount, 100);
+    }
+}
+
+void TransactionView::chooseDate(int idx)
+{
+    if(!transactionProxyModel)
+        return;
+    QDate current = QDate::currentDate();
+    dateRangeWidget->setVisible(false);
+    switch(dateWidget->itemData(idx).toInt())
+    {
+    case All:
+        transactionProxyModel->setDateRange(
+                TransactionFilterProxy::MIN_DATE,
+                TransactionFilterProxy::MAX_DATE);
+        break;
+    case Today:
+        transactionProxyModel->setDateRange(
+                QDateTime(current),
+                TransactionFilterProxy::MAX_DATE);
+        break;
+    case ThisWeek: {
+        // Find last Monday
+        QDate startOfWeek = current.addDays(-(current.dayOfWeek()-1));
+        transactionProxyModel->setDateRange(
+                QDateTime(startOfWeek),
+                TransactionFilterProxy::MAX_DATE);
+
+        } break;
+    case ThisMonth:
+        transactionProxyModel->setDateRange(
+                QDateTime(QDate(current.year(), current.month(), 1)),
+                TransactionFilterProxy::MAX_DATE);
+        break;
+    case LastMonth:
+        transactionProxyModel->setDateRange(
+                QDateTime(QDate(current.year(), current.month()-1, 1)),
+                QDateTime(QDate(current.year(), current.month(), 1)));
+        break;
+    case ThisYear:
+        transactionProxyModel->setDateRange(
+                QDateTime(QDate(current.year(), 1, 1)),
+                TransactionFilterProxy::MAX_DATE);
+        break;
+    case Range:
+        dateRangeWidget->setVisible(true);
+        dateRangeChanged();
+        break;
+    }
+}
+
+void TransactionView::chooseType(int idx)
+{
+    if(!transactionProxyModel)
+        return;
+    transactionProxyModel->setTypeFilter(
+        typeWidget->itemData(idx).toInt());
+}
+
+void TransactionView::changedPrefix(const QString &prefix)
+{
+    if(!transactionProxyModel)
+        return;
+    transactionProxyModel->setAddressPrefix(prefix);
+}
+
+void TransactionView::changedAmount(const QString &amount)
+{
+    if(!transactionProxyModel)
+        return;
+    qin
