@@ -113,3 +113,25 @@ void WalletFrame::gotoMiningPage()
 
 void WalletFrame::encryptWallet(bool status)
 {
+    walletStack->encryptWallet(status);
+}
+
+void WalletFrame::backupWallet()
+{
+    walletStack->backupWallet();
+}
+
+void WalletFrame::changePassphrase()
+{
+    walletStack->changePassphrase();
+}
+
+void WalletFrame::unlockWallet()
+{
+    walletStack->unlockWallet();
+}
+
+void WalletFrame::setEncryptionStatus()
+{
+    walletStack->setEncryptionStatus();
+}
