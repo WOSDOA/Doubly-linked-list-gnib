@@ -114,4 +114,167 @@ void WalletView::setWalletModel(WalletModel *walletModel)
         // Receive and report messages from wallet thread
         connect(walletModel, SIGNAL(message(QString,QString,unsigned int)), gui, SLOT(message(QString,QString,unsigned int)));
 
-        // Put transaction li
+        // Put transaction list in tabs
+        transactionView->setModel(walletModel);
+        overviewPage->setWalletModel(walletModel);
+        addressBookPage->setModel(walletModel->getAddressTableModel());
+        receiveCoinsPage->setModel(walletModel->getAddressTableModel());
+        sendCoinsPage->setModel(walletModel);
+        signVerifyMessageDialog->setModel(walletModel);
+
+        setEncryptionStatus();
+        connect(walletModel, SIGNAL(encryptionStatusChanged(int)), gui, SLOT(setEncryptionStatus(int)));
+
+        // Balloon pop-up for new transaction
+        connect(walletModel->getTransactionTableModel(), SIGNAL(rowsInserted(QModelIndex,int,int)),
+                this, SLOT(incomingTransaction(QModelIndex,int,int)));
+
+        // Ask for passphrase if needed
+        connect(walletModel, SIGNAL(requireUnlock()), this, SLOT(unlockWallet()));
+    }
+}
+
+void WalletView::incomingTransaction(const QModelIndex& parent, int start, int /*end*/)
+{
+    // Prevent balloon-spam when initial block download is in progress
+    if(!walletModel || !clientModel || clientModel->inInitialBlockDownload())
+        return;
+
+    TransactionTableModel *ttm = walletModel->getTransactionTableModel();
+
+    QString date = ttm->index(start, TransactionTableModel::Date, parent).data().toString();
+    qint64 amount = ttm->index(start, TransactionTableModel::Amount, parent).data(Qt::EditRole).toULongLong();
+    QString type = ttm->index(start, TransactionTableModel::Type, parent).data().toString();
+    QString address = ttm->index(start, TransactionTableModel::ToAddress, parent).data().toString();
+
+    gui->incomingTransaction(date, walletModel->getOptionsModel()->getDisplayUnit(), amount, type, address);
+}
+
+void WalletView::gotoOverviewPage()
+{
+    gui->getOverviewAction()->setChecked(true);
+    setCurrentWidget(overviewPage);
+}
+
+void WalletView::gotoHistoryPage()
+{
+    gui->getHistoryAction()->setChecked(true);
+    setCurrentWidget(transactionsPage);
+}
+
+void WalletView::gotoAddressBookPage()
+{
+    gui->getAddressBookAction()->setChecked(true);
+    setCurrentWidget(addressBookPage);
+}
+
+void WalletView::gotoReceiveCoinsPage()
+{
+    gui->getReceiveCoinsAction()->setChecked(true);
+    setCurrentWidget(receiveCoinsPage);
+}
+
+void WalletView::gotoMiningPage()
+{
+    gui->getMiningAction()->setChecked(true);
+    setCurrentWidget(miningPage);
+}
+
+void WalletView::gotoSendCoinsPage(QString addr)
+{
+    gui->getSendCoinsAction()->setChecked(true);
+    setCurrentWidget(sendCoinsPage);
+
+    //exportAction->setEnabled(false);
+    //disconnect(exportAction, SIGNAL(triggered()), 0, 0);
+
+    if (!addr.isEmpty())
+        sendCoinsPage->setAddress(addr);
+}
+
+void WalletView::gotoSignMessageTab(QString addr)
+{
+    // call show() in showTab_SM()
+    signVerifyMessageDialog->showTab_SM(true);
+
+    if (!addr.isEmpty())
+        signVerifyMessageDialog->setAddress_SM(addr);
+}
+
+void WalletView::gotoVerifyMessageTab(QString addr)
+{
+    // call show() in showTab_VM()
+    signVerifyMessageDialog->showTab_VM(true);
+
+    if (!addr.isEmpty())
+        signVerifyMessageDialog->setAddress_VM(addr);
+}
+
+bool WalletView::handleURI(const QString& strURI)
+{
+    // URI has to be valid
+    if (sendCoinsPage->handleURI(strURI))
+    {
+        gotoSendCoinsPage();
+        emit showNormalIfMinimized();
+        return true;
+    }
+    else
+        return false;
+}
+
+void WalletView::showOutOfSyncWarning(bool fShow)
+{
+    overviewPage->showOutOfSyncWarning(fShow);
+}
+
+void WalletView::setEncryptionStatus()
+{
+    gui->setEncryptionStatus(walletModel->getEncryptionStatus());
+}
+
+void WalletView::encryptWallet(bool status)
+{
+    if(!walletModel)
+        return;
+    AskPassphraseDialog dlg(status ? AskPassphraseDialog::Encrypt : AskPassphraseDialog::Decrypt, this);
+    dlg.setModel(walletModel);
+    dlg.exec();
+
+    setEncryptionStatus();
+}
+
+void WalletView::backupWallet()
+{
+    QString saveDir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+    QString filename = QFileDialog::getSaveFileName(this, tr("Backup Wallet"), saveDir, tr("Wallet Data (*.dat)"));
+    if (!filename.isEmpty()) {
+        if (!walletModel->backupWallet(filename)) {
+            gui->message(tr("Backup Failed"), tr("There was an error trying to save the wallet data to the new location."),
+                      CClientUIInterface::MSG_ERROR);
+        }
+        else
+            gui->message(tr("Backup Successful"), tr("The wallet data was successfully saved to the new location."),
+                      CClientUIInterface::MSG_INFORMATION);
+    }
+}
+
+void WalletView::changePassphrase()
+{
+    AskPassphraseDialog dlg(AskPassphraseDialog::ChangePass, this);
+    dlg.setModel(walletModel);
+    dlg.exec();
+}
+
+void WalletView::unlockWallet()
+{
+    if(!walletModel)
+        return;
+    // Unlock wallet when requested by wallet model
+    if (walletModel->getEncryptionStatus() == WalletModel::Locked)
+    {
+        AskPassphraseDialog dlg(AskPassphraseDialog::Unlock, this);
+        dlg.setModel(walletModel);
+        dlg.exec();
+    }
+}
