@@ -163,4 +163,85 @@ Value getaddednodeinfo(const Array& params, bool fHelp)
     BOOST_FOREACH(string& strAddNode, laddedNodes)
     {
         vector<CService> vservNode(0);
-        if(Loo
+        if(Lookup(strAddNode.c_str(), vservNode, GetDefaultPort(), fNameLookup, 0))
+            laddedAddreses.push_back(make_pair(strAddNode, vservNode));
+        else
+        {
+            Object obj;
+            obj.push_back(Pair("addednode", strAddNode));
+            obj.push_back(Pair("connected", false));
+            Array addresses;
+            obj.push_back(Pair("addresses", addresses));
+        }
+    }
+
+    LOCK(cs_vNodes);
+    for (list<pair<string, vector<CService> > >::iterator it = laddedAddreses.begin(); it != laddedAddreses.end(); it++)
+    {
+        Object obj;
+        obj.push_back(Pair("addednode", it->first));
+
+        Array addresses;
+        bool fConnected = false;
+        BOOST_FOREACH(CService& addrNode, it->second)
+        {
+            bool fFound = false;
+            Object node;
+            node.push_back(Pair("address", addrNode.ToString()));
+            BOOST_FOREACH(CNode* pnode, vNodes)
+                if (pnode->addr == addrNode)
+                {
+                    fFound = true;
+                    fConnected = true;
+                    node.push_back(Pair("connected", pnode->fInbound ? "inbound" : "outbound"));
+                    break;
+                }
+            if (!fFound)
+                node.push_back(Pair("connected", "false"));
+            addresses.push_back(node);
+        }
+        obj.push_back(Pair("connected", fConnected));
+        obj.push_back(Pair("addresses", addresses));
+        ret.push_back(obj);
+    }
+
+    return ret;
+}
+
+// Ported from Primecoin
+Value makekeypair(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() > 1)
+        throw runtime_error(
+            "makekeypair [prefix]\n"
+            "Make a public/private key pair.\n"
+            "[prefix] is optional base64-encoded prefix for the public key.\n");
+
+    string strPrefix = "";
+    if (params.size() > 0)
+        strPrefix = params[0].get_str();
+
+    CKey key;
+    CPubKey pubKey;
+    std::vector<unsigned char> vchPubKey;
+    int nCount = 0;
+    do
+    {
+        key.MakeNewKey(false);
+        pubKey = key.GetPubKey();
+        vchPubKey = pubKey.Raw();
+        nCount++;
+    } while (nCount < 10000 && strPrefix != EncodeBase64(&vchPubKey[0], vchPubKey.size()).substr(0, strPrefix.size()));
+
+    if (strPrefix != EncodeBase64(&vchPubKey[0], vchPubKey.size()).substr(0, strPrefix.size()))
+        return Value::null;
+
+    bool isCompressed;
+    CSecret secretKey = key.GetSecret(isCompressed);
+
+    Object result;
+    result.push_back(Pair("PublicKey",  EncodeBase64(&vchPubKey[0], vchPubKey.size())));
+    result.push_back(Pair("PrivateKey", CBitcoinSecret(secretKey, isCompressed).ToString()));
+    return result;
+}
+
