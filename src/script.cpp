@@ -184,4 +184,185 @@ const char* GetOpName(opcodetype opcode)
     case OP_NUMEQUALVERIFY         : return "OP_NUMEQUALVERIFY";
     case OP_NUMNOTEQUAL            : return "OP_NUMNOTEQUAL";
     case OP_LESSTHAN               : return "OP_LESSTHAN";
-    case OP_GREATERTH
+    case OP_GREATERTHAN            : return "OP_GREATERTHAN";
+    case OP_LESSTHANOREQUAL        : return "OP_LESSTHANOREQUAL";
+    case OP_GREATERTHANOREQUAL     : return "OP_GREATERTHANOREQUAL";
+    case OP_MIN                    : return "OP_MIN";
+    case OP_MAX                    : return "OP_MAX";
+    case OP_WITHIN                 : return "OP_WITHIN";
+
+    // crypto
+    case OP_RIPEMD160              : return "OP_RIPEMD160";
+    case OP_SHA1                   : return "OP_SHA1";
+    case OP_SHA256                 : return "OP_SHA256";
+    case OP_HASH160                : return "OP_HASH160";
+    case OP_HASH256                : return "OP_HASH256";
+    case OP_CODESEPARATOR          : return "OP_CODESEPARATOR";
+    case OP_CHECKSIG               : return "OP_CHECKSIG";
+    case OP_CHECKSIGVERIFY         : return "OP_CHECKSIGVERIFY";
+    case OP_CHECKMULTISIG          : return "OP_CHECKMULTISIG";
+    case OP_CHECKMULTISIGVERIFY    : return "OP_CHECKMULTISIGVERIFY";
+
+    // expanson
+    case OP_NOP1                   : return "OP_NOP1";
+    case OP_NOP2                   : return "OP_NOP2";
+    case OP_NOP3                   : return "OP_NOP3";
+    case OP_NOP4                   : return "OP_NOP4";
+    case OP_NOP5                   : return "OP_NOP5";
+    case OP_NOP6                   : return "OP_NOP6";
+    case OP_NOP7                   : return "OP_NOP7";
+    case OP_NOP8                   : return "OP_NOP8";
+    case OP_NOP9                   : return "OP_NOP9";
+    case OP_NOP10                  : return "OP_NOP10";
+
+
+
+    // template matching params
+    case OP_PUBKEYHASH             : return "OP_PUBKEYHASH";
+    case OP_PUBKEY                 : return "OP_PUBKEY";
+
+    case OP_INVALIDOPCODE          : return "OP_INVALIDOPCODE";
+    default:
+        return "OP_UNKNOWN";
+    }
+}
+
+bool IsCanonicalPubKey(const valtype &vchPubKey) {
+    if (vchPubKey.size() < 32)
+        return error("Non-canonical public key: too short");
+    if (vchPubKey.size() > 65)
+        return error("Non-canonical public key: too long");
+
+    return true;
+}
+
+bool IsCanonicalSignature(const valtype &vchSig) {
+
+    if (vchSig.size() < 32)
+        return error("Non-canonical signature: too short");
+    if (vchSig.size() > 65)
+        return error("Non-canonical signature: too long");
+
+    return true;
+}
+
+bool EvalScript(vector<vector<unsigned char> >& stack, const CScript& script, const CTransaction& txTo, unsigned int nIn, unsigned int flags, int nHashType)
+{
+    
+    CAutoBN_CTX pctx;
+    CScript::const_iterator pc = script.begin();
+    CScript::const_iterator pend = script.end();
+    CScript::const_iterator pbegincodehash = script.begin();
+    opcodetype opcode;
+    valtype vchPushValue;
+    vector<bool> vfExec;
+    vector<valtype> altstack;
+    
+    if (script.size() > 10000)
+        return false;
+    int nOpCount = 0;
+    bool fStrictEncodings = flags & SCRIPT_VERIFY_STRICTENC;
+
+    
+
+    try
+    {
+        while (pc < pend)
+        {
+            bool fExec = !count(vfExec.begin(), vfExec.end(), false);
+
+            
+
+            //
+            // Read instruction
+            //
+            if (!script.GetOp(pc, opcode, vchPushValue))
+                return false;
+            if (vchPushValue.size() > MAX_SCRIPT_ELEMENT_SIZE)
+                return false;
+            if (opcode > OP_16 && ++nOpCount > 201)
+                return false;
+
+            
+
+            if (opcode == OP_CAT ||
+                opcode == OP_SUBSTR ||
+                opcode == OP_LEFT ||
+                opcode == OP_RIGHT ||
+                opcode == OP_INVERT ||
+                opcode == OP_AND ||
+                opcode == OP_OR ||
+                opcode == OP_XOR ||
+                opcode == OP_2MUL ||
+                opcode == OP_2DIV ||
+                opcode == OP_MUL ||
+                opcode == OP_DIV ||
+                opcode == OP_MOD ||
+                opcode == OP_LSHIFT ||
+                opcode == OP_RSHIFT)
+                return false; // Disabled opcodes.
+
+            if (fExec && 0 <= opcode && opcode <= OP_PUSHDATA4)
+                stack.push_back(vchPushValue);
+            else if (fExec || (OP_IF <= opcode && opcode <= OP_ENDIF))
+            switch (opcode)
+            {
+                //
+                // Push value
+                //
+                case OP_1NEGATE:
+                case OP_1:
+                case OP_2:
+                case OP_3:
+                case OP_4:
+                case OP_5:
+                case OP_6:
+                case OP_7:
+                case OP_8:
+                case OP_9:
+                case OP_10:
+                case OP_11:
+                case OP_12:
+                case OP_13:
+                case OP_14:
+                case OP_15:
+                case OP_16:
+                {
+                    
+                    // ( -- value)
+                    CBigNum bn((int)opcode - (int)(OP_1 - 1));
+                    stack.push_back(bn.getvch());
+                }
+                break;
+
+
+                //
+                // Control
+                //
+                case OP_NOP:
+                case OP_NOP1: case OP_NOP2: case OP_NOP3: case OP_NOP4: case OP_NOP5:
+                case OP_NOP6: case OP_NOP7: case OP_NOP8: case OP_NOP9: case OP_NOP10:
+                break;
+
+                case OP_IF:
+                case OP_NOTIF:
+                {
+                    
+                    // <expression> if [statements] [else [statements]] endif
+                    bool fValue = false;
+                    if (fExec)
+                    {
+                        
+                        if (stack.size() < 1)
+                            return false;
+                        valtype& vch = stacktop(-1);
+                        fValue = CastToBool(vch);
+                        if (opcode == OP_NOTIF)
+                            fValue = !fValue;
+                        popstack(stack);
+                        
+                    }
+                    vfExec.push_back(fValue);
+                    
+                }
+     
