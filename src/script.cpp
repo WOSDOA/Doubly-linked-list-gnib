@@ -725,4 +725,155 @@ bool EvalScript(vector<vector<unsigned char> >& stack, const CScript& script, co
                     case OP_NUMEQUALVERIFY:      bn = (bn1 == bn2); break;
                     case OP_NUMNOTEQUAL:         bn = (bn1 != bn2); break;
                     case OP_LESSTHAN:            bn = (bn1 < bn2); break;
-                    case OP_GREATERTHAN:         bn
+                    case OP_GREATERTHAN:         bn = (bn1 > bn2); break;
+                    case OP_LESSTHANOREQUAL:     bn = (bn1 <= bn2); break;
+                    case OP_GREATERTHANOREQUAL:  bn = (bn1 >= bn2); break;
+                    case OP_MIN:                 bn = (bn1 < bn2 ? bn1 : bn2); break;
+                    case OP_MAX:                 bn = (bn1 > bn2 ? bn1 : bn2); break;
+                    default:                     assert(!"invalid opcode"); break;
+                    }
+                    popstack(stack);
+                    popstack(stack);
+                    stack.push_back(bn.getvch());
+
+                    if (opcode == OP_NUMEQUALVERIFY)
+                    {
+                        if (CastToBool(stacktop(-1)))
+                            popstack(stack);
+                        else
+                            return false;
+                    }
+                }
+                break;
+
+                case OP_WITHIN:
+                {
+                    
+                    // (x min max -- out)
+                    if (stack.size() < 3)
+                        return false;
+                    CBigNum bn1 = CastToBigNum(stacktop(-3));
+                    CBigNum bn2 = CastToBigNum(stacktop(-2));
+                    CBigNum bn3 = CastToBigNum(stacktop(-1));
+                    bool fValue = (bn2 <= bn1 && bn1 < bn3);
+                    popstack(stack);
+                    popstack(stack);
+                    popstack(stack);
+                    stack.push_back(fValue ? vchTrue : vchFalse);
+                }
+                break;
+
+
+                //
+                // Crypto
+                //
+                case OP_RIPEMD160:
+                case OP_SHA1:
+                case OP_SHA256:
+                case OP_HASH160:
+                case OP_HASH256:
+                {
+                    // (in -- hash)
+                    if (stack.size() < 1)
+                        return false;
+                    valtype& vch = stacktop(-1);
+                    valtype vchHash((opcode == OP_RIPEMD160 || opcode == OP_SHA1 || opcode == OP_HASH160) ? 20 : 32);
+                    if (opcode == OP_RIPEMD160)
+                        RIPEMD160(&vch[0], vch.size(), &vchHash[0]);
+                    else if (opcode == OP_SHA1)
+                        SHA1(&vch[0], vch.size(), &vchHash[0]);
+                    else if (opcode == OP_SHA256)
+                        SHA256(&vch[0], vch.size(), &vchHash[0]);
+                    else if (opcode == OP_HASH160)
+                    {
+                        uint160 hash160 = Hash160(vch);
+                        memcpy(&vchHash[0], &hash160, sizeof(hash160));
+                    }
+                    else if (opcode == OP_HASH256)
+                    {
+                        uint256 hash = HashKeccak(vch.begin(), vch.end());
+                        memcpy(&vchHash[0], &hash, sizeof(hash));
+                    }
+                    popstack(stack);
+                    stack.push_back(vchHash);
+                }
+                break;
+
+                case OP_CODESEPARATOR:
+                {
+                    
+                    // Hash starts after the code separator
+                    pbegincodehash = pc;
+                }
+                break;
+
+                case OP_CHECKSIG:
+                case OP_CHECKSIGVERIFY:
+                {
+
+                    // (sig pubkey -- bool)
+                    if (stack.size() < 2)
+                        return false;
+
+
+                    valtype& vchSig    = stacktop(-2);
+                    valtype& vchPubKey = stacktop(-1);
+
+                    // Subset of script starting at the most recent codeseparator
+                    CScript scriptCode(pbegincodehash, pend);
+
+                    // Drop the signature, since there's no way for a signature to sign itself
+                    scriptCode.FindAndDelete(CScript(vchSig));
+
+                    bool fSuccess = (!fStrictEncodings || (IsCanonicalSignature(vchSig) && IsCanonicalPubKey(vchPubKey)));
+                    if (fSuccess)
+                        fSuccess = CheckSig(vchSig, vchPubKey, scriptCode, txTo, nIn, nHashType, flags);
+
+                    popstack(stack);
+                    popstack(stack);
+                    stack.push_back(fSuccess ? vchTrue : vchFalse);
+                    if (opcode == OP_CHECKSIGVERIFY)
+                    {
+                        if (fSuccess)
+                            popstack(stack);
+                        else
+                            return false;
+                    }
+                }
+                break;
+
+                case OP_CHECKMULTISIG:
+                case OP_CHECKMULTISIGVERIFY:
+                {
+                    // ([sig ...] num_of_signatures [pubkey ...] num_of_pubkeys -- bool)
+
+
+
+                    int i = 1;
+                    if ((int)stack.size() < i)
+                        return false;
+
+                    int nKeysCount = CastToBigNum(stacktop(-i)).getint();
+                    if (nKeysCount < 0 || nKeysCount > 20)
+                        return false;
+                    nOpCount += nKeysCount;
+                    if (nOpCount > 201)
+                        return false;
+                    int ikey = ++i;
+                    i += nKeysCount;
+                    if ((int)stack.size() < i)
+                        return false;
+
+                    int nSigsCount = CastToBigNum(stacktop(-i)).getint();
+                    if (nSigsCount < 0 || nSigsCount > nKeysCount)
+                        return false;
+                    int isig = ++i;
+                    i += nSigsCount;
+                    if ((int)stack.size() < i)
+                        return false;
+
+                    // Subset of script starting at the most recent codeseparator
+                    CScript scriptCode(pbegincodehash, pend);
+
+                    // Drop the signatures, since there's no way for a signature to sign itself
+            
