@@ -1287,4 +1287,226 @@ bool Sign1(const CKeyID& address, const CKeyStore& keystore, uint256 hash, int n
     
 
     vector<unsigned char> vchSig;
-    if (!
+    if (!key.Sign(hash, vchSig))
+    {
+        return false;
+    }
+
+    
+
+    vchSig.push_back((unsigned char)nHashType);
+    scriptSigRet << vchSig;
+
+    return true;
+}
+
+bool SignN(const vector<valtype>& multisigdata, const CKeyStore& keystore, uint256 hash, int nHashType, CScript& scriptSigRet)
+{
+    int nSigned = 0;
+    int nRequired = multisigdata.front()[0];
+    for (unsigned int i = 1; i < multisigdata.size()-1 && nSigned < nRequired; i++)
+    {
+        const valtype& pubkey = multisigdata[i];
+        CKeyID keyID = CPubKey(pubkey).GetID();
+        if (Sign1(keyID, keystore, hash, nHashType, scriptSigRet))
+            ++nSigned;
+    }
+
+    
+
+    return nSigned==nRequired;
+}
+
+//
+// Sign scriptPubKey with private keys stored in keystore, given transaction hash and hash type.
+// Signatures are returned in scriptSigRet (or returns false if scriptPubKey can't be signed),
+// unless whichTypeRet is TX_SCRIPTHASH, in which case scriptSigRet is the redemption script.
+// Returns false if scriptPubKey could not be completely satisfied.
+//
+bool Solver(const CKeyStore& keystore, const CScript& scriptPubKey, uint256 hash, int nHashType,
+                  CScript& scriptSigRet, txnouttype& whichTypeRet)
+{
+    scriptSigRet.clear();
+
+
+    vector<valtype> vSolutions;
+    if (!Solver(scriptPubKey, whichTypeRet, vSolutions))
+        return false;
+
+    CKeyID keyID;
+    switch (whichTypeRet)
+    {
+    case TX_NONSTANDARD:
+        return false;
+    case TX_PUBKEY:;
+        keyID = CPubKey(vSolutions[0]).GetID();
+        return Sign1(keyID, keystore, hash, nHashType, scriptSigRet);
+    case TX_PUBKEYHASH:
+        keyID = CKeyID(uint160(vSolutions[0]));
+        if (!Sign1(keyID, keystore, hash, nHashType, scriptSigRet))
+            return false;
+        else
+        {
+            CPubKey vch;
+            keystore.GetPubKey(keyID, vch);
+            scriptSigRet << vch;
+        }
+        return true;
+    case TX_SCRIPTHASH:
+        return keystore.GetCScript(uint160(vSolutions[0]), scriptSigRet);
+
+    case TX_MULTISIG:
+        scriptSigRet << OP_0; // workaround CHECKMULTISIG bug
+        return (SignN(vSolutions, keystore, hash, nHashType, scriptSigRet));
+    }
+    return false;
+}
+
+int ScriptSigArgsExpected(txnouttype t, const std::vector<std::vector<unsigned char> >& vSolutions)
+{
+    switch (t)
+    {
+    case TX_NONSTANDARD:
+        return -1;
+    case TX_PUBKEY:
+        return 1;
+    case TX_PUBKEYHASH:
+        return 2;
+    case TX_MULTISIG:
+        if (vSolutions.size() < 1 || vSolutions[0].size() < 1)
+            return -1;
+        return vSolutions[0][0] + 1;
+    case TX_SCRIPTHASH:
+        return 1; // doesn't include args needed by the script
+    }
+    return -1;
+}
+
+bool IsStandard(const CScript& scriptPubKey)
+{
+    vector<valtype> vSolutions;
+    txnouttype whichType;
+
+    
+    if (!Solver(scriptPubKey, whichType, vSolutions))
+        return false;
+
+    
+    if (whichType == TX_MULTISIG)
+    {
+        unsigned char m = vSolutions.front()[0];
+        unsigned char n = vSolutions.back()[0];
+        // Support up to x-of-3 multisig txns as standard
+        
+        if (n < 1 || n > 3)
+            return false;
+        
+        if (m < 1 || m > n)
+            return false;
+        
+    }
+
+    
+    return whichType != TX_NONSTANDARD;
+}
+
+
+unsigned int HaveKeys(const vector<valtype>& pubkeys, const CKeyStore& keystore)
+{
+    
+    unsigned int nResult = 0;
+    BOOST_FOREACH(const valtype& pubkey, pubkeys)
+    {
+        CKeyID keyID = CPubKey(pubkey).GetID();
+        if (keystore.HaveKey(keyID))
+            ++nResult;
+    }
+    return nResult;
+}
+
+
+class CKeyStoreIsMineVisitor : public boost::static_visitor<bool>
+{
+private:
+    const CKeyStore *keystore;
+public:
+    CKeyStoreIsMineVisitor(const CKeyStore *keystoreIn) : keystore(keystoreIn) { }
+    bool operator()(const CNoDestination &dest) const { return false; }
+    bool operator()(const CKeyID &keyID) const { return keystore->HaveKey(keyID); }
+    bool operator()(const CScriptID &scriptID) const { return keystore->HaveCScript(scriptID); }
+};
+
+bool IsMine(const CKeyStore &keystore, const CTxDestination &dest)
+{
+    return boost::apply_visitor(CKeyStoreIsMineVisitor(&keystore), dest);
+}
+
+bool IsMine(const CKeyStore &keystore, const CScript& scriptPubKey)
+{
+    vector<valtype> vSolutions;
+    txnouttype whichType;
+    
+    if (!Solver(scriptPubKey, whichType, vSolutions))
+        return false;
+
+    
+
+    CKeyID keyID;
+    switch (whichType)
+    {
+    case TX_NONSTANDARD:
+    
+        return false;
+    case TX_PUBKEY:
+    
+        keyID = CPubKey(vSolutions[0]).GetID();
+        return keystore.HaveKey(keyID);
+    case TX_PUBKEYHASH:
+    
+        keyID = CKeyID(uint160(vSolutions[0]));
+        return keystore.HaveKey(keyID);
+    case TX_SCRIPTHASH:
+    {
+        
+        CScript subscript;
+        if (!keystore.GetCScript(CScriptID(uint160(vSolutions[0])), subscript))
+            return false;
+        
+        return IsMine(keystore, subscript);
+    }
+    case TX_MULTISIG:
+    {
+        // Only consider transactions "mine" if we own ALL the
+        // keys involved. multi-signature transactions that are
+        // partially owned (somebody else has a key that can spend
+        // them) enable spend-out-from-under-you attacks, especially
+        // in shared-wallet situations.
+        vector<valtype> keys(vSolutions.begin()+1, vSolutions.begin()+vSolutions.size()-1);
+        return HaveKeys(keys, keystore) == keys.size();
+    }
+    }
+    return false;
+}
+
+bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
+{
+    vector<valtype> vSolutions;
+    txnouttype whichType;
+    if (!Solver(scriptPubKey, whichType, vSolutions))
+    {
+        return false;
+    }
+
+    if (whichType == TX_PUBKEY)
+    {;
+        addressRet = CPubKey(vSolutions[0]).GetID();
+        return true;
+    }
+    else if (whichType == TX_PUBKEYHASH)
+    {
+        addressRet = CKeyID(uint160(vSolutions[0]));
+        return true;
+    }
+    else if (whichType == TX_SCRIPTHASH)
+    {
+        addressRet = CScriptID(uint
