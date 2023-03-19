@@ -149,4 +149,228 @@ enum opcodetype
     OP_2DIV = 0x8e,
     OP_NEGATE = 0x8f,
     OP_ABS = 0x90,
-    O
+    OP_NOT = 0x91,
+    OP_0NOTEQUAL = 0x92,
+
+    OP_ADD = 0x93,
+    OP_SUB = 0x94,
+    OP_MUL = 0x95,
+    OP_DIV = 0x96,
+    OP_MOD = 0x97,
+    OP_LSHIFT = 0x98,
+    OP_RSHIFT = 0x99,
+
+    OP_BOOLAND = 0x9a,
+    OP_BOOLOR = 0x9b,
+    OP_NUMEQUAL = 0x9c,
+    OP_NUMEQUALVERIFY = 0x9d,
+    OP_NUMNOTEQUAL = 0x9e,
+    OP_LESSTHAN = 0x9f,
+    OP_GREATERTHAN = 0xa0,
+    OP_LESSTHANOREQUAL = 0xa1,
+    OP_GREATERTHANOREQUAL = 0xa2,
+    OP_MIN = 0xa3,
+    OP_MAX = 0xa4,
+
+    OP_WITHIN = 0xa5,
+
+    // crypto
+    OP_RIPEMD160 = 0xa6,
+    OP_SHA1 = 0xa7,
+    OP_SHA256 = 0xa8,
+    OP_HASH160 = 0xa9,
+    OP_HASH256 = 0xaa,
+    OP_CODESEPARATOR = 0xab,
+    OP_CHECKSIG = 0xac,
+    OP_CHECKSIGVERIFY = 0xad,
+    OP_CHECKMULTISIG = 0xae,
+    OP_CHECKMULTISIGVERIFY = 0xaf,
+
+    // expansion
+    OP_NOP1 = 0xb0,
+    OP_NOP2 = 0xb1,
+    OP_NOP3 = 0xb2,
+    OP_NOP4 = 0xb3,
+    OP_NOP5 = 0xb4,
+    OP_NOP6 = 0xb5,
+    OP_NOP7 = 0xb6,
+    OP_NOP8 = 0xb7,
+    OP_NOP9 = 0xb8,
+    OP_NOP10 = 0xb9,
+
+
+
+    // template matching params
+    OP_SMALLINTEGER = 0xfa,
+    OP_PUBKEYS = 0xfb,
+    OP_PUBKEYHASH = 0xfd,
+    OP_PUBKEY = 0xfe,
+
+    OP_INVALIDOPCODE = 0xff,
+};
+
+const char* GetOpName(opcodetype opcode);
+
+
+
+inline std::string ValueString(const std::vector<unsigned char>& vch)
+{
+    if (vch.size() <= 4)
+        return strprintf("%d", CBigNum(vch).getint());
+    else
+        return HexStr(vch);
+}
+
+inline std::string StackString(const std::vector<std::vector<unsigned char> >& vStack)
+{
+    std::string str;
+    BOOST_FOREACH(const std::vector<unsigned char>& vch, vStack)
+    {
+        if (!str.empty())
+            str += " ";
+        str += ValueString(vch);
+    }
+    return str;
+}
+
+
+
+
+
+
+
+
+/** Serialized script, used inside transaction inputs and outputs */
+class CScript : public std::vector<unsigned char>
+{
+protected:
+    CScript& push_int64(int64 n)
+    {
+        if (n == -1 || (n >= 1 && n <= 16))
+        {
+            push_back(n + (OP_1 - 1));
+        }
+        else
+        {
+            CBigNum bn(n);
+            *this << bn.getvch();
+        }
+        return *this;
+    }
+
+    CScript& push_uint64(uint64 n)
+    {
+        if (n >= 1 && n <= 16)
+        {
+            push_back(n + (OP_1 - 1));
+        }
+        else
+        {
+            CBigNum bn(n);
+            *this << bn.getvch();
+        }
+        return *this;
+    }
+
+public:
+    CScript() { }
+    CScript(const CScript& b) : std::vector<unsigned char>(b.begin(), b.end()) { }
+    CScript(const_iterator pbegin, const_iterator pend) : std::vector<unsigned char>(pbegin, pend) { }
+#ifndef _MSC_VER
+    CScript(const unsigned char* pbegin, const unsigned char* pend) : std::vector<unsigned char>(pbegin, pend) { }
+#endif
+
+    CScript& operator+=(const CScript& b)
+    {
+        insert(end(), b.begin(), b.end());
+        return *this;
+    }
+
+    friend CScript operator+(const CScript& a, const CScript& b)
+    {
+        CScript ret = a;
+        ret += b;
+        return ret;
+    }
+
+
+    //explicit CScript(char b) is not portable.  Use 'signed char' or 'unsigned char'.
+    explicit CScript(signed char b)    { operator<<(b); }
+    explicit CScript(short b)          { operator<<(b); }
+    explicit CScript(int b)            { operator<<(b); }
+    explicit CScript(long b)           { operator<<(b); }
+    explicit CScript(int64 b)          { operator<<(b); }
+    explicit CScript(unsigned char b)  { operator<<(b); }
+    explicit CScript(unsigned int b)   { operator<<(b); }
+    explicit CScript(unsigned short b) { operator<<(b); }
+    explicit CScript(unsigned long b)  { operator<<(b); }
+    explicit CScript(uint64 b)         { operator<<(b); }
+
+    explicit CScript(opcodetype b)     { operator<<(b); }
+    explicit CScript(const uint256& b) { operator<<(b); }
+    explicit CScript(const CBigNum& b) { operator<<(b); }
+    explicit CScript(const std::vector<unsigned char>& b) { operator<<(b); }
+
+
+    //CScript& operator<<(char b) is not portable.  Use 'signed char' or 'unsigned char'.
+    CScript& operator<<(signed char b)    { return push_int64(b); }
+    CScript& operator<<(short b)          { return push_int64(b); }
+    CScript& operator<<(int b)            { return push_int64(b); }
+    CScript& operator<<(long b)           { return push_int64(b); }
+    CScript& operator<<(int64 b)          { return push_int64(b); }
+    CScript& operator<<(unsigned char b)  { return push_uint64(b); }
+    CScript& operator<<(unsigned int b)   { return push_uint64(b); }
+    CScript& operator<<(unsigned short b) { return push_uint64(b); }
+    CScript& operator<<(unsigned long b)  { return push_uint64(b); }
+    CScript& operator<<(uint64 b)         { return push_uint64(b); }
+
+    CScript& operator<<(opcodetype opcode)
+    {
+        if (opcode < 0 || opcode > 0xff)
+            throw std::runtime_error("CScript::operator<<() : invalid opcode");
+        insert(end(), (unsigned char)opcode);
+        return *this;
+    }
+
+    CScript& operator<<(const uint160& b)
+    {
+        insert(end(), sizeof(b));
+        insert(end(), (unsigned char*)&b, (unsigned char*)&b + sizeof(b));
+        return *this;
+    }
+
+    CScript& operator<<(const uint256& b)
+    {
+        insert(end(), sizeof(b));
+        insert(end(), (unsigned char*)&b, (unsigned char*)&b + sizeof(b));
+        return *this;
+    }
+
+    CScript& operator<<(const CPubKey& key)
+    {
+        std::vector<unsigned char> vchKey = key.Raw();
+        return (*this) << vchKey;
+    }
+
+    CScript& operator<<(const CBigNum& b)
+    {
+        *this << b.getvch();
+        return *this;
+    }
+
+    CScript& operator<<(const std::vector<unsigned char>& b)
+    {
+        if (b.size() < OP_PUSHDATA1)
+        {
+            insert(end(), (unsigned char)b.size());
+        }
+        else if (b.size() <= 0xff)
+        {
+            insert(end(), OP_PUSHDATA1);
+            insert(end(), (unsigned char)b.size());
+        }
+        else if (b.size() <= 0xffff)
+        {
+            insert(end(), OP_PUSHDATA2);
+            unsigned short nSize = b.size();
+            insert(end(), (uns
