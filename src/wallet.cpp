@@ -637,4 +637,196 @@ int CWalletTx::GetRequestCount() const
     return nRequests;
 }
 
-void CWalletTx::GetAmounts(list<pair<CTxDestination, int64> >& listRec
+void CWalletTx::GetAmounts(list<pair<CTxDestination, int64> >& listReceived,
+                           list<pair<CTxDestination, int64> >& listSent, int64& nFee, string& strSentAccount) const
+{
+    nFee = 0;
+    listReceived.clear();
+    listSent.clear();
+    strSentAccount = strFromAccount;
+
+    // Compute fee:
+    int64 nDebit = GetDebit();
+    if (nDebit > 0) // debit>0 means we signed/sent this transaction
+    {
+        int64 nValueOut = GetValueOut();
+        nFee = nDebit - nValueOut;
+    }
+
+    // Sent/received.
+    BOOST_FOREACH(const CTxOut& txout, vout)
+    {
+        CTxDestination address;
+        vector<unsigned char> vchPubKey;
+        if (!ExtractDestination(txout.scriptPubKey, address))
+        {
+            printf("CWalletTx::GetAmounts: Unknown transaction type found, txid %s\n",
+                   this->GetHash().ToString().c_str());
+        }
+
+        // Don't report 'change' txouts
+        if (nDebit > 0 && pwallet->IsChange(txout))
+            continue;
+
+        if (nDebit > 0)
+            listSent.push_back(make_pair(address, txout.nValue));
+
+        if (pwallet->IsMine(txout))
+            listReceived.push_back(make_pair(address, txout.nValue));
+    }
+
+}
+
+void CWalletTx::GetAccountAmounts(const string& strAccount, int64& nReceived,
+                                  int64& nSent, int64& nFee) const
+{
+    nReceived = nSent = nFee = 0;
+
+    int64 allFee;
+    string strSentAccount;
+    list<pair<CTxDestination, int64> > listReceived;
+    list<pair<CTxDestination, int64> > listSent;
+    GetAmounts(listReceived, listSent, allFee, strSentAccount);
+
+    if (strAccount == strSentAccount)
+    {
+        BOOST_FOREACH(const PAIRTYPE(CTxDestination,int64)& s, listSent)
+            nSent += s.second;
+        nFee = allFee;
+    }
+    {
+        LOCK(pwallet->cs_wallet);
+        BOOST_FOREACH(const PAIRTYPE(CTxDestination,int64)& r, listReceived)
+        {
+            if (pwallet->mapAddressBook.count(r.first))
+            {
+                map<CTxDestination, string>::const_iterator mi = pwallet->mapAddressBook.find(r.first);
+                if (mi != pwallet->mapAddressBook.end() && (*mi).second == strAccount)
+                    nReceived += r.second;
+            }
+            else if (strAccount.empty())
+            {
+                nReceived += r.second;
+            }
+        }
+    }
+}
+
+void CWalletTx::AddSupportingTransactions()
+{
+    vtxPrev.clear();
+
+    const int COPY_DEPTH = 3;
+    if (SetMerkleBranch() < COPY_DEPTH)
+    {
+        vector<uint256> vWorkQueue;
+        BOOST_FOREACH(const CTxIn& txin, vin)
+            vWorkQueue.push_back(txin.prevout.hash);
+
+        {
+            LOCK(pwallet->cs_wallet);
+            map<uint256, const CMerkleTx*> mapWalletPrev;
+            set<uint256> setAlreadyDone;
+            for (unsigned int i = 0; i < vWorkQueue.size(); i++)
+            {
+                uint256 hash = vWorkQueue[i];
+                if (setAlreadyDone.count(hash))
+                    continue;
+                setAlreadyDone.insert(hash);
+
+                CMerkleTx tx;
+                map<uint256, CWalletTx>::const_iterator mi = pwallet->mapWallet.find(hash);
+                if (mi != pwallet->mapWallet.end())
+                {
+                    tx = (*mi).second;
+                    BOOST_FOREACH(const CMerkleTx& txWalletPrev, (*mi).second.vtxPrev)
+                        mapWalletPrev[txWalletPrev.GetHash()] = &txWalletPrev;
+                }
+                else if (mapWalletPrev.count(hash))
+                {
+                    tx = *mapWalletPrev[hash];
+                }
+                else
+                {
+                    continue;
+                }
+
+                int nDepth = tx.SetMerkleBranch();
+                vtxPrev.push_back(tx);
+
+                if (nDepth < COPY_DEPTH)
+                {
+                    BOOST_FOREACH(const CTxIn& txin, tx.vin)
+                        vWorkQueue.push_back(txin.prevout.hash);
+                }
+            }
+        }
+    }
+
+    reverse(vtxPrev.begin(), vtxPrev.end());
+}
+
+bool CWalletTx::WriteToDisk()
+{
+    return CWalletDB(pwallet->strWalletFile).WriteTx(GetHash(), *this);
+}
+
+// Scan the block chain (starting in pindexStart) for transactions
+// from or to us. If fUpdate is true, found transactions that already
+// exist in the wallet will be updated.
+int CWallet::ScanForWalletTransactions(CBlockIndex* pindexStart, bool fUpdate)
+{
+    int ret = 0;
+
+    CBlockIndex* pindex = pindexStart;
+    {
+        LOCK(cs_wallet);
+        while (pindex)
+        {
+            CBlock block;
+            block.ReadFromDisk(pindex);
+            BOOST_FOREACH(CTransaction& tx, block.vtx)
+            {
+                if (AddToWalletIfInvolvingMe(tx.GetHash(), tx, &block, fUpdate))
+                    ret++;
+            }
+            pindex = pindex->pnext;
+        }
+    }
+    return ret;
+}
+
+void CWallet::ReacceptWalletTransactions()
+{
+    bool fRepeat = true;
+    while (fRepeat)
+    {
+        LOCK(cs_wallet);
+        fRepeat = false;
+        bool fMissing = false;
+        BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, mapWallet)
+        {
+            CWalletTx& wtx = item.second;
+            if (wtx.IsCoinBase() && wtx.IsSpent(0))
+                continue;
+
+            CCoins coins;
+            bool fUpdated = false;
+            bool fFound = pcoinsTip->GetCoins(wtx.GetHash(), coins);
+            if (fFound || wtx.GetDepthInMainChain() > 0)
+            {
+                // Update fSpent if a tx got spent somewhere else by a copy of wallet.dat
+                for (unsigned int i = 0; i < wtx.vout.size(); i++)
+                {
+                    if (wtx.IsSpent(i))
+                        continue;
+                    if ((i >= coins.vout.size() || coins.vout[i].IsNull()) && IsMine(wtx.vout[i]))
+                    {
+                        wtx.MarkSpent(i);
+                        fUpdated = true;
+                        fMissing = true;
+                    }
+                }
+                if (fUpdated)
+                {
+                    printf("ReacceptWalletTransactions found spent coin %sb
