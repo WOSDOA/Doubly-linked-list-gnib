@@ -1018,4 +1018,185 @@ static void ApproximateBestSubset(vector<pair<int64, pair<const CWalletTx*,unsig
                 //The solver here uses a randomized algorithm,
                 //the randomness serves no real security purpose but is just
                 //needed to prevent degenerate behavior and it is important
-  
+                //that the rng fast. We do not use a constant random sequence,
+                //because there may be some privacy improvement by making
+                //the selection random.
+                if (nPass == 0 ? insecure_rand()&1 : !vfIncluded[i])
+                {
+                    nTotal += vValue[i].first;
+                    vfIncluded[i] = true;
+                    if (nTotal >= nTargetValue)
+                    {
+                        fReachedTarget = true;
+                        if (nTotal < nBest)
+                        {
+                            nBest = nTotal;
+                            vfBest = vfIncluded;
+                        }
+                        nTotal -= vValue[i].first;
+                        vfIncluded[i] = false;
+                    }
+                }
+            }
+        }
+    }
+}
+
+bool CWallet::SelectCoinsMinConf(int64 nTargetValue, int nConfMine, int nConfTheirs, vector<COutput> vCoins,
+                                 set<pair<const CWalletTx*,unsigned int> >& setCoinsRet, int64& nValueRet) const
+{
+    setCoinsRet.clear();
+    nValueRet = 0;
+
+    // List of values less than target
+    pair<int64, pair<const CWalletTx*,unsigned int> > coinLowestLarger;
+    coinLowestLarger.first = std::numeric_limits<int64>::max();
+    coinLowestLarger.second.first = NULL;
+    vector<pair<int64, pair<const CWalletTx*,unsigned int> > > vValue;
+    int64 nTotalLower = 0;
+
+    random_shuffle(vCoins.begin(), vCoins.end(), GetRandInt);
+
+    BOOST_FOREACH(COutput output, vCoins)
+    {
+        const CWalletTx *pcoin = output.tx;
+
+        if (output.nDepth < (pcoin->IsFromMe() ? nConfMine : nConfTheirs))
+            continue;
+
+        int i = output.i;
+        int64 n = pcoin->vout[i].nValue;
+
+        pair<int64,pair<const CWalletTx*,unsigned int> > coin = make_pair(n,make_pair(pcoin, i));
+
+        if (n == nTargetValue)
+        {
+            setCoinsRet.insert(coin.second);
+            nValueRet += coin.first;
+            return true;
+        }
+        else if (n < nTargetValue + CENT)
+        {
+            vValue.push_back(coin);
+            nTotalLower += n;
+        }
+        else if (n < coinLowestLarger.first)
+        {
+            coinLowestLarger = coin;
+        }
+    }
+
+    if (nTotalLower == nTargetValue)
+    {
+        for (unsigned int i = 0; i < vValue.size(); ++i)
+        {
+            setCoinsRet.insert(vValue[i].second);
+            nValueRet += vValue[i].first;
+        }
+        return true;
+    }
+
+    if (nTotalLower < nTargetValue)
+    {
+        if (coinLowestLarger.second.first == NULL)
+            return false;
+        setCoinsRet.insert(coinLowestLarger.second);
+        nValueRet += coinLowestLarger.first;
+        return true;
+    }
+
+    // Solve subset sum by stochastic approximation
+    sort(vValue.rbegin(), vValue.rend(), CompareValueOnly());
+    vector<char> vfBest;
+    int64 nBest;
+
+    ApproximateBestSubset(vValue, nTotalLower, nTargetValue, vfBest, nBest, 1000);
+    if (nBest != nTargetValue && nTotalLower >= nTargetValue + CENT)
+        ApproximateBestSubset(vValue, nTotalLower, nTargetValue + CENT, vfBest, nBest, 1000);
+
+    // If we have a bigger coin and (either the stochastic approximation didn't find a good solution,
+    //                                   or the next bigger coin is closer), return the bigger coin
+    if (coinLowestLarger.second.first &&
+        ((nBest != nTargetValue && nBest < nTargetValue + CENT) || coinLowestLarger.first <= nBest))
+    {
+        setCoinsRet.insert(coinLowestLarger.second);
+        nValueRet += coinLowestLarger.first;
+    }
+    else {
+        for (unsigned int i = 0; i < vValue.size(); i++)
+            if (vfBest[i])
+            {
+                setCoinsRet.insert(vValue[i].second);
+                nValueRet += vValue[i].first;
+            }
+
+        //// debug print
+        printf("SelectCoins() best subset: ");
+        for (unsigned int i = 0; i < vValue.size(); i++)
+            if (vfBest[i])
+                printf("%s ", FormatMoney(vValue[i].first).c_str());
+        printf("total %s\n", FormatMoney(nBest).c_str());
+    }
+
+    return true;
+}
+
+bool CWallet::SelectCoins(int64 nTargetValue, set<pair<const CWalletTx*,unsigned int> >& setCoinsRet, int64& nValueRet) const
+{
+    vector<COutput> vCoins;
+    AvailableCoins(vCoins);
+
+    return (SelectCoinsMinConf(nTargetValue, 1, 6, vCoins, setCoinsRet, nValueRet) ||
+            SelectCoinsMinConf(nTargetValue, 1, 1, vCoins, setCoinsRet, nValueRet) ||
+            SelectCoinsMinConf(nTargetValue, 0, 1, vCoins, setCoinsRet, nValueRet));
+}
+
+
+
+
+bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
+                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason)
+{
+    int64 nValue = 0;
+    BOOST_FOREACH (const PAIRTYPE(CScript, int64)& s, vecSend)
+    {
+        if (nValue < 0)
+        {
+            strFailReason = _("Transaction amounts must be positive");
+            return false;
+        }
+        nValue += s.second;
+    }
+    if (vecSend.empty() || nValue < 0)
+    {
+        strFailReason = _("Transaction amounts must be positive");
+        return false;
+    }
+
+    wtxNew.BindWallet(this);
+
+    {
+        LOCK2(cs_main, cs_wallet);
+        {
+            nFeeRet = nTransactionFee;
+            loop
+            {
+                wtxNew.vin.clear();
+                wtxNew.vout.clear();
+                wtxNew.fFromMe = true;
+
+                int64 nTotalValue = nValue + nFeeRet;
+                double dPriority = 0;
+                // vouts to the payees
+                BOOST_FOREACH (const PAIRTYPE(CScript, int64)& s, vecSend)
+                {
+                    CTxOut txout(s.second, s.first);
+                    if (txout.IsDust())
+                    {
+                        strFailReason = _("Transaction amount too small");
+                        return false;
+                    }
+                    wtxNew.vout.push_back(txout);
+                }
+
+         
